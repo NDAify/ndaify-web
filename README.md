@@ -1,6 +1,6 @@
 # NDAify
 
-[![npm](https://img.shields.io/github/license/juliaqiuxy/ndaify-frontend.svg)](https://github.com/juliaqiuxy/ndaify-frontend/blob/master/LICENSE.md)
+[![CircleCI](https://img.shields.io/circleci/project/juliaqiuxy/ndaify-frontend/master.svg)](https://circleci.com/gh/juliaqiuxy/ndaify-frontend) [![npm](https://img.shields.io/github/license/juliaqiuxy/ndaify-frontend.svg)](https://github.com/juliaqiuxy/ndaify-frontend/blob/master/LICENSE.md)
 
 This repository hosts the source code for https://ndaify.com. If you have any questions, feel free to reach out to me on Twitter [@juliaqiuxy](https://twitter.com/juliaqiuxy).
 
