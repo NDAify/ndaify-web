@@ -1,0 +1,8 @@
+.LogoHeader-container {
+  width: 100%;
+  display: flex;
+}
+
+.LogoHeader-image {
+  height: 120px;
+}

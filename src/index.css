@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.6px;
+  background-color: #424657;
+}
+
+.text-16 {
+  color: #AAAAAA;
+  font-size: 16px;
+}
+
+.text-24 {
+  color: #AAAAAA;
+  font-size: 24px;
+}
+
+.text-32 {
+  color: #AAAAAA;
+  font-size: 32px;
+}
+
+.text-white {
+  color: #FFFFFF;
+}
+
+.text-grey {
+  color: #AAAAAA;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.container-flex {
+  display: flex;
+}
+
+.container-flex-center-both-ways {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-max-width-768 {
+  max-width: 768px;
+}
+
+.container-max-width-576 {
+  max-width: 576px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.margin-top-lg {
+  margin-top: 3pc;
+}
+
+.margin-sm {
+  margin: 1pc;
+}
+
+.padding-sm {
+  padding: 1pc;
+}
+
+.form-container {
+  margin: 1pc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form {
+  border-radius: 4px;
+  border: 0;
+}
+
+.font-indie {
+  font-family: 'Shadows Into Light', cursive;
+}
