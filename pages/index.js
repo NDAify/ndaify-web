@@ -2,123 +2,57 @@ import React from 'react';
 
 import Head from '../components/Head';
 import LogoHeader from '../components/LogoHeader';
+import Input from '../components/Input';
+import Footer from '../components/Footer';
 
 const Index = () => (
-  <div className="container container-flex">
+  <div className="container container-flex flex-row">
     <Head />
     <div className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg">
       <LogoHeader />
       <div className="margin-sm container-max-width-576 form-container">
-        <p className="text-grey text-32">
+        <h3 className="text-grey text-xl">
           NDAify helps you keep your trade secrets under wraps.
-          <span className="text-32 text-white">{' Try it '}
+          <span className="text-xl text-white">
+            {' Try it '}
             <span className="font-indie">free</span>.
           </span>
-        </p>
-        <p className="text-32 text-white magin-top-lg">Send an NDA in a couple minutes.</p>
+        </h3>
+        <h3 className="text-xl text-white margin-top-lg">
+          Send an NDA in a couple minutes.
+        </h3>
+        <Input placeholder="Paste a secret link" />
+
+        <h5 className="text-md text-light text-white margin-top-md">
+          Try it out by sending yourself a{' '}
+          <a className="text-underline">
+            sample NDA
+          </a>.
+        </h5>
+
+        <button className="margin-top-md">
+          Continue
+        </button>
       </div>
+
+      <Footer />
+      <span className="text-xs text-grey margin-top-lg">
+        NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation.
+      </span>
     </div>
 
-    <style jsx>{`
-      .container {
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-      }
-    `}
+    <style jsx>
+      {`
+        button {
+          background-color: #39D494;
+        }
+        .container {
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+        }
+      `}
     </style>
-
-    <style jsx global>{`
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Raleway', sans-serif;
-        letter-spacing: 0.6px;
-        background-color: #424657;
-      }
-
-      .text-16 {
-        font-size: 16px;
-      }
-
-      .text-24 {
-        font-size: 24px;
-      }
-
-      .text-32 {
-        font-size: 32px;
-      }
-
-      .text-white {
-        color: #ffffff;
-      }
-
-      .text-grey {
-        color: #aaaaaa;
-      }
-
-      .text-underline {
-        text-decoration: underline;
-      }
-
-      .container-flex {
-        display: flex;
-      }
-
-      .container-flex-center-both-ways {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .container-max-width-768 {
-        max-width: 768px;
-      }
-
-      .container-max-width-576 {
-        max-width: 576px;
-      }
-
-      .flex-1 {
-        flex: 1;
-      }
-
-      .flex-row {
-        flex-direction: row;
-      }
-
-      .flex-column {
-        flex-direction: column;
-      }
-
-      .margin-top-lg {
-        margin-top: 3pc;
-      }
-
-      .margin-sm {
-        margin: 1pc;
-      }
-
-      .padding-sm {
-        padding: 1pc;
-      }
-
-      .form-container {
-        margin: 1pc;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .form {
-        border-radius: 4px;
-        border: 0;
-      }
-
-      .font-indie {
-        font-family: 'Shadows Into Light', cursive;
-      }
-    `}</style>
   </div>
 );
 
