@@ -1,8 +1,17 @@
 export const GLOBAL_STYLE = `
+  @font-face {
+    font-family: Signerica Fat;
+    src: url('fonts/Signerica_Fat.ttf');
+  }
+
+  .background {
+    background-color: purple;
+  }
+
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
     font-weight: 400;
     letter-spacing: 0.6px;
     background-color: #424657;
@@ -13,8 +22,17 @@ export const GLOBAL_STYLE = `
     margin: 0;
   }
 
-  h5 {
+  h4 {
     font-weight: 400;
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  p {
     margin: 0;
   }
 
@@ -26,9 +44,23 @@ export const GLOBAL_STYLE = `
     text-align: center;
     letter-spacing: 1.8px;
     color: #ffffff;
-    font-size: 24px;
-    font-weight: 200;
     cursor: pointer;
+  }
+
+  footer {
+    margin-bottom: 3pc;
+  }
+
+  .border-box {
+    box-sizing: border-box;
+  }
+
+  .text-cap {
+    text-transform: uppercase;
+  }
+
+  .text-align-center {
+    text-align: center;
   }
 
   .text-xs {
@@ -66,12 +98,38 @@ export const GLOBAL_STYLE = `
     font-weight: 200;
   }
 
+  .text-bold {
+    font-weight: 700;
+  }
+
   .text-underline {
     text-decoration: underline;
   }
 
+  .text-wrap {
+    word-wrap: break-word;
+  }
+
+  .position-relative {
+    position: relative;
+  }
+
   .container-flex {
     display: flex;
+  }
+
+  .container-space-between {
+    justify-content: space-between;
+  }
+
+  .container-flex-center-align-items {
+    display: flex;
+    align-items: center;
+  }
+
+  .container-flex-center-justify-content {
+    display: flex;
+    justify-content: center;
   }
 
   .container-flex-center-both-ways {
@@ -114,12 +172,29 @@ export const GLOBAL_STYLE = `
     margin-top: 3pc;
   }
 
+  .margin-top-xl {
+    margin-top: 4pc;
+  }
+
+  .margin-top-left-md {
+    margin-top: 2pc;
+    margin-left: 2pc;
+  }
+
+  .margin-left-sm {
+    margin-left: 1pc;
+  }
+
   .margin-sm {
     margin: 1pc;
   }
 
   .padding-sm {
     padding: 1pc;
+  }
+
+  .padding-md {
+    padding: 2pc;
   }
 
   .form-container {
@@ -130,13 +205,21 @@ export const GLOBAL_STYLE = `
     box-sizing: border-box;
   }
 
+  .display-block {
+    display: block;
+  }
+
   .font-indie {
     font-family: 'Shadows Into Light', cursive;
   }
 
+  .font-script {
+    font-family: 'Signerica Fat', cursive;
+  }
+
   @media screen and (min-width: 994px) {
-    button {
-      width: 536px;
+    body {
+      line-height: 38px;
     }
 
     .text-xs {

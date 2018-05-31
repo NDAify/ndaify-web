@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 import Head from '../components/Head';
 import LogoHeader from '../components/LogoHeader';
@@ -8,7 +9,9 @@ import Footer from '../components/Footer';
 const Index = () => (
   <div className="container container-flex flex-row">
     <Head />
-    <div className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg">
+    <div
+      className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg"
+    >
       <LogoHeader />
       <div className="margin-sm container-max-width-576 form-container">
         <h3 className="text-grey text-xl">
@@ -21,30 +24,32 @@ const Index = () => (
         <h3 className="text-xl text-white margin-top-lg">
           Send an NDA in a couple minutes.
         </h3>
-        <Input placeholder="Paste a secret link" />
+        <div className="margin-top-md">
+          <Input placeholder="Paste a secret link" />
+        </div>
 
-        <h5 className="text-md text-light text-white margin-top-md">
+        <h4 className="text-md text-light text-white margin-top-md">
           Try it out by sending yourself a{' '}
-          <a className="text-underline">
-            sample NDA
-          </a>.
-        </h5>
-
-        <button className="margin-top-md">
-          Continue
-        </button>
+          <a className="text-underline">sample NDA</a>.
+        </h4>
+        <Link href="/form">
+          <button className="margin-top-md text-lg text-light">Continue</button>
+        </Link>
       </div>
 
-      <Footer />
-      <span className="text-xs text-grey margin-top-lg">
-        NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation.
-      </span>
+      <footer className="margin-top-lg">
+        <Footer />
+        <span className="text-xs text-grey margin-top-md display-block text-light">
+          NDAify is not a law firm, does not provide legal services or advice,
+          and does not provide or participate in legal representation.
+        </span>
+      </footer>
     </div>
 
     <style jsx>
       {`
         button {
-          background-color: #39D494;
+          background-color: #39d494;
         }
         .container {
           width: 100%;
