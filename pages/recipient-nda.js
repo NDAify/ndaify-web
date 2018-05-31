@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 import Head from '../components/Head';
 import Footer from '../components/Footer';
@@ -108,10 +107,15 @@ const NDA = () => (
           <div className="container-flex margin-top-xl container-space-between button-wrapper">
             <div className="flex-column container-flex-center-align-items signature-wrapper">
               <span className="warning text-md text-wrap reset-line-height text-align-center text-bold">
-                {'LinkedIn email should match recipient <jeremyvoss@gmail.com>.'}
+                {
+                  'LinkedIn email should match recipient <jeremyvoss@gmail.com>.'
+                }
               </span>
               <div className="margin-top-sm linkedin-button-wrapper">
-                <LinkedInButton color="#5dbfc8" buttonText="Accept with LinkedIn"  />
+                <LinkedInButton
+                  color="#5dbfc8"
+                  buttonText="Accept with LinkedIn"
+                />
               </div>
               <div className="margin-top-sm">
                 <span className="text-white text-md margin-top-sm text-bold">
@@ -128,17 +132,22 @@ const NDA = () => (
               <div className="signature-holder container-flex">
                 <span className="text-white x">X</span>
                 <div className="container-flex flex-1 container-flex-center-justify-content">
-                  <span className="text-white font-script text-xl">Joe Doe</span>
+                  <span className="text-white font-script text-xl">
+                    Joe Doe
+                  </span>
                 </div>
               </div>
               <div className="container-flex flex-column">
-                <span className="text-white text-md margin-top-sm">Joe Doe</span>
-                <span className="text-white text-md text-light">{'December 6th, 2017.'}</span>
+                <span className="text-white text-md margin-top-sm">
+                  Joe Doe
+                </span>
+                <span className="text-white text-md text-light">
+                  {'December 6th, 2017.'}
+                </span>
               </div>
             </div>
           </div>
         </div>
-
 
         <div className="margin-top-xl">
           <h4 className="text-white text-xl  text-light">Attachments</h4>
@@ -185,7 +194,7 @@ const NDA = () => (
         }
 
         .warning {
-          color: #F1E65D;
+          color: #f1e65d;
         }
 
         .container {
@@ -242,7 +251,7 @@ const NDA = () => (
 
         .signature-holder {
           width: 100%;
-          border-bottom: 2px solid #F1E65D;
+          border-bottom: 2px solid #f1e65d;
         }
 
         .x {

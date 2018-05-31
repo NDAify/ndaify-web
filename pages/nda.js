@@ -134,7 +134,7 @@ const NDA = () => (
               src="/static/hideIcon.svg"
               alt="hidded icon"
             />
-          <h4 className="text-grey text-lg link text-wrap">
+            <h4 className="text-grey text-lg link text-wrap">
               https://www.dropbox.com/sh/55wo9a…
             </h4>
           </div>

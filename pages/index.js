@@ -9,9 +9,7 @@ import Footer from '../components/Footer';
 const Index = () => (
   <div className="container container-flex flex-row">
     <Head />
-    <div
-      className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg"
-    >
+    <div className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg">
       <LogoHeader />
       <div className="margin-sm container-max-width-576 form-container">
         <h3 className="text-grey text-xl">

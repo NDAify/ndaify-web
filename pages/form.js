@@ -14,13 +14,18 @@ const Index = () => (
       <LogoHeader />
       <div className="margin-sm container-max-width-576 form-container">
         <div className="link-wrapper">
-          <img className="hideIcon" src="/static/hideIcon.svg" alt="hidded icon" />
+          <img
+            className="hideIcon"
+            src="/static/hideIcon.svg"
+            alt="hidded icon"
+          />
           <h4 className="text-grey text-lg text-wrap">
             https://www.dropbox.com/sh/55wo9a…
           </h4>
         </div>
         <h4 className="text-white text-lg margin-top-md">
-          Recepient does not have access to your link unless he accepts the term of the NDA.
+          Recepient does not have access to your link unless he accepts the term
+          of the NDA.
         </h4>
 
         <div className="margin-top-md">
@@ -35,15 +40,17 @@ const Index = () => (
 
         <Link href="/nda">
           <div className="container-flex margin-top-xl">
-            <LinkedInButton color="#DC564A" buttonText="Review and Sign with LinkedIn" />
+            <LinkedInButton
+              color="#DC564A"
+              buttonText="Review and Sign with LinkedIn"
+            />
           </div>
         </Link>
-
       </div>
 
       <footer className="margin-top-lg">
         <span className="text-sm text-grey margin-top-lg display-block text-light">
-          Signing the NDA signifies that you have read and agree to the {' '}
+          Signing the NDA signifies that you have read and agree to the{' '}
           <a className="text-white text-underline">Terms of Use</a>
           {' and '}
           <a className="text-white text-underline">Privacy Policy</a>.
