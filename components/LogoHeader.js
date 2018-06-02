@@ -2,7 +2,7 @@ import React from 'react';
 
 const LogoHeader = () => (
   <div className="container">
-    <img className="image" src="/static/logo.svg" alt="ndaify-logo" />
+    <img src="/static/logo.svg" alt="ndaify-logo" />
 
     <style jsx>{`
       div {
