@@ -5,10 +5,12 @@ import Head from '../components/Head';
 import LogoHeader from '../components/LogoHeader';
 import Input from '../components/Input';
 import Footer from '../components/Footer';
+import CustomNote from '../components/CustomNote';
 
 const Index = () => (
-  <div className="container container-flex flex-row">
+  <div className="container container-flex-center-align-items flex-column">
     <Head />
+    <CustomNote />
     <div className="padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg">
       <LogoHeader />
       <div className="margin-sm container-max-width-576 form-container">
