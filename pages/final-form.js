@@ -1,10 +1,39 @@
 import React from 'react';
 import Link from 'next/link';
 
+import styled from 'styled-components';
+
 import Head from '../components/Head';
-import LogoHeader from '../components/LogoHeader';
-import Input from '../components/Input';
+import LogoHeader from '../components/LogoHeader/LogoHeader';
+import Input from '../components/Input/Input';
 import Footer from '../components/Footer';
+
+const Button = styled.button`
+  background-color: #39d494;
+`;
+
+const Dialog = styled.div`
+  height: 100%;
+  position: relative;
+  background: #383b49;
+  border-radius: 0.4em;
+  line-height: 28px;
+
+  :after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 6%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top-color: #383b49;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -6px;
+    margin-bottom: -12px;
+  }
+`;
 
 const FinalForm = () => (
   <div className="container container-flex flex-row">
@@ -17,7 +46,7 @@ const FinalForm = () => (
           One last thing before delivery…
         </h3>
 
-        <div className="dialog padding-md margin-top-md">
+        <Dialog className="dialog padding-md margin-top-md">
           <p className="text-white text-md text-light">Hi Joe,</p>
           <p className="text-white text-md text-light margin-top-md">
             It costs money to keep NDAify running. If you use the service and
@@ -36,7 +65,7 @@ const FinalForm = () => (
           <p className="text-white text-md text-light margin-top-md">
             Thank you for using NDAify!
           </p>
-        </div>
+        </Dialog>
         <div className="container-flex container-flex-center-align-items margin-top-left-md">
           <img className="julia" src="/static/julia.png" alt="julia" />
           <div className="container-flex flex-column margin-left-sm">
@@ -81,7 +110,7 @@ const FinalForm = () => (
         </h4>
 
         <Link href="final-success">
-          <button className="margin-top-md text-lg text-light">Send</button>
+          <Button className="margin-top-md text-lg text-light">Send</Button>
         </Link>
       </div>
 
@@ -102,32 +131,6 @@ const FinalForm = () => (
 
     <style jsx>
       {`
-        button {
-          background-color: #39d494;
-        }
-
-        .dialog {
-          height: 100%;
-          position: relative;
-          background: #383b49;
-          border-radius: 0.4em;
-          line-height: 28px;
-        }
-
-        .dialog:after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 6%;
-          width: 0;
-          height: 0;
-          border: 12px solid transparent;
-          border-top-color: #383b49;
-          border-bottom: 0;
-          border-right: 0;
-          margin-left: -6px;
-          margin-bottom: -12px;
-        }
 
         .container {
           width: 100%;

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import NextHead from 'next/head';
-import { NORMALIZE_STYLE, GLOBAL_STYLE } from './globalStyles';
 
 const Head = props => (
   <Fragment>
@@ -15,10 +14,6 @@ const Head = props => (
       <link rel="shortcut icon" href="/static/favicon.png" />
       <title>{props.title || 'NDAify'}</title>
     </NextHead>
-
-    <style jsx global>{ GLOBAL_STYLE }</style>
-
-    <style jsx global>{ NORMALIZE_STYLE }</style>
   </Fragment>
 );
 
