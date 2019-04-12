@@ -12,6 +12,10 @@ const StyledInput = styled.input`
   height: 60px;
   text-align: center;
   letter-spacing: 1.8px;
+
+  @media screen and (min-width: 994px) {
+    font-size: 24px;
+  }
 `;
 
 const Input = props => (

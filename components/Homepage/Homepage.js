@@ -5,11 +5,16 @@ import styled from "styled-components";
 
 import LogoHeader from "../LogoHeader/LogoHeader";
 import Input from "../Input/Input";
-import Footer from "../Footer/Footer";
 import CustomNote from "../CustomNote/CustomNote";
 
 const Button = styled.button`
   background-color: #39d494;
+  font-size: 20px;
+  font-weight: 200;
+
+  @media screen and (min-width: 994px) {
+    font-size: 24px;
+  }
 `;
 
 const Container = styled.div`
@@ -47,10 +52,18 @@ const ContentContainer = styled.div`
 const CopyTitle = styled.h3`
   color: #aaaaaa;
   font-size: 28px;
+
+  @media screen and (min-width: 994px) {
+    font-size: 32px;
+  }
 `;
 
 const CopyText = styled.span`
   font-size: 28px;
+
+  @media screen and (min-width: 994px) {
+    font-size: 32px;
+  }
 `;
 
 const FreeText = styled.span`
@@ -60,6 +73,10 @@ const FreeText = styled.span`
 const CopyWhitText = styled.h3`
   font-size: 28px;
   margin-top: 3pc;
+
+  @media screen and (min-width: 994px) {
+    font-size: 32px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -69,6 +86,14 @@ const InputContainer = styled.div`
 const FormCopy = styled.h4`
   font-size: 20px;
   font-weight: 200;
+  margin-top: 2pc;
+
+  @media screen and (min-width: 994px) {
+    font-size: 24px;
+  }
+`;
+
+const ButtonWrapper = styled.a`
   margin-top: 2pc;
 `;
 
@@ -86,6 +111,10 @@ const FooterDesclaimer = styled.span`
   margin-top: 2pc;
   font-weight: 200;
   display: block;
+
+  @media screen and (min-width: 994px) {
+    font-size: 12px;
+  }
 `;
 
 const Homepage = () => (
@@ -110,7 +139,9 @@ const Homepage = () => (
           Try it out by sending yourself a <FormLink>sample NDA</FormLink>.
         </FormCopy>
         <Link href="/form">
-          <Button>Continue</Button>
+          <ButtonWrapper>
+            <Button>Continue</Button>
+          </ButtonWrapper>
         </Link>
       </ContentContainer>
 

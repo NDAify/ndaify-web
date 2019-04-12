@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
-import Document from 'next/document';
+import React, { Fragment } from "react";
+import Document from "next/document";
 
-import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
+import { ServerStyleSheet, createGlobalStyle } from "styled-components";
 
-import Head from '../components/Head';
+import Head from "../components/Head";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -192,11 +192,15 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'Nunito Sans', sans-serif;
-    dont-size: 16px;
+    font-size: 16px;
     font-weight: 400;
     letter-spacing: 0.6px;
     background-color: #424657;
     color: #ffffff;
+
+    @media screen and (min-width: 994px) {
+      font-size: 20px;
+    }
   }
 
   h3 {
@@ -424,8 +428,6 @@ const GlobalStyle = createGlobalStyle`
       font-size: 32px;
     }
   }
-
-
 `;
 
 export default class MyDocument extends Document {
@@ -434,20 +436,27 @@ export default class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () => originalRenderPage({
-        enhanceApp: App => props => sheet.collectStyles(
-          <Fragment>
-            <Head />
-            <GlobalStyle />
-            <App {...props} />
-          </Fragment>,
-        ),
-      });
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: App => props =>
+            sheet.collectStyles(
+              <Fragment>
+                <Head />
+                <GlobalStyle />
+                <App {...props} />
+              </Fragment>
+            )
+        });
 
       const initialProps = await Document.getInitialProps(ctx);
       return {
         ...initialProps,
-        styles: <>{initialProps.styles}{sheet.getStyleElement()}</>,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        )
       };
     } finally {
       sheet.seal();
