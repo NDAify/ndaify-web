@@ -16,7 +16,7 @@ const FooterText = styled.span`
 
 const Footer = () => (
   <FooterContainer>
-    <FooterText>Powered by gluten free coconut coffee.</FooterText>
+    <FooterText>Powered by 25% sweet no ice coconut green tea with oat milk & boba.</FooterText>
     <FooterText>© 2018 NDAify</FooterText>
   </FooterContainer>
 );
