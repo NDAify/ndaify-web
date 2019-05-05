@@ -1,12 +1,10 @@
 import React from 'react';
 
-import Head from '../components/Head';
-import Footer from '../components/Footer';
-import LinkedInButton from '../components/LinkedInButton';
+import Footer from '../components/Footer/Footer';
+import LinkedInButton from '../components/LinkedInButton/LinkedInButton';
 
 const NDA = () => (
   <div className="container container-flex-center-both-ways flex-column">
-    <Head />
     <div className="padding-md banner-conatiner">
       <div className="container-flex">
         <span className="text-white text-lg text-light display-block">

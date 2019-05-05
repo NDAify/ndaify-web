@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Head from '../components/Head';
 import LogoHeader from '../components/LogoHeader/LogoHeader';
 import Input from '../components/Input/Input';
-import Footer from '../components/Footer';
+import Footer from '../components/Footer/Footer';
 
 const Button = styled.button`
   background-color: #39d494;

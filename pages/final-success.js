@@ -1,13 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 
-import Head from '../components/Head';
-import LogoHeader from '../components/LogoHeader';
-import Footer from '../components/Footer';
+import LogoHeader from '../components/LogoHeader/LogoHeader';
+import Footer from '../components/Footer/Footer';
 
 const FinalForm = () => (
   <div className="container container-flex flex-row">
-    <Head />
     <div className="border-box padding-sm container-flex-center-both-ways container-max-width-768 flex-1 flex-column margin-top-lg">
       <LogoHeader />
 
