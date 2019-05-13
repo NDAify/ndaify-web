@@ -1,6 +1,9 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 
+import CreatorInfo from '../CreatorInfo/CreatorInfo';
+import Dialog from '../Dialog/Dialog';
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -36,30 +39,6 @@ const DialogContainer = styled.div`
   max-width: 768px;
   width: 100%;
   margin-top: 3pc;
-`;
-
-const Dialog = styled.div`
-  height: 100%;
-  position: relative;
-  background: #383b49;
-  border-radius: 0.4em;
-  line-height: 28px;
-  padding: 2pc;
-
-  :after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 6%;
-    width: 0;
-    height: 0;
-    border: 12px solid transparent;
-    border-top-color: #383b49;
-    border-bottom: 0;
-    border-right: 0;
-    margin-left: -6px;
-    margin-bottom: -12px;
-  }
 `;
 
 const DialogText = styled.p`
@@ -137,17 +116,7 @@ const CustomNote = ({ source = "Product Hunt" }) => {
               listening.
             </DialogText>
           </Dialog>
-          <ProfileContainer>
-            <img src="/static/julia.png" alt="julia" />
-            <ProfileTextContainer>
-              <ProfileText className="text-white text-md text-light">
-                Julia
-              </ProfileText>
-              <ProfileTextLink className="text-white text-md text-light text-underline">
-                @juliaqiuxy
-              </ProfileTextLink>
-            </ProfileTextContainer>
-          </ProfileContainer>
+          <CreatorInfo />
         </DialogContainer>
       </Container>
     </Fragment>
