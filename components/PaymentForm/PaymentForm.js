@@ -233,7 +233,7 @@ const PaymentForm = () => (
 
         <Total>Total $ 1.00</Total>
 
-        <Link href="final-success">
+        <Link href="nda-sent">
           <Button>Send</Button>
         </Link>
       </PaymentFormContainer>

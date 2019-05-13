@@ -97,7 +97,7 @@ const CustomNote = ({ source = "Product Hunt" }) => {
 
   return (
     <Fragment>
-      <Container className="container-flex-center-both-ways flex-column container">
+      <Container>
         <SourceLogoContainer>
           <NdaifyLogo src="/static/logo.svg" alt="ndaify logo" />
           <HeartIcon src="/static/heart.svg" alt="heart" />

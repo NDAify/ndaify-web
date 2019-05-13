@@ -1,9 +1,9 @@
 import React from 'react';
 
-import NDA from '../components/NDA/NDA';
+import SenderNDA from '../components/SenderNDA/SenderNDA';
 
-const NDAPage = () => (
-  <NDA />
+const SenderNDAPage = () => (
+  <SenderNDA />
 );
 
-export default NDAPage;
+export default SenderNDAPage;

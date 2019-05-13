@@ -27,10 +27,10 @@ const CreatorInfo = () => (
     <ProfileContainer>
       <img src="/static/julia.png" alt="julia" />
       <ProfileTextContainer>
-        <ProfileText className="text-white text-md text-light">
+        <ProfileText>
           Julia
         </ProfileText>
-        <ProfileTextLink className="text-white text-md text-light text-underline">
+        <ProfileTextLink>
           @juliaqiuxy
         </ProfileTextLink>
       </ProfileTextContainer>
