@@ -88,26 +88,6 @@ const LinkedInButtonWrapper = styled.div`
   display: flex;
 `;
 
-const FooterContainer = styled.footer`
-  margin-top: 3pc;
-`;
-
-const Disclaimer = styled.span`
-  color: #aaaaaa;
-  font-size: 12px;
-  @media screen and (min-width: 994px) {
-    font-size: 16px;
-  }
-  margin-top: 1pc;
-  display: block;
-  font-weight: 200;
-`;
-
-const DisclaimerLink = styled.a`
-  color: #ffffff;
-  text-decoration: underline;
-`;
-
 const RecipientForm = () => (
   <Container>
     <PageContentContainer>
@@ -142,15 +122,8 @@ const RecipientForm = () => (
         </Link>
       </ContentContainer>
 
-      <FooterContainer>
-        <Disclaimer>
-          Signing the NDA signifies that you have read and agree to the{" "}
-          <DisclaimerLink>Terms of Use</DisclaimerLink>
-          {" and "}
-          <DisclaimerLink>Privacy Policy</DisclaimerLink>.
-        </Disclaimer>
+
         <Footer />
-      </FooterContainer>
     </PageContentContainer>
   </Container>
 );

@@ -6,11 +6,20 @@ import styled from "styled-components";
 import LogoHeader from "../LogoHeader/LogoHeader";
 import Input from "../Input/Input";
 import CustomNote from "../CustomNote/CustomNote";
+import Footer from "../Footer/Footer";
 
 const Button = styled.button`
   background-color: #39d494;
   font-size: 20px;
   font-weight: 200;
+  border-radius: 4px;
+  border: 0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  cursor: pointer;
 
   @media screen and (min-width: 994px) {
     font-size: 24px;
@@ -49,9 +58,17 @@ const ContentContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const LogoImageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 5pc;
+`;
 const CopyTitle = styled.h3`
   color: #aaaaaa;
   font-size: 28px;
+  font-weight: 200;
+  margin: 0;
+  margin-bottom: 3pc;
 
   @media screen and (min-width: 994px) {
     font-size: 32px;
@@ -60,6 +77,8 @@ const CopyTitle = styled.h3`
 
 const CopyText = styled.span`
   font-size: 28px;
+  color: #ffffff;
+  padding-bottom: 5pc;
 
   @media screen and (min-width: 994px) {
     font-size: 32px;
@@ -67,12 +86,15 @@ const CopyText = styled.span`
 `;
 
 const FreeText = styled.span`
-  font-family: "Shadows Into Light", cursive;
+  text-decoration: underline;
+  color: #ffffff;
 `;
 
-const CopyWhitText = styled.h3`
+const Subtitle = styled.h3`
   font-size: 28px;
-  margin-top: 3pc;
+  color: #ffffff;
+  font-weight: 200;
+  margin-bottom: 2pc;
 
   @media screen and (min-width: 994px) {
     font-size: 32px;
@@ -80,13 +102,15 @@ const CopyWhitText = styled.h3`
 `;
 
 const InputContainer = styled.div`
-  margin-top: 2pc;
+  margin-bottom: 2pc;
 `;
 
 const FormCopy = styled.h4`
   font-size: 20px;
   font-weight: 200;
-  margin-top: 2pc;
+  color: #ffffff;
+  margin: 0;
+  margin-bottom: 3pc;
 
   @media screen and (min-width: 994px) {
     font-size: 24px;
@@ -94,64 +118,42 @@ const FormCopy = styled.h4`
 `;
 
 const ButtonWrapper = styled.a`
-  margin-top: 2pc;
+  margin-bottom: 1pc;
 `;
 
 const FormLink = styled.a`
   text-decoration: underline;
 `;
 
-const FooterContainer = styled.footer`
-  margin-top: 3pc;
-`;
-
-const FooterDesclaimer = styled.span`
-  font-size: 12px;
-  color: #aaaaaa;
-  margin-top: 2pc;
-  font-weight: 200;
-  display: block;
-
-  @media screen and (min-width: 994px) {
-    font-size: 12px;
-  }
-`;
-
 const Homepage = () => (
   <Container>
     <CustomNote />
     <PageContainer>
-      <LogoHeader />
+      <LogoImageContainer>
+        <LogoHeader />
+      </LogoImageContainer>
       <ContentContainer>
         <CopyTitle>
-          NDAify helps you keep your trade secrets under wraps.
+          NDAify helps you keep your trade secrets under wraps.{" "}
           <CopyText>
-            {" Try it "}
-            <FreeText>free</FreeText>.
+            {"Try it"} <FreeText>FREE</FreeText>.
           </CopyText>
         </CopyTitle>
-        <CopyWhitText>Send an NDA in a couple minutes.</CopyWhitText>
+        <Subtitle>Send an NDA in a couple minutes.</Subtitle>
         <InputContainer>
           <Input placeholder="Paste a secret link" />
         </InputContainer>
-
-        <FormCopy>
-          Try it out by sending yourself a <FormLink>sample NDA</FormLink>.
-        </FormCopy>
         <Link href="/form">
           <ButtonWrapper>
             <Button>Continue</Button>
           </ButtonWrapper>
         </Link>
+        <FormCopy>
+          Or, <FormLink>log in</FormLink> to see your NDAs.
+        </FormCopy>
       </ContentContainer>
 
-      <FooterContainer>
-        <FooterContainer />
-        <FooterDesclaimer>
-          NDAify is not a law firm, does not provide legal services or advice,
-          and does not provide or participate in legal representation.
-        </FooterDesclaimer>
-      </FooterContainer>
+      <Footer />
     </PageContainer>
   </Container>
 );

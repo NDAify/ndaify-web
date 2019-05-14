@@ -3,11 +3,11 @@ import styled from "styled-components";
 const Dialog = styled.div`
 height: 100%;
 position: relative;
-background: #383b49;
+background-color: #383B49;
 border-radius: 0.4em;
 line-height: 28px;
 padding: 2pc;
-margin-top: 2pc;
+margin-bottom: 2pc;
 
 :after {
   content: "";

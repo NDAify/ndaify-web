@@ -5,15 +5,15 @@ import styled from "styled-components";
 const LogoContaier = styled.div`
   width: 100%;
   display: flex;
-`;
+  `;
 
 const Logo = styled.img`
-  height: 120px;
+  width: 216px;
 `;
 
 const LogoHeader = () => (
   <LogoContaier>
-    <Logo src="/static/logo.svg" alt="ndaify-logo" />
+    <Logo src="/static/logoWithText.svg" alt="ndaify-logo" />
   </LogoContaier>
 );
 

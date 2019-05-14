@@ -11,8 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: #4f5263;
-  padding-bottom: 3pc;
+  margin-bottom: 6pc;
 `;
 
 const SourceLogoContainer = styled.div`
@@ -20,11 +19,12 @@ const SourceLogoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 3pc;
+  margin-bottom: 2pc;
   width: 200px;
 `;
 
 const NdaifyLogo = styled.img`
-  width: 42px;
+  width: 54px;
 `;
 
 const HeartIcon = styled.img`
@@ -38,38 +38,18 @@ const SourceLogo = styled.img`
 const DialogContainer = styled.div`
   max-width: 768px;
   width: 100%;
-  margin-top: 3pc;
 `;
 
 const DialogText = styled.p`
+  font-size: 16px;
   font-weight: 200;
-  margin-top: 2pc;
+  margin: 0;
+  margin-top: 1pc;
+  color: #FFFFFF;
 
   :first-of-type {
     margin-top: 0;
   }
-`;
-
-const ProfileContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 2pc;
-  margin-left: 2pc;
-`;
-
-const ProfileTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 1pc;
-`;
-
-const ProfileText = styled.span`
-  font-weight: 200;
-`;
-
-const ProfileTextLink = styled.a`
-  font-weight: 200;
-  text-decoration: underline;
 `;
 
 const CustomNote = ({ source = "Product Hunt" }) => {
