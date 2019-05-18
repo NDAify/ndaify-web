@@ -7,23 +7,10 @@ import LogoHeader from "../LogoHeader/LogoHeader";
 import Input from "../Input/Input";
 import CustomNote from "../CustomNote/CustomNote";
 import Footer from "../Footer/Footer";
+import Button from "../Button/Button";
 
-const Button = styled.button`
+const HomePageButton = styled(Button)`
   background-color: #39d494;
-  font-size: 20px;
-  font-weight: 200;
-  border-radius: 4px;
-  border: 0;
-  width: 100%;
-  height: 60px;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
 `;
 
 const Container = styled.div`
@@ -45,7 +32,6 @@ const PageContainer = styled.div`
   width: 100%;
   flex: 1;
   flex-direction: column;
-  margin-top: 3pc;
   box-sizing: border-box;
 `;
 
@@ -61,10 +47,12 @@ const ContentContainer = styled.div`
 `;
 
 const LogoImageContainer = styled.div`
+  margin-top: 3pc;
   display: flex;
   width: 100%;
   margin-bottom: 5pc;
 `;
+
 const CopyTitle = styled.h3`
   color: #aaaaaa;
   font-size: 28px;
@@ -127,13 +115,9 @@ const FormLink = styled.a`
   text-decoration: underline;
 `;
 
-const Homepage = ({showCustomNote}) => (
+const Homepage = ({ showCustomNote }) => (
   <Container>
-    {
-      showCustomNote && (
-        <CustomNote />
-      )
-    }
+    {showCustomNote && <CustomNote />}
     <PageContainer>
       <LogoImageContainer>
         <LogoHeader />
@@ -151,7 +135,7 @@ const Homepage = ({showCustomNote}) => (
         </InputContainer>
         <Link href="/form">
           <ButtonWrapper>
-            <Button>Continue</Button>
+            <HomePageButton>Continue</HomePageButton>
           </ButtonWrapper>
         </Link>
         <FormCopy>

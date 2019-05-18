@@ -1,18 +1,13 @@
 import React from "react";
 
 import styled from "styled-components";
+import Button from "../Button/Button";
 
-const Button = styled.button`
-  font-size: 20px;
-  font-weight: 200;
+const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
-  background-color: ${({ color }) => color};
+  background-color: #0F96CC;
   padding: 0;
-
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
 `;
 
 const LinkedInLogo = styled.img`
@@ -26,10 +21,10 @@ const ButtonText = styled.span`
 `;
 
 const LinkedInButton = props => (
-  <Button color={props.color}>
+  <StyledButton>
     <LinkedInLogo src="/static/linkedInLogo.svg" alt="linkedin-logo" />
     <ButtonText>{props.buttonText}</ButtonText>
-  </Button>
+  </StyledButton>
 );
 
 export default LinkedInButton;

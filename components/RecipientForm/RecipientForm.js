@@ -25,7 +25,7 @@ const PageContentContainer = styled.div`
   width: 100%;
   flex: 1;
   flex-direction: column;
-  margin-top: 3pc;
+  box-sizing: border-box;
 `;
 
 const ContentContainer = styled.div`
@@ -39,10 +39,18 @@ const ContentContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const LogoImageContainer = styled.div`
+  margin-top: 3pc;
+  display: flex;
+  width: 100%;
+  margin-bottom: 5pc;
+`;
+
 const LinkWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 2pc;
 
   @media screen and (min-width: 994px) {
     flex-direction: row;
@@ -51,13 +59,13 @@ const LinkWrapper = styled.div`
 `;
 
 const HideIcon = styled.img`
-  width: 28px;
+  width: 20px;
   margin-left: 0;
   margin-right: 1pc;
 
   @media screen and (min-width: 994px) {
-    width: 36px;
-    margin-left: -56px;
+    width: 28px;
+    margin-left: -46px;
     margin-right: 1pc;
   }
 `;
@@ -66,33 +74,91 @@ const DocumentUrl = styled.h4`
   color: #aaaaaa;
   font-size: 20px;
   word-wrap: break-word;
+  font-weight: 200;
+  margin: 0;
+
   @media screen and (min-width: 994px) {
     font-size: 24px;
   }
 `;
 
 const DescriptionTitle = styled.h4`
+  font-weight: 200;
+  color: #ffffff;
   font-size: 20px;
-  margin-top: 2pc;
+  margin: 0;
+  margin-bottom: 2pc;
+
   @media screen and (min-width: 994px) {
     font-size: 24px;
   }
 `;
 
+const DisclaimerText = styled.span`
+  margin-bottom: 2pc;
+  color: #aaaaaa;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 28px;
+
+  @media screen and (min-width: 994px) {
+    font-size: 20px;
+  }
+`;
+
+const UnderlineText = styled.span`
+  color: #ffffff;
+  text-decoration: underline;
+`;
+
+const FormContainer = styled.form`
+  margin-bottom: 2pc;
+`;
+
 const InputWrapper = styled.div`
-  margin-top: 2pc;
+  margin-bottom: 2pc;
+
+  :last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const LinkedInButtonWrapper = styled.div`
-  margin-top: 3pc;
   display: flex;
+  margin-bottom: 3pc;
 `;
 
-const RecipientForm = () => (
+const ErrorPopUp = styled.div`
+  margin-bottom: 3pc;
+  color: #edd9a3;
+  font-weight: 200;
+  padding: 8px;
+  border: 1px solid #edd9a3;
+  border-radius: 10px;
+`;
+
+const WarningIcon = styled.img`
+  width: 18px;
+  margin-right: 0.5pc;
+`;
+
+const ErrorMessage = () => (
+  <ErrorPopUp>
+    <WarningIcon src="/static/warningIcon.svg" alt="warning icon" />
+    Failed to authenticate
+  </ErrorPopUp>
+);
+
+const RecipientForm = ({ error = true }) => (
   <Container>
     <PageContentContainer>
-      <LogoHeader />
+      <LogoImageContainer>
+        <LogoHeader />
+      </LogoImageContainer>
+
       <ContentContainer>
+        {error && <ErrorMessage />}
+
         <LinkWrapper>
           <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
           <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
@@ -102,15 +168,23 @@ const RecipientForm = () => (
           of the NDA.
         </DescriptionTitle>
 
-        <InputWrapper>
-          <Input placeholder="NDA type (one-way, mutual)" />
-        </InputWrapper>
-        <InputWrapper>
-          <Input placeholder="Recipient name" />
-        </InputWrapper>
-        <InputWrapper>
-          <Input placeholder="Recipient email" />
-        </InputWrapper>
+        <FormContainer>
+          <InputWrapper>
+            <Input placeholder="NDA type (one-way, mutual)" />
+          </InputWrapper>
+          <InputWrapper>
+            <Input placeholder="Recipient name" />
+          </InputWrapper>
+          <InputWrapper>
+            <Input placeholder="Recipient email" />
+          </InputWrapper>
+        </FormContainer>
+
+        <DisclaimerText>
+          Singing the NDA signifies that you have read and agree to the{" "}
+          <UnderlineText>Terms of Use</UnderlineText> and{" "}
+          <UnderlineText>Privacy Policy</UnderlineText>.
+        </DisclaimerText>
 
         <Link href="/nda">
           <LinkedInButtonWrapper>
@@ -122,8 +196,7 @@ const RecipientForm = () => (
         </Link>
       </ContentContainer>
 
-
-        <Footer />
+      <Footer />
     </PageContentContainer>
   </Container>
 );
