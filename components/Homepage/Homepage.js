@@ -8,6 +8,7 @@ import Input from "../Input/Input";
 import CustomNote from "../CustomNote/CustomNote";
 import Footer from "../Footer/Footer";
 import Button from "../Button/Button";
+import OpenSourceBanner from "../OpenSourceBanner/OpenSourceBanner";
 
 const HomePageButton = styled(Button)`
   background-color: #39d494;
@@ -117,6 +118,7 @@ const FormLink = styled.a`
 
 const Homepage = ({ showCustomNote }) => (
   <Container>
+    <OpenSourceBanner />
     {showCustomNote && <CustomNote />}
     <PageContainer>
       <LogoImageContainer>
