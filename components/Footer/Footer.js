@@ -17,6 +17,7 @@ const Disclaimer = styled.span`
   text-align: center;
   display: block;
   font-weight: 200;
+  line-height: 20px;
 `;
 
 const FooterContainer = styled.div`
@@ -40,6 +41,7 @@ const FooterText = styled.span`
   margin-top: 1pc;
   color: #ffffff;
   margin-bottom: 1pc;
+  text-align: center;
 `;
 
 const Footer = () => (

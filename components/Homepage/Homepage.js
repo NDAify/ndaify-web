@@ -33,6 +33,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
 `;
 
 const PageContainer = styled.div`
@@ -45,6 +46,7 @@ const PageContainer = styled.div`
   flex: 1;
   flex-direction: column;
   margin-top: 3pc;
+  box-sizing: border-box;
 `;
 
 const ContentContainer = styled.div`
@@ -125,9 +127,13 @@ const FormLink = styled.a`
   text-decoration: underline;
 `;
 
-const Homepage = () => (
+const Homepage = ({showCustomNote}) => (
   <Container>
-    <CustomNote />
+    {
+      showCustomNote && (
+        <CustomNote />
+      )
+    }
     <PageContainer>
       <LogoImageContainer>
         <LogoHeader />

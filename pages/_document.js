@@ -14,6 +14,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Nanum Gothic', sans-serif;
     background-color: #424657;
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
   }
 `;
 
