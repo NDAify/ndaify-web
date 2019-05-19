@@ -7,8 +7,18 @@ const Container = styled.footer`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  max-width: 576px;
   width: 100%;
+`;
+
+const FooterLogoContainer = styled.div`
+  margin-top: 7pc;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2pc;
+`;
+
+const FooterLogoImg = styled.img`
+  height: 50px;
 `;
 
 const Disclaimer = styled.span`
@@ -44,15 +54,35 @@ const FooterText = styled.span`
   text-align: center;
 `;
 
-const Footer = () => (
+const FooterLink = styled.a`
+  text-decoration: underline;
+  color: inherit;
+`;
+
+const Footer = ({ withLogo }) => (
   <Container>
+    {withLogo && (
+      <FooterLogoContainer>
+        <FooterLogoImg src="/static/logoWithText.svg" alt="ndaify logo" />
+      </FooterLogoContainer>
+    )}
+
     <FootetTextWrapper>
-    <FooterText>
-      Powered by 25% sweet no ice coconut green tea with oat milk & boba.
-    </FooterText>
-    <FooterText>© 2019 NDAify</FooterText>
+      <FooterText>
+        Powered by 25% sweet no ice coconut green tea with oat milk & boba.
+      </FooterText>
+      <FooterText>
+        © 2019{" "}
+        <FooterLink
+          href="https://juliaqiu.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          NDAify
+        </FooterLink>
+      </FooterText>
     </FootetTextWrapper>
-    
+
     <Disclaimer>
       NDAify is not a law firm, does not provide legal services or advice, and
       does not provide or participate in legal representation. Singing the NDA

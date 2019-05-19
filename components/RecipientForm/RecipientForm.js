@@ -194,9 +194,8 @@ const RecipientForm = ({ error = true }) => (
             />
           </LinkedInButtonWrapper>
         </Link>
+        <Footer />
       </ContentContainer>
-
-      <Footer />
     </PageContentContainer>
   </Container>
 );

@@ -143,9 +143,9 @@ const Homepage = ({ showCustomNote }) => (
         <FormCopy>
           Or, <FormLink>log in</FormLink> to see your NDAs.
         </FormCopy>
-      </ContentContainer>
 
-      <Footer />
+        <Footer />
+      </ContentContainer>
     </PageContainer>
   </Container>
 );
