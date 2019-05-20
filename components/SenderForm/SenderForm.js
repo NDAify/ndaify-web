@@ -7,6 +7,7 @@ import LogoHeader from "../LogoHeader/LogoHeader";
 import Input from "../Input/Input";
 import Footer from "../Footer/Footer";
 import LinkedInButton from "../LinkedInButton/LinkedInButton";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const Container = styled.div`
   display: flex;
@@ -128,28 +129,7 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
-const ErrorPopUp = styled.div`
-  margin-bottom: 3pc;
-  color: #edd9a3;
-  font-weight: 200;
-  padding: 8px;
-  border: 1px solid #edd9a3;
-  border-radius: 10px;
-`;
-
-const WarningIcon = styled.img`
-  width: 18px;
-  margin-right: 0.5pc;
-`;
-
-const ErrorMessage = () => (
-  <ErrorPopUp>
-    <WarningIcon src="/static/warningIcon.svg" alt="warning icon" />
-    Failed to authenticate
-  </ErrorPopUp>
-);
-
-const RecipientForm = ({ error = true }) => (
+const Sender = ({ error = true }) => (
   <Container>
     <PageContentContainer>
       <LogoImageContainer>
@@ -157,7 +137,7 @@ const RecipientForm = ({ error = true }) => (
       </LogoImageContainer>
 
       <ContentContainer>
-        {error && <ErrorMessage />}
+        {error && <ErrorMessage message='Failed to authenticate' />}
 
         <LinkWrapper>
           <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
@@ -200,4 +180,4 @@ const RecipientForm = ({ error = true }) => (
   </Container>
 );
 
-export default RecipientForm;
+export default Sender;

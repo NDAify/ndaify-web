@@ -1,9 +1,9 @@
 import React from 'react';
 
-import RecipientForm from '../components/RecipientForm/RecipientForm';
+import SenderForm from '../components/SenderForm/SenderForm';
 
 const Form = () => (
-  <RecipientForm />
+  <SenderForm />
 );
 
 export default Form;

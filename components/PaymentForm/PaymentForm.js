@@ -3,17 +3,21 @@ import Link from "next/link";
 
 import styled from "styled-components";
 
-import LogoHeader from "../LogoHeader/LogoHeader";
+import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Footer from "../Footer/Footer";
 import CreatorInfo from "../CreatorInfo/CreatorInfo";
 import Dialog from "../Dialog/Dialog";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import UserActionBanner from "../UserActionBanner/UserActionBanner";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
+  align-items: center;
   display: flex;
+  flex-direction: column;
 `;
 
 const ContentContainer = styled.div`
@@ -24,26 +28,23 @@ const ContentContainer = styled.div`
   max-width: 768px;
   width: 100%;
   margin-top: 3pc;
+  padding-top: 2pc;
   flex-direction: column;
   flex: 1;
+  box-sizing: border-box;
 `;
 
-const Button = styled.button`
-  background-color: #39d494;
-  font-size: 20px;
-  font-weight: 200;
-  margin-top: 2pc;
-
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
+const DialogContainer = styled.div`
+  margin-bottom: 5pc;
 `;
 
 const DialogTitle = styled.h3`
   font-size: 28px;
-  margin-top: 2pc;
-  font-weight: 700;
+  margin: 0;
+  margin-bottom: 2pc;
+  font-weight: 400;
   text-align: center;
+  color: #ffffff;
 
   @media screen and (min-width: 994px) {
     font-size: 32px;
@@ -52,17 +53,23 @@ const DialogTitle = styled.h3`
 
 const DialogLongText = styled.p`
   font-size: 16px;
-  margin-top: 2pc;
+  margin: 0;
+  margin-bottom: 2pc;
+  color: #ffffff;
   font-weight: 200;
 
   @media screen and (min-width: 994px) {
     font-size: 20px;
   }
 
-  :first-of-type {
-    margin-top: 0;
-    font-weight: 400;
+  :last-of-type {
+    margin-bottom: 0;
   }
+`;
+
+const DialogLink = styled.a`
+  text-decoration: underline;
+  color: inherit;
 `;
 
 const PaymentFormContainer = styled.div`
@@ -73,7 +80,6 @@ const PaymentFormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  margin-top: 6pc;
 `;
 
 const PaymentFormRow = styled.div`
@@ -81,16 +87,17 @@ const PaymentFormRow = styled.div`
   justify-content: space-between;
   width: 100%;
   flex-direction: column;
-  margin-top: 2pc;
   height: 140px;
 
   @media screen and (min-width: 994px) {
     flex-direction: row;
     height: auto;
-  }
+    margin: 0;
+    margin-bottom: 2pc;
 
-  :first-of-type {
-    margin-top: 0;
+    :nth-of-type(3) {
+      margin-bottom: 0;
+    }
   }
 `;
 
@@ -139,36 +146,11 @@ const Total = styled.h4`
   font-size: 20px;
   margin-top: 2pc;
   font-weight: 200;
+  color: #aaaaaa;
 
   @media screen and (min-width: 994px) {
     font-size: 24px;
   }
-`;
-
-const FooterLogoContainer = styled.div`
-  margin-top: 7pc;
-  display: flex;
-  justify-content: center;
-`;
-
-const FooterContainer = styled.footer`
-  margin-top: 3pc;
-`;
-
-const Disclaimer = styled.span`
-  color: #aaaaaa;
-  font-size: 12px;
-  @media screen and (min-width: 994px) {
-    font-size: 16px;
-  }
-  margin-top: 1pc;
-  display: block;
-  font-weight: 200;
-`;
-
-const DisclaimerLink = styled.a`
-  color: #ffffff;
-  text-decoration: underline;
 `;
 
 const Divider = () => (
@@ -179,11 +161,11 @@ const Divider = () => (
   </DividerContainer>
 );
 
-const PaymentForm = () => (
+const PaymentForm = ({ error = true }) => (
   <Container>
+    <UserActionBanner />
     <ContentContainer>
-      <LogoHeader />
-      <div>
+      <DialogContainer>
         <DialogTitle>One last thing before delivery…</DialogTitle>
 
         <Dialog>
@@ -195,7 +177,7 @@ const PaymentForm = () => (
           </DialogLongText>
           <DialogLongText>
             Or, share a good reason below for why you can’t pay and you can
-            still use NDAify for free.
+            still use NDAify for <DialogLink>free</DialogLink>.
           </DialogLongText>
 
           <DialogLongText>
@@ -205,9 +187,10 @@ const PaymentForm = () => (
           <DialogLongText>Thank you for using NDAify!</DialogLongText>
         </Dialog>
         <CreatorInfo />
-      </div>
+      </DialogContainer>
 
       <PaymentFormContainer>
+        {error && <ErrorMessage message="Failed to process payment" />}
         <PaymentFormRow>
           <TwoColInputContainer>
             <Input placeholder="Name on card" />
@@ -234,23 +217,11 @@ const PaymentForm = () => (
         <Total>Total $ 1.00</Total>
 
         <Link href="nda-sent">
-          <Button>Send</Button>
+          <Button style={{ backgroundColor: "#39d494" }}>Send</Button>
         </Link>
       </PaymentFormContainer>
 
-      <FooterLogoContainer>
-        <img src="/static/footerLogo.svg" alt="ndaify logo" />
-      </FooterLogoContainer>
-
-      <FooterContainer>
-        <Disclaimer>
-          Signing the NDA signifies that you have read and agree to the{" "}
-          <DisclaimerLink>Terms of Use</DisclaimerLink>
-          {" and "}
-          <DisclaimerLink>Privacy Policy</DisclaimerLink>.
-        </Disclaimer>
-        <Footer />
-      </FooterContainer>
+      <Footer withLogo />
     </ContentContainer>
   </Container>
 );
