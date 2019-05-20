@@ -216,7 +216,7 @@ const PaymentForm = ({ error = true }) => (
 
         <Total>Total $ 1.00</Total>
 
-        <Link href="nda-sent">
+        <Link href="success-message">
           <Button style={{ backgroundColor: "#39d494" }}>Send</Button>
         </Link>
       </PaymentFormContainer>

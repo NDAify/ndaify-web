@@ -5,13 +5,16 @@ import styled from "styled-components";
 
 import LogoHeader from "../LogoHeader/LogoHeader";
 import Footer from "../Footer/Footer";
+import Button from "../Button/Button";
+import UserActionBanner from "../UserActionBanner/UserActionBanner";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
+  align-items: center;
   display: flex;
-  // flex-direction: column;
+  flex-direction: column;
 `;
 
 const PageContentContainer = styled.div`
@@ -24,66 +27,47 @@ const PageContentContainer = styled.div`
   flex: 1;
   flex-direction: column;
   margin-top: 3pc;
+  box-sizing: border-box;
+`;
+
+const LogoHeaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin-bottom: 10pc;
 `;
 
 const SucessMessageContainer = styled.div`
   max-width: 576px;
   width: 100%;
   margin: 2pc;
+  margin-top: 0;
+  margin-bottom: 10pc;
   display: flex;
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  margin-top: 6pc;
 `;
 
 const SucessMessage = styled.p`
   font-size: 20px;
   font-weight: 200;
   text-align: center;
-  margin-top: 2pc;
-
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
-`;
-
-const Button = styled.button`
-  margin-top: 4pc;
-  font-size: 20px;
-  font-weight: 200;
-  background-color: #39d494;
-
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
-`;
-
-const FooterContainer = styled.footer`
-  margin-top: 3pc;
-`;
-
-const Disclaimer = styled.span`
-  color: #aaaaaa;
-  font-size: 12px;
-  margin-top: 1pc;
-  display: block;
-  font-weight: 200;
-
-  @media screen and (min-width: 994px) {
-    font-size: 16px;
-  }
-`;
-
-const DisclaimerLink = styled.a`
+  margin: 0;
   color: #ffffff;
-  text-decoration: underline;
+  margin-bottom: 3pc;
+
+  @media screen and (min-width: 994px) {
+    font-size: 24px;
+  }
 `;
 
-const FinalForm = () => (
+const SuccessMessage = () => (
   <Container>
+    <UserActionBanner />
     <PageContentContainer>
-      <LogoHeader />
+      <LogoHeaderContainer>
+        <LogoHeader />
+      </LogoHeaderContainer>
 
       <SucessMessageContainer>
         <SucessMessage>
@@ -91,21 +75,13 @@ const FinalForm = () => (
           Jeremy views and/or accepts the NDA.
         </SucessMessage>
         <Link href="/recipient-nda">
-          <Button>Okay</Button>
+          <Button style={{ backgroundColor: "#39d494" }}>Done</Button>
         </Link>
       </SucessMessageContainer>
 
-      <FooterContainer>
-        <Disclaimer>
-          Signing the NDA signifies that you have read and agree to the{" "}
-          <DisclaimerLink>Terms of Use</DisclaimerLink>
-          {" and "}
-          <DisclaimerLink>Privacy Policy</DisclaimerLink>.
-        </Disclaimer>
-        <Footer />
-      </FooterContainer>
+      <Footer />
     </PageContentContainer>
   </Container>
 );
 
-export default FinalForm;
+export default SuccessMessage;
