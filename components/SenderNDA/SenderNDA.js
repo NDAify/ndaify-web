@@ -214,7 +214,7 @@ const SenderNDA = () => {
               <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
             </LinkWrapper>
             <DescriptionTitle>
-              Recepient does not have access to your link unless he accepts the
+              Recipient does not have access to your link unless he accepts the
               term of the NDA.
             </DescriptionTitle>
           </AttachmentSectionContainer>
