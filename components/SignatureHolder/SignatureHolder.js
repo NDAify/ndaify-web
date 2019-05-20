@@ -25,6 +25,7 @@ const SignatureWrapper = styled.div`
 const Signature = styled.span`
   font-family: "Signerica Fat", cursive;
   font-size: 28px;
+  color: #ffffff;
 
   @media screen and (min-width: 994px) {
     font-size: 32px;

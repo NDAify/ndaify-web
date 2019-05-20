@@ -9,6 +9,7 @@ const ErrorPopUp = styled.div`
   padding: 8px;
   border: 1px solid #edd9a3;
   border-radius: 10px;
+  display: flex;
 `;
 
 const WarningIcon = styled.img`

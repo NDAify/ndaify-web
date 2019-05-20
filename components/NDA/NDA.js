@@ -202,7 +202,7 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
         <DisclaimerTitleText isRecipientNDA={isRecipientNDA} sender={sender} />
         <DisclaimerBody>
           By signing, both <BoldText>you</BoldText> and{" "}
-          <BoldText>{otherPartyName}</BoldText> will agree to terms of an NDA to{" "}
+          <BoldText>{otherPartyName}</BoldText> are agreeing to terms of an NDA to{" "}
           <BoldText>protect all parties and materials disclosed</BoldText>.
         </DisclaimerBody>
       </NDADisclaimerWrapper>
