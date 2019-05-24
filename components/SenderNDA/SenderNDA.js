@@ -180,9 +180,10 @@ const SenderNDA = () => {
     name: "Jeremy Voss",
     company: "Flake, Inc."
   };
+
   return (
     <Container>
-      <UserActionBanner />
+      <UserActionBanner isSender />
       <NDADocumentContainer>
         <NDAContainer>
           <NDAWrapper>
