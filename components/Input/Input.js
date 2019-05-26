@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
 
 const StyledInput = styled.input`
   color: #aaaaaa;
@@ -19,10 +19,14 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = props => (
-  <Fragment>
-    <StyledInput placeholder={props.placeholder} />
-  </Fragment>
-);
+const Input = (props) => {
+  const { placeholder } = props;
+
+  return (
+    <Fragment>
+      <StyledInput placeholder={placeholder} />
+    </Fragment>
+  );
+};
 
 export default Input;

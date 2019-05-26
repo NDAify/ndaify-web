@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const ErrorPopUp = styled.div`
   margin-bottom: 3pc;

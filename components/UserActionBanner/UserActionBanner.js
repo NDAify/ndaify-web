@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const UserDetailBannerContainer = styled.div`
 padding: 1pc;
@@ -77,21 +77,19 @@ overflow: hidden;
 }
 `;
 
-const UserActionBanner = () => {
-    return (
-        <UserDetailBannerContainer>
-        <UserDetails>
-          <UserNameText>Joe Doe</UserNameText>
-          <UserEmailText>
-            {"<joejoejoejoejoejoejoejoejoejoe@gmail.com>"}
-          </UserEmailText>
-        </UserDetails>
+const UserActionBanner = () => (
+  <UserDetailBannerContainer>
+    <UserDetails>
+      <UserNameText>Joe Doe</UserNameText>
+      <UserEmailText>
+        {'<joejoejoejoejoejoejoejoejoejoe@gmail.com>'}
+      </UserEmailText>
+    </UserDetails>
 
-        <UserDetailBannerButton style={{ backgroundColor: "#dc564a" }}>
+    <UserDetailBannerButton style={{ backgroundColor: '#dc564a' }}>
           Discard
-        </UserDetailBannerButton>
-      </UserDetailBannerContainer>
-    )
-};
+    </UserDetailBannerButton>
+  </UserDetailBannerContainer>
+);
 
 export default UserActionBanner;

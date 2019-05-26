@@ -1,13 +1,13 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import NDA from "../NDA/NDA";
-import Footer from "../Footer/Footer";
-import Button from "../Button/Button";
-import SignatureHolder from "../SignatureHolder/SignatureHolder";
-import UserActionBanner from "../UserActionBanner/UserActionBanner";
+import NDA from '../NDA/NDA';
+import Footer from '../Footer/Footer';
+import Button from '../Button/Button';
+import SignatureHolder from '../SignatureHolder/SignatureHolder';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const Container = styled.div`
   width: 100%;
@@ -174,11 +174,11 @@ const DescriptionTitle = styled.h4`
 
 const SenderNDA = () => {
   const sender = {
-    name: "Jake Murzy"
+    name: 'Jake Murzy',
   };
   const recipient = {
-    name: "Jeremy Voss",
-    company: "Flake, Inc."
+    name: 'Jeremy Voss',
+    company: 'Flake, Inc.',
   };
 
   return (
@@ -197,13 +197,11 @@ const SenderNDA = () => {
             </PartyWrapper>
             <PartyWrapper>
               <Link href="/payment-form">
-                <Button style={{ backgroundColor: "#4AC09A" }}>Sign</Button>
+                <Button style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
               </Link>
               <NDAPartyName>Joe Doe</NDAPartyName>
               <NDASenderDisclaimer>
-                I, Joe Doe, certify that I have read the contract, and
-                understand that clicking ‘Sign' constitutes a legally binding
-                signature.
+                {'I, Joe Doe, certify that I have read the contract, and understand that clicking \'Sign\' constitutes a legally binding signature.'}
               </NDASenderDisclaimer>
             </PartyWrapper>
           </ActionRow>

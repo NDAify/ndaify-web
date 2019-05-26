@@ -1,15 +1,15 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import Button from "../Button/Button";
-import Input from "../Input/Input";
-import Footer from "../Footer/Footer";
-import CreatorInfo from "../CreatorInfo/CreatorInfo";
-import Dialog from "../Dialog/Dialog";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import UserActionBanner from "../UserActionBanner/UserActionBanner";
+import Button from '../Button/Button';
+import Input from '../Input/Input';
+import Footer from '../Footer/Footer';
+import CreatorInfo from '../CreatorInfo/CreatorInfo';
+import Dialog from '../Dialog/Dialog';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const Container = styled.div`
   width: 100%;
@@ -177,7 +177,10 @@ const PaymentForm = ({ error = true }) => (
           </DialogLongText>
           <DialogLongText>
             Or, share a good reason below for why you can’t pay and you can
-            still use NDAify for <DialogLink>free</DialogLink>.
+            still use NDAify for
+            {' '}
+            <DialogLink>free</DialogLink>
+.
           </DialogLongText>
 
           <DialogLongText>
@@ -210,14 +213,14 @@ const PaymentForm = ({ error = true }) => (
 
         <Divider />
 
-        <div style={{ marginTop: "1pc" }}>
+        <div style={{ marginTop: '1pc' }}>
           <Input placeholder="I can’t pay because…" />
         </div>
 
         <Total>Total $ 1.00</Total>
 
         <Link href="success-message">
-          <Button style={{ backgroundColor: "#39d494" }}>Send</Button>
+          <Button style={{ backgroundColor: '#39d494' }}>Send</Button>
         </Link>
       </PaymentFormContainer>
 

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const SignatureHolderContaine = styled.div`
   width: 100%;
@@ -32,7 +32,7 @@ const Signature = styled.span`
   }
 `;
 
-const SignatureHolder = ({name}) => (
+const SignatureHolder = ({ name }) => (
   <SignatureHolderContaine>
     <SignatureIndicator>X</SignatureIndicator>
     <SignatureWrapper>

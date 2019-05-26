@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
 
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
 import Dialog from '../Dialog/Dialog';
@@ -52,26 +52,26 @@ const DialogText = styled.p`
   }
 `;
 
-const CustomNote = ({ source = "Product Hunt" }) => {
+const CustomNote = ({ source = 'Product Hunt' }) => {
   if (!source) {
     return null;
   }
 
   let sourceData;
 
-  if (source === "Product Hunt") {
+  if (source === 'Product Hunt') {
     sourceData = {
-      name: "Product Hunt",
-      people: "Product Hunter",
-      logoSrc: "/static/productHuntLogo.png"
+      name: 'Product Hunt',
+      people: 'Product Hunter',
+      logoSrc: '/static/productHuntLogo.png',
     };
   }
 
-  if (source === "Y Combinator") {
+  if (source === 'Y Combinator') {
     sourceData = {
-      name: "Y Combinator",
-      people: "Hacker News Reader",
-      logoSrc: "/static/YCombinatorLogo.png"
+      name: 'Y Combinator',
+      people: 'Hacker News Reader',
+      logoSrc: '/static/YCombinatorLogo.png',
     };
   }
 
@@ -85,7 +85,11 @@ const CustomNote = ({ source = "Product Hunt" }) => {
         </SourceLogoContainer>
         <DialogContainer>
           <Dialog>
-            <DialogText>Hey {sourceData.people},</DialogText>
+            <DialogText>
+Hey
+              {sourceData.people}
+,
+            </DialogText>
             <DialogText>
               I’m Julia. Thanks for checking out NDAify. This is a free and
               open-source project I work on in my spare time. It helps you

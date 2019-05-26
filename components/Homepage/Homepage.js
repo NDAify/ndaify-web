@@ -1,14 +1,14 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import LogoHeader from "../LogoHeader/LogoHeader";
-import Input from "../Input/Input";
-import CustomNote from "../CustomNote/CustomNote";
-import Footer from "../Footer/Footer";
-import Button from "../Button/Button";
-import OpenSourceBanner from "../OpenSourceBanner/OpenSourceBanner";
+import LogoHeader from '../LogoHeader/LogoHeader';
+import Input from '../Input/Input';
+import CustomNote from '../CustomNote/CustomNote';
+import Footer from '../Footer/Footer';
+import Button from '../Button/Button';
+import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 
 const HomePageButton = styled(Button)`
   background-color: #39d494;
@@ -126,9 +126,13 @@ const Homepage = ({ showCustomNote }) => (
       </LogoImageContainer>
       <ContentContainer>
         <CopyTitle>
-          NDAify helps you keep your trade secrets under wraps.{" "}
+          NDAify helps you keep your trade secrets under wraps.
+          {' '}
           <CopyText>
-            {"Try it"} <FreeText>FREE</FreeText>.
+            {'Try it'}
+            {' '}
+            <FreeText>FREE</FreeText>
+.
           </CopyText>
         </CopyTitle>
         <Subtitle>Send an NDA in a couple minutes.</Subtitle>
@@ -141,7 +145,11 @@ const Homepage = ({ showCustomNote }) => (
           </ButtonWrapper>
         </Link>
         <FormCopy>
-          Or, <FormLink>log in</FormLink> to see your NDAs.
+          Or,
+          {' '}
+          <FormLink>log in</FormLink>
+          {' '}
+to see your NDAs.
         </FormCopy>
 
         <Footer />

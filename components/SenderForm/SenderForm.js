@@ -1,13 +1,13 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import LogoHeader from "../LogoHeader/LogoHeader";
-import Input from "../Input/Input";
-import Footer from "../Footer/Footer";
-import LinkedInButton from "../LinkedInButton/LinkedInButton";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import LogoHeader from '../LogoHeader/LogoHeader';
+import Input from '../Input/Input';
+import Footer from '../Footer/Footer';
+import LinkedInButton from '../LinkedInButton/LinkedInButton';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const Container = styled.div`
   display: flex;
@@ -137,7 +137,7 @@ const Sender = ({ error = true }) => (
       </LogoImageContainer>
 
       <ContentContainer>
-        {error && <ErrorMessage message='Failed to authenticate' />}
+        {error && <ErrorMessage message="Failed to authenticate" />}
 
         <LinkWrapper>
           <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
@@ -161,9 +161,14 @@ const Sender = ({ error = true }) => (
         </FormContainer>
 
         <DisclaimerText>
-          Singing the NDA signifies that you have read and agree to the{" "}
-          <UnderlineText>Terms of Use</UnderlineText> and{" "}
-          <UnderlineText>Privacy Policy</UnderlineText>.
+          Singing the NDA signifies that you have read and agree to the
+          {' '}
+          <UnderlineText>Terms of Use</UnderlineText>
+          {' '}
+and
+          {' '}
+          <UnderlineText>Privacy Policy</UnderlineText>
+.
         </DisclaimerText>
 
         <Link href="/nda">

@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
-import Document from "next/document";
+import React, { Fragment } from 'react';
+import Document from 'next/document';
 
-import { ServerStyleSheet, createGlobalStyle } from "styled-components";
+import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
 
-import Head from "../components/Head";
+import Head from '../components/Head';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -27,17 +27,15 @@ export default class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: App => props =>
-            sheet.collectStyles(
-              <Fragment>
-                <Head />
-                <GlobalStyle />
-                <App {...props} />
-              </Fragment>
-            )
-        });
+      ctx.renderPage = () => originalRenderPage({
+        enhanceApp: App => props => sheet.collectStyles(
+          <Fragment>
+            <Head />
+            <GlobalStyle />
+            <App {...props} />
+          </Fragment>,
+        ),
+      });
 
       const initialProps = await Document.getInitialProps(ctx);
       return {
@@ -47,7 +45,7 @@ export default class MyDocument extends Document {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        )
+        ),
       };
     } finally {
       sheet.seal();

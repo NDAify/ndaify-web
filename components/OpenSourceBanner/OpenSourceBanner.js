@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const BannerLink = styled.a`
   background-color: #edd9a3;
@@ -17,27 +17,25 @@ const BannerText = styled.span`
   text-align: center;
 `;
 
-const OpenSourceBanner = props => {
-  return (
-    <BannerLink
-      href="https://github.com/juliaqiuxy/ndaify-frontend"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        alt=""
-        style={{
-          width: "20px",
-          marginLeft: "14px",
-          marginRight: "8px"
-        }}
-        src="/static/githubLogo.svg"
-      />
-      <BannerText>
-        {"NDAify is open source. Send a pull request on GitHub."}
-      </BannerText>
-    </BannerLink>
-  );
-};
+const OpenSourceBanner = () => (
+  <BannerLink
+    href="https://github.com/juliaqiuxy/ndaify-frontend"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img
+      alt=""
+      style={{
+        width: '20px',
+        marginLeft: '14px',
+        marginRight: '8px',
+      }}
+      src="/static/githubLogo.svg"
+    />
+    <BannerText>
+      {'NDAify is open source. Send a pull request on GitHub.'}
+    </BannerText>
+  </BannerLink>
+);
 
 export default OpenSourceBanner;

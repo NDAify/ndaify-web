@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
@@ -152,46 +152,62 @@ const NDAReadMoreLink = styled.a`
   color: #ffffff;
 `;
 
-const DisclaimerTitleText = ({ isRecipientNDA, sender }) =>
-  isRecipientNDA ? (
-    <DisclaimerTitle>
-      <BoldText>{sender.name}</BoldText> has requested your signature
-    </DisclaimerTitle>
-  ) : (
-    <DisclaimerTitle>
-      <BoldText>Almost done.</BoldText>
-    </DisclaimerTitle>
-  );
+const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
+  <DisclaimerTitle>
+    <BoldText>{sender.name}</BoldText>
+    {' '}
+has requested your signature
+  </DisclaimerTitle>
+) : (
+  <DisclaimerTitle>
+    <BoldText>Almost done.</BoldText>
+  </DisclaimerTitle>
+));
 
-const BetweenParty = ({ isRecipientNDA, sender, recipient }) =>
-  isRecipientNDA ? (
-    <BetweenPartyContainer>
-      <NDASectionBodyText>
-        1. <BoldText>{sender.name}</BoldText> (the Disclosing Party); and
-      </NDASectionBodyText>
-      <NDASectionBodyText>
-        2.{" "}
-        <BoldText>
-          {recipient.name}, {recipient.company}
-        </BoldText>{" "}
+const BetweenParty = ({ isRecipientNDA, sender, recipient }) => (isRecipientNDA ? (
+  <BetweenPartyContainer>
+    <NDASectionBodyText>
+        1.
+      {' '}
+      <BoldText>{sender.name}</BoldText>
+      {' '}
+(the Disclosing Party); and
+    </NDASectionBodyText>
+    <NDASectionBodyText>
+        2.
+      {' '}
+      <BoldText>
+        {recipient.name}
+,
+        {recipient.company}
+      </BoldText>
+      {' '}
         (the Receiving Party), collectively referred to as the Parties.
-      </NDASectionBodyText>
-    </BetweenPartyContainer>
-  ) : (
-    <BetweenPartyContainer>
-      <NDASectionBodyText>
-        1. <EditableText contentEditable>{sender.name}</EditableText> (the
+    </NDASectionBodyText>
+  </BetweenPartyContainer>
+) : (
+  <BetweenPartyContainer>
+    <NDASectionBodyText>
+        1.
+      {' '}
+      <EditableText contentEditable>{sender.name}</EditableText>
+      {' '}
+(the
         Disclosing Party); and
-      </NDASectionBodyText>
-      <NDASectionBodyText>
-        2.{" "}
-        <EditableText contentEditable>
-          {recipient.name}, {recipient.company}
-        </EditableText>{" "}
+    </NDASectionBodyText>
+    <NDASectionBodyText>
+        2.
+      {' '}
+      <EditableText contentEditable>
+        {recipient.name}
+,
+        {recipient.company}
+      </EditableText>
+      {' '}
         (the Receiving Party), collectively referred to as the Parties.
-      </NDASectionBodyText>
-    </BetweenPartyContainer>
-  );
+    </NDASectionBodyText>
+  </BetweenPartyContainer>
+));
 
 const NDA = ({ sender, recipient, isRecipientNDA }) => {
   const otherPartyName = isRecipientNDA ? sender.name : recipient.name;
@@ -201,9 +217,18 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
       <NDADisclaimerWrapper>
         <DisclaimerTitleText isRecipientNDA={isRecipientNDA} sender={sender} />
         <DisclaimerBody>
-          By signing, both <BoldText>you</BoldText> and{" "}
-          <BoldText>{otherPartyName}</BoldText> are agreeing to terms of an NDA to{" "}
-          <BoldText>protect all parties and materials disclosed</BoldText>.
+          By signing, both
+          {' '}
+          <BoldText>you</BoldText>
+          {' '}
+and
+          {' '}
+          <BoldText>{otherPartyName}</BoldText>
+          {' '}
+are agreeing to terms of an NDA to
+          {' '}
+          <BoldText>protect all parties and materials disclosed</BoldText>
+.
         </DisclaimerBody>
       </NDADisclaimerWrapper>
       <NDATitleContainer>
@@ -216,11 +241,12 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
 
       <NDASectionContainer>
         <NDASectionTitle
-          style={{ display: "inline-block", marginRight: "6px" }}
+          style={{ display: 'inline-block', marginRight: '6px' }}
         >
-          This Agreement{" "}
+          This Agreement
+          {' '}
         </NDASectionTitle>
-        <NDASectionBodyText style={{ display: "inline" }}>
+        <NDASectionBodyText style={{ display: 'inline' }}>
           is made on December 6th, 2017.
         </NDASectionBodyText>
       </NDASectionContainer>
@@ -232,7 +258,10 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
           recipient={recipient}
         />
         <DisclaimerEnding>
-          collectively referred to as the <BoldText>Parties</BoldText>.
+          collectively referred to as the
+          {' '}
+          <BoldText>Parties</BoldText>
+.
         </DisclaimerEnding>
       </NDASectionContainer>
       <NDASectionContainer>
@@ -260,7 +289,10 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
 
       <NDAReadMoreContainer>
         <NDAReadMoreText>
-          To read all terms, <NDAReadMoreLink>click here</NDAReadMoreLink>.
+          To read all terms,
+          {' '}
+          <NDAReadMoreLink>click here</NDAReadMoreLink>
+.
         </NDAReadMoreText>
       </NDAReadMoreContainer>
     </Container>

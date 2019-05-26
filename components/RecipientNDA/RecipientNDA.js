@@ -1,14 +1,14 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import NDA from "../NDA/NDA";
-import Footer from "../Footer/Footer";
-import LinkedInButton from "../LinkedInButton/LinkedInButton";
-import SignatureHolder from "../SignatureHolder/SignatureHolder";
-import UserActionBanner from "../UserActionBanner/UserActionBanner";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import NDA from '../NDA/NDA';
+import Footer from '../Footer/Footer';
+import LinkedInButton from '../LinkedInButton/LinkedInButton';
+import SignatureHolder from '../SignatureHolder/SignatureHolder';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const Container = styled.div`
   width: 100%;
@@ -153,11 +153,11 @@ const AttachmentMessage = styled.h4`
 
 const RecipientDNA = ({ error = true }) => {
   const sender = {
-    name: "Jake Murzy"
+    name: 'Jake Murzy',
   };
   const recipient = {
-    name: "Jeremy Voss",
-    company: "Flake, Inc."
+    name: 'Jeremy Voss',
+    company: 'Flake, Inc.',
   };
   return (
     <Container>
@@ -178,7 +178,7 @@ const RecipientDNA = ({ error = true }) => {
               <Link href="/payment-form">
                 <LinkedInButton
                   buttonText="Sign with LinkedIn"
-                  style={{ backgroundColor: "#4AC09A" }}
+                  style={{ backgroundColor: '#4AC09A' }}
                 >
                   Sign
                 </LinkedInButton>
@@ -186,9 +186,7 @@ const RecipientDNA = ({ error = true }) => {
               <NDAPartyName>Jeremy Voss</NDAPartyName>
               <NDAPartyOrganization>Flake, Inc.</NDAPartyOrganization>
               <NDASenderDisclaimer>
-                I, Jeremy Voss, certify that I have read the contract, and
-                understand that clicking ‘Sign' constitutes a legally binding
-                signature.
+                {'I, Jeremy Voss Doe, certify that I have read the contract, and understand that clicking \'Sign\' constitutes a legally binding signature.'}
               </NDASenderDisclaimer>
             </PartyWrapper>
             <PartyWrapper>

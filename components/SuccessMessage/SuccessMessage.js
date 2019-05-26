@@ -1,12 +1,12 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import LogoHeader from "../LogoHeader/LogoHeader";
-import Footer from "../Footer/Footer";
-import Button from "../Button/Button";
-import UserActionBanner from "../UserActionBanner/UserActionBanner";
+import LogoHeader from '../LogoHeader/LogoHeader';
+import Footer from '../Footer/Footer';
+import Button from '../Button/Button';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const Container = styled.div`
   width: 100%;
@@ -75,7 +75,7 @@ const SuccessMessage = () => (
           Jeremy views and/or accepts the NDA.
         </SucessMessage>
         <Link href="/recipient-nda">
-          <Button style={{ backgroundColor: "#39d494" }}>Done</Button>
+          <Button style={{ backgroundColor: '#39d494' }}>Done</Button>
         </Link>
       </SucessMessageContainer>
 

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const ProfileContainer = styled.div`
   display: flex;
@@ -34,17 +34,17 @@ const ProfileTextLink = styled.a`
 `;
 
 const CreatorInfo = () => (
-    <ProfileContainer>
-      <ProfileImage src="/static/julia.png" alt="julia" />
-      <ProfileTextContainer>
-        <ProfileText>
+  <ProfileContainer>
+    <ProfileImage src="/static/julia.png" alt="julia" />
+    <ProfileTextContainer>
+      <ProfileText>
           Julia
-        </ProfileText>
-        <ProfileTextLink>
+      </ProfileText>
+      <ProfileTextLink>
           @juliaqiuxy
-        </ProfileTextLink>
-      </ProfileTextContainer>
-    </ProfileContainer>  
+      </ProfileTextLink>
+    </ProfileTextContainer>
+  </ProfileContainer>
 );
 
 export default CreatorInfo;

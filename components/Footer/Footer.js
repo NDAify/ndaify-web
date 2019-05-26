@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.footer`
   margin-top: 3pc;
@@ -72,7 +72,8 @@ const Footer = ({ withLogo }) => (
         Powered by 25% sweet no ice coconut green tea with oat milk & boba.
       </FooterText>
       <FooterText>
-        © 2019{" "}
+        © 2019
+        {' '}
         <FooterLink
           href="https://juliaqiu.com/"
           target="_blank"

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import SuccessMessage from "../components/SuccessMessage/SuccessMessage";
+import SuccessMessage from '../components/SuccessMessage/SuccessMessage';
 
 const SuccessMessagePage = () => <SuccessMessage />;
 
