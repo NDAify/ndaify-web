@@ -151,6 +151,32 @@ const AttachmentMessage = styled.h4`
   }
 `;
 
+const DeclineButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 2pc;
+  padding-bottom: 0;
+  box-sizing: border-box;
+`;
+
+const DeclineButton = styled.button`
+  font-size: 20px;
+  border-radius: 4px;
+  font-weight: 200;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  cursor: pointer;
+  padding-left: 1pc;
+  padding-right: 1pc;
+  height: 40px;
+  border: 0;
+  margin-top: 1pc;
+  margin-bottom: 1pc;
+  background-color: #dc564a;
+`;
+
 const RecipientDNA = ({ error = true }) => {
   const sender = {
     name: 'Jake Murzy',
@@ -159,9 +185,13 @@ const RecipientDNA = ({ error = true }) => {
     name: 'Jeremy Voss',
     company: 'Flake, Inc.',
   };
+
   return (
     <Container>
       <UserActionBanner />
+      <DeclineButtonWrapper>
+        <DeclineButton>Decline</DeclineButton>
+      </DeclineButtonWrapper>
       <NDADocumentContainer>
         <NDAContainer>
           <NDAWrapper>

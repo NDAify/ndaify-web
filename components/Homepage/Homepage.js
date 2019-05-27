@@ -116,7 +116,7 @@ const FormLink = styled.a`
   text-decoration: underline;
 `;
 
-const Homepage = ({ showCustomNote }) => (
+const Homepage = ({ showCustomNote = true }) => (
   <Container>
     <OpenSourceBanner />
     {showCustomNote && <CustomNote />}

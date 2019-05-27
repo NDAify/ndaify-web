@@ -19,21 +19,6 @@ const UserDetailBannerContainer = styled.div`
   }
 `;
 
-const UserDetailBannerButton = styled.button`
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  width: 110px;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-`;
-
 const UserDetails = styled.div`
   display: flex;
   flex-direction: column;
@@ -77,7 +62,7 @@ const UserEmailText = styled.span`
   }
 `;
 
-const UserActionBanner = () => (
+const UserActionBanner = ({ ActionButton }) => (
   <UserDetailBannerContainer>
     <UserDetails>
       <UserNameText>Joe Doe</UserNameText>
@@ -86,9 +71,8 @@ const UserActionBanner = () => (
       </UserEmailText>
     </UserDetails>
 
-    <UserDetailBannerButton style={{ backgroundColor: '#dc564a' }}>
-          Discard
-    </UserDetailBannerButton>
+    {ActionButton && <ActionButton />}
+
   </UserDetailBannerContainer>
 );
 

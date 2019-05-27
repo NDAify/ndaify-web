@@ -61,9 +61,28 @@ const SucessMessage = styled.p`
   }
 `;
 
+const DashboardButton = styled.button`
+  box-sizing: border-box;
+  font-size: 20px;
+  border-radius: 4px;
+  font-weight: 200;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  cursor: pointer;
+  padding-left: 1pc;
+  padding-right: 1pc;
+  height: 40px;
+  border: 0;
+  margin-top: 1pc;
+  margin-bottom: 1pc;
+  background-color: transparent;
+  border: 1px solid #ffffff;
+`;
+
 const SuccessMessage = () => (
   <Container>
-    <UserActionBanner />
+    <UserActionBanner ActionButton={() => <DashboardButton>Dashboard</DashboardButton>} />
     <PageContentContainer>
       <LogoHeaderContainer>
         <LogoHeader />

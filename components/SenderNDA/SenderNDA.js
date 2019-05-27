@@ -172,6 +172,23 @@ const DescriptionTitle = styled.h4`
   }
 `;
 
+const UserDetailBannerButton = styled.button`
+  font-size: 20px;
+  border-radius: 4px;
+  font-weight: 200;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  cursor: pointer;
+  padding-left: 1pc;
+  padding-right: 1pc;
+  height: 40px;
+  border: 0;
+  margin-top: 1pc;
+  margin-bottom: 1pc;
+  background-color: #dc564a;
+`;
+
 const SenderNDA = () => {
   const sender = {
     name: 'Jake Murzy',
@@ -183,7 +200,12 @@ const SenderNDA = () => {
 
   return (
     <Container>
-      <UserActionBanner isSender />
+      <UserActionBanner ActionButton={props => (
+        <UserDetailBannerButton {...props}>
+          Discard
+        </UserDetailBannerButton>
+      )}
+      />
       <NDADocumentContainer>
         <NDAContainer>
           <NDAWrapper>

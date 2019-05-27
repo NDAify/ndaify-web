@@ -62,7 +62,8 @@ const SendButton = styled.button`
   letter-spacing: 1.8px;
   color: #ffffff;
   cursor: pointer;
-  width: 110px;
+  padding-left: 1pc;
+  padding-right: 1pc;
   height: 40px;
   border: 0;
   margin-top: 1pc;
@@ -166,6 +167,24 @@ const StatusText = styled(RecipientInfoText)`
   color: #EDD9A3;
 `;
 
+
+const LogOutButton = styled.button`
+  font-size: 20px;
+  border-radius: 4px;
+  font-weight: 200;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+  cursor: pointer;
+  padding-left: 1pc;
+  padding-right: 1pc;
+  height: 40px;
+  border: 0;
+  margin-top: 1pc;
+  margin-bottom: 1pc;
+  background-color: #dc564a;
+`;
+
 const HistoryItem = () => (
   <ItemCardContainer>
     <HistoryItemContainer>
@@ -198,7 +217,7 @@ const HistoryItem = () => (
 
 const Dashboard = () => (
   <Container>
-    <UserActionBanner />
+    <UserActionBanner ActionButton={() => <LogOutButton>Log Out</LogOutButton>} />
     <PageContainer>
       <ActionRow>
         <LinksContainer>
