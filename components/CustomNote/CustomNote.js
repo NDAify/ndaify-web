@@ -86,9 +86,9 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
         <DialogContainer>
           <Dialog>
             <DialogText>
-Hey
+              Hey{' '}
               {sourceData.people}
-,
+              ,
             </DialogText>
             <DialogText>
               I’m Julia. Thanks for checking out NDAify. This is a free and

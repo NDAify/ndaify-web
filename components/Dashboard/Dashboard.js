@@ -46,7 +46,7 @@ const StyledLink = styled.a`
   color: #ffffff;
   font-weight: 200;
   margin-right: 2pc;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: ${({ active }) => active && '4px solid #EDD9A3'};
 
   @media screen and (min-width: 994px) {
@@ -156,7 +156,7 @@ const TypeAndStatusRow = styled.div`
 `;
 
 const TypeContainer = styled.div`
-  margin-right: 1pc;
+  margin-right: 3pc;
 `;
 
 const StatusContainer = styled.div`
