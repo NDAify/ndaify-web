@@ -1,11 +1,18 @@
 {
+  "name": "ndaify-frotnend",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "koa": "^2.7.0",
+    "koa-helmet": "^4.2.0",
+    "koa-router": "^7.4.0",
     "next": "^8.0.4",
     "next-routes": "^1.4.2",
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "statuses": "^1.5.0",
     "styled-components": "^4.2.0"
   },
   "scripts": {
@@ -14,7 +21,6 @@
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
-    "babel-plugin-inline-import": "^2.0.6",
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-styled-components": "^1.10.0",
     "dotenv": "^8.0.0",
