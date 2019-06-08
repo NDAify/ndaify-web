@@ -9,7 +9,7 @@
     "styled-components": "^4.2.0"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node -r dotenv/config server.js",
     "lint": "eslint pages/ components/"
   },
   "devDependencies": {
@@ -17,6 +17,7 @@
     "babel-plugin-inline-import": "^2.0.6",
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-styled-components": "^1.10.0",
+    "dotenv": "^8.0.0",
     "eslint": "5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-loader": "^2.0.0",
