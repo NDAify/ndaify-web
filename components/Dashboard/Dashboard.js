@@ -54,7 +54,7 @@ const StyledLink = styled.a`
   }
 `;
 
-const SendButton = styled.button`
+const NewNDAButton = styled.button`
   font-size: 20px;
   border-radius: 4px;
   font-weight: 200;
@@ -224,7 +224,7 @@ const Dashboard = () => (
           <StyledLink>Inbox</StyledLink>
           <StyledLink active>Sent</StyledLink>
         </LinksContainer>
-        <SendButton>Send</SendButton>
+        <NewNDAButton>New</NewNDAButton>
       </ActionRow>
 
       <HistoryList>
