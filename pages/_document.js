@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Document from 'next/document';
+import NextDocument from 'next/document';
 
 import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
 
@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default class MyDocument extends Document {
+class Document extends NextDocument {
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -37,14 +37,18 @@ export default class MyDocument extends Document {
         ),
       });
 
-      const initialProps = await Document.getInitialProps(ctx);
+      const initialProps = await NextDocument.getInitialProps(ctx);
       return {
         ...initialProps,
         styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
+          <Fragment>
+            {
+              initialProps.styles
+            }
+            {
+              sheet.getStyleElement()
+            }
+          </Fragment>
         ),
       };
     } finally {
@@ -52,3 +56,5 @@ export default class MyDocument extends Document {
     }
   }
 }
+
+export default Document;
