@@ -3,7 +3,7 @@ import Document from 'next/document';
 
 import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
 
-import Head from '../components/Head';
+import Head from '../components/Head/Head';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
