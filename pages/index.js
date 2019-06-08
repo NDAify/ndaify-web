@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Homepage from '../components/Homepage/Homepage';
+import Home from '../components/Home/Home';
 
 const Index = () => (
-  <Homepage />
+  <Home />
 );
 
 export default Index;

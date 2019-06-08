@@ -32,11 +32,21 @@ const Signature = styled.span`
   }
 `;
 
-const SignatureHolder = ({ name }) => (
+const getSignature = (firstName, lastName) => {
+  if ((firstName.length + lastName.length) > 10) {
+    const [firstNameInitial] = firstName;
+
+    return `${firstNameInitial}. ${lastName}`;
+  }
+
+  return `${firstName} ${lastName}`;
+};
+
+const SignatureHolder = ({ firstName, lastName }) => (
   <SignatureHolderContaine>
     <SignatureIndicator>X</SignatureIndicator>
     <SignatureWrapper>
-      <Signature>{name}</Signature>
+      <Signature>{getSignature(firstName, lastName)}</Signature>
     </SignatureWrapper>
   </SignatureHolderContaine>
 );

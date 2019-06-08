@@ -220,7 +220,7 @@ const RecipientDNA = ({ error = true }) => {
               </NDASenderDisclaimer>
             </PartyWrapper>
             <PartyWrapper>
-              <SignatureHolder name="Jeremy Voss" />
+              <SignatureHolder firstName="Jeremy" lastName="Voss" />
               <NDAPartyName>Jeremy Voss</NDAPartyName>
               <NDASignedDate>Feb 6, 2019</NDASignedDate>
             </PartyWrapper>

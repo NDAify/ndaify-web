@@ -116,10 +116,12 @@ const FormLink = styled.a`
   text-decoration: underline;
 `;
 
-const Homepage = ({ showCustomNote = true }) => (
+const Home = ({ showCustomNote = true }) => (
   <Container>
     <OpenSourceBanner />
-    {showCustomNote && <CustomNote />}
+    {
+      // showCustomNote && <CustomNote />
+    }
     <PageContainer>
       <LogoImageContainer>
         <LogoHeader />
@@ -132,7 +134,7 @@ const Homepage = ({ showCustomNote = true }) => (
             {'Try it'}
             {' '}
             <FreeText>FREE</FreeText>
-.
+            .
           </CopyText>
         </CopyTitle>
         <Subtitle>Send an NDA in a couple minutes.</Subtitle>
@@ -149,7 +151,7 @@ const Homepage = ({ showCustomNote = true }) => (
           {' '}
           <FormLink>log in</FormLink>
           {' '}
-to see your NDAs.
+          to see your NDAs.
         </FormCopy>
 
         <Footer />
@@ -158,4 +160,4 @@ to see your NDAs.
   </Container>
 );
 
-export default Homepage;
+export default Home;
