@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { withRouter } from 'next/router';
 
 import styled from 'styled-components';
 
@@ -129,7 +130,7 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
-const Sender = ({ error = true }) => (
+const Sender = props => (
   <Container>
     <PageContentContainer>
       <LogoImageContainer>
@@ -137,7 +138,11 @@ const Sender = ({ error = true }) => (
       </LogoImageContainer>
 
       <ContentContainer>
-        {error && <ErrorMessage message="Failed to authenticate" />}
+        {
+          props.router.query.errorMessage ? (
+            <ErrorMessage message={props.router.query.errorMessage} />
+          ) : null
+        }
 
         <LinkWrapper>
           <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
@@ -165,24 +170,21 @@ const Sender = ({ error = true }) => (
           {' '}
           <UnderlineText>Terms of Use</UnderlineText>
           {' '}
-and
+          and
           {' '}
           <UnderlineText>Privacy Policy</UnderlineText>
-.
+          .
         </DisclaimerText>
 
-        <Link href="/nda">
-          <LinkedInButtonWrapper>
-            <LinkedInButton
-              color="#DC564A"
-              buttonText="Review and Sign with LinkedIn"
-            />
-          </LinkedInButtonWrapper>
-        </Link>
+        <LinkedInButtonWrapper>
+          <LinkedInButton
+            buttonText="Review and Sign with LinkedIn"
+          />
+        </LinkedInButtonWrapper>
         <Footer />
       </ContentContainer>
     </PageContentContainer>
   </Container>
 );
 
-export default Sender;
+export default withRouter(Sender);

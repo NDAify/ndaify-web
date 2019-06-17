@@ -17,5 +17,10 @@ module.exports = () => withCSS({
   publicRuntimeConfig: {
     // Runtime configuration
     // publicRuntimeConfig is exposed to both server and client
+    API_URL: process.env.API_URL,
+    CANONICAL_URL: process.env.CANONICAL_URL,
+    COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
+    LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
+    LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
   },
 });

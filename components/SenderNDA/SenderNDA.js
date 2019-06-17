@@ -213,7 +213,7 @@ const SenderNDA = () => {
           </NDAWrapper>
           <ActionRow>
             <PartyWrapper>
-              <SignatureHolder />
+              <SignatureHolder firstName="Jeremy" lastName="Voss" />
               <NDAPartyName>Jeremy Voss</NDAPartyName>
               <NDAPartyOrganization>Flake, Inc.</NDAPartyOrganization>
             </PartyWrapper>
