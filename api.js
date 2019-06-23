@@ -50,7 +50,7 @@ const getRedirectUrl = (ctx) => {
 };
 
 const normalizeUrl = (endpoint) => {
-  if (endpoint.includes('//')) {
+  if (endpoint.startsWith('http')) {
     return endpoint;
   }
 
