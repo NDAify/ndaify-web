@@ -5,6 +5,7 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "cross-fetch": "^3.0.4",
+    "email-providers": "^1.0.2",
     "humps": "^2.0.1",
     "koa": "^2.7.0",
     "koa-helmet": "^4.2.0",
@@ -17,11 +18,14 @@
     "react-dom": "^16.8.6",
     "shortid": "^2.2.14",
     "statuses": "^1.5.0",
-    "styled-components": "^4.2.0"
+    "string-score": "^1.0.1",
+    "styled-components": "^4.2.0",
+    "tlds": "^1.203.1"
   },
   "scripts": {
     "dev": "node -r dotenv/config server.js",
-    "lint": "eslint pages/ components/"
+    "lint": "eslint pages/ components/",
+    "test": "yarn lint && jest"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
@@ -33,6 +37,7 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-react": "7.11.0"
+    "eslint-plugin-react": "7.11.0",
+    "jest": "^24.8.0"
   }
 }
