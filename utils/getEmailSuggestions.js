@@ -7,13 +7,17 @@ const CONFIDENCE_SCORE_WITH_EXACT_CHAR_COUNT_MATCH = 0.4;
 
 // https://hackernoon.com/how-to-reduce-incorrect-email-addresses-df3b70cb15a9
 const checkForCloseMatch = (sample, string) => {
+  if (!string) {
+    return null;
+  }
+
   if (string.length < 3) {
-    return null
+    return null;
   };
 
   // contains?
   if (sample.includes(string)) {
-    return null
+    return null;
   };
 
   // split the string string into two at each postion e.g. g|mail gm|ail gma|il gmai|l
@@ -71,7 +75,7 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
 
     return 0;
   });
-
+  
   const firstSuggestion = sortedDataSet[0].score >= CONFIDENCE_SCORE ? sortedDataSet[0].data : null;
 
   if (matchWithSameCharLength) {
@@ -92,7 +96,14 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
 
 const getSuggestion = (email) => {
   const [emailUserName, emailProvider] = email.split("@");
+  if (!emailUserName || !emailProvider) {
+    return null;
+  }
+
   const [provider, tld] = emailProvider.split('.');
+  if (!provider || !tld) {
+    return null;
+  }
 
   const closestMatchedTld = tlds.find((tldSample) => checkForCloseMatch(tldSample, tld)) || '';
   const closeMatchTldScore = score(closestMatchedTld, tld);

@@ -86,7 +86,8 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
         <DialogContainer>
           <Dialog>
             <DialogText>
-              Hey{' '}
+              Hey
+              {' '}
               {sourceData.people}
               ,
             </DialogText>

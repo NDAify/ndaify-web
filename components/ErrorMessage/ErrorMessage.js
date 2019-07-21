@@ -17,10 +17,11 @@ const WarningIcon = styled.img`
   margin-right: 0.5pc;
 `;
 
-const ErrorMessage = ({ message }) => (
-  <ErrorPopUp>
+const ErrorMessage = ({ message, children, ...rest }) => (
+  <ErrorPopUp {...rest}>
     <WarningIcon src="/static/warningIcon.svg" alt="warning icon" />
     {message}
+    {children}
   </ErrorPopUp>
 );
 

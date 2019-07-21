@@ -24,7 +24,7 @@ const Input = (props) => {
 
   return (
     <Fragment>
-      <StyledInput placeholder={placeholder} />
+      <StyledInput placeholder={placeholder} {...props} />
     </Fragment>
   );
 };

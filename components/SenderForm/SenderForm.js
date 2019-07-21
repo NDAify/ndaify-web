@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 
 import styled from 'styled-components';
+
+import debounce from 'lodash.debounce';
+
+import { Formik, Form } from 'formik';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
 import Footer from '../Footer/Footer';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+import getEmailSuggestions from '../../utils/getEmailSuggestions';
 
 const Container = styled.div`
   display: flex;
@@ -113,7 +119,7 @@ const UnderlineText = styled.span`
   text-decoration: underline;
 `;
 
-const FormContainer = styled.form`
+const FormContainer = styled(Form)`
   margin-bottom: 2pc;
 `;
 
@@ -130,61 +136,162 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
-const Sender = props => (
-  <Container>
-    <PageContentContainer>
-      <LogoImageContainer>
-        <LogoHeader />
-      </LogoImageContainer>
+const ButtonLink = styled.button`
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin-left: 6px;
+`;
 
-      <ContentContainer>
-        {
-          props.router.query.errorMessage ? (
-            <ErrorMessage message={props.router.query.errorMessage} />
-          ) : null
-        }
+const isEmail = (string) => string && string.includes('@') && string.includes('.');
+const isValidEmail = (string) => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-        <LinkWrapper>
-          <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-          <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
-        </LinkWrapper>
-        <DescriptionTitle>
-          Recipient does not have access to your link unless he accepts the term
-          of the NDA.
-        </DescriptionTitle>
+class Sender extends Component {
+  constructor(props) {
+    super(props);
 
-        <FormContainer>
-          <InputWrapper>
-            <Input placeholder="NDA type (one-way, mutual)" />
-          </InputWrapper>
-          <InputWrapper>
-            <Input placeholder="Recipient name" />
-          </InputWrapper>
-          <InputWrapper>
-            <Input placeholder="Recipient email" />
-          </InputWrapper>
-        </FormContainer>
+    this.state = {
+      suggestedEmail: ''
+    }
+  }
 
-        <DisclaimerText>
-          Singing the NDA signifies that you have read and agree to the
-          {' '}
-          <UnderlineText>Terms of Use</UnderlineText>
-          {' '}
-          and
-          {' '}
-          <UnderlineText>Privacy Policy</UnderlineText>
-          .
-        </DisclaimerText>
+  getSuggestedEmail = debounce((email) => {
+    if (isEmail(email)) {
+      const suggestedEmail = getEmailSuggestions(email);
+      if (suggestedEmail) {
+        this.setState(() => ({ suggestedEmail }));
+        return;
+      }
+    }
 
-        <LinkedInButtonWrapper>
-          <LinkedInButton
-            buttonText="Review and Sign with LinkedIn"
-          />
-        </LinkedInButtonWrapper>
-        <Footer />
-      </ContentContainer>
-    </PageContentContainer>
-  </Container>
-);
+    this.setState(() => ({ suggestedEmail: '' }));
+  }, 500)
+
+  render() {
+    const EmailError = ({ errors, setFieldValue }) => {
+      if (this.state.suggestedEmail) {
+        return (
+          <ErrorMessage style={{ marginTop: '1pc' }}>
+            hmm, did you mean
+          <ButtonLink
+              type='button'
+              onClick={() => {
+                setFieldValue('email', this.state.suggestedEmail, true);
+                this.setState(() => ({ suggestedEmail: '' }));
+              }}
+            >
+              {this.state.suggestedEmail}
+            </ButtonLink>?
+        </ErrorMessage>
+        )
+      } else if (errors.email) {
+        return (
+          <ErrorMessage style={{ marginTop: '1pc' }}>
+            {errors.email}
+          </ErrorMessage>
+        )
+      }
+
+      return null;
+    };
+
+    return (
+      <Container>
+        <PageContentContainer>
+          <LogoImageContainer>
+            <LogoHeader />
+          </LogoImageContainer>
+
+          <ContentContainer>
+            {
+              this.props.router.query.errorMessage ? (
+                <ErrorMessage message={this.props.router.query.errorMessage} />
+              ) : null
+            }
+
+            <LinkWrapper>
+              <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+              <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
+            </LinkWrapper>
+            <DescriptionTitle>
+              Recipient does not have access to your link unless he accepts the term
+              of the NDA.
+            </DescriptionTitle>
+
+            <Formik
+              initialValues={{ email: '', name: '', ndaType: '' }}
+              validate={debounce(values => {
+                let errors = {};
+                if (!isEmail(values.email)) {
+                  errors.email = 'Please provide an email address.';
+                } else if (!isValidEmail(values.email)) {
+                  errors.email = 'hmm, are you sure this is a valid email address?';
+                } else {
+                  errors.email = null;
+                }
+                return errors;
+              }, 500)}
+              validateOnChange={true}
+              validateOnBlur={true}
+            >
+              {({ values,
+                errors,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+              }) => {
+                return (
+                  <FormContainer>
+                    <InputWrapper>
+                      <Input placeholder="NDA type (one-way, mutual)" />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <Input placeholder="Recipient name" />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <Input
+                        value={values.email}
+                        name='email'
+                        onChange={(e) => {
+                          handleChange(e);
+                          this.getSuggestedEmail(e.target.value);
+                        }}
+                        onBlur={handleBlur}
+                        placeholder="Recipient email"
+                      />
+                      <EmailError setFieldValue={setFieldValue} errors={errors} />
+                    </InputWrapper>
+                  </FormContainer>
+                )
+              }}
+            </Formik>
+
+            <DisclaimerText>
+              Singing the NDA signifies that you have read and agree to the
+              {' '}
+              <UnderlineText>Terms of Use</UnderlineText>
+              {' '}
+              and
+              {' '}
+              <UnderlineText>Privacy Policy</UnderlineText>
+              .
+            </DisclaimerText>
+
+            <LinkedInButtonWrapper>
+              <LinkedInButton
+                buttonText="Review and Sign with LinkedIn"
+              />
+            </LinkedInButtonWrapper>
+            <Footer />
+          </ContentContainer>
+        </PageContentContainer>
+      </Container>
+    );
+  }
+}
 
 export default withRouter(Sender);

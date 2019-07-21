@@ -120,7 +120,7 @@ const Home = ({ showCustomNote = true }) => (
   <Container>
     <OpenSourceBanner />
     {
-      // showCustomNote && <CustomNote />
+      showCustomNote && <CustomNote />
     }
     <PageContainer>
       <LogoImageContainer>
