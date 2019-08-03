@@ -95,6 +95,10 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
 }
 
 const getSuggestion = (email) => {
+  if (!email) {
+    return null;
+  }
+
   const [emailUserName, emailProvider] = email.split("@");
   if (!emailUserName || !emailProvider) {
     return null;

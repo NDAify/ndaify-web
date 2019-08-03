@@ -1,7 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
+import { Router } from '../../routes';
 
 import styled from 'styled-components';
+
+import { Formik, Form } from 'formik';
+import debounce from 'lodash.debounce';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -9,6 +12,7 @@ import CustomNote from '../CustomNote/CustomNote';
 import Footer from '../Footer/Footer';
 import Button from '../Button/Button';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const HomePageButton = styled(Button)`
   background-color: #39d494;
@@ -108,13 +112,15 @@ const FormCopy = styled.h4`
   }
 `;
 
-const ButtonWrapper = styled.a`
+const FormWrapper = styled(Form)`
   margin-bottom: 1pc;
 `;
 
 const FormLink = styled.a`
   text-decoration: underline;
 `;
+
+const isUrl = (string) => string.includes('.');
 
 const Home = ({ showCustomNote = true }) => (
   <Container>
@@ -138,14 +144,47 @@ const Home = ({ showCustomNote = true }) => (
           </CopyText>
         </CopyTitle>
         <Subtitle>Send an NDA in a couple minutes.</Subtitle>
-        <InputContainer>
-          <Input placeholder="Paste a secret link" />
-        </InputContainer>
-        <Link href="/form">
-          <ButtonWrapper>
-            <HomePageButton>Continue</HomePageButton>
-          </ButtonWrapper>
-        </Link>
+
+        <Formik
+          initialValues={{ secretLink: '' }}
+          validate={debounce(values => {
+            let errors = {};
+            if (!isUrl(values.secretLink)) {
+              console.log(isUrl(values.secretLink))
+              errors.secretLink = 'hmm, are you sure this is a valid url?';
+            }
+
+            return errors;
+          }, 500)}
+          validateOnChange={true}
+          validateOnBlur={true}
+        >
+          {({ errors, values, handleChange, handleBlur, handleSubmit }) => {
+            return (
+              <FormWrapper onSubmit={handleSubmit}>
+                <InputContainer>
+                  <Input onChange={handleChange} onBlur={handleBlur} value={values.secretLink} name='secretLink' placeholder="Paste a secret link" />
+                </InputContainer>
+
+                {
+                  errors.secretLink ? (
+                    <ErrorMessage>{errors.secretLink}</ErrorMessage>
+                  ) : null
+                }
+
+                <HomePageButton
+                  disabled={!values.secretLink || errors.secretLink}
+                  onClick={
+                    () => Router.pushRoute('form', { secretLink: values.secretLink })
+                  }
+                >
+                  Continue
+              </HomePageButton>
+              </FormWrapper>
+            )
+          }}
+        </Formik>
+
         <FormCopy>
           Or,
           {' '}
@@ -153,7 +192,6 @@ const Home = ({ showCustomNote = true }) => (
           {' '}
           to see your NDAs.
         </FormCopy>
-
         <Footer />
       </ContentContainer>
     </PageContainer>

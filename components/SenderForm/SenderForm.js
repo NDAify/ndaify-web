@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 
@@ -147,151 +147,149 @@ const ButtonLink = styled.button`
   margin-left: 6px;
 `;
 
-const isEmail = (string) => string && string.includes('@') && string.includes('.');
-const isValidEmail = (string) => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-class Sender extends Component {
-  constructor(props) {
-    super(props);
+const SenderForm = (props) => {
+  const [ suggestedEmail, setSuggestedEmail ] = useState();
 
-    this.state = {
-      suggestedEmail: ''
-    }
-  }
-
-  getSuggestedEmail = debounce((email) => {
-    if (isEmail(email)) {
-      const suggestedEmail = getEmailSuggestions(email);
-      if (suggestedEmail) {
-        this.setState(() => ({ suggestedEmail }));
+  const handleMisspelledEmail = (email) => {
+    if (email) {
+      const correctedEmail = getEmailSuggestions(email);
+      if (correctedEmail) {
+        setSuggestedEmail(correctedEmail);
         return;
       }
     }
 
-    this.setState(() => ({ suggestedEmail: '' }));
-  }, 500)
+    setSuggestedEmail(null);
+  };
 
-  render() {
-    const EmailError = ({ errors, setFieldValue }) => {
-      if (this.state.suggestedEmail) {
-        return (
-          <ErrorMessage style={{ marginTop: '1pc' }}>
-            hmm, did you mean
-          <ButtonLink
-              type='button'
-              onClick={() => {
-                setFieldValue('email', this.state.suggestedEmail, true);
-                this.setState(() => ({ suggestedEmail: '' }));
-              }}
-            >
-              {this.state.suggestedEmail}
-            </ButtonLink>?
+  const EmailError = ({ errors, setFieldValue }) => {
+    if (suggestedEmail) {
+      return (
+        <ErrorMessage style={{ marginTop: '1pc' }}>
+          Did you mean
+        <ButtonLink
+            type='button'
+            onClick={() => {
+              setFieldValue('email', suggestedEmail, true);
+              setSuggestedEmail(null);
+            }}
+          >
+            {suggestedEmail}
+          </ButtonLink>?
+      </ErrorMessage>
+      )
+    } else if (errors.email) {
+      return (
+        <ErrorMessage style={{ marginTop: '1pc' }}>
+          {errors.email}
         </ErrorMessage>
-        )
-      } else if (errors.email) {
-        return (
-          <ErrorMessage style={{ marginTop: '1pc' }}>
-            {errors.email}
-          </ErrorMessage>
-        )
-      }
+      );
+    }
 
-      return null;
-    };
+    return null;
+  };
 
-    return (
-      <Container>
-        <PageContentContainer>
-          <LogoImageContainer>
-            <LogoHeader />
-          </LogoImageContainer>
+  return (
+    <Container>
+      <PageContentContainer>
+        <LogoImageContainer>
+          <LogoHeader />
+        </LogoImageContainer>
 
-          <ContentContainer>
-            {
-              this.props.router.query.errorMessage ? (
-                <ErrorMessage message={this.props.router.query.errorMessage} />
-              ) : null
-            }
+        <ContentContainer>
+          {
+            props.router.query.errorMessage ? (
+              <ErrorMessage message={props.router.query.errorMessage} />
+            ) : null
+          }
 
-            <LinkWrapper>
-              <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-              <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
-            </LinkWrapper>
-            <DescriptionTitle>
-              Recipient does not have access to your link unless he accepts the term
-              of the NDA.
-            </DescriptionTitle>
+          <LinkWrapper>
+            <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+            <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
+          </LinkWrapper>
+          <DescriptionTitle>
+            Recipient does not have access to your link unless he accepts the term
+            of the NDA.
+          </DescriptionTitle>
 
-            <Formik
-              initialValues={{ email: '', name: '', ndaType: '' }}
-              validate={debounce(values => {
-                let errors = {};
-                if (!isEmail(values.email)) {
-                  errors.email = 'Please provide an email address.';
-                } else if (!isValidEmail(values.email)) {
-                  errors.email = 'hmm, are you sure this is a valid email address?';
-                } else {
-                  errors.email = null;
-                }
-                return errors;
-              }, 500)}
-              validateOnChange={true}
-              validateOnBlur={true}
-            >
-              {({ values,
-                errors,
-                handleChange,
-                handleBlur,
-                setFieldValue,
-              }) => {
-                return (
-                  <FormContainer>
-                    <InputWrapper>
-                      <Input placeholder="NDA type (one-way, mutual)" />
-                    </InputWrapper>
-                    <InputWrapper>
-                      <Input placeholder="Recipient name" />
-                    </InputWrapper>
-                    <InputWrapper>
-                      <Input
-                        value={values.email}
-                        name='email'
-                        onChange={(e) => {
-                          handleChange(e);
-                          this.getSuggestedEmail(e.target.value);
-                        }}
-                        onBlur={handleBlur}
-                        placeholder="Recipient email"
-                      />
-                      <EmailError setFieldValue={setFieldValue} errors={errors} />
-                    </InputWrapper>
-                  </FormContainer>
-                )
-              }}
-            </Formik>
+          <Formik
+            noValidate
+            initialValues={{ email: '', name: '', ndaType: '' }}
+            validate={values => {
+              let errors = {};
 
-            <DisclaimerText>
-              Singing the NDA signifies that you have read and agree to the
-              {' '}
-              <UnderlineText>Terms of Use</UnderlineText>
-              {' '}
-              and
-              {' '}
-              <UnderlineText>Privacy Policy</UnderlineText>
-              .
-            </DisclaimerText>
+              if (!values.email) {
+                errors.email = 'Required';
+              }
 
-            <LinkedInButtonWrapper>
-              <LinkedInButton
-                buttonText="Review and Sign with LinkedIn"
-              />
-            </LinkedInButtonWrapper>
-            <Footer />
-          </ContentContainer>
-        </PageContentContainer>
-      </Container>
-    );
-  }
+              if (!isValidEmail(values.email)) {
+                errors.email = 'Invalid email';
+              }
+
+              return errors;
+            }}
+            validateOnChange={true}
+            validateOnBlur={true}
+          >
+            {({ values,
+              errors,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+            }) => {
+              return (
+                <FormContainer>
+                  <InputWrapper>
+                    <Input placeholder="NDA type (one-way, mutual)" />
+                  </InputWrapper>
+                  <InputWrapper>
+                    <Input placeholder="Recipient name" />
+                  </InputWrapper>
+                  <InputWrapper>
+                    <Input
+                      autoCapitalize="none"
+                      autoComplete="new-password"
+                      autoCorrect="off"
+                      name='email'
+                      onBlur={handleBlur}
+                      onChange={(e) => {
+                        handleChange(e);
+                        handleMisspelledEmail(e.target.value);
+                      }}
+                      placeholder="Recipient email"
+                      spellCheck={false}
+                      value={values.email}
+                    />
+                    <EmailError setFieldValue={setFieldValue} errors={errors} />
+                  </InputWrapper>
+                </FormContainer>
+              )
+            }}
+          </Formik>
+
+          <DisclaimerText>
+            Singing the NDA signifies that you have read and agree to the
+            {' '}
+            <UnderlineText>Terms of Use</UnderlineText>
+            {' '}
+            and
+            {' '}
+            <UnderlineText>Privacy Policy</UnderlineText>
+            .
+          </DisclaimerText>
+
+          <LinkedInButtonWrapper>
+            <LinkedInButton
+              buttonText="Review and Sign with LinkedIn"
+            />
+          </LinkedInButtonWrapper>
+          <Footer />
+        </ContentContainer>
+      </PageContentContainer>
+    </Container>
+  );
 }
 
-export default withRouter(Sender);
+export default withRouter(SenderForm);
