@@ -17,4 +17,18 @@ const Button = styled.button`
   }
 `;
 
-export default Button;
+export default ({ disabled, children, ...rest }) => {
+  if (!disabled) {
+    return (
+      <Button {...rest}>
+        {children}
+      </Button>
+    )
+  }
+
+  return (
+    <Button {...rest} onClick={() => null} style={{ backgroundColor: '#aaaaaa'}}>
+      {children}
+    </Button>
+  )
+}
