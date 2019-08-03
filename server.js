@@ -34,24 +34,6 @@ const run = async () => {
     await next();
   });
 
-  if (!dev) {
-    koaApp.use(koaHelmet.hsts());
-    koaApp.use(async (ctx, next) => {
-      const proto = ctx.req.headers['x-forwarded-proto'];
-
-      // Enforce SSL & HSTS in production
-      if (proto !== 'https') {
-        const to = `https://${ctx.req.headers.host}${ctx.req.url}`;
-
-        ctx.res.writeHead(statuses('Found'), { Location: to });
-        ctx.res.end();
-        return;
-      }
-
-      await next();
-    });
-  }
-
   koaApp.use(koaRouter.routes());
 
   koaApp.listen(PORT, () => {
