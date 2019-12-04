@@ -80,7 +80,7 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
       <Container>
         <SourceLogoContainer>
           <NdaifyLogo src="/static/logo.svg" alt="ndaify logo" />
-          <HeartIcon src="/static/heart.svg" alt="heart" />
+          <HeartIcon src="/static/heartIcon.svg" alt="heart" />
           <SourceLogo src={sourceData.logoSrc} alt={sourceData.name} />
         </SourceLogoContainer>
         <DialogContainer>

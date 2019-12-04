@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Router } from '../../routes';
+
+import Link from 'next/link';
 
 import styled from 'styled-components';
 
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import debounce from 'lodash.debounce';
+import shortid from 'shortid';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -112,90 +115,104 @@ const FormCopy = styled.h4`
   }
 `;
 
-const FormWrapper = styled(Form)`
+const FormWrapper = styled.div`
   margin-bottom: 1pc;
 `;
 
 const FormLink = styled.a`
   text-decoration: underline;
+  cursor: pointer;
 `;
 
-const isUrl = (string) => string.includes('.');
+const isUrl = (string) => string && string.includes('.');
 
-const Home = ({ showCustomNote = true }) => (
-  <Container>
-    <OpenSourceBanner />
-    {
-      showCustomNote && <CustomNote />
+const Home = ({ showCustomNote = false }) => {
+  const secretLinkInputRef = useRef();
+
+  const formSessionKey = shortid.generate();
+
+  const onValidateEmail = debounce(secretLink => {
+    let errors = {};
+
+    if (!isUrl(secretLink)) {
+      console.log(isUrl(secretLink))
+      errors = 'hmm, are you sure this is a valid url?';
     }
-    <PageContainer>
-      <LogoImageContainer>
-        <LogoHeader />
-      </LogoImageContainer>
-      <ContentContainer>
-        <CopyTitle>
-          NDAify helps you keep your trade secrets under wraps.
-          {' '}
-          <CopyText>
-            {'Try it'}
+
+    return errors;
+  }, 100);
+
+  return (
+    <Container>
+      <OpenSourceBanner />
+      {
+        showCustomNote && <CustomNote />
+      }
+      <PageContainer>
+        <LogoImageContainer>
+          <LogoHeader />
+        </LogoImageContainer>
+        <ContentContainer>
+          <CopyTitle>
+            NDAify helps you keep your trade secrets under wraps.
             {' '}
-            <FreeText>FREE</FreeText>
-            .
-          </CopyText>
-        </CopyTitle>
-        <Subtitle>Send an NDA in a couple minutes.</Subtitle>
+            <CopyText>
+              {'Try it'}
+              {' '}
+              <FreeText>FREE</FreeText>
+              .
+            </CopyText>
+          </CopyTitle>
+          <Subtitle>Send an NDA in a couple minutes.</Subtitle>
 
-        <Formik
-          initialValues={{ secretLink: '' }}
-          validate={debounce(values => {
-            let errors = {};
-            if (!isUrl(values.secretLink)) {
-              console.log(isUrl(values.secretLink))
-              errors.secretLink = 'hmm, are you sure this is a valid url?';
-            }
+          <Formik
+            initialValues={{ secretLink: '' }}
+            onSubmit={onValidateEmail}
+          >
+            {({ errors, touched, values, isValidating }) => {
+              return (
+                <FormWrapper>
+                  <Form>
+                    {
+                      typeof errors.secretLink === 'string' && touched.secretLink ? (
+                        <ErrorMessage>{errors.secretLink}</ErrorMessage>
+                      ) : null
+                    }
+                    <InputContainer>
+                      <Field validate={onValidateEmail} component={Input} innerRef={secretLinkInputRef} name='secretLink' placeholder="Paste a secret link" />
+                    </InputContainer>
 
-            return errors;
-          }, 500)}
-          validateOnChange={true}
-          validateOnBlur={true}
-        >
-          {({ errors, values, handleChange, handleBlur, handleSubmit }) => {
-            return (
-              <FormWrapper onSubmit={handleSubmit}>
-                <InputContainer>
-                  <Input onChange={handleChange} onBlur={handleBlur} value={values.secretLink} name='secretLink' placeholder="Paste a secret link" />
-                </InputContainer>
+                    <HomePageButton
+                      disabled={!values.secretLink || isValidating || typeof errors.secretLink === 'string'}
+                      type='submit'
+                      onClick={() => {
+                        if (!isValidating && typeof errors.secretLink !== 'string') {
+                          Router.pushRoute('form', { formSessionKey: formSessionKey });
+                        }
+                      }}
+                    >
+                      Continue
+                </HomePageButton>
+                  </Form>
+                </FormWrapper>
+              )
+            }}
+          </Formik>
 
-                {
-                  errors.secretLink ? (
-                    <ErrorMessage>{errors.secretLink}</ErrorMessage>
-                  ) : null
-                }
-
-                <HomePageButton
-                  disabled={!values.secretLink || errors.secretLink}
-                  onClick={
-                    () => Router.pushRoute('form', { secretLink: values.secretLink })
-                  }
-                >
-                  Continue
-              </HomePageButton>
-              </FormWrapper>
-            )
-          }}
-        </Formik>
-
-        <FormCopy>
-          Or,
-          {' '}
-          <FormLink>log in</FormLink>
-          {' '}
-          to see your NDAs.
-        </FormCopy>
-        <Footer />
-      </ContentContainer>
-    </PageContainer>
-  </Container>
-);
+          <FormCopy>
+            Or,
+            {' '}
+            <Link href='/login'>
+              <FormLink>log in</FormLink>
+            </Link>
+            {' '}
+            to see your NDAs.
+          </FormCopy>
+          <Footer />
+        </ContentContainer>
+      </PageContainer>
+    </Container>
+  );
+}
 
 export default Home;

@@ -8,7 +8,7 @@ const createNextApp = require('next');
 
 const nextRoutes = require('./routes');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV !== 'production';
 
 const nextApp = createNextApp({ dev });

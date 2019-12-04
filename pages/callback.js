@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import humps from 'humps';
 
-import { /* API, */ redirect } from '../api';
+import { API, redirect } from '../api';
 import { getOrigin } from '../util';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
@@ -38,16 +38,16 @@ class Callback extends Component {
         throw new Error('Oops! Something went wrong. Please try again later.');
       }
 
-      // const api = new API(ctx);
+      const api = new API(ctx);
 
       const CALLBACK_URL_LINKEDIN = `${getOrigin(ctx.req)}/sessions/linkedin/callback`;
 
       // `sessionToken` will be injected into app and handeled via cookies
-      // await api.startSessionByOAuth(
-      //   oAuthAuthorizationCode,
-      //   oAuthState,
-      //   CALLBACK_URL_LINKEDIN,
-      // );
+      await api.startSessionByOAuth(
+        oAuthAuthorizationCode,
+        oAuthState,
+        CALLBACK_URL_LINKEDIN,
+      );
 
       let formSessionKey;
       try {

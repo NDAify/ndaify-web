@@ -1,6 +1,5 @@
 import React from 'react';
 import getConfig from 'next/config';
-import shortid from 'shortid';
 
 import styled from 'styled-components';
 import Button from '../Button/Button';
@@ -27,14 +26,12 @@ const ButtonText = styled.span`
 `;
 
 const LinkedInButton = (props) => {
-  const { buttonText } = props;
+  const { buttonText, formSessionKey } = props;
 
   return (
     <StyledButton
       type="button"
       onClick={() => {
-        const formSessionKey = shortid.generate();
-
         const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
 
         const oAuthState = serializeOAuthState({

@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import getConfig from 'next/config';
 import statuses from 'statuses';
 
-import { getCookie, setCookie, destroyCookie } from './lib/Cookies';
+import { getCookie, setCookie, destroyCookie } from './lib/cookies';
 import { toQueryString } from './util';
 import { Router } from './routes';
 

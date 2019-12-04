@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
-  color: #aaaaaa;
   font-size: 20px;
   font-weight: 200;
   background-color: #ffffff;
@@ -13,18 +12,23 @@ const StyledInput = styled.input`
   text-align: center;
   letter-spacing: 1.8px;
   box-sizing: border-box;
+  padding: 16px;
 
   @media screen and (min-width: 994px) {
     font-size: 24px;
   }
+
+  &::placeholder {
+    color: #aaaaaa;
+  }
 `;
 
 const Input = (props) => {
-  const { placeholder } = props;
+  const { placeholder, innerRef, field, ...otherProps } = props;
 
   return (
     <Fragment>
-      <StyledInput placeholder={placeholder} {...props} />
+      <StyledInput ref={innerRef} placeholder={placeholder} {...field} {...otherProps} />
     </Fragment>
   );
 };
