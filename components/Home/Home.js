@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { Router } from '../../routes';
 
 import Link from 'next/link';
@@ -16,6 +16,8 @@ import Footer from '../Footer/Footer';
 import Button from '../Button/Button';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+import { getItemFromSessionStorage, setItemFromSessionStorage } from '../../lib/sessionStorage';
 
 const HomePageButton = styled(Button)`
   background-color: #39d494;
@@ -124,24 +126,28 @@ const FormLink = styled.a`
   cursor: pointer;
 `;
 
-const isUrl = (string) => string && string.includes('.');
+const isUrl = (string) => string && typeof string === 'string' && string.includes('.');
 
 const Home = ({ showCustomNote = false }) => {
   const secretLinkInputRef = useRef();
 
   const formSessionKey = shortid.generate();
 
-  const onValidateEmail = debounce(secretLink => {
-    let errors = {};
+  const onValidateSecretLink = debounce(secretLink => {
+    let error;
 
     if (!isUrl(secretLink)) {
-      console.log(isUrl(secretLink))
-      errors = 'hmm, are you sure this is a valid url?';
+      error = 'hmm, are you sure this is a valid url?';
     }
 
-    return errors;
+    return error;
   }, 100);
 
+  let secretLink = '';
+  useMemo(() => {
+    secretLink = getItemFromSessionStorage(formSessionKey?.secretLink) || '';
+  }, []);
+  
   return (
     <Container>
       <OpenSourceBanner />
@@ -166,33 +172,35 @@ const Home = ({ showCustomNote = false }) => {
           <Subtitle>Send an NDA in a couple minutes.</Subtitle>
 
           <Formik
-            initialValues={{ secretLink: '' }}
-            onSubmit={onValidateEmail}
+            initialValues={{ secretLink: secretLink }}
+            onSubmit={onValidateSecretLink}
           >
-            {({ errors, touched, values, isValidating }) => {
+            {({ errors, values, isValidating }) => {
               return (
                 <FormWrapper>
                   <Form>
                     {
-                      typeof errors.secretLink === 'string' && touched.secretLink ? (
+                      console.log(errors)
+                    }
+                    {
+                      errors.secretLink ? (
                         <ErrorMessage>{errors.secretLink}</ErrorMessage>
                       ) : null
                     }
                     <InputContainer>
-                      <Field validate={onValidateEmail} component={Input} innerRef={secretLinkInputRef} name='secretLink' placeholder="Paste a secret link" />
+                      <Field validate={onValidateSecretLink} component={Input} innerRef={secretLinkInputRef} name='secretLink' placeholder="Paste a secret link" />
                     </InputContainer>
 
                     <HomePageButton
-                      disabled={!values.secretLink || isValidating || typeof errors.secretLink === 'string'}
+                      disabled={errors.secretLink || isValidating}
                       type='submit'
                       onClick={() => {
-                        if (!isValidating && typeof errors.secretLink !== 'string') {
-                          Router.pushRoute('form', { formSessionKey: formSessionKey });
-                        }
+                        setItemFromSessionStorage(formSessionKey, { secretLink: values.secretLink });
+                        Router.pushRoute('form', { formSessionKey: formSessionKey });
                       }}
                     >
                       Continue
-                </HomePageButton>
+                    </HomePageButton>
                   </Form>
                 </FormWrapper>
               )

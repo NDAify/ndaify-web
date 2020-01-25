@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { withRouter } from 'next/router';
+import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/router'
 
 import styled from 'styled-components';
-
-import debounce from 'lodash.debounce';
 
 import { Formik, Form } from 'formik';
 
@@ -15,6 +12,8 @@ import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import getEmailSuggestions from '../../utils/getEmailSuggestions';
+
+import { getItemFromSessionStorage, setItemFromSessionStorage } from '../../lib/sessionStorage';
 
 const SELECT_OPTIONS = [
   {
@@ -95,6 +94,9 @@ const DocumentUrl = styled.h4`
   word-wrap: break-word;
   font-weight: 200;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media screen and (min-width: 994px) {
     font-size: 24px;
@@ -194,7 +196,6 @@ const StyledOption = styled.option`
 `;
 
 const SelectLable = styled.div`
-  color: #aaaaaa;
   font-size: 20px;
   font-weight: 200;
   background-color: #ffffff;
@@ -220,8 +221,7 @@ const SelectLabelIcon = styled.img`
   top: 24px;
 `;
 
-const Select = () => {
-  const [ value, setValue ] = useState('mutual');
+const Select = ({ value, onChange, ...otherProps }) => {
   const currentOption = SELECT_OPTIONS.find((option) => option.value === value);
 
   return (
@@ -230,7 +230,7 @@ const Select = () => {
         {currentOption.label}
         <SelectLabelIcon src="/static/downIcon.svg" alt="down" />
       </SelectLable>
-      <StyledSelect value={value} onChange={(event) => setValue(event.target.value)}>
+      <StyledSelect value={value} onChange={onChange} {...otherProps}>
         {
           SELECT_OPTIONS.map((option) => (
             <StyledOption key={option.value} value={option.value}>{option.label}</StyledOption>
@@ -244,7 +244,16 @@ const Select = () => {
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
 const SenderForm = (props) => {
+  const router = useRouter();
+  const { formSessionKey } = router.query;
+
+  let ndaMetadata = getItemFromSessionStorage(formSessionKey);
+  useMemo(() => {
+    ndaMetadata = getItemFromSessionStorage(formSessionKey) || {};
+  }, []);
+
   const [ suggestedEmail, setSuggestedEmail ] = useState();
+  const [ ndaTypeValue, setNdaTypeValue ] = useState(ndaMetadata?.ndaType || 'mutual');
 
   const handleMisspelledEmail = (email) => {
     if (email) {
@@ -257,6 +266,12 @@ const SenderForm = (props) => {
 
     setSuggestedEmail(null);
   };
+
+  const handleSelectOnChange = (event) => {
+    const ndaType = event.target.value;
+    setNdaTypeValue(ndaType);
+    setItemFromSessionStorage(formSessionKey, {...ndaMetadata, ndaType })
+  }
 
   const EmailError = ({ errors, setFieldValue }) => {
     if (suggestedEmail) {
@@ -294,14 +309,14 @@ const SenderForm = (props) => {
 
         <ContentContainer>
           {
-            props.router.query.errorMessage ? (
-              <ErrorMessage message={props.router.query.errorMessage} />
+            router.query.errorMessage ? (
+              <ErrorMessage message={router.query.errorMessage} />
             ) : null
           }
 
           <LinkWrapper>
             <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-            <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
+            <DocumentUrl>{ndaMetadata.secretLink}</DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
             Recipient does not have access to your link unless he accepts the term
@@ -325,7 +340,8 @@ const SenderForm = (props) => {
               return errors;
             }}
           >
-            {({ values,
+            {({ 
+              values,
               errors,
               handleChange,
               handleBlur,
@@ -334,10 +350,20 @@ const SenderForm = (props) => {
               return (
                 <FormContainer>
                   <InputWrapper>
-                    <Select placeholder="NDA type (one-way, mutual)" />
+                    <Select
+                      value={ndaTypeValue}
+                      name='ndaType'
+                      onChange={handleSelectOnChange}
+                      placeholder="NDA type (one-way, mutual)" 
+                    />
                   </InputWrapper>
                   <InputWrapper>
-                    <Input placeholder="Recipient name" />
+                    <Input
+                      name='name'
+                      value={values.name || ndaMetadata.name}
+                      placeholder="Recipient name"
+                      onChange={(e) => setItemFromSessionStorage(formSessionKey, {...ndaMetadata, name: e.target.value})}
+                    />
                   </InputWrapper>
                   <InputWrapper>
                     <Input
@@ -349,10 +375,11 @@ const SenderForm = (props) => {
                       onChange={(e) => {
                         handleChange(e);
                         handleMisspelledEmail(e.target.value);
+                        setItemFromSessionStorage(formSessionKey, {...ndaMetadata, email: e.target.value})
                       }}
                       placeholder="Recipient email"
                       spellCheck={false}
-                      value={values.email}
+                      value={values.email || ndaMetadata.email}
                     />
                     <EmailError setFieldValue={setFieldValue} errors={errors} />
                   </InputWrapper>
@@ -384,4 +411,4 @@ const SenderForm = (props) => {
   );
 }
 
-export default withRouter(SenderForm);
+export default SenderForm;
