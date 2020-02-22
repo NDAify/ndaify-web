@@ -116,6 +116,7 @@ const DescriptionTitle = styled.h4`
 `;
 
 const DisclaimerText = styled.span`
+  display: block;
   margin-bottom: 2pc;
   color: #aaaaaa;
   font-size: 16px;
@@ -130,10 +131,6 @@ const DisclaimerText = styled.span`
 const UnderlineText = styled.span`
   color: #ffffff;
   text-decoration: underline;
-`;
-
-const FormContainer = styled(Form)`
-  margin-bottom: 2pc;
 `;
 
 const InputWrapper = styled.div`
@@ -245,11 +242,10 @@ const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test
 
 const SenderForm = (props) => {
   const router = useRouter();
-  const { formSessionKey } = router.query;
 
-  let ndaMetadata = getItemFromSessionStorage(formSessionKey);
+  let ndaMetadata = getItemFromSessionStorage('nda metadata');
   useMemo(() => {
-    ndaMetadata = getItemFromSessionStorage(formSessionKey) || {};
+    ndaMetadata = getItemFromSessionStorage('nda metadata') || {};
   }, []);
 
   const [ suggestedEmail, setSuggestedEmail ] = useState();
@@ -270,7 +266,7 @@ const SenderForm = (props) => {
   const handleSelectOnChange = (event) => {
     const ndaType = event.target.value;
     setNdaTypeValue(ndaType);
-    setItemFromSessionStorage(formSessionKey, {...ndaMetadata, ndaType })
+    setItemFromSessionStorage('nda metadata', {...ndaMetadata, ndaType })
   }
 
   const EmailError = ({ errors, setFieldValue }) => {
@@ -324,8 +320,7 @@ const SenderForm = (props) => {
           </DescriptionTitle>
 
           <Formik
-            noValidate
-            initialValues={{ email: '', name: '', ndaType: '' }}
+            initialValues={{ email: ndaMetadata.email || '', name: ndaMetadata.name || '', ndaType: ndaMetadata.ndaType|| '' }}
             validate={values => {
               let errors = {};
 
@@ -333,12 +328,16 @@ const SenderForm = (props) => {
                 errors.email = 'Required';
               }
 
-              if (!isValidEmail(values.email)) {
+              if (values.email && !isValidEmail(values.email)) {
                 errors.email = 'Invalid email';
               }
 
               return errors;
             }}
+            onSubmit={(values) => {
+              setItemFromSessionStorage('nda metadata', {...ndaMetadata, ndaType: ndaTypeValue, email: values.email, name: values.name})
+            }}
+            validateOnChange={false}
           >
             {({ 
               values,
@@ -348,7 +347,7 @@ const SenderForm = (props) => {
               setFieldValue,
             }) => {
               return (
-                <FormContainer>
+                <Form>
                   <InputWrapper>
                     <Select
                       value={ndaTypeValue}
@@ -361,21 +360,20 @@ const SenderForm = (props) => {
                     <Input
                       name='name'
                       value={values.name || ndaMetadata.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       placeholder="Recipient name"
-                      onChange={(e) => setItemFromSessionStorage(formSessionKey, {...ndaMetadata, name: e.target.value})}
                     />
                   </InputWrapper>
                   <InputWrapper>
                     <Input
                       autoCapitalize="none"
-                      autoComplete="new-password"
                       autoCorrect="off"
-                      name='email'
                       onBlur={handleBlur}
+                      name='email'
                       onChange={(e) => {
                         handleChange(e);
                         handleMisspelledEmail(e.target.value);
-                        setItemFromSessionStorage(formSessionKey, {...ndaMetadata, email: e.target.value})
                       }}
                       placeholder="Recipient email"
                       spellCheck={false}
@@ -383,27 +381,28 @@ const SenderForm = (props) => {
                     />
                     <EmailError setFieldValue={setFieldValue} errors={errors} />
                   </InputWrapper>
-                </FormContainer>
+
+                  <DisclaimerText>
+                    Singing the NDA signifies that you have read and agree to the
+                    {' '}
+                    <UnderlineText>Terms of Use</UnderlineText>
+                    {' '}
+                    and
+                    {' '}
+                    <UnderlineText>Privacy Policy</UnderlineText>
+                    .
+                  </DisclaimerText>
+        
+                  <LinkedInButtonWrapper>
+                    <LinkedInButton
+                      type='submit'
+                      buttonText="Review and Sign with LinkedIn"
+                    />
+                  </LinkedInButtonWrapper>
+                </Form>
               )
             }}
           </Formik>
-
-          <DisclaimerText>
-            Singing the NDA signifies that you have read and agree to the
-            {' '}
-            <UnderlineText>Terms of Use</UnderlineText>
-            {' '}
-            and
-            {' '}
-            <UnderlineText>Privacy Policy</UnderlineText>
-            .
-          </DisclaimerText>
-
-          <LinkedInButtonWrapper>
-            <LinkedInButton
-              buttonText="Review and Sign with LinkedIn"
-            />
-          </LinkedInButtonWrapper>
           <Footer />
         </ContentContainer>
       </PageContentContainer>

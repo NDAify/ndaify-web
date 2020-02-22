@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import { Formik, Form, Field } from 'formik';
 import debounce from 'lodash.debounce';
-import shortid from 'shortid';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -131,8 +130,6 @@ const isUrl = (string) => string && typeof string === 'string' && string.include
 const Home = ({ showCustomNote = false }) => {
   const secretLinkInputRef = useRef();
 
-  const formSessionKey = shortid.generate();
-
   const onValidateSecretLink = debounce(secretLink => {
     let error;
 
@@ -145,7 +142,7 @@ const Home = ({ showCustomNote = false }) => {
 
   let secretLink = '';
   useMemo(() => {
-    secretLink = getItemFromSessionStorage(formSessionKey?.secretLink) || '';
+    secretLink = getItemFromSessionStorage('nda metadata')?.secretLink || '';
   }, []);
   
   return (
@@ -180,9 +177,6 @@ const Home = ({ showCustomNote = false }) => {
                 <FormWrapper>
                   <Form>
                     {
-                      console.log(errors)
-                    }
-                    {
                       errors.secretLink ? (
                         <ErrorMessage>{errors.secretLink}</ErrorMessage>
                       ) : null
@@ -195,8 +189,8 @@ const Home = ({ showCustomNote = false }) => {
                       disabled={errors.secretLink || isValidating}
                       type='submit'
                       onClick={() => {
-                        setItemFromSessionStorage(formSessionKey, { secretLink: values.secretLink });
-                        Router.pushRoute('form', { formSessionKey: formSessionKey });
+                        setItemFromSessionStorage('nda metadata', { secretLink: values.secretLink });
+                        Router.pushRoute('form');
                       }}
                     >
                       Continue
