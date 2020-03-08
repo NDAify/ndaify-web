@@ -33,7 +33,7 @@ const OpenSourceBanner = () => (
       src="/static/githubLogo.svg"
     />
     <BannerText>
-      {'NDAify is open source. Send a pull request on GitHub.'}
+      NDAify is open source. Send a pull request on GitHub.
     </BannerText>
   </BannerLink>
 );

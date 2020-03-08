@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import AnchorButton from '../Clickable/AnchorButton';
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -29,7 +31,7 @@ const DisclaimerTitle = styled.h4`
   color: #ffffff;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -41,7 +43,7 @@ const DisclaimerBody = styled.h4`
   font-weight: 200;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -57,7 +59,7 @@ const NDATitle = styled.h4`
   font-weight: 200;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -74,7 +76,7 @@ const NDASectionTitle = styled.span`
   display: block;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -83,7 +85,7 @@ const NDASectionBodyText = styled.span`
   font-size: 16px;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -100,7 +102,7 @@ const BetweenPartyContainer = styled.div`
 const EditableText = styled.span`
   font-weight: 700;
   padding: 4px;
-  border: 1px dashed #edd9a3;
+  outline: 1px dashed #edd9a3;
   color: #ffffff;
 `;
 
@@ -112,7 +114,7 @@ const DisclaimerEnding = styled.span`
   margin-bottom: 1pc;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -124,7 +126,7 @@ const LongText = styled.p`
   line-height: 28px;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -141,22 +143,16 @@ const NDAReadMoreText = styled.h4`
   margin: 0;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
-`;
-
-const NDAReadMoreLink = styled.a`
-  text-decoration: underline;
-  font-weight: 200;
-  color: #ffffff;
 `;
 
 const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
   <DisclaimerTitle>
     <BoldText>{sender.name}</BoldText>
     {' '}
-has requested your signature
+    has requested your signature
   </DisclaimerTitle>
 ) : (
   <DisclaimerTitle>
@@ -164,52 +160,55 @@ has requested your signature
   </DisclaimerTitle>
 ));
 
-const BetweenParty = ({ isRecipientNDA, sender, recipient }) => (isRecipientNDA ? (
+const BetweenParty = ({
+  isRecipientNDA, sender, recipient, onRecipientChange, onSenderChange,
+}) => (isRecipientNDA ? (
   <BetweenPartyContainer>
     <NDASectionBodyText>
-        1.
+      1.
       {' '}
       <BoldText>{sender.name}</BoldText>
       {' '}
-(the Disclosing Party); and
+      (the Disclosing Party); and
     </NDASectionBodyText>
     <NDASectionBodyText>
-        2.
+      2.
       {' '}
       <BoldText>
         {recipient.name}
-,
-        {recipient.company}
+        {recipient.company ? recipient.company : null}
       </BoldText>
       {' '}
-        (the Receiving Party), collectively referred to as the Parties.
+      (the Receiving Party), collectively referred to as the Parties.
     </NDASectionBodyText>
   </BetweenPartyContainer>
 ) : (
   <BetweenPartyContainer>
     <NDASectionBodyText>
-        1.
+      1.
       {' '}
-      <EditableText contentEditable>{sender.name}</EditableText>
-      {' '}
-(the
-        Disclosing Party); and
-    </NDASectionBodyText>
-    <NDASectionBodyText>
-        2.
-      {' '}
-      <EditableText contentEditable>
-        {recipient.name}
-,
-        {recipient.company}
+      <EditableText contentEditable onInput={onSenderChange} suppressContentEditableWarning>
+        {sender.name}
       </EditableText>
       {' '}
-        (the Receiving Party), collectively referred to as the Parties.
+      (the Disclosing Party) and
+    </NDASectionBodyText>
+    <NDASectionBodyText>
+      2.
+      {' '}
+      <EditableText contentEditable onInput={onRecipientChange} suppressContentEditableWarning>
+        {recipient.name}
+        {recipient.company ? `, ${recipient.company}` : null}
+      </EditableText>
+      {' '}
+      (the Receiving Party), collectively referred to as the Parties.
     </NDASectionBodyText>
   </BetweenPartyContainer>
 ));
 
-const NDA = ({ sender, recipient, isRecipientNDA }) => {
+const NDA = ({
+  sender, recipient, isRecipientNDA, onRecipientChange, onSenderChange,
+}) => {
   const otherPartyName = isRecipientNDA ? sender.name : recipient.name;
 
   return (
@@ -221,14 +220,14 @@ const NDA = ({ sender, recipient, isRecipientNDA }) => {
           {' '}
           <BoldText>you</BoldText>
           {' '}
-and
+          and
           {' '}
           <BoldText>{otherPartyName}</BoldText>
           {' '}
-are agreeing to terms of an NDA to
+          are agreeing to terms of an NDA to
           {' '}
           <BoldText>protect all parties and materials disclosed</BoldText>
-.
+          .
         </DisclaimerBody>
       </NDADisclaimerWrapper>
       <NDATitleContainer>
@@ -256,12 +255,14 @@ are agreeing to terms of an NDA to
           isRecipientNDA={isRecipientNDA}
           sender={sender}
           recipient={recipient}
+          onRecipientChange={onRecipientChange}
+          onSenderChange={onSenderChange}
         />
         <DisclaimerEnding>
           collectively referred to as the
           {' '}
           <BoldText>Parties</BoldText>
-.
+          .
         </DisclaimerEnding>
       </NDASectionContainer>
       <NDASectionContainer>
@@ -291,8 +292,8 @@ are agreeing to terms of an NDA to
         <NDAReadMoreText>
           To read all terms,
           {' '}
-          <NDAReadMoreLink>click here</NDAReadMoreLink>
-.
+          <AnchorButton>click here</AnchorButton>
+          .
         </NDAReadMoreText>
       </NDAReadMoreContainer>
     </Container>

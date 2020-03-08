@@ -52,11 +52,18 @@ const FooterText = styled.span`
   color: #ffffff;
   margin-bottom: 1pc;
   text-align: center;
-`;
 
-const FooterLink = styled.a`
-  text-decoration: underline;
-  color: inherit;
+  a {
+    text-decoration: underline;
+    background-color: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: none;
+  }
+
+  a:visited {
+    color: #000000;
+  }
 `;
 
 const Footer = ({ withLogo }) => (
@@ -74,13 +81,13 @@ const Footer = ({ withLogo }) => (
       <FooterText>
         © 2019
         {' '}
-        <FooterLink
+        <a
           href="https://juliaqiu.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
           NDAify
-        </FooterLink>
+        </a>
       </FooterText>
     </FootetTextWrapper>
 

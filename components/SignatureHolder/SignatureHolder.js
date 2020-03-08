@@ -27,7 +27,7 @@ const Signature = styled.span`
   font-size: 28px;
   color: #ffffff;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -46,7 +46,11 @@ const SignatureHolder = ({ firstName, lastName }) => (
   <SignatureHolderContaine>
     <SignatureIndicator>X</SignatureIndicator>
     <SignatureWrapper>
-      <Signature>{getSignature(firstName, lastName)}</Signature>
+      {
+        firstName || lastName ? (
+          <Signature>{getSignature(firstName, lastName)}</Signature>
+        ) : null
+      }
     </SignatureWrapper>
   </SignatureHolderContaine>
 );

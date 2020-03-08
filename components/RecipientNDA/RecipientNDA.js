@@ -1,9 +1,9 @@
 import React from 'react';
-import Link from 'next/link';
-
 import styled from 'styled-components';
+import { Link } from '../../routes';
 
 import NDA from '../NDA/NDA';
+import Button from '../Clickable/Button';
 import Footer from '../Footer/Footer';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
@@ -53,7 +53,7 @@ const ActionRow = styled.div`
   justify-content: space-between;
   margin-bottom: 3pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     flex-direction: row;
     height: auto;
   }
@@ -70,7 +70,7 @@ const PartyWrapper = styled.div`
     margin-bottom: 3pc;
   }
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     align-items: flex-start;
     padding-left: 4pc;
     padding-right: 4pc;
@@ -92,7 +92,7 @@ const NDAPartyName = styled.span`
   color: #ffffff;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -103,7 +103,7 @@ const NDAPartyOrganization = styled.span`
   color: #ffffff;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -114,7 +114,7 @@ const NDASignedDate = styled.span`
   line-height: 28px;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 16px;
   }
 `;
@@ -135,7 +135,7 @@ const AttachmentTitle = styled.h4`
   color: #ffffff;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -146,7 +146,7 @@ const AttachmentMessage = styled.h4`
   font-weight: 200;
   color: #4ac09a;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -158,23 +158,6 @@ const DeclineButtonWrapper = styled.div`
   padding: 2pc;
   padding-bottom: 0;
   box-sizing: border-box;
-`;
-
-const DeclineButton = styled.button`
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  padding-left: 1pc;
-  padding-right: 1pc;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  background-color: #dc564a;
 `;
 
 const RecipientDNA = ({ error = true }) => {
@@ -190,7 +173,7 @@ const RecipientDNA = ({ error = true }) => {
     <Container>
       <UserActionBanner />
       <DeclineButtonWrapper>
-        <DeclineButton>Decline</DeclineButton>
+        <Button compact color="#dc564a">Decline</Button>
       </DeclineButtonWrapper>
       <NDADocumentContainer>
         <NDAContainer>
@@ -200,12 +183,12 @@ const RecipientDNA = ({ error = true }) => {
 
           {error && (
             <ErrorMessageWrapper>
-              <ErrorMessage message="LinkedIn email should match recipient <jeremyvoss@gmail.com>." />
+              <ErrorMessage style={{ marginBottom: '3pc' }} message="LinkedIn email should match recipient <jeremyvoss@gmail.com>." />
             </ErrorMessageWrapper>
           )}
           <ActionRow>
             <PartyWrapper>
-              <Link href="/payment-form">
+              <Link route="/payment-form">
                 <LinkedInButton
                   buttonText="Sign with LinkedIn"
                   style={{ backgroundColor: '#4AC09A' }}

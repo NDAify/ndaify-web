@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
-
 import styled from 'styled-components';
+import { Link } from '../../routes';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
-import Button from '../Button/Button';
+import Button from '../Clickable/Button';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const Container = styled.div`
@@ -56,33 +55,14 @@ const SucessMessage = styled.p`
   color: #ffffff;
   margin-bottom: 3pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
 
-const DashboardButton = styled.button`
-  box-sizing: border-box;
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  padding-left: 1pc;
-  padding-right: 1pc;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  background-color: transparent;
-  border: 1px solid #ffffff;
-`;
-
 const SuccessMessage = () => (
   <Container>
-    <UserActionBanner ActionButton={() => <DashboardButton>Dashboard</DashboardButton>} />
+    <UserActionBanner ActionButton={() => <Button outline>Dashboard</Button>} />
     <PageContentContainer>
       <LogoHeaderContainer>
         <LogoHeader />
@@ -93,7 +73,7 @@ const SuccessMessage = () => (
           Your request has been sent to Jeremy Voss. You will be notified when
           Jeremy views and/or accepts the NDA.
         </SucessMessage>
-        <Link href="/recipient-nda">
+        <Link route="/recipient-nda">
           <Button style={{ backgroundColor: '#39d494' }}>Done</Button>
         </Link>
       </SucessMessageContainer>

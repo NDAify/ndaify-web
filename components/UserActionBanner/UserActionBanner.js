@@ -43,7 +43,7 @@ const UserNameText = styled.span`
   white-space: nowrap;
   overflow: hidden;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
     margin-right: 8px;
   }
@@ -57,23 +57,29 @@ const UserEmailText = styled.span`
   white-space: nowrap;
   overflow: hidden;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
 
-const UserActionBanner = ({ ActionButton }) => (
-  <UserDetailBannerContainer>
-    <UserDetails>
-      <UserNameText>Joe Doe</UserNameText>
-      <UserEmailText>
-        {'<joejoejoejoejoejoejoejoejoejoe@gmail.com>'}
-      </UserEmailText>
-    </UserDetails>
+const UserActionBanner = ({ user, ActionButton }) => {
+  if (!user) {
+    return null;
+  }
 
-    {ActionButton && <ActionButton />}
+  return (
+    <UserDetailBannerContainer>
+      <UserDetails>
+        <UserNameText>{user.name}</UserNameText>
+        <UserEmailText>
+          {`<${user.email}>`}
+        </UserEmailText>
+      </UserDetails>
 
-  </UserDetailBannerContainer>
-);
+      {ActionButton && <ActionButton />}
+
+    </UserDetailBannerContainer>
+  );
+};
 
 export default UserActionBanner;

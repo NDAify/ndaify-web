@@ -1,13 +1,14 @@
-import React from 'react';
-import Link from 'next/link';
-
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from '../../routes';
 
 import NDA from '../NDA/NDA';
+import Button from '../Clickable/Button';
 import Footer from '../Footer/Footer';
-import Button from '../Button/Button';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+
+import * as sessionStorage from '../../lib/sessionStorage';
 
 const Container = styled.div`
   width: 100%;
@@ -47,7 +48,7 @@ const ActionRow = styled.div`
   justify-content: space-between;
   margin-bottom: 3pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     flex-direction: row;
     height: auto;
   }
@@ -64,7 +65,7 @@ const PartyWrapper = styled.div`
     margin-bottom: 3pc;
   }
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     align-items: flex-start;
     padding-left: 4pc;
     padding-right: 4pc;
@@ -86,7 +87,7 @@ const NDAPartyName = styled.span`
   color: #ffffff;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -97,7 +98,7 @@ const NDAPartyOrganization = styled.span`
   color: #ffffff;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -119,7 +120,7 @@ const AttachmentTitle = styled.h4`
   color: #ffffff;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -130,7 +131,7 @@ const LinkWrapper = styled.div`
   width: 100%;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     flex-direction: row;
     align-items: center;
   }
@@ -141,7 +142,7 @@ const HideIcon = styled.img`
   margin-left: 0;
   margin-right: 1pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     width: 28px;
     margin-left: -46px;
     margin-right: 1pc;
@@ -154,8 +155,11 @@ const DocumentUrl = styled.h4`
   word-wrap: break-word;
   font-weight: 200;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -167,63 +171,94 @@ const DescriptionTitle = styled.h4`
   margin: 0;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
 
-const UserDetailBannerButton = styled.button`
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  padding-left: 1pc;
-  padding-right: 1pc;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  background-color: #dc564a;
-`;
+const isValidCompany = string => string && /\S/.test(string);
 
-const SenderNDA = () => {
+const SenderNDA = (props) => {
+  const { user } = props;
+  const senderName = `${user?.metadata.linkedInProfile.firstName} ${user?.metadata.linkedInProfile.lastName}`;
+  const senderEmail = user?.metadata.linkedInProfile.emailAddress;
+
+  let ndaMetadata = sessionStorage.getItem('nda metadata');
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ndaMetadata = sessionStorage.getItem('nda metadata') || {};
+  }, []);
+
+  const [recipientInput, setRecipientInput] = useState(ndaMetadata?.name || '');
+  const [senderInput, setSenderInput] = useState(senderName || '');
+
+  const handleRecipientInputChange = (e) => {
+    setRecipientInput(e.currentTarget.innerText);
+  };
+
+  const handleSenderInputChange = (e) => {
+    setSenderInput(e.currentTarget.innerText);
+  };
+
   const sender = {
-    name: 'Jake Murzy',
+    name: senderName,
+    email: senderEmail,
   };
+
   const recipient = {
-    name: 'Jeremy Voss',
-    company: 'Flake, Inc.',
+    name: recipientInput?.includes(',') ? recipientInput.split(',')[0] : recipientInput,
   };
+
+  const senderCompany = senderInput?.includes(',') && senderInput.split(',').slice(-1)[0] && isValidCompany(senderInput.split(',').slice(-1)[0]) ? senderInput.split(',').slice(-1)[0] : null;
+  const recipientCompany = recipientInput?.includes(',') && recipientInput.split(',').slice(-1)[0] && isValidCompany(recipientInput.split(',').slice(-1)[0]) ? recipientInput.split(',').slice(-1)[0] : null;
 
   return (
     <Container>
-      <UserActionBanner ActionButton={props => (
-        <UserDetailBannerButton {...props}>
-          Discard
-        </UserDetailBannerButton>
-      )}
+      <UserActionBanner
+        user={sender}
+        ActionButton={() => (
+          <Button
+            compact
+            color="#dc564a"
+            onClick={() => {
+              sessionStorage.clear();
+            }}
+          >
+            Discard
+          </Button>
+        )}
       />
       <NDADocumentContainer>
         <NDAContainer>
           <NDAWrapper>
-            <NDA sender={sender} recipient={recipient} />
+            <NDA
+              sender={sender}
+              recipient={recipient}
+              onRecipientChange={handleRecipientInputChange}
+              onSenderChange={handleSenderInputChange}
+            />
           </NDAWrapper>
           <ActionRow>
             <PartyWrapper>
-              <SignatureHolder firstName="Jeremy" lastName="Voss" />
-              <NDAPartyName>Jeremy Voss</NDAPartyName>
-              <NDAPartyOrganization>Flake, Inc.</NDAPartyOrganization>
+              <SignatureHolder />
+              <NDAPartyName>{recipient.name}</NDAPartyName>
+              <NDAPartyOrganization>{recipientCompany}</NDAPartyOrganization>
             </PartyWrapper>
             <PartyWrapper>
-              <Link href="/payment-form">
+              <Link route="/payment-form">
                 <Button style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
               </Link>
-              <NDAPartyName>Joe Doe</NDAPartyName>
+              <NDAPartyName>{sender.name}</NDAPartyName>
+              <NDAPartyOrganization>{senderCompany}</NDAPartyOrganization>
               <NDASenderDisclaimer>
-                {'I, Joe Doe, certify that I have read the contract, and understand that clicking \'Sign\' constitutes a legally binding signature.'}
+                I,
+                {' '}
+                {sender.name}
+                , certify that I have read the contract,
+                {' '}
+                and understand that clicking &#39;Sign&#39;
+                {' '}
+                constitutes a legally binding signature.
               </NDASenderDisclaimer>
             </PartyWrapper>
           </ActionRow>
@@ -232,7 +267,7 @@ const SenderNDA = () => {
             <AttachmentTitle>Attachments</AttachmentTitle>
             <LinkWrapper>
               <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-              <DocumentUrl>https://www.dropbox.com/sh/55wo9a…</DocumentUrl>
+              <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
             </LinkWrapper>
             <DescriptionTitle>
               Recipient does not have access to your link unless he accepts the

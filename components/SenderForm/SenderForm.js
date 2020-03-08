@@ -1,30 +1,31 @@
-import React, { useState, useMemo } from 'react';
-import { useRouter } from 'next/router'
-
+import React, {
+  useState, useMemo, useCallback, useEffect,
+} from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import getConfig from 'next/config';
 
-import { Formik, Form } from 'formik';
+import {
+  Formik,
+  Field as FormikField,
+  Form,
+} from 'formik';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
+import EmailInput from '../Input/EmailInput';
+import SelectInput from '../Input/SelectInput';
+import AnchorButton from '../Clickable/AnchorButton';
 import Footer from '../Footer/Footer';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 
-import getEmailSuggestions from '../../utils/getEmailSuggestions';
+import { getClientOrigin, serializeOAuthState } from '../../util';
 
-import { getItemFromSessionStorage, setItemFromSessionStorage } from '../../lib/sessionStorage';
+import * as sessionStorage from '../../lib/sessionStorage';
 
-const SELECT_OPTIONS = [
-  {
-    label: 'One Way',
-    value: 'one-way'
-  },
-  {
-    label: 'Mutual',
-    value: 'mutual'
-  }
-];
+const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const Container = styled.div`
   display: flex;
@@ -70,7 +71,7 @@ const LinkWrapper = styled.div`
   width: 100%;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     flex-direction: row;
     align-items: center;
   }
@@ -81,7 +82,7 @@ const HideIcon = styled.img`
   margin-left: 0;
   margin-right: 1pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     width: 28px;
     margin-left: -46px;
     margin-right: 1pc;
@@ -98,7 +99,7 @@ const DocumentUrl = styled.h4`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -110,7 +111,7 @@ const DescriptionTitle = styled.h4`
   margin: 0;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -123,7 +124,7 @@ const DisclaimerText = styled.span`
   font-weight: 200;
   line-height: 28px;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
@@ -146,154 +147,172 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
-const ButtonLink = styled.button`
-  border: 0;
-  padding: 0;
-  text-decoration: underline;
-  background: transparent;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  margin-left: 6px;
-`;
+const NDA_OPTIONS = [
+  {
+    label: 'One Way',
+    value: 'one-way',
+  },
+  {
+    label: 'Mutual',
+    value: 'mutual',
+  },
+];
 
-const SelectContainer = styled.div`
-  width: 100%;
-  height: 60px;
-  position: relative;
-`;
+const isValidEmail = string => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-const StyledSelect = styled.select`
-  color: #aaaaaa;
-  font-size: 20px;
-  font-weight: 200;
-  background-color: #ffffff;
-  border-radius: 4px;
-  border: 0;
-  width: 100%;
-  height: 60px;
-  letter-spacing: 1.8px;
-  box-sizing: border-box;
-  padding: 16px;
-  text-align-last: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-  -webkit-appearance: none;
-  opacity: 0;
+const SenderFormBody = ({
+  setFieldValue,
+  ndaMetadata,
+}) => {
+  const [suggestedEmail, setSuggestedEmail] = useState();
 
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
-`;
+  const ndaType = ndaMetadata?.ndaType;
+  const name = ndaMetadata?.name;
+  const email = ndaMetadata?.email;
 
-const StyledOption = styled.option`
-  text-align: center;
-  text-align-last: center;
-`;
+  useEffect(() => {
+    if (ndaType) {
+      setFieldValue('ndaType', ndaType);
+    }
 
-const SelectLable = styled.div`
-  font-size: 20px;
-  font-weight: 200;
-  background-color: #ffffff;
-  border-radius: 4px;
-  border: 0;
-  width: 100%;
-  height: 60px;
-  letter-spacing: 1.8px;
-  box-sizing: border-box;
-  padding: 16px;
-  text-align: center;
-  position: relative;
+    if (name) {
+      setFieldValue('name', name);
+    }
 
-  @media screen and (min-width: 994px) {
-    font-size: 24px;
-  }
-`;
-
-const SelectLabelIcon = styled.img`
-  position: absolute;
-  right: 16px;
-  width: 16px;
-  top: 24px;
-`;
-
-const Select = ({ value, onChange, ...otherProps }) => {
-  const currentOption = SELECT_OPTIONS.find((option) => option.value === value);
-
-  return (
-    <SelectContainer>
-      <SelectLable>
-        {currentOption.label}
-        <SelectLabelIcon src="/static/downIcon.svg" alt="down" />
-      </SelectLable>
-      <StyledSelect value={value} onChange={onChange} {...otherProps}>
-        {
-          SELECT_OPTIONS.map((option) => (
-            <StyledOption key={option.value} value={option.value}>{option.label}</StyledOption>
-          ))
-        }
-      </StyledSelect>
-    </SelectContainer>
-  )
-}
-
-const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
-
-const SenderForm = (props) => {
-  const router = useRouter();
-
-  let ndaMetadata = getItemFromSessionStorage('nda metadata');
-  useMemo(() => {
-    ndaMetadata = getItemFromSessionStorage('nda metadata') || {};
+    if (email) {
+      setFieldValue('email', email);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [ suggestedEmail, setSuggestedEmail ] = useState();
-  const [ ndaTypeValue, setNdaTypeValue ] = useState(ndaMetadata?.ndaType || 'mutual');
 
-  const handleMisspelledEmail = (email) => {
-    if (email) {
-      const correctedEmail = getEmailSuggestions(email);
-      if (correctedEmail) {
-        setSuggestedEmail(correctedEmail);
-        return;
-      }
+  return (
+    <Form>
+      <InputWrapper>
+        <FormikField
+          as={SelectInput}
+          name="ndaType"
+          options={NDA_OPTIONS}
+          placeholder="NDA type (one-way, mutual)"
+        />
+        <FieldErrorMessage name="ndaType" component="div" />
+      </InputWrapper>
+
+      <InputWrapper>
+        <FormikField
+          as={Input}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          name="name"
+          placeholder="Recipient name"
+          spellCheck={false}
+        />
+        <FieldErrorMessage style={{ marginTop: '1pc' }} name="name" component="div" />
+      </InputWrapper>
+
+      <InputWrapper>
+        <FormikField
+          as={EmailInput}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          name="email"
+          onEmailSuggest={setSuggestedEmail}
+          placeholder="Recipient email"
+          spellCheck={false}
+        />
+
+        {
+          suggestedEmail && (
+            <ErrorMessage style={{ marginTop: '1pc' }} color="#fff">
+              Did you mean
+              <AnchorButton
+                style={{
+                  marginLeft: '6px',
+                }}
+                type="button"
+                onClick={() => {
+                  setFieldValue('email', suggestedEmail, true);
+                  setSuggestedEmail(null);
+                }}
+              >
+                {suggestedEmail}
+              </AnchorButton>
+              ?
+            </ErrorMessage>
+          )
+        }
+
+        <FieldErrorMessage style={{ marginTop: '1pc' }} name="email" component="div" />
+
+      </InputWrapper>
+
+      <DisclaimerText>
+        Singing the NDA signifies that you have read and agree to the
+        {' '}
+        <UnderlineText>Terms of Use</UnderlineText>
+        {' '}
+        and
+        {' '}
+        <UnderlineText>Privacy Policy</UnderlineText>
+        .
+      </DisclaimerText>
+
+      <LinkedInButtonWrapper>
+        <LinkedInButton
+          type="submit"
+          buttonText="Review and Sign with LinkedIn"
+        />
+      </LinkedInButtonWrapper>
+    </Form>
+  );
+};
+
+const SenderForm = () => {
+  const router = useRouter();
+
+  const ndaMetadata = useMemo(() => sessionStorage.getItem('nda metadata'), []);
+
+  const handleFormValidate = (values) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = 'Required';
     }
 
-    setSuggestedEmail(null);
+    if (values.email && !isValidEmail(values.email)) {
+      errors.email = 'Invalid email';
+    }
+
+    if (!values.name) {
+      errors.name = 'Required';
+    }
+
+    return errors;
   };
+  const onFormValidate = useCallback(handleFormValidate);
 
-  const handleSelectOnChange = (event) => {
-    const ndaType = event.target.value;
-    setNdaTypeValue(ndaType);
-    setItemFromSessionStorage('nda metadata', {...ndaMetadata, ndaType })
-  }
+  const handleSubmit = ({ ndaType, email, name }) => {
+    sessionStorage.setItem(
+      'nda metadata',
+      {
+        ...ndaMetadata,
+        ndaType,
+        email,
+        name,
+      },
+    );
 
-  const EmailError = ({ errors, setFieldValue }) => {
-    if (suggestedEmail) {
-      return (
-        <ErrorMessage style={{ marginTop: '1pc' }}>
-          Did you mean
-        <ButtonLink
-            type='button'
-            onClick={() => {
-              setFieldValue('email', suggestedEmail, true);
-              setSuggestedEmail(null);
-            }}
-          >
-            {suggestedEmail}
-          </ButtonLink>?
-      </ErrorMessage>
-      )
-    } else if (errors.email) {
-      return (
-        <ErrorMessage style={{ marginTop: '1pc' }}>
-          {errors.email}
-        </ErrorMessage>
-      );
-    }
+    const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
+    const oAuthState = serializeOAuthState();
+    window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
+  };
+  const onSubmit = useCallback(handleSubmit);
 
-    return null;
+  const initialValues = {
+    ndaType: 'one-way',
+    name: '',
+    email: '',
   };
 
   return (
@@ -306,13 +325,13 @@ const SenderForm = (props) => {
         <ContentContainer>
           {
             router.query.errorMessage ? (
-              <ErrorMessage message={router.query.errorMessage} />
+              <ErrorMessage style={{ marginBottom: '3pc' }} message={router.query.errorMessage} />
             ) : null
           }
 
           <LinkWrapper>
             <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-            <DocumentUrl>{ndaMetadata.secretLink}</DocumentUrl>
+            <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
             Recipient does not have access to your link unless he accepts the term
@@ -320,94 +339,19 @@ const SenderForm = (props) => {
           </DescriptionTitle>
 
           <Formik
-            initialValues={{ email: ndaMetadata.email || '', name: ndaMetadata.name || '', ndaType: ndaMetadata.ndaType|| '' }}
-            validate={values => {
-              let errors = {};
-
-              if (!values.email) {
-                errors.email = 'Required';
-              }
-
-              if (values.email && !isValidEmail(values.email)) {
-                errors.email = 'Invalid email';
-              }
-
-              return errors;
-            }}
-            onSubmit={(values) => {
-              setItemFromSessionStorage('nda metadata', {...ndaMetadata, ndaType: ndaTypeValue, email: values.email, name: values.name})
-            }}
+            initialValues={initialValues}
+            validate={onFormValidate}
             validateOnChange={false}
+            validateOnBlur
+            onSubmit={onSubmit}
           >
-            {({ 
-              values,
-              errors,
-              handleChange,
-              handleBlur,
-              setFieldValue,
-            }) => {
-              return (
-                <Form>
-                  <InputWrapper>
-                    <Select
-                      value={ndaTypeValue}
-                      name='ndaType'
-                      onChange={handleSelectOnChange}
-                      placeholder="NDA type (one-way, mutual)" 
-                    />
-                  </InputWrapper>
-                  <InputWrapper>
-                    <Input
-                      name='name'
-                      value={values.name || ndaMetadata.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder="Recipient name"
-                    />
-                  </InputWrapper>
-                  <InputWrapper>
-                    <Input
-                      autoCapitalize="none"
-                      autoCorrect="off"
-                      onBlur={handleBlur}
-                      name='email'
-                      onChange={(e) => {
-                        handleChange(e);
-                        handleMisspelledEmail(e.target.value);
-                      }}
-                      placeholder="Recipient email"
-                      spellCheck={false}
-                      value={values.email || ndaMetadata.email}
-                    />
-                    <EmailError setFieldValue={setFieldValue} errors={errors} />
-                  </InputWrapper>
-
-                  <DisclaimerText>
-                    Singing the NDA signifies that you have read and agree to the
-                    {' '}
-                    <UnderlineText>Terms of Use</UnderlineText>
-                    {' '}
-                    and
-                    {' '}
-                    <UnderlineText>Privacy Policy</UnderlineText>
-                    .
-                  </DisclaimerText>
-        
-                  <LinkedInButtonWrapper>
-                    <LinkedInButton
-                      type='submit'
-                      buttonText="Review and Sign with LinkedIn"
-                    />
-                  </LinkedInButtonWrapper>
-                </Form>
-              )
-            }}
+            {props => <SenderFormBody {...props} ndaMetadata={ndaMetadata} />}
           </Formik>
           <Footer />
         </ContentContainer>
       </PageContentContainer>
     </Container>
   );
-}
+};
 
 export default SenderForm;

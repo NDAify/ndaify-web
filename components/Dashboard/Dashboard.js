@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import Footer from '../Footer/Footer';
+import Button from '../Clickable/Button';
 
 const Container = styled.div`
   width: 100%;
@@ -49,27 +50,9 @@ const StyledLink = styled.a`
   padding-bottom: 6px;
   border-bottom: ${({ active }) => active && '4px solid #EDD9A3'};
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
-`;
-
-const NewNDAButton = styled.button`
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  padding-left: 1pc;
-  padding-right: 1pc;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  background-color: transparent;
-  border: 1px solid #ffffff;
 `;
 
 const HistoryList = styled.div`
@@ -121,7 +104,7 @@ const HistoryTimeText = styled.span`
   color: #ffffff;
   font-weight: 200;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -146,7 +129,7 @@ const RecipientInfoText = styled.div`
   white-space: nowrap;
   overflow: hidden;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -165,24 +148,6 @@ const StatusContainer = styled.div`
 
 const StatusText = styled(RecipientInfoText)`
   color: #EDD9A3;
-`;
-
-
-const LogOutButton = styled.button`
-  font-size: 20px;
-  border-radius: 4px;
-  font-weight: 200;
-  text-align: center;
-  letter-spacing: 1.8px;
-  color: #ffffff;
-  cursor: pointer;
-  padding-left: 1pc;
-  padding-right: 1pc;
-  height: 40px;
-  border: 0;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  background-color: #dc564a;
 `;
 
 const HistoryItem = () => (
@@ -217,14 +182,14 @@ const HistoryItem = () => (
 
 const Dashboard = () => (
   <Container>
-    <UserActionBanner ActionButton={() => <LogOutButton>Log Out</LogOutButton>} />
+    <UserActionBanner ActionButton={() => <Button compact color="#dc564a">Log Out</Button>} />
     <PageContainer>
       <ActionRow>
         <LinksContainer>
           <StyledLink>Inbox</StyledLink>
           <StyledLink active>Sent</StyledLink>
         </LinksContainer>
-        <NewNDAButton>New</NewNDAButton>
+        <Button outline>New</Button>
       </ActionRow>
 
       <HistoryList>

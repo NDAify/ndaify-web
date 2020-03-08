@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { useField } from 'formik';
 
 const StyledInput = styled.input`
   font-size: 20px;
@@ -14,7 +15,7 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   padding: 16px;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 
@@ -24,12 +25,23 @@ const StyledInput = styled.input`
 `;
 
 const Input = (props) => {
-  const { placeholder, innerRef, field, ...otherProps } = props;
+  const [field] = useField(props);
+
+  const handleChange = (e) => {
+    // eslint-disable-next-line no-unused-expressions
+    props.onChange && props.onChange(e);
+    field.onChange(e);
+  };
+
+  const onChange = useCallback(handleChange);
 
   return (
-    <Fragment>
-      <StyledInput ref={innerRef} placeholder={placeholder} {...field} {...otherProps} />
-    </Fragment>
+    <StyledInput
+      ref={props.innerRef}
+      {...props}
+      {...field}
+      onChange={onChange}
+    />
   );
 };
 

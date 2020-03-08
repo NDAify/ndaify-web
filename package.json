@@ -6,8 +6,9 @@
     "@zeit/next-css": "^1.0.1",
     "cross-fetch": "^3.0.4",
     "email-providers": "^1.0.2",
-    "formik": "^1.5.8",
+    "formik": "^2.1.4",
     "humps": "^2.0.1",
+    "is-url": "^1.2.4",
     "koa": "^2.7.0",
     "koa-helmet": "^4.2.0",
     "koa-router": "^7.4.0",
@@ -31,16 +32,17 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
-    "babel-eslint": "7.1.1",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-styled-components": "^1.10.0",
     "dotenv": "^8.0.0",
-    "eslint": "5.3.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-react": "7.11.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "jest": "^24.8.0"
   }
 }

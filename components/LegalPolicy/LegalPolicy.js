@@ -86,7 +86,7 @@ const LegalPolicy = ({ title }) => (
       <SectionContentText>Electronic signatures, like traditional wet ink signatures, are valid only if each party intended to sign.</SectionContentText>
       <SectionTitle>CONSENT TO DO BUSINES ELECTRONICALLY</SectionTitle>
       <SectionContentText>
-        {'The parties to the transaction must consent to do business electronically. Establishing that a business consented can be done by analyzing the circumstances of the interaction, but consumers require special considerations. Electronic records may be used in transactions with consumers only when the consumer has:'}
+        The parties to the transaction must consent to do business electronically. Establishing that a business consented can be done by analyzing the circumstances of the interaction, but consumers require special considerations. Electronic records may be used in transactions with consumers only when the consumer has:
         <SectionList>
           <SectionListItem>Received UETA Consumer Consent Disclosures</SectionListItem>
           <SectionListItem>Affirmatively agreed to use electronic records for the transaction</SectionListItem>
@@ -95,7 +95,7 @@ const LegalPolicy = ({ title }) => (
       </SectionContentText>
       <SectionTitle>ASSOCIATION OF SIGNATURE WITH THE RECORD</SectionTitle>
       <SectionContentText>
-        {'In order to qualify as an electronic signature under the ESIGN Act and UETA, the system used to capture the transaction must keep an associated record that reflects the process by which the signature was created, or generate a textual or graphic statement (which is added to the signed record) proving that it was executed with an electronic signature.'}
+        In order to qualify as an electronic signature under the ESIGN Act and UETA, the system used to capture the transaction must keep an associated record that reflects the process by which the signature was created, or generate a textual or graphic statement (which is added to the signed record) proving that it was executed with an electronic signature.
       </SectionContentText>
       <SectionTitle>RECORD RETENTION</SectionTitle>
       <SectionContentText>U.S. laws on eSignatures and electronic transactions require that electronic signature records be capable of retention and accurate reproduction for reference by all parties or persons entitled to retain the contract or record.</SectionContentText>

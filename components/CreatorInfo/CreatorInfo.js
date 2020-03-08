@@ -16,6 +16,18 @@ const ProfileTextContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-left: 1pc;
+
+  a {
+    text-decoration: underline;
+    background-color: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    transition: none;
+  }
+
+  a:visited {
+    color: #000000;
+  }
 `;
 
 const ProfileText = styled.span`
@@ -25,24 +37,20 @@ const ProfileText = styled.span`
   margin-bottom: 6px;
 `;
 
-const ProfileTextLink = styled.a`
-  font-weight: 200;
-  text-decoration: underline;
-  font-size: 16px;
-  color: #FFFFFF;
-  cursor: pointer;
-`;
-
 const CreatorInfo = () => (
   <ProfileContainer>
     <ProfileImage src="/static/julia.png" alt="julia" />
     <ProfileTextContainer>
       <ProfileText>
-          Julia
+        Julia
       </ProfileText>
-      <ProfileTextLink>
-          @juliaqiuxy
-      </ProfileTextLink>
+      <a
+        href="https://twitter.com/juliaqiuxy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        @juliaqiuxy
+      </a>
     </ProfileTextContainer>
   </ProfileContainer>
 );

@@ -1,9 +1,22 @@
 {
   "extends": "airbnb",
+  "plugins": [
+    "react-hooks"
+  ],
+  "parser": "babel-eslint",
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prop-types": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/destructuring-assignment": "off",
+    "no-shadow": "off",
+    "jsx-a11y/anchor-is-valid": ["error", {
+      "components": ["Link"],
+      "specialLink": ["to", "route"],
+      "aspects": ["invalidHref", "preferButton"],
+    }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "env": {
     "browser": true

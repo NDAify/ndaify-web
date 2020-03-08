@@ -94,8 +94,10 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
   return null;
 }
 
+const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+
 const getSuggestion = (email) => {
-  if (!email) {
+  if (!email || !isValidEmail(email)) {
     return null;
   }
 

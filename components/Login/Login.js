@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
-import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const LinkedInButtonWrapper = styled.div`
   display: flex;
@@ -62,4 +61,3 @@ const Login = () => (
 );
 
 export default Login;
-

@@ -1,6 +1,6 @@
 import React from 'react';
-
 import styled from 'styled-components';
+import { Link } from '../../routes';
 
 const LogoContaier = styled.div`
   width: 100%;
@@ -13,7 +13,11 @@ const Logo = styled.img`
 
 const LogoHeader = () => (
   <LogoContaier>
-    <Logo src="/static/logoWithText.svg" alt="ndaify-logo" />
+    <Link route="/">
+      <a>
+        <Logo src="/static/logoWithText.svg" alt="ndaify-logo" />
+      </a>
+    </Link>
   </LogoContaier>
 );
 

@@ -1,26 +1,22 @@
-import React, { useRef, useMemo } from 'react';
-import { Router } from '../../routes';
-
-import Link from 'next/link';
+import React, { useCallback, useEffect } from 'react';
+import isUrl from 'is-url';
 
 import styled from 'styled-components';
 
-import { Formik, Form, Field } from 'formik';
-import debounce from 'lodash.debounce';
+import { Formik, Form, Field as FormikField } from 'formik';
 
+import { Link, Router } from '../../routes';
+
+import Anchor from '../Clickable/Anchor';
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
 import CustomNote from '../CustomNote/CustomNote';
 import Footer from '../Footer/Footer';
-import Button from '../Button/Button';
+import Button from '../Clickable/Button';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 
-import { getItemFromSessionStorage, setItemFromSessionStorage } from '../../lib/sessionStorage';
-
-const HomePageButton = styled(Button)`
-  background-color: #39d494;
-`;
+import * as sessionStorage from '../../lib/sessionStorage';
 
 const Container = styled.div`
   width: 100%;
@@ -69,7 +65,7 @@ const CopyTitle = styled.h3`
   margin: 0;
   margin-bottom: 3pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -79,7 +75,7 @@ const CopyText = styled.span`
   color: #ffffff;
   padding-bottom: 5pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -95,7 +91,7 @@ const Subtitle = styled.h3`
   font-weight: 200;
   margin-bottom: 2pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 32px;
   }
 `;
@@ -111,7 +107,7 @@ const FormCopy = styled.h4`
   margin: 0;
   margin-bottom: 3pc;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: 992px) {
     font-size: 24px;
   }
 `;
@@ -120,31 +116,35 @@ const FormWrapper = styled.div`
   margin-bottom: 1pc;
 `;
 
-const FormLink = styled.a`
-  text-decoration: underline;
-  cursor: pointer;
-`;
-
-const isUrl = (string) => string && typeof string === 'string' && string.includes('.');
-
 const Home = ({ showCustomNote = false }) => {
-  const secretLinkInputRef = useRef();
+  // Let's get rid of the secret if the user returns home
+  useEffect(() => {
+    sessionStorage.setItem('nda metadata', null);
+  }, []);
 
-  const onValidateSecretLink = debounce(secretLink => {
-    let error;
+  const handleValidationForm = (values) => {
+    const errors = {};
 
-    if (!isUrl(secretLink)) {
-      error = 'hmm, are you sure this is a valid url?';
+    if (!isUrl(values.secretLink)) {
+      errors.secretLink = 'hmm, are you sure this is a valid url?';
     }
 
-    return error;
-  }, 100);
+    return errors;
+  };
 
-  let secretLink = '';
-  useMemo(() => {
-    secretLink = getItemFromSessionStorage('nda metadata')?.secretLink || '';
-  }, []);
-  
+  const onHandleValidation = useCallback(handleValidationForm);
+
+  const handleSubmit = ({ secretLink }) => {
+    sessionStorage.setItem(
+      'nda metadata',
+      {
+        secretLink,
+      },
+    );
+
+    Router.pushRoute('form');
+  };
+
   return (
     <Container>
       <OpenSourceBanner />
@@ -160,7 +160,7 @@ const Home = ({ showCustomNote = false }) => {
             NDAify helps you keep your trade secrets under wraps.
             {' '}
             <CopyText>
-              {'Try it'}
+              Try it
               {' '}
               <FreeText>FREE</FreeText>
               .
@@ -169,43 +169,45 @@ const Home = ({ showCustomNote = false }) => {
           <Subtitle>Send an NDA in a couple minutes.</Subtitle>
 
           <Formik
-            initialValues={{ secretLink: secretLink }}
-            onSubmit={onValidateSecretLink}
+            initialValues={{ secretLink: '' }}
+            validateOnChange={false}
+            validateOnBlur
+            validate={onHandleValidation}
+            onSubmit={handleSubmit}
           >
-            {({ errors, values, isValidating }) => {
-              return (
-                <FormWrapper>
-                  <Form>
-                    {
-                      errors.secretLink ? (
-                        <ErrorMessage>{errors.secretLink}</ErrorMessage>
-                      ) : null
-                    }
-                    <InputContainer>
-                      <Field validate={onValidateSecretLink} component={Input} innerRef={secretLinkInputRef} name='secretLink' placeholder="Paste a secret link" />
-                    </InputContainer>
+            {() => (
+              <FormWrapper>
+                <Form>
+                  <InputContainer>
+                    <FormikField
+                      as={Input}
+                      name="secretLink"
+                      placeholder="Paste a secret link"
 
-                    <HomePageButton
-                      disabled={errors.secretLink || isValidating}
-                      type='submit'
-                      onClick={() => {
-                        setItemFromSessionStorage('nda metadata', { secretLink: values.secretLink });
-                        Router.pushRoute('form');
-                      }}
-                    >
-                      Continue
-                    </HomePageButton>
-                  </Form>
-                </FormWrapper>
-              )
-            }}
+                      spellCheck={false}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                    />
+                    <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
+                  </InputContainer>
+
+                  <Button
+                    type="submit"
+                    color="#39d494"
+                  >
+                    Continue
+                  </Button>
+                </Form>
+              </FormWrapper>
+            )}
           </Formik>
 
           <FormCopy>
             Or,
             {' '}
-            <Link href='/login'>
-              <FormLink>log in</FormLink>
+            <Link route="/login">
+              <Anchor>log in</Anchor>
             </Link>
             {' '}
             to see your NDAs.
@@ -215,6 +217,6 @@ const Home = ({ showCustomNote = false }) => {
       </PageContainer>
     </Container>
   );
-}
+};
 
 export default Home;
