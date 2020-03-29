@@ -34,6 +34,16 @@ const run = async () => {
     await next();
   });
 
+  if (!dev) {
+    koaApp.use(koaHelmet.hsts({
+      // 180 days
+      maxAge: 15552000,
+      // www should "301" to root instead
+      includeSubDomains: false,
+      preload: false,
+    }));
+  }
+
   koaApp.use(koaRouter.routes());
 
   koaApp.listen(PORT, () => {
