@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link } from '../../routes';
 
@@ -177,17 +177,25 @@ const DescriptionTitle = styled.h4`
 `;
 
 const isValidCompany = string => string && /\S/.test(string);
+const extractNameFromInput = (string) => {
+  if (string?.includes(',')) {
+    return string.split(',')[0];
+  }
+  return string;
+};
+const extractCompanyFromInput = (string) => {
+  if (string?.includes(',') && string.split(',').slice(-1)[0] && isValidCompany(string.split(',').slice(-1)[0])) {
+    return string.split(',').slice(-1)[0];
+  }
+  return null;
+};
 
 const SenderNDA = (props) => {
   const { user } = props;
   const senderName = `${user?.metadata.linkedInProfile.firstName} ${user?.metadata.linkedInProfile.lastName}`;
   const senderEmail = user?.metadata.linkedInProfile.emailAddress;
 
-  let ndaMetadata = sessionStorage.getItem('nda metadata');
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    ndaMetadata = sessionStorage.getItem('nda metadata') || {};
-  }, []);
+  const ndaMetadata = useMemo(() => sessionStorage.getItem('nda metadata'), []);
 
   const [recipientInput, setRecipientInput] = useState(ndaMetadata?.name || '');
   const [senderInput, setSenderInput] = useState(senderName || '');
@@ -206,11 +214,11 @@ const SenderNDA = (props) => {
   };
 
   const recipient = {
-    name: recipientInput?.includes(',') ? recipientInput.split(',')[0] : recipientInput,
+    name: extractNameFromInput(recipientInput),
   };
 
-  const senderCompany = senderInput?.includes(',') && senderInput.split(',').slice(-1)[0] && isValidCompany(senderInput.split(',').slice(-1)[0]) ? senderInput.split(',').slice(-1)[0] : null;
-  const recipientCompany = recipientInput?.includes(',') && recipientInput.split(',').slice(-1)[0] && isValidCompany(recipientInput.split(',').slice(-1)[0]) ? recipientInput.split(',').slice(-1)[0] : null;
+  const senderCompany = extractCompanyFromInput(senderInput);
+  const recipientCompany = extractCompanyFromInput(recipientInput);
 
   return (
     <Container>

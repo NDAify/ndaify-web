@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styled from 'styled-components';
 
@@ -148,6 +148,9 @@ const NDAReadMoreText = styled.h4`
   }
 `;
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
+const EditableTextWithNoRerender = props => useMemo(() => <EditableText {...props} />, []);
+
 const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
   <DisclaimerTitle>
     <BoldText>{sender.name}</BoldText>
@@ -187,19 +190,27 @@ const BetweenParty = ({
     <NDASectionBodyText>
       1.
       {' '}
-      <EditableText contentEditable onInput={onSenderChange} suppressContentEditableWarning>
+      <EditableTextWithNoRerender
+        contentEditable
+        onInput={onSenderChange}
+        suppressContentEditableWarning
+      >
         {sender.name}
-      </EditableText>
+      </EditableTextWithNoRerender>
       {' '}
       (the Disclosing Party) and
     </NDASectionBodyText>
     <NDASectionBodyText>
       2.
       {' '}
-      <EditableText contentEditable onInput={onRecipientChange} suppressContentEditableWarning>
+      <EditableTextWithNoRerender
+        contentEditable
+        onInput={onRecipientChange}
+        suppressContentEditableWarning
+      >
         {recipient.name}
         {recipient.company ? `, ${recipient.company}` : null}
-      </EditableText>
+      </EditableTextWithNoRerender>
       {' '}
       (the Receiving Party), collectively referred to as the Parties.
     </NDASectionBodyText>
