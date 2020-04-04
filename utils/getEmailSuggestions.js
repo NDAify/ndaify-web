@@ -13,14 +13,15 @@ const checkForCloseMatch = (sample, string) => {
 
   if (string.length < 3) {
     return null;
-  };
+  }
 
   // contains?
   if (sample.includes(string)) {
     return null;
-  };
+  }
 
   // split the string string into two at each postion e.g. g|mail gm|ail gma|il gmai|l
+  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < string.length; i++) {
     const firstPart = string.substring(0, i);
     const secondPart = string.substring(i);
@@ -60,7 +61,7 @@ const checkForCloseMatch = (sample, string) => {
 
   // if nothing was close, then there wasn't a typo
   return null;
-}
+};
 
 const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) => {
   const scoredDataSet = dataset.map(data => ({ string, data, score: score(data, string, 0.99) }));
@@ -75,33 +76,34 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
 
     return 0;
   });
-  
+
   const firstSuggestion = sortedDataSet[0].score >= CONFIDENCE_SCORE ? sortedDataSet[0].data : null;
 
   if (matchWithSameCharLength) {
-    const suggestionWithSameCharLength = sortedDataSet.find((dataObj) => dataObj.string.length === dataObj.data.length && dataObj.score >= CONFIDENCE_SCORE_WITH_EXACT_CHAR_COUNT_MATCH);
+    const suggestionWithSameCharLength = sortedDataSet.find(
+      dataObj => dataObj.string.length === dataObj.data.length
+        && dataObj.score >= CONFIDENCE_SCORE_WITH_EXACT_CHAR_COUNT_MATCH,
+    );
     if (suggestionWithSameCharLength) {
-
       return suggestionWithSameCharLength.data;
     }
 
     return null;
-  } else if (firstSuggestion) {
-
+  } if (firstSuggestion) {
     return firstSuggestion;
   }
 
   return null;
-}
+};
 
-const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+const isValidEmail = string => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
 const getSuggestion = (email) => {
   if (!email || !isValidEmail(email)) {
     return null;
   }
 
-  const [emailUserName, emailProvider] = email.split("@");
+  const [emailUserName, emailProvider] = email.split('@');
   if (!emailUserName || !emailProvider) {
     return null;
   }
@@ -111,23 +113,30 @@ const getSuggestion = (email) => {
     return null;
   }
 
-  const closestMatchedTld = tlds.find((tldSample) => checkForCloseMatch(tldSample, tld)) || '';
+  const closestMatchedTld = tlds.find(tldSample => checkForCloseMatch(tldSample, tld)) || '';
   const closeMatchTldScore = score(closestMatchedTld, tld);
-  const correctedTld = closeMatchTldScore >= CONFIDENCE_SCORE ? closestMatchedTld : getClosestMatchedSuggestion(tld, tlds, tld.length >= 3);
+  const correctedTld = closeMatchTldScore >= CONFIDENCE_SCORE
+    ? closestMatchedTld
+    : getClosestMatchedSuggestion(tld, tlds, tld.length >= 3);
 
   const emailProviderWithCorrectTld = correctedTld ? `${provider}.${correctedTld}` : emailProvider;
-  const correctedEmailProvider = getClosestMatchedSuggestion(emailProviderWithCorrectTld, commonEmailProviders);
+  const correctedEmailProvider = getClosestMatchedSuggestion(
+    emailProviderWithCorrectTld,
+    commonEmailProviders,
+  );
   if (correctedEmailProvider) {
     if (emailProvider === correctedEmailProvider) {
       return null;
     }
 
     return `${emailUserName}@${correctedEmailProvider}`;
-  } else if (!correctedEmailProvider && (tld === correctedTld)) {
+  } if (!correctedEmailProvider && (tld === correctedTld)) {
     return null;
   }
 
-  const closestMatchedEmailProvider = commonEmailProviders.find((emailProviderSample) => checkForCloseMatch(emailProviderSample, emailProviderWithCorrectTld));
+  const closestMatchedEmailProvider = commonEmailProviders.find(
+    emailProviderSample => checkForCloseMatch(emailProviderSample, emailProviderWithCorrectTld),
+  );
   return closestMatchedEmailProvider || `${emailUserName}@${emailProviderWithCorrectTld}`;
 };
 

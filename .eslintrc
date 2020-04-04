@@ -1,7 +1,8 @@
 {
   "extends": "airbnb",
   "plugins": [
-    "react-hooks"
+    "react-hooks",
+    "jest"
   ],
   "parser": "babel-eslint",
   "rules": {
@@ -19,6 +20,7 @@
     "react-hooks/exhaustive-deps": "warn"
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "jest/globals": true
   }
 }

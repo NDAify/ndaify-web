@@ -27,7 +27,7 @@
   },
   "scripts": {
     "dev": "node -r dotenv/config server.js",
-    "lint": "eslint pages/ components/",
+    "lint": "eslint pages/ components/ utils/",
     "test": "yarn lint && jest"
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
+    "eslint-plugin-jest": "^23.8.2",
     "jest": "^24.8.0"
   }
 }
