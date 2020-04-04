@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback, useEffect,
+  useState, useCallback, useEffect,
 } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -22,7 +22,6 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 
 import { getClientOrigin, serializeOAuthState } from '../../util';
-
 import * as sessionStorage from '../../lib/sessionStorage';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
@@ -268,10 +267,8 @@ const SenderFormBody = ({
   );
 };
 
-const SenderForm = () => {
+const SenderForm = ({ ndaMetadata }) => {
   const router = useRouter();
-
-  const ndaMetadata = useMemo(() => sessionStorage.getItem('nda metadata'), []);
 
   const handleFormValidate = (values) => {
     const errors = {};

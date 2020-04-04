@@ -1,5 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+
+import {
+  Formik,
+  Form,
+} from 'formik';
+
 import { Router } from '../../routes';
 import { API } from '../../api';
 
@@ -8,6 +14,7 @@ import Button from '../Clickable/Button';
 import Footer from '../Footer/Footer';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 
@@ -192,11 +199,9 @@ const extractCompanyFromInput = (string) => {
 };
 
 const SenderNDA = (props) => {
-  const { user } = props;
+  const { user, ndaMetadata } = props;
   const senderName = `${user?.metadata.linkedInProfile.firstName} ${user?.metadata.linkedInProfile.lastName}`;
   const senderEmail = user?.metadata.linkedInProfile.emailAddress;
-
-  const ndaMetadata = useMemo(() => sessionStorage.getItem('nda metadata'), []);
 
   const [recipientInput, setRecipientInput] = useState(ndaMetadata?.name || '');
   const [senderInput, setSenderInput] = useState(senderName || '');
@@ -216,17 +221,20 @@ const SenderNDA = (props) => {
   const handleRecipientInputChange = (e) => {
     setRecipientInput(e.currentTarget.innerText);
   };
+  const onRecipientInputChange = useCallback(handleRecipientInputChange, []);
 
   const handleSenderInputChange = (e) => {
     setSenderInput(e.currentTarget.innerText);
   };
+  const onSenderInputChange = useCallback(handleSenderInputChange, []);
 
   const handleDiscardButtonClick = () => {
     Router.replace('/');
     sessionStorage.clear();
   };
+  const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
 
-  const handleSignButtonClick = () => {
+  const handleSignButtonClick = async (values, { setStatus }) => {
     const api = new API();
 
     const ndaPayload = {
@@ -243,9 +251,17 @@ const SenderNDA = (props) => {
         },
       },
     };
-    api.createNda(ndaPayload);
-    Router.replace('/payment-form');
+
+    try {
+      await api.createNda(ndaPayload);
+      Router.replace('/payment-form');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStatus({ errorMessage: error.message });
+    }
   };
+  const onSignButtonClick = useCallback(handleSignButtonClick, []);
 
   return (
     <Container>
@@ -255,60 +271,78 @@ const SenderNDA = (props) => {
           <Button
             compact
             color="#dc564a"
-            onClick={handleDiscardButtonClick}
+            onClick={onDiscardButtonClick}
           >
             Discard
           </Button>
         )}
       />
-      <NDADocumentContainer>
-        <NDAContainer>
-          <NDAWrapper>
-            <NDA
-              sender={sender}
-              recipient={recipient}
-              onRecipientChange={handleRecipientInputChange}
-              onSenderChange={handleSenderInputChange}
-            />
-          </NDAWrapper>
-          <ActionRow>
-            <PartyWrapper>
-              <SignatureHolder />
-              <NDAPartyName>{recipient.name}</NDAPartyName>
-              <NDAPartyOrganization>{recipientCompany}</NDAPartyOrganization>
-            </PartyWrapper>
-            <PartyWrapper>
-              <Button onClick={handleSignButtonClick} style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
-              <NDAPartyName>{sender.name}</NDAPartyName>
-              <NDAPartyOrganization>{senderCompany}</NDAPartyOrganization>
-              <NDASenderDisclaimer>
-                I,
-                {' '}
-                {sender.name}
-                , certify that I have read the contract,
-                {' '}
-                and understand that clicking &#39;Sign&#39;
-                {' '}
-                constitutes a legally binding signature.
-              </NDASenderDisclaimer>
-            </PartyWrapper>
-          </ActionRow>
+      <Formik
+        initialValues={{}}
+        onSubmit={onSignButtonClick}
+      >
+        {({ status }) => (
+          <Form>
+            <NDADocumentContainer>
+              <NDAContainer>
+                <NDAWrapper>
+                  <NDA
+                    sender={sender}
+                    recipient={recipient}
+                    onRecipientChange={onRecipientInputChange}
+                    onSenderChange={onSenderInputChange}
+                  />
+                </NDAWrapper>
 
-          <AttachmentSectionContainer>
-            <AttachmentTitle>Attachments</AttachmentTitle>
-            <LinkWrapper>
-              <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-              <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
-            </LinkWrapper>
-            <DescriptionTitle>
-              Recipient does not have access to your link unless he accepts the
-              term of the NDA.
-            </DescriptionTitle>
-          </AttachmentSectionContainer>
+                {
+                  status ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {status.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
 
-          <Footer withLogo />
-        </NDAContainer>
-      </NDADocumentContainer>
+                <ActionRow>
+                  <PartyWrapper>
+                    <SignatureHolder />
+                    <NDAPartyName>{recipient.name}</NDAPartyName>
+                    <NDAPartyOrganization>{recipientCompany}</NDAPartyOrganization>
+                  </PartyWrapper>
+                  <PartyWrapper>
+                    <Button type="submit" style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
+                    <NDAPartyName>{sender.name}</NDAPartyName>
+                    <NDAPartyOrganization>{senderCompany}</NDAPartyOrganization>
+                    <NDASenderDisclaimer>
+                      I,
+                      {' '}
+                      {sender.name}
+                      , certify that I have read the contract,
+                      {' '}
+                      and understand that clicking &#39;Sign&#39;
+                      {' '}
+                      constitutes a legally binding signature.
+                    </NDASenderDisclaimer>
+                  </PartyWrapper>
+                </ActionRow>
+
+                <AttachmentSectionContainer>
+                  <AttachmentTitle>Attachments</AttachmentTitle>
+                  <LinkWrapper>
+                    <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+                    <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
+                  </LinkWrapper>
+                  <DescriptionTitle>
+                    Recipient does not have access to your link unless he accepts the
+                    term of the NDA.
+                  </DescriptionTitle>
+                </AttachmentSectionContainer>
+
+                <Footer withLogo />
+              </NDAContainer>
+            </NDADocumentContainer>
+          </Form>
+        )}
+      </Formik>
     </Container>
   );
 };
