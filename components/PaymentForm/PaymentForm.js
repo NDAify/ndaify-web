@@ -1,6 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '../../routes';
+
+import {
+  Formik,
+  Field as FormikField,
+  Form,
+} from 'formik';
+
+import { Router } from '../../routes';
 
 import Button from '../Clickable/Button';
 import Input from '../Input/Input';
@@ -191,37 +198,73 @@ const PaymentForm = ({ error = true }) => (
       </DialogContainer>
 
       <PaymentFormContainer>
-        {error && <ErrorMessage style={{ marginBottom: '3pc' }} message="Failed to process payment" />}
-        <PaymentFormRow>
-          <TwoColInputContainer>
-            <Input placeholder="Name on card" />
-          </TwoColInputContainer>
-          <TwoColInputContainer>
-            <Input placeholder="Card number" />
-          </TwoColInputContainer>
-        </PaymentFormRow>
-        <PaymentFormRow>
-          <TwoColInputContainer>
-            <Input placeholder="MM / YY" />
-          </TwoColInputContainer>
-          <TwoColInputContainer>
-            <Input placeholder="CVC" />
-          </TwoColInputContainer>
-        </PaymentFormRow>
+        <Formik
+          validateOnChange={false}
+          validateOnBlur
+        >
+          <Form>
+            {error && <ErrorMessage style={{ marginBottom: '3pc' }} message="Failed to process payment" />}
+            <PaymentFormRow>
+              <TwoColInputContainer>
+                <FormikField
+                  as={Input}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  name="name"
+                  placeholder="Name on card"
+                  spellCheck={false}
+                />
+              </TwoColInputContainer>
+              <TwoColInputContainer>
+                <FormikField
+                  as={Input}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  name="card"
+                  placeholder="Card Number"
+                  spellCheck={false}
+                />
+              </TwoColInputContainer>
+            </PaymentFormRow>
+            <PaymentFormRow>
+              <TwoColInputContainer>
+                <FormikField
+                  as={Input}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  name="expiration"
+                  placeholder="MM / YY"
+                  spellCheck={false}
+                />
+              </TwoColInputContainer>
+              <TwoColInputContainer>
+                <FormikField
+                  as={Input}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  name="cvc"
+                  placeholder="CVC"
+                  spellCheck={false}
+                />
+              </TwoColInputContainer>
+            </PaymentFormRow>
 
-        <Divider />
+            <Divider />
 
-        <div style={{ marginTop: '1pc' }}>
-          <Input placeholder="I can’t pay because…" />
-        </div>
+            <div style={{ marginTop: '1pc' }}>
+              <Input placeholder="I can’t pay because…" />
+            </div>
 
-        <Total>Total $ 1.00</Total>
+            <Total>Total $ 1.00</Total>
 
-        <Link route="/success-message">
-          <Button style={{ backgroundColor: '#39d494' }}>Send</Button>
-        </Link>
+            <Button onClick={() => Router.replace('/success-message')} style={{ backgroundColor: '#39d494' }}>Send</Button>
+          </Form>
+        </Formik>
       </PaymentFormContainer>
-
       <Footer withLogo />
     </ContentContainer>
   </Container>

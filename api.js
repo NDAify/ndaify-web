@@ -157,9 +157,10 @@ export class API {
     destroyCookie(this.ctx, 'sessionToken');
     // Log out all windows
     if (process.browser) {
-      // TODO(jmurzy) How can we make so if session expires, the first window to receive the session
-      // error can propage it to other windows. We could probably broadcast "logout" on session
-      // error in get() and post() as well to make sure that works.
+      // TODO(juliaqiuxy) How can we make so if session expires, the first window to
+      // receive the session error can propage it to other windows. We could
+      // probably broadcast "logout" on session error in get() and post() as
+      // well to make sure that works.
       window.localStorage.setItem('logout', Date.now());
     }
   }
@@ -167,5 +168,10 @@ export class API {
   getSession() {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.GET, 'sessions')(this.ctx, sessionToken)();
+  }
+
+  createNda(ndaMetadata) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(ndaMetadata);
   }
 }

@@ -26,7 +26,7 @@ const ProfileTextContainer = styled.div`
   }
 
   a:visited {
-    color: #000000;
+    color: #fffff;
   }
 `;
 

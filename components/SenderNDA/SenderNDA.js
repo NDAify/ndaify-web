@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { Link } from '../../routes';
+import { Router } from '../../routes';
+import { API } from '../../api';
 
 import NDA from '../NDA/NDA';
 import Button from '../Clickable/Button';
@@ -200,14 +201,6 @@ const SenderNDA = (props) => {
   const [recipientInput, setRecipientInput] = useState(ndaMetadata?.name || '');
   const [senderInput, setSenderInput] = useState(senderName || '');
 
-  const handleRecipientInputChange = (e) => {
-    setRecipientInput(e.currentTarget.innerText);
-  };
-
-  const handleSenderInputChange = (e) => {
-    setSenderInput(e.currentTarget.innerText);
-  };
-
   const sender = {
     name: senderName,
     email: senderEmail,
@@ -220,6 +213,40 @@ const SenderNDA = (props) => {
   const senderCompany = extractCompanyFromInput(senderInput);
   const recipientCompany = extractCompanyFromInput(recipientInput);
 
+  const handleRecipientInputChange = (e) => {
+    setRecipientInput(e.currentTarget.innerText);
+  };
+
+  const handleSenderInputChange = (e) => {
+    setSenderInput(e.currentTarget.innerText);
+  };
+
+  const handleDiscardButtonClick = () => {
+    Router.replace('/');
+    sessionStorage.clear();
+  };
+
+  const handleSignButtonClick = () => {
+    const api = new API();
+
+    const ndaPayload = {
+      recipientEmail: 'void',
+      metadata: {
+        secretLinks: [
+          ndaMetadata?.secretLink,
+        ],
+        ndaType: ndaMetadata.ndaType,
+        recipientFullName: recipient.name,
+        ndaParamaters: {
+          disclosingParty: recipientInput,
+          receivingParty: senderInput,
+        },
+      },
+    };
+    api.createNda(ndaPayload);
+    Router.replace('/payment-form');
+  };
+
   return (
     <Container>
       <UserActionBanner
@@ -228,9 +255,7 @@ const SenderNDA = (props) => {
           <Button
             compact
             color="#dc564a"
-            onClick={() => {
-              sessionStorage.clear();
-            }}
+            onClick={handleDiscardButtonClick}
           >
             Discard
           </Button>
@@ -253,9 +278,7 @@ const SenderNDA = (props) => {
               <NDAPartyOrganization>{recipientCompany}</NDAPartyOrganization>
             </PartyWrapper>
             <PartyWrapper>
-              <Link route="/payment-form">
-                <Button style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
-              </Link>
+              <Button onClick={handleSignButtonClick} style={{ backgroundColor: '#4AC09A' }}>Sign</Button>
               <NDAPartyName>{sender.name}</NDAPartyName>
               <NDAPartyOrganization>{senderCompany}</NDAPartyOrganization>
               <NDASenderDisclaimer>
