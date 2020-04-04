@@ -24,7 +24,7 @@ const EmailInput = ({ onEmailSuggest, ...props }) => {
     field.onChange(e);
   };
 
-  const onChange = useCallback(handleChange);
+  const onChange = useCallback(handleChange, []);
 
   return (
     <Input

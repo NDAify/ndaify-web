@@ -132,7 +132,7 @@ const Home = ({ showCustomNote = false }) => {
     return errors;
   };
 
-  const onHandleValidation = useCallback(handleValidationForm);
+  const onHandleValidation = useCallback(handleValidationForm, []);
 
   const handleSubmit = ({ secretLink }) => {
     sessionStorage.setItem(

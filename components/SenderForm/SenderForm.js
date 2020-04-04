@@ -289,7 +289,7 @@ const SenderForm = () => {
 
     return errors;
   };
-  const onFormValidate = useCallback(handleFormValidate);
+  const onFormValidate = useCallback(handleFormValidate, []);
 
   const handleSubmit = ({ ndaType, email, name }) => {
     sessionStorage.setItem(
@@ -306,7 +306,7 @@ const SenderForm = () => {
     const oAuthState = serializeOAuthState();
     window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
   };
-  const onSubmit = useCallback(handleSubmit);
+  const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
     ndaType: 'one-way',

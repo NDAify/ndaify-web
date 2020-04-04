@@ -33,7 +33,7 @@ const Input = (props) => {
     field.onChange(e);
   };
 
-  const onChange = useCallback(handleChange);
+  const onChange = useCallback(handleChange, []);
 
   return (
     <StyledInput
