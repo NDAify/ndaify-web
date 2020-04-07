@@ -10,7 +10,6 @@
     "react/prop-types": "off",
     "import/prefer-default-export": "off",
     "react/destructuring-assignment": "off",
-    "no-shadow": "off",
     "jsx-a11y/anchor-is-valid": ["error", {
       "components": ["Link"],
       "specialLink": ["to", "route"],
