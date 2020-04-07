@@ -116,7 +116,7 @@ export const dispatch = (method, endpoint, config) => (ctx, sessionToken) => asy
     // eslint-disable-next-line
   } catch (error) {}
 
-  if (response.status !== statuses('OK')) {
+  if (response.status !== statuses('OK') && response.status !== statuses('Created')) {
     if (response.status === statuses('Unauthorized')) {
       redirect(ctx, '/login', {
         errorMessage: 'Your session has expired. Log in to continue.',
