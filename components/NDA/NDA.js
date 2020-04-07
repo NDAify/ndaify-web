@@ -1,8 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
+import { Field as FormikField } from 'formik';
 
 import AnchorButton from '../Clickable/AnchorButton';
+
+import ContentEditableInput from '../Input/ContentEditableInput';
+
 
 const Container = styled.div`
   width: 100%;
@@ -99,12 +103,12 @@ const BetweenPartyContainer = styled.div`
   line-height: 34px;
 `;
 
-const EditableText = styled.span`
-  font-weight: 700;
-  padding: 4px;
-  outline: 1px dashed #edd9a3;
-  color: #ffffff;
-`;
+// const EditableText = styled.span`
+//   font-weight: 700;
+//   padding: 4px;
+//   outline: 1px dashed #edd9a3;
+//   color: #ffffff;
+// `;
 
 const DisclaimerEnding = styled.span`
   font-size: 16px;
@@ -148,8 +152,21 @@ const NDAReadMoreText = styled.h4`
   }
 `;
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
-const EditableTextWithNoRerender = props => useMemo(() => <EditableText {...props} />, []);
+// const EditableTextField = (props) => {
+
+//   console.log('propppps', props);
+
+//   const [field] = useField(props);
+//   console.log('field', field.onChange);
+
+//   return (
+//     <EditableText {...field} {...props} />
+//   );
+//   // return (
+//   //   // eslint-disable-next-line react-hooks/exhaustive-deps
+//   //   useMemo(() => <EditableText {...field} {...props} />, [])
+//   // );
+// };
 
 const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
   <DisclaimerTitle>
@@ -164,7 +181,7 @@ const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
 ));
 
 const BetweenParty = ({
-  isRecipientNDA, sender, recipient, onRecipientChange, onSenderChange,
+  isRecipientNDA, sender, recipient,
 }) => (isRecipientNDA ? (
   <BetweenPartyContainer>
     <NDASectionBodyText>
@@ -190,27 +207,20 @@ const BetweenParty = ({
     <NDASectionBodyText>
       1.
       {' '}
-      <EditableTextWithNoRerender
-        contentEditable
-        onInput={onSenderChange}
-        suppressContentEditableWarning
-      >
-        {sender.name}
-      </EditableTextWithNoRerender>
+      <FormikField
+        as={ContentEditableInput}
+        name="disclosingParty"
+      />
       {' '}
       (the Disclosing Party) and
     </NDASectionBodyText>
     <NDASectionBodyText>
       2.
       {' '}
-      <EditableTextWithNoRerender
-        contentEditable
-        onInput={onRecipientChange}
-        suppressContentEditableWarning
-      >
-        {recipient.name}
-        {recipient.company ? `, ${recipient.company}` : null}
-      </EditableTextWithNoRerender>
+      <FormikField
+        as={ContentEditableInput}
+        name="receivingParty"
+      />
       {' '}
       (the Receiving Party), collectively referred to as the Parties.
     </NDASectionBodyText>
@@ -218,7 +228,7 @@ const BetweenParty = ({
 ));
 
 const NDA = ({
-  sender, recipient, isRecipientNDA, onRecipientChange, onSenderChange,
+  sender, recipient, isRecipientNDA,
 }) => {
   const otherPartyName = isRecipientNDA ? sender.name : recipient.name;
 
@@ -266,8 +276,6 @@ const NDA = ({
           isRecipientNDA={isRecipientNDA}
           sender={sender}
           recipient={recipient}
-          onRecipientChange={onRecipientChange}
-          onSenderChange={onSenderChange}
         />
         <DisclaimerEnding>
           collectively referred to as the

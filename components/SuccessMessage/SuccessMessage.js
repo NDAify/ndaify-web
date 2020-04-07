@@ -73,7 +73,7 @@ const SuccessMessage = () => (
           Your request has been sent to Jeremy Voss. You will be notified when
           Jeremy views and/or accepts the NDA.
         </SucessMessage>
-        <Link route="/recipient-nda">
+        <Link route="/" replace>
           <Button style={{ backgroundColor: '#39d494' }}>Done</Button>
         </Link>
       </SucessMessageContainer>

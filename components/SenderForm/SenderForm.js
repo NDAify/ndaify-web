@@ -166,20 +166,20 @@ const SenderFormBody = ({
   const [suggestedEmail, setSuggestedEmail] = useState();
 
   const ndaType = ndaMetadata?.ndaType;
-  const name = ndaMetadata?.name;
-  const email = ndaMetadata?.email;
+  const recipientName = ndaMetadata?.recipientName;
+  const recipientEmail = ndaMetadata?.recipientEmail;
 
   useEffect(() => {
     if (ndaType) {
       setFieldValue('ndaType', ndaType);
     }
 
-    if (name) {
-      setFieldValue('name', name);
+    if (recipientName) {
+      setFieldValue('recipientName', recipientName);
     }
 
-    if (email) {
-      setFieldValue('email', email);
+    if (recipientEmail) {
+      setFieldValue('recipientEmail', recipientEmail);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -202,7 +202,7 @@ const SenderFormBody = ({
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect="off"
-          name="name"
+          name="recipientName"
           placeholder="Recipient name"
           spellCheck={false}
         />
@@ -215,7 +215,7 @@ const SenderFormBody = ({
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect="off"
-          name="email"
+          name="recipientEmail"
           onEmailSuggest={setSuggestedEmail}
           placeholder="Recipient email"
           spellCheck={false}
@@ -272,30 +272,30 @@ const SenderForm = ({ ndaMetadata }) => {
 
   const handleFormValidate = (values) => {
     const errors = {};
-    if (!values.email) {
-      errors.email = 'Required';
+    if (!values.recipientEmail) {
+      errors.recipientEmail = 'Required';
     }
 
-    if (values.email && !isValidEmail(values.email)) {
-      errors.email = 'Invalid email';
+    if (values.recipientEmail && !isValidEmail(values.recipientEmail)) {
+      errors.recipientEmail = 'Invalid email';
     }
 
-    if (!values.name) {
-      errors.name = 'Required';
+    if (!values.recipientName) {
+      errors.recipientName = 'Required';
     }
 
     return errors;
   };
   const onFormValidate = useCallback(handleFormValidate, []);
 
-  const handleSubmit = ({ ndaType, email, name }) => {
+  const handleSubmit = ({ ndaType, recipientName, recipientEmail }) => {
     sessionStorage.setItem(
-      'nda metadata',
+      'ndaMetadata',
       {
         ...ndaMetadata,
         ndaType,
-        email,
-        name,
+        recipientName,
+        recipientEmail,
       },
     );
 
@@ -307,8 +307,8 @@ const SenderForm = ({ ndaMetadata }) => {
 
   const initialValues = {
     ndaType: 'one-way',
-    name: '',
-    email: '',
+    recipientName: '',
+    recipientEmail: '',
   };
 
   return (
@@ -321,7 +321,7 @@ const SenderForm = ({ ndaMetadata }) => {
         <ContentContainer>
           {
             router.query.errorMessage ? (
-              <ErrorMessage style={{ marginBottom: '3pc' }} message={router.query.errorMessage} />
+              <ErrorMessage style={{ marginBottom: '3pc' }} message="Oops. Something went wrong. Please try again." />
             ) : null
           }
 

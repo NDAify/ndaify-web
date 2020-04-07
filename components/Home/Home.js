@@ -119,7 +119,7 @@ const FormWrapper = styled.div`
 const Home = ({ showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
-    sessionStorage.setItem('nda metadata', null);
+    sessionStorage.setItem('ndaMetadata', null);
   }, []);
 
   const handleValidationForm = (values) => {
@@ -136,7 +136,7 @@ const Home = ({ showCustomNote = false }) => {
 
   const handleSubmit = ({ secretLink }) => {
     sessionStorage.setItem(
-      'nda metadata',
+      'ndaMetadata',
       {
         secretLink,
       },

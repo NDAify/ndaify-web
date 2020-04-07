@@ -1,4 +1,3 @@
-
 import React from 'react';
 import styled from 'styled-components';
 import { useField } from 'formik';
@@ -69,7 +68,7 @@ const SelectInput = (props) => {
 
   const { innerRef, options } = props;
 
-  const option = props.options.find(option => option.value === field.value);
+  const option = props.options.find(opt => opt.value === field.value);
 
   return (
     <SelectContainer>
@@ -79,8 +78,8 @@ const SelectInput = (props) => {
       </SelectLabel>
       <StyledSelect ref={innerRef} {...props} {...field}>
         {
-          options.map(option => (
-            <StyledOption key={option.value} value={option.value}>{option.label}</StyledOption>
+          options.map(opt => (
+            <StyledOption key={opt.value} value={opt.value}>{opt.label}</StyledOption>
           ))
         }
       </StyledSelect>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "better-react-spinkit": "^2.0.4",
     "cross-fetch": "^3.0.4",
     "email-providers": "^1.0.2",
     "formik": "^2.1.4",
@@ -19,6 +20,7 @@
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-sane-contenteditable": "^1.6.1",
     "shortid": "^2.2.14",
     "statuses": "^1.5.0",
     "string-score": "^1.0.1",
@@ -40,10 +42,10 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "eslint-plugin-jest": "^23.8.2",
     "jest": "^24.8.0"
   }
 }
