@@ -8,7 +8,6 @@ import {
 } from 'formik';
 
 import { Router } from '../../routes';
-import { API } from '../../api';
 
 import NDA from '../NDA/NDA';
 import Button from '../Clickable/Button';
@@ -18,6 +17,7 @@ import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
+import { timeout } from '../../util';
 
 const Container = styled.div`
   width: 100%;
@@ -234,31 +234,37 @@ const SenderNDA = (props) => {
       receivingParty,
     },
     {
-      setStatus, /* setSubmitting */
+      setStatus,
     },
   ) => {
     // clear all error messages before retrying
     setStatus();
 
-    const api = new API();
-
-    const ndaPayload = {
-      recipientEmail: recipient.email,
-      metadata: {
-        secretLinks: [
-          ndaMetadata?.secretLink,
-        ],
-        ndaType: ndaMetadata.ndaType,
-        recipientFullName: recipient.name,
-        ndaParamaters: {
-          disclosingParty,
-          receivingParty,
-        },
-      },
-    };
-
     try {
-      await api.createNda(ndaPayload);
+      const ndaPayload = {
+        recipientEmail: recipient.email,
+        metadata: {
+          secretLinks: [
+            ndaMetadata?.secretLink,
+          ],
+          ndaType: ndaMetadata.ndaType,
+          recipientFullName: recipient.name,
+          ndaParamaters: {
+            disclosingParty,
+            receivingParty,
+          },
+        },
+      };
+
+      sessionStorage.setItem(
+        'ndaMetadata',
+        ndaPayload,
+      );
+
+      // Pretend like we are doing some work before moving to next step
+      // This is much better UX than just navigating away from the form
+      await timeout(1000);
+
       Router.replace('/payment-form');
     } catch (error) {
       // eslint-disable-next-line no-console

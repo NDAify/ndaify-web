@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 import {
   Formik,
@@ -8,6 +9,7 @@ import {
 } from 'formik';
 
 import { Router } from '../../routes';
+import { API } from '../../api';
 
 import Button from '../Clickable/Button';
 import Input from '../Input/Input';
@@ -16,6 +18,8 @@ import CreatorInfo from '../CreatorInfo/CreatorInfo';
 import Dialog from '../Dialog/Dialog';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+
+import { timeout } from '../../util';
 
 const Container = styled.div`
   width: 100%;
@@ -166,108 +170,169 @@ const Divider = () => (
   </DividerContainer>
 );
 
-const PaymentForm = ({ error = true }) => (
-  <Container>
-    <UserActionBanner ActionButton={() => <Button outline>Dashboard</Button>} />
-    <ContentContainer>
-      <DialogContainer>
-        <DialogTitle>One last thing before delivery…</DialogTitle>
+const PaymentForm = ({ ndaMetadata }) => {
+  const handleSubmit = async (
+    values,
+    {
+      setStatus,
+      setSubmitting,
+    },
+  ) => {
+    // clear all error messages before retrying
+    setStatus();
 
-        <Dialog>
-          <DialogLongText>Hi Joe,</DialogLongText>
-          <DialogLongText>
-            It costs money to keep NDAify running. If you use the service and
-            find it valuable, plese help me stay online by making a small
-            donation.
-          </DialogLongText>
-          <DialogLongText>
-            Or, share a good reason below for why you can’t pay and you can
-            still use NDAify for
-            {' '}
-            <UnderlineText>free</UnderlineText>
-            .
-          </DialogLongText>
+    const api = new API();
 
-          <DialogLongText>
-            Any questions or comments? Just send me a tweet, I’m always
-            listening.
-          </DialogLongText>
-          <DialogLongText>Thank you for using NDAify!</DialogLongText>
-        </Dialog>
-        <CreatorInfo />
-      </DialogContainer>
+    try {
+      await api.createNda(ndaMetadata);
+      Router.replace('/success-message');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStatus({ errorMessage: error.message });
+    } finally {
+      // Pretend like we are doing some work before redirecting to LinkedIn
+      // This is much better UX than just navigating away from the form
+      timeout(1000).then(() => setSubmitting(false));
+    }
+  };
+  const onSubmit = useCallback(handleSubmit, []);
 
-      <PaymentFormContainer>
-        <Formik
-          validateOnChange={false}
-          validateOnBlur
-        >
-          <Form>
-            {error && <ErrorMessage style={{ marginBottom: '3pc' }} message="Failed to process payment" />}
-            <PaymentFormRow>
-              <TwoColInputContainer>
-                <FormikField
-                  as={Input}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  name="name"
-                  placeholder="Name on card"
-                  spellCheck={false}
-                />
-              </TwoColInputContainer>
-              <TwoColInputContainer>
-                <FormikField
-                  as={Input}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  name="card"
-                  placeholder="Card Number"
-                  spellCheck={false}
-                />
-              </TwoColInputContainer>
-            </PaymentFormRow>
-            <PaymentFormRow>
-              <TwoColInputContainer>
-                <FormikField
-                  as={Input}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  name="expiration"
-                  placeholder="MM / YY"
-                  spellCheck={false}
-                />
-              </TwoColInputContainer>
-              <TwoColInputContainer>
-                <FormikField
-                  as={Input}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  name="cvc"
-                  placeholder="CVC"
-                  spellCheck={false}
-                />
-              </TwoColInputContainer>
-            </PaymentFormRow>
+  const initialValues = {
+    nameOnCard: '',
+    cardNumber: '',
+    expiration: '',
+    cvc: '',
+    noPaymentReason: '',
+  };
 
-            <Divider />
+  return (
+    <Container>
+      <UserActionBanner ActionButton={() => <Button outline>Dashboard</Button>} />
+      <ContentContainer>
+        <DialogContainer>
+          <DialogTitle>One last thing before delivery…</DialogTitle>
 
-            <div style={{ marginTop: '1pc' }}>
-              <Input placeholder="I can’t pay because…" />
-            </div>
+          <Dialog>
+            <DialogLongText>Hi Joe,</DialogLongText>
+            <DialogLongText>
+              It costs money to keep NDAify running. If you use the service and
+              find it valuable, plese help me stay online by making a small
+              donation.
+            </DialogLongText>
+            <DialogLongText>
+              Or, share a good reason below for why you can’t pay and you can
+              still use NDAify for
+              {' '}
+              <UnderlineText>free</UnderlineText>
+              .
+            </DialogLongText>
 
-            <Total>Total $ 1.00</Total>
+            <DialogLongText>
+              Any questions or comments? Just send me a tweet, I’m always
+              listening.
+            </DialogLongText>
+            <DialogLongText>Thank you for using NDAify!</DialogLongText>
+          </Dialog>
+          <CreatorInfo />
+        </DialogContainer>
 
-            <Button onClick={() => Router.replace('/success-message')} style={{ backgroundColor: '#39d494' }}>Send</Button>
-          </Form>
-        </Formik>
-      </PaymentFormContainer>
-      <Footer withLogo />
-    </ContentContainer>
-  </Container>
-);
+        <PaymentFormContainer>
+          <Formik
+            initialValues={initialValues}
+            validateOnChange={false}
+            validateOnBlur
+            onSubmit={onSubmit}
+          >
+            {({ status, isSubmitting }) => (
+              <Form>
+                {
+                  status ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {status.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
+                <PaymentFormRow>
+                  <TwoColInputContainer>
+                    <FormikField
+                      as={Input}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      name="nameOnCard"
+                      placeholder="Name on card"
+                      spellCheck={false}
+                    />
+                  </TwoColInputContainer>
+                  <TwoColInputContainer>
+                    <FormikField
+                      as={Input}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      name="cardNumber"
+                      placeholder="Card Number"
+                      spellCheck={false}
+                    />
+                  </TwoColInputContainer>
+                </PaymentFormRow>
+                <PaymentFormRow>
+                  <TwoColInputContainer>
+                    <FormikField
+                      as={Input}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      name="expiration"
+                      placeholder="MM / YY"
+                      spellCheck={false}
+                    />
+                  </TwoColInputContainer>
+                  <TwoColInputContainer>
+                    <FormikField
+                      as={Input}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      name="cvc"
+                      placeholder="CVC"
+                      spellCheck={false}
+                    />
+                  </TwoColInputContainer>
+                </PaymentFormRow>
+
+                <Divider />
+
+                <div style={{ marginTop: '1pc' }}>
+                  <FormikField
+                    as={Input}
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    name="noPaymentReason"
+                    placeholder="I can’t pay because…"
+                    spellCheck={false}
+                  />
+                </div>
+
+                <Total>Total $ 1.00</Total>
+
+                <Button type="submit" disabled={isSubmitting} style={{ backgroundColor: '#39d494' }}>
+                  {
+                    isSubmitting ? (
+                      <Spinner color="#FFFFFF" size={14} />
+                    ) : 'Send'
+                  }
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </PaymentFormContainer>
+        <Footer withLogo />
+      </ContentContainer>
+    </Container>
+  );
+};
 
 export default PaymentForm;

@@ -1,5 +1,5 @@
 import React, {
-  useState, useCallback, useEffect,
+  useState, useCallback,
 } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -182,7 +182,17 @@ const SenderForm = ({ ndaMetadata }) => {
   };
   const onFormValidate = useCallback(handleFormValidate, []);
 
-  const handleSubmit = ({ ndaType, recipientName, recipientEmail }, { setStatus, setSubmitting }) => {
+  const handleSubmit = (
+    {
+      ndaType,
+      recipientName,
+      recipientEmail,
+    },
+    {
+      setStatus,
+      setSubmitting,
+    },
+  ) => {
     setStatus();
 
     try {
@@ -204,9 +214,10 @@ const SenderForm = ({ ndaMetadata }) => {
       console.error(error);
       setStatus({ errorMessage: error.message });
     } finally {
-      // Pretend like we are doing some work before redirecting to LinkedIn
-      // This is much better UX than just navigating away from the form
-      timeout(1000).then(() => setSubmitting(false));
+      // Keep the spinner running during the transition to LinkedIn oAuth
+      // This is much better UX than spinner flickering momentarily before
+      // we navigate away
+      timeout(5000).then(() => setSubmitting(false));
     }
   };
   const onSubmit = useCallback(handleSubmit, []);
@@ -252,51 +263,51 @@ const SenderForm = ({ ndaMetadata }) => {
               status,
               isSubmitting,
             }) => (
-                <Form>
+              <Form>
+                {
+                  status ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {status.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
+
+                <InputContainer>
+                  <FormikField
+                    as={SelectInput}
+                    name="ndaType"
+                    options={NDA_OPTIONS}
+                    placeholder="NDA type (one-way, mutual)"
+                  />
+                  <FieldErrorMessage name="ndaType" component="div" />
+                </InputContainer>
+
+                <InputContainer>
+                  <FormikField
+                    as={Input}
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    name="recipientName"
+                    placeholder="Recipient name"
+                    spellCheck={false}
+                  />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientName" component="div" />
+                </InputContainer>
+
+                <InputContainer>
+                  <FormikField
+                    as={EmailInput}
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    name="recipientEmail"
+                    onEmailSuggest={setSuggestedEmail}
+                    placeholder="Recipient email"
+                    spellCheck={false}
+                  />
+
                   {
-                    status ? (
-                      <ErrorMessage style={{ marginBottom: '3pc' }}>
-                        {status.errorMessage}
-                      </ErrorMessage>
-                    ) : null
-                  }
-
-                  <InputContainer>
-                    <FormikField
-                      as={SelectInput}
-                      name="ndaType"
-                      options={NDA_OPTIONS}
-                      placeholder="NDA type (one-way, mutual)"
-                    />
-                    <FieldErrorMessage name="ndaType" component="div" />
-                  </InputContainer>
-
-                  <InputContainer>
-                    <FormikField
-                      as={Input}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="recipientName"
-                      placeholder="Recipient name"
-                      spellCheck={false}
-                    />
-                    <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientName" component="div" />
-                  </InputContainer>
-
-                  <InputContainer>
-                    <FormikField
-                      as={EmailInput}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="recipientEmail"
-                      onEmailSuggest={setSuggestedEmail}
-                      placeholder="Recipient email"
-                      spellCheck={false}
-                    />
-
-                    {
                       suggestedEmail && (
                         <ErrorMessage style={{ marginTop: '1pc' }} color="#fff">
                           Did you mean
@@ -312,39 +323,39 @@ const SenderForm = ({ ndaMetadata }) => {
                           >
                             {suggestedEmail}
                           </AnchorButton>
-                      ?
+                          ?
                         </ErrorMessage>
                       )
                     }
 
-                    <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientEmail" component="div" />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientEmail" component="div" />
 
-                  </InputContainer>
+                </InputContainer>
 
-                  <DisclaimerText>
-                    Singing the NDA signifies that you have read and agree to the
-                {' '}
-                    <UnderlineText>Terms of Use</UnderlineText>
-                    {' '}
-                and
-                {' '}
-                    <UnderlineText>Privacy Policy</UnderlineText>
-                .
-              </DisclaimerText>
+                <DisclaimerText>
+                  Singing the NDA signifies that you have read and agree to the
+                  {' '}
+                  <UnderlineText>Terms of Use</UnderlineText>
+                  {' '}
+                  and
+                  {' '}
+                  <UnderlineText>Privacy Policy</UnderlineText>
+                  .
+                </DisclaimerText>
 
-                  <LinkedInButtonWrapper>
-                    <LinkedInButton
-                      type="submit"
-                    >
-                      {
+                <LinkedInButtonWrapper>
+                  <LinkedInButton
+                    type="submit"
+                  >
+                    {
                         isSubmitting ? (
                           <Spinner color="#FFFFFF" size={14} />
                         ) : 'Review and Sign with LinkedIn'
                       }
-                    </LinkedInButton>
-                  </LinkedInButtonWrapper>
-                </Form>
-              )}
+                  </LinkedInButton>
+                </LinkedInButtonWrapper>
+              </Form>
+            )}
           </Formik>
           <Footer />
         </ContentContainer>

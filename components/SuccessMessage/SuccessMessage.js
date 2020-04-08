@@ -4,7 +4,7 @@ import { Link } from '../../routes';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
-import Button from '../Clickable/Button';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
 const Container = styled.div`
@@ -62,7 +62,7 @@ const SucessMessage = styled.p`
 
 const SuccessMessage = () => (
   <Container>
-    <UserActionBanner ActionButton={() => <Button outline>Dashboard</Button>} />
+    <UserActionBanner ActionButton={() => <ButtonAnchor outline>Dashboard</ButtonAnchor>} />
     <PageContentContainer>
       <LogoHeaderContainer>
         <LogoHeader />
@@ -74,7 +74,7 @@ const SuccessMessage = () => (
           Jeremy views and/or accepts the NDA.
         </SucessMessage>
         <Link route="/" replace>
-          <Button style={{ backgroundColor: '#39d494' }}>Done</Button>
+          <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>
 

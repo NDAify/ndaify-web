@@ -21,18 +21,16 @@ const ButtonText = styled.span`
   justify-content: center;
 `;
 
-const LinkedInButton = ({ children, ...otherProps }) => {
-  return (
-    <StyledButton
-      color="#0F96CC"
-      {...otherProps}
-    >
-      <LinkedInLogo src="/static/linkedInLogo.svg" alt="linkedin-logo" />
-      <ButtonText>
-        {children}
-      </ButtonText>
-    </StyledButton>
-  );
-};
+const LinkedInButton = ({ children, ...otherProps }) => (
+  <StyledButton
+    color="#0F96CC"
+    {...otherProps}
+  >
+    <LinkedInLogo src="/static/linkedInLogo.svg" alt="linkedin-logo" />
+    <ButtonText>
+      {children}
+    </ButtonText>
+  </StyledButton>
+);
 
 export default LinkedInButton;
