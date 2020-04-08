@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { Link } from '../../routes';
+
 const Container = styled.footer`
   margin-top: 3pc;
   display: flex;
@@ -70,7 +72,11 @@ const Footer = ({ withLogo }) => (
   <Container>
     {withLogo && (
       <FooterLogoContainer>
-        <FooterLogoImg src="/static/logoWithText.svg" alt="ndaify logo" />
+        <Link route="/" replace>
+          <a>
+            <FooterLogoImg src="/static/logoWithText.svg" alt="ndaify logo" />
+          </a>
+        </Link>
       </FooterLogoContainer>
     )}
 
