@@ -18,6 +18,8 @@ const Button = styled.button`
   color: #ffffff;
   width: 100%;
   height: 60px;
+  display: flex;
+  justify-content: center;
 
   cursor: pointer;
 

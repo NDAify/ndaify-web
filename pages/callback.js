@@ -49,13 +49,7 @@ class Callback extends Component {
         CALLBACK_URL_LINKEDIN,
       );
 
-      let formSessionKey;
-      try {
-        ({ formSessionKey } = JSON.parse(oAuthState));
-        // eslint-disable-next-line
-      } catch (error) {}
-
-      return redirect(ctx, '/nda', { formSessionKey });
+      return redirect(ctx, '/nda');
     } catch (error) {
       // eslint-disable-next-line
       console.error(error);

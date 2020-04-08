@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import isUrl from 'is-url';
 
 import styled from 'styled-components';
+import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 import { Formik, Form, Field as FormikField } from 'formik';
 
@@ -15,6 +16,7 @@ import Footer from '../Footer/Footer';
 import Button from '../Clickable/Button';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 
@@ -112,17 +114,13 @@ const FormCopy = styled.h4`
   }
 `;
 
-const FormWrapper = styled.div`
-  margin-bottom: 1pc;
-`;
-
 const Home = ({ showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('ndaMetadata', null);
   }, []);
 
-  const handleValidationForm = (values) => {
+  const handleFormValidate = (values) => {
     const errors = {};
 
     if (!isUrl(values.secretLink)) {
@@ -132,18 +130,27 @@ const Home = ({ showCustomNote = false }) => {
     return errors;
   };
 
-  const onHandleValidation = useCallback(handleValidationForm, []);
+  const onFormValidate = useCallback(handleFormValidate, []);
 
-  const handleSubmit = ({ secretLink }) => {
-    sessionStorage.setItem(
-      'ndaMetadata',
-      {
-        secretLink,
-      },
-    );
+  const handleSubmit = async ({ secretLink }, { setStatus }) => {
+    setStatus();
 
-    Router.pushRoute('form');
+    try {
+      sessionStorage.setItem(
+        'ndaMetadata',
+        {
+          secretLink,
+        },
+      );
+      Router.pushRoute('form');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStatus({ errorMessage: error.message });
+    }
   };
+
+  const onSubmit = useCallback(handleSubmit, []);
 
   return (
     <Container>
@@ -172,34 +179,44 @@ const Home = ({ showCustomNote = false }) => {
             initialValues={{ secretLink: '' }}
             validateOnChange={false}
             validateOnBlur
-            validate={onHandleValidation}
-            onSubmit={handleSubmit}
+            validate={onFormValidate}
+            onSubmit={onSubmit}
           >
-            {() => (
-              <FormWrapper>
-                <Form>
-                  <InputContainer>
-                    <FormikField
-                      as={Input}
-                      name="secretLink"
-                      placeholder="Paste a secret link"
+            {({ isSubmitting, status }) => (
+              <Form style={{ marginBottom: '1pc' }}>
+                {
+                  status ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {status.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
+                <InputContainer>
+                  <FormikField
+                    as={Input}
+                    name="secretLink"
+                    placeholder="Paste a secret link"
 
-                      spellCheck={false}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                    />
-                    <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
-                  </InputContainer>
+                    spellCheck={false}
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                  />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
+                </InputContainer>
 
-                  <Button
-                    type="submit"
-                    color="#39d494"
-                  >
-                    Continue
-                  </Button>
-                </Form>
-              </FormWrapper>
+                <Button
+                  type="submit"
+                  color="#39d494"
+                >
+                  {
+                    isSubmitting ? (
+                      <Spinner color="#FFFFFF" size={14} />
+                    ) : 'Continue'
+                  }
+
+                </Button>
+              </Form>
             )}
           </Formik>
 

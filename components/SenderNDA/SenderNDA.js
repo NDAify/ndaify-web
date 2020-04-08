@@ -228,7 +228,7 @@ const SenderNDA = (props) => {
   };
   const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
 
-  const handleSignButtonClick = async (
+  const handleSubmit = async (
     {
       disclosingParty,
       receivingParty,
@@ -264,12 +264,9 @@ const SenderNDA = (props) => {
       // eslint-disable-next-line no-console
       console.error(error);
       setStatus({ errorMessage: error.message });
-    } finally {
-      // formik 2+ doesn't seem to require explicit setting submit cycle
-      // setSubmitting(false);
     }
   };
-  const onSignButtonClick = useCallback(handleSignButtonClick, []);
+  const onSubmit = useCallback(handleSubmit, []);
 
   return (
     <Container>
@@ -287,7 +284,7 @@ const SenderNDA = (props) => {
       />
       <Formik
         initialValues={initialValues}
-        onSubmit={onSignButtonClick}
+        onSubmit={onSubmit}
       >
         {({ values, status, isSubmitting }) => {
           const senderCompanyName = extractCompanyNameFromText(values.disclosingParty, senderName);
@@ -324,7 +321,7 @@ const SenderNDA = (props) => {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        style={{ backgroundColor: '#4AC09A', display: 'flex', justifyContent: 'center' }}
+                        style={{ backgroundColor: '#4AC09A' }}
                       >
                         {
                           isSubmitting ? (

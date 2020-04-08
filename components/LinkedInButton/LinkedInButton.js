@@ -17,19 +17,20 @@ const LinkedInLogo = styled.img`
 
 const ButtonText = styled.span`
   flex: 1;
+  display: flex;
+  justify-content: center;
 `;
 
-const LinkedInButton = (props) => {
-  const { buttonText } = props;
-
+const LinkedInButton = ({ children, ...otherProps }) => {
   return (
     <StyledButton
       color="#0F96CC"
-      type="button"
-      {...props}
+      {...otherProps}
     >
       <LinkedInLogo src="/static/linkedInLogo.svg" alt="linkedin-logo" />
-      <ButtonText>{buttonText}</ButtonText>
+      <ButtonText>
+        {children}
+      </ButtonText>
     </StyledButton>
   );
 };

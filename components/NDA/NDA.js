@@ -103,13 +103,6 @@ const BetweenPartyContainer = styled.div`
   line-height: 34px;
 `;
 
-// const EditableText = styled.span`
-//   font-weight: 700;
-//   padding: 4px;
-//   outline: 1px dashed #edd9a3;
-//   color: #ffffff;
-// `;
-
 const DisclaimerEnding = styled.span`
   font-size: 16px;
   display: block;
@@ -151,22 +144,6 @@ const NDAReadMoreText = styled.h4`
     font-size: 20px;
   }
 `;
-
-// const EditableTextField = (props) => {
-
-//   console.log('propppps', props);
-
-//   const [field] = useField(props);
-//   console.log('field', field.onChange);
-
-//   return (
-//     <EditableText {...field} {...props} />
-//   );
-//   // return (
-//   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-//   //   useMemo(() => <EditableText {...field} {...props} />, [])
-//   // );
-// };
 
 const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
   <DisclaimerTitle>
