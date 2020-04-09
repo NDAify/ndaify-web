@@ -9,7 +9,7 @@ const SenderNDAPage = (props) => {
   const ndaMetadata = useMemo(() => sessionStorage.getItem('ndaMetadata'), []);
   // `ndaMetadata` is in session storge, it's not available server side
   if (process.browser && !ndaMetadata) {
-    Router.replace('/');
+    Router.replaceRoute('/');
   }
 
   return (

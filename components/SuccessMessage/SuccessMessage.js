@@ -60,7 +60,7 @@ const SucessMessage = styled.p`
   }
 `;
 
-const SuccessMessage = () => (
+const SuccessMessage = ({ nda }) => (
   <Container>
     <UserActionBanner ActionButton={() => <ButtonAnchor outline>Dashboard</ButtonAnchor>} />
     <PageContentContainer>
@@ -70,8 +70,14 @@ const SuccessMessage = () => (
 
       <SucessMessageContainer>
         <SucessMessage>
-          Your request has been sent to Jeremy Voss. You will be notified when
-          Jeremy views and/or accepts the NDA.
+          Your request has been sent to
+          {' '}
+          {nda.metadata.recipientFullName}
+          . You will be notified when
+          {' '}
+          {nda.metadata.recipientFullName}
+          {' '}
+          views and/or accepts the NDA.
         </SucessMessage>
         <Link route="/" replace>
           <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>

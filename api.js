@@ -28,7 +28,7 @@ export const redirect = (ctx, to, params = {}) => {
   }
 
   if (process.browser) {
-    Router.replace(`${to}${qs}`);
+    Router.replaceRoute(`${to}${qs}`);
   } else {
     ctx.res.writeHead(statuses('Found'), { Location: `${to}${qs}` });
     ctx.res.end();
@@ -173,5 +173,10 @@ export class API {
   createNda(ndaMetadata) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(ndaMetadata);
+  }
+
+  getNda(ndaId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`)(this.ctx, sessionToken)();
   }
 }

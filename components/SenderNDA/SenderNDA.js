@@ -223,7 +223,7 @@ const SenderNDA = (props) => {
   };
 
   const handleDiscardButtonClick = () => {
-    Router.replace('/');
+    Router.replaceRoute('/');
     sessionStorage.clear();
   };
   const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
@@ -265,7 +265,7 @@ const SenderNDA = (props) => {
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      Router.replace('/payment-form');
+      Router.replaceRoute('/payment-form');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

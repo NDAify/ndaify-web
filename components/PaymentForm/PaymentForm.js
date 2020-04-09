@@ -19,8 +19,6 @@ import Dialog from '../Dialog/Dialog';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
-import { timeout } from '../../util';
-
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -175,7 +173,6 @@ const PaymentForm = ({ ndaMetadata }) => {
     values,
     {
       setStatus,
-      setSubmitting,
     },
   ) => {
     // clear all error messages before retrying
@@ -184,16 +181,13 @@ const PaymentForm = ({ ndaMetadata }) => {
     const api = new API();
 
     try {
-      await api.createNda(ndaMetadata);
-      Router.replace('/success-message');
+      const { nda } = await api.createNda(ndaMetadata);
+
+      Router.replaceRoute('success-message', { ndaId: nda.ndaId });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
       setStatus({ errorMessage: error.message });
-    } finally {
-      // Pretend like we are doing some work before redirecting to LinkedIn
-      // This is much better UX than just navigating away from the form
-      timeout(1000).then(() => setSubmitting(false));
     }
   };
   const onSubmit = useCallback(handleSubmit, []);
