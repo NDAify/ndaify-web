@@ -49,12 +49,12 @@ class Callback extends Component {
         CALLBACK_URL_LINKEDIN,
       );
 
-      return redirect(ctx, '/nda');
+      return redirect(ctx, '/nda/compose');
     } catch (error) {
       // eslint-disable-next-line
       console.error(error);
 
-      return redirect(ctx, `/form?errorMessage=${error.message}`);
+      return redirect(ctx, `/nda/new?errorMessage=${error.message}`);
     }
   }
 

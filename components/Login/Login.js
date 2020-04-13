@@ -50,9 +50,9 @@ const Login = () => (
       </LogoHeaderContainer>
 
       <LinkedInButtonWrapper>
-        <LinkedInButton
-          buttonText="Login with LinkedIn"
-        />
+        <LinkedInButton>
+          Login with LinkedIn
+        </LinkedInButton>
       </LinkedInButtonWrapper>
 
       <Footer />

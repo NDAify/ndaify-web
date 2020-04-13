@@ -170,13 +170,17 @@ export class API {
     return dispatch(DISPATCH_METHOD.GET, 'sessions')(this.ctx, sessionToken)();
   }
 
-  createNda(ndaMetadata) {
+  createNda(nda) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(ndaMetadata);
+    return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(nda);
   }
 
   getNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`)(this.ctx, sessionToken)();
+  }
+
+  getNdaPreview(ndaId) {
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`)(this.ctx, NO_SESSION)();
   }
 }

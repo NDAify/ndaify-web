@@ -9,7 +9,7 @@ import {
 
 import { Router } from '../../routes';
 
-import NDA from '../NDA/NDA';
+import NDA from './NDA';
 import Button from '../Clickable/Button';
 import Footer from '../Footer/Footer';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
@@ -18,6 +18,8 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 import { timeout } from '../../util';
+
+import getFullNameFromUser from './getFullNameFromUser';
 
 const Container = styled.div`
   width: 100%;
@@ -185,7 +187,10 @@ const DescriptionTitle = styled.h4`
   }
 `;
 
-const extractCompanyNameFromText = (text, personName) => {
+export const extractCompanyNameFromText = (text, personName) => {
+  if (!text || !personName) {
+    return null;
+  }
   const lowerCaseText = text.toLowerCase();
   const lowerCasePersonName = personName.toLowerCase();
 
@@ -201,27 +206,7 @@ const extractCompanyNameFromText = (text, personName) => {
   return text;
 };
 
-const SenderNDA = (props) => {
-  const { user, ndaMetadata } = props;
-
-  const senderName = `${user.metadata.linkedInProfile.firstName} ${user.metadata.linkedInProfile.lastName}`;
-  const senderEmail = user.metadata.linkedInProfile.emailAddress;
-
-  const sender = {
-    name: senderName,
-    email: senderEmail,
-  };
-
-  const recipient = {
-    name: ndaMetadata?.recipientName,
-    email: ndaMetadata?.recipientEmail,
-  };
-
-  const initialValues = {
-    disclosingParty: senderName,
-    receivingParty: ndaMetadata?.recipientName,
-  };
-
+const SenderNDA = ({ user, nda }) => {
   const handleDiscardButtonClick = () => {
     Router.replaceRoute('/');
     sessionStorage.clear();
@@ -241,31 +226,25 @@ const SenderNDA = (props) => {
     setStatus();
 
     try {
-      const ndaPayload = {
-        recipientEmail: recipient.email,
-        metadata: {
-          secretLinks: [
-            ndaMetadata?.secretLink,
-          ],
-          ndaType: ndaMetadata.ndaType,
-          recipientFullName: recipient.name,
-          ndaParamaters: {
-            disclosingParty,
-            receivingParty,
+      sessionStorage.setItem(
+        'nda',
+        {
+          ...nda,
+          metadata: {
+            ...nda.metadata,
+            ndaParamaters: {
+              disclosingParty,
+              receivingParty,
+            },
           },
         },
-      };
-
-      sessionStorage.setItem(
-        'ndaMetadata',
-        ndaPayload,
       );
 
       // Pretend like we are doing some work before moving to next step
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      Router.replaceRoute('/payment-form');
+      Router.replaceRoute('nda-pay');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -274,10 +253,17 @@ const SenderNDA = (props) => {
   };
   const onSubmit = useCallback(handleSubmit, []);
 
+  const senderFullName = getFullNameFromUser(user);
+
+  const initialValues = {
+    disclosingParty: senderFullName,
+    receivingParty: nda.metadata.recipientFullName,
+  };
+
   return (
     <Container>
       <UserActionBanner
-        user={sender}
+        user={user}
         ActionButton={() => (
           <Button
             compact
@@ -293,9 +279,9 @@ const SenderNDA = (props) => {
         onSubmit={onSubmit}
       >
         {({ values, status, isSubmitting }) => {
-          const senderCompanyName = extractCompanyNameFromText(values.disclosingParty, senderName);
+          const senderCompanyName = extractCompanyNameFromText(values.disclosingParty, senderFullName);
           const recipientCompanyName = extractCompanyNameFromText(
-            values.receivingParty, recipient.name,
+            values.receivingParty, nda.metadata.recipientName,
           );
 
           return (
@@ -304,8 +290,10 @@ const SenderNDA = (props) => {
                 <NDAContainer>
                   <NDAWrapper>
                     <NDA
-                      sender={sender}
-                      recipient={recipient}
+                      nda={{
+                        ...nda,
+                        owner: user,
+                      }}
                     />
                   </NDAWrapper>
 
@@ -320,7 +308,7 @@ const SenderNDA = (props) => {
                   <ActionRow>
                     <PartyWrapper>
                       <SignatureHolder />
-                      <NDAPartyName>{recipient.name}</NDAPartyName>
+                      <NDAPartyName>{nda.metadata.recipientName}</NDAPartyName>
                       <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
                     </PartyWrapper>
                     <PartyWrapper>
@@ -335,12 +323,12 @@ const SenderNDA = (props) => {
                           ) : 'Sign'
                         }
                       </Button>
-                      <NDAPartyName>{sender.name}</NDAPartyName>
+                      <NDAPartyName>{senderFullName}</NDAPartyName>
                       <NDAPartyOrganization>{senderCompanyName}</NDAPartyOrganization>
                       <NDASenderDisclaimer>
                         I,
                         {' '}
-                        {sender.name}
+                        {senderFullName}
                         , certify that I have read the contract,
                         {' '}
                         and understand that clicking &#39;Sign&#39;
@@ -354,7 +342,7 @@ const SenderNDA = (props) => {
                     <AttachmentTitle>Attachments</AttachmentTitle>
                     <LinkWrapper>
                       <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-                      <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
+                      <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
                     </LinkWrapper>
                     <DescriptionTitle>
                       Recipient does not have access to your link unless he accepts the

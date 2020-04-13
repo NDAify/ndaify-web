@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { FormattedDate } from 'react-intl';
 import styled from 'styled-components';
 import { Field as FormikField } from 'formik';
 
@@ -7,6 +8,9 @@ import AnchorButton from '../Clickable/AnchorButton';
 
 import ContentEditableInput from '../Input/ContentEditableInput';
 
+import nowISO8601 from '../../utils/nowISO8601';
+
+import getFullNameFromUser from './getFullNameFromUser';
 
 const Container = styled.div`
   width: 100%;
@@ -147,7 +151,7 @@ const NDAReadMoreText = styled.h4`
 
 const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
   <DisclaimerTitle>
-    <BoldText>{sender.name}</BoldText>
+    <BoldText>{getFullNameFromUser(sender)}</BoldText>
     {' '}
     has requested your signature
   </DisclaimerTitle>
@@ -158,13 +162,13 @@ const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
 ));
 
 const BetweenParty = ({
-  isRecipientNDA, sender, recipient,
+  isRecipientNDA, ndaParamaters,
 }) => (isRecipientNDA ? (
   <BetweenPartyContainer>
     <NDASectionBodyText>
       1.
       {' '}
-      <BoldText>{sender.name}</BoldText>
+      <BoldText>{ndaParamaters.disclosingParty}</BoldText>
       {' '}
       (the Disclosing Party); and
     </NDASectionBodyText>
@@ -172,8 +176,7 @@ const BetweenParty = ({
       2.
       {' '}
       <BoldText>
-        {recipient.name}
-        {recipient.company ? recipient.company : null}
+        {ndaParamaters.receivingParty}
       </BoldText>
       {' '}
       (the Receiving Party), collectively referred to as the Parties.
@@ -205,14 +208,19 @@ const BetweenParty = ({
 ));
 
 const NDA = ({
-  sender, recipient, isRecipientNDA,
+  nda,
+  isRecipientNDA,
 }) => {
-  const otherPartyName = isRecipientNDA ? sender.name : recipient.name;
+  const createdAt = nda.createdAt || nowISO8601();
+
+  const ownerFullName = getFullNameFromUser(nda.owner);
+  const { recipientFullName } = nda.metadata;
+  const otherPartyName = isRecipientNDA ? ownerFullName : recipientFullName;
 
   return (
     <Container>
       <NDADisclaimerWrapper>
-        <DisclaimerTitleText isRecipientNDA={isRecipientNDA} sender={sender} />
+        <DisclaimerTitleText isRecipientNDA={isRecipientNDA} sender={nda.owner} />
         <DisclaimerBody>
           By signing, both
           {' '}
@@ -235,7 +243,6 @@ const NDA = ({
           <span>Agreement</span>
         </NDATitle>
       </NDATitleContainer>
-
       <NDASectionContainer>
         <NDASectionTitle
           style={{ display: 'inline-block', marginRight: '6px' }}
@@ -244,15 +251,22 @@ const NDA = ({
           {' '}
         </NDASectionTitle>
         <NDASectionBodyText style={{ display: 'inline' }}>
-          is made on December 6th, 2017.
+          is made on
+          {' '}
+          <FormattedDate
+            year="numeric"
+            month="long"
+            day="numeric"
+            value={createdAt}
+          />
+          .
         </NDASectionBodyText>
       </NDASectionContainer>
       <NDASectionContainer>
         <NDASectionTitle>Between</NDASectionTitle>
         <BetweenParty
           isRecipientNDA={isRecipientNDA}
-          sender={sender}
-          recipient={recipient}
+          ndaParamaters={nda.metadata.ndaParamaters}
         />
         <DisclaimerEnding>
           collectively referred to as the

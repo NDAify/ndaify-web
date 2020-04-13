@@ -20,6 +20,7 @@
     "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-intl": "^4.3.1",
     "react-sane-contenteditable": "^1.6.1",
     "shortid": "^2.2.14",
     "statuses": "^1.5.0",
@@ -30,7 +31,9 @@
   "scripts": {
     "dev": "node -r dotenv/config server.js",
     "lint": "eslint pages/ components/ utils/",
-    "test": "yarn lint && jest"
+    "test": "yarn lint && jest",
+    "build": "next build",
+    "start": "NODE_ENV=production node .next/dist/server.js"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",

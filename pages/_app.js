@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import NextApp, { Container } from 'next/app';
 import NProgress from 'nprogress';
+import { IntlProvider } from 'react-intl';
+
 import { Router } from '../routes';
 
 import { PageTitle } from '../components/Head/Head';
@@ -26,17 +28,31 @@ class App extends NextApp {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps };
+    const ssrNow = Date.now();
+
+    return { pageProps, ssrNow };
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, ssrNow } = this.props;
+
     return (
       <Fragment>
+
         <PageTitle />
+
         <Container>
-          <Component {...pageProps} />
+          <IntlProvider
+            locale="en"
+            timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
+            messages={{}}
+            initialNow={ssrNow}
+            textComponent={Fragment}
+          >
+            <Component {...pageProps} />
+          </IntlProvider>
         </Container>
+
       </Fragment>
     );
   }

@@ -5,14 +5,14 @@ import * as sessionStorage from '../lib/sessionStorage';
 import PaymentForm from '../components/PaymentForm/PaymentForm';
 
 const PaymentFormPage = () => {
-  const ndaMetadata = useMemo(() => sessionStorage.getItem('ndaMetadata'), []);
-  // `ndaMetadata` is in session storge, it's not available server side
-  if (process.browser && !ndaMetadata) {
+  const nda = useMemo(() => sessionStorage.getItem('nda'), []);
+  // `nda` is in session storge, it's not available server side
+  if (process.browser && !nda) {
     Router.replaceRoute('/');
   }
 
   return (
-    <PaymentForm ndaMetadata={ndaMetadata} />
+    <PaymentForm nda={nda} />
   );
 };
 

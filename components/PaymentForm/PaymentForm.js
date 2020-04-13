@@ -168,7 +168,7 @@ const Divider = () => (
   </DividerContainer>
 );
 
-const PaymentForm = ({ ndaMetadata }) => {
+const PaymentForm = ({ nda: ndaPayload }) => {
   const handleSubmit = async (
     values,
     {
@@ -181,9 +181,9 @@ const PaymentForm = ({ ndaMetadata }) => {
     const api = new API();
 
     try {
-      const { nda } = await api.createNda(ndaMetadata);
+      const { nda } = await api.createNda(ndaPayload);
 
-      Router.replaceRoute('success-message', { ndaId: nda.ndaId });
+      Router.replaceRoute('nda-sent', { ndaId: nda.ndaId });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

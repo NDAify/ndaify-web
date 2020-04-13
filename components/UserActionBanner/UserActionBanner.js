@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import getFullNameFromUser from '../NDA/getFullNameFromUser';
+
 const UserDetailBannerContainer = styled.div`
   padding: 1pc;
   background-color: #5dbfc8;
@@ -70,9 +72,9 @@ const UserActionBanner = ({ user, ActionButton }) => {
   return (
     <UserDetailBannerContainer>
       <UserDetails>
-        <UserNameText>{user.name}</UserNameText>
+        <UserNameText>{getFullNameFromUser(user)}</UserNameText>
         <UserEmailText>
-          {`<${user.email}>`}
+          {`<${user.metadata.linkedInProfile.emailAddress}>`}
         </UserEmailText>
       </UserDetails>
 

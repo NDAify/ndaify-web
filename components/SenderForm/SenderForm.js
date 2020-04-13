@@ -160,7 +160,7 @@ const NDA_OPTIONS = [
 
 const isValidEmail = string => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-const SenderForm = ({ ndaMetadata }) => {
+const SenderForm = ({ nda }) => {
   const router = useRouter();
   const [suggestedEmail, setSuggestedEmail] = useState();
 
@@ -174,8 +174,8 @@ const SenderForm = ({ ndaMetadata }) => {
       errors.recipientEmail = 'Invalid email';
     }
 
-    if (!values.recipientName) {
-      errors.recipientName = 'Required';
+    if (!values.recipientFullName) {
+      errors.recipientFullName = 'Required';
     }
 
     return errors;
@@ -185,7 +185,7 @@ const SenderForm = ({ ndaMetadata }) => {
   const handleSubmit = (
     {
       ndaType,
-      recipientName,
+      recipientFullName,
       recipientEmail,
     },
     {
@@ -197,12 +197,15 @@ const SenderForm = ({ ndaMetadata }) => {
 
     try {
       sessionStorage.setItem(
-        'ndaMetadata',
+        'nda',
         {
-          ...ndaMetadata,
-          ndaType,
-          recipientName,
+          ...nda,
           recipientEmail,
+          metadata: {
+            ...nda.metadata,
+            ndaType,
+            recipientFullName,
+          },
         },
       );
 
@@ -223,9 +226,9 @@ const SenderForm = ({ ndaMetadata }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
-    ndaType: ndaMetadata.ndaType || 'one-way',
-    recipientName: ndaMetadata.recipientName || '',
-    recipientEmail: ndaMetadata.recipientEmail || '',
+    ndaType: nda.metadata.ndaType || 'one-way',
+    recipientFullName: nda.metadata.recipientFullName || '',
+    recipientEmail: nda.recipientEmail || '',
   };
 
   return (
@@ -244,7 +247,7 @@ const SenderForm = ({ ndaMetadata }) => {
 
           <LinkWrapper>
             <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
-            <DocumentUrl>{ndaMetadata?.secretLink}</DocumentUrl>
+            <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
             Recipient does not have access to your link unless he accepts the term
@@ -288,11 +291,11 @@ const SenderForm = ({ ndaMetadata }) => {
                     autoCapitalize="none"
                     autoComplete="off"
                     autoCorrect="off"
-                    name="recipientName"
+                    name="recipientFullName"
                     placeholder="Recipient name"
                     spellCheck={false}
                   />
-                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientName" component="div" />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientFullName" component="div" />
                 </InputContainer>
 
                 <InputContainer>

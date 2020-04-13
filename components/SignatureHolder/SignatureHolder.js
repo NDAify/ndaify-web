@@ -42,17 +42,26 @@ const getSignature = (firstName, lastName) => {
   return `${firstName} ${lastName}`;
 };
 
-const SignatureHolder = ({ firstName, lastName }) => (
-  <SignatureHolderContaine>
-    <SignatureIndicator>X</SignatureIndicator>
-    <SignatureWrapper>
-      {
-        firstName || lastName ? (
-          <Signature>{getSignature(firstName, lastName)}</Signature>
-        ) : null
-      }
-    </SignatureWrapper>
-  </SignatureHolderContaine>
-);
+const SignatureHolder = ({ name }) => {
+  let firstName;
+  let lastName;
+
+  if (name) {
+    [firstName, lastName] = name.split(' ');
+  }
+
+  return (
+    <SignatureHolderContaine>
+      <SignatureIndicator>X</SignatureIndicator>
+      <SignatureWrapper>
+        {
+          firstName || lastName ? (
+            <Signature>{getSignature(firstName, lastName)}</Signature>
+          ) : null
+        }
+      </SignatureWrapper>
+    </SignatureHolderContaine>
+  );
+};
 
 export default SignatureHolder;

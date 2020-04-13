@@ -1,21 +1,21 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
-import SenderNDA from '../components/SenderNDA/SenderNDA';
+import SenderNDA from '../components/NDA/SenderNDA';
 import { API } from '../api';
 import { Router } from '../routes';
 import * as sessionStorage from '../lib/sessionStorage';
 
 const SenderNDAPage = (props) => {
-  const ndaMetadata = useMemo(() => sessionStorage.getItem('ndaMetadata'), []);
-  // `ndaMetadata` is in session storge, it's not available server side
-  if (process.browser && !ndaMetadata) {
+  const nda = useMemo(() => sessionStorage.getItem('nda'), []);
+  // `nda` is in session storge, it's not available server side
+  if (process.browser && !nda) {
     Router.replaceRoute('/');
   }
 
   return (
     <SenderNDA
       user={props.user}
-      ndaMetadata={ndaMetadata}
+      nda={nda}
     />
   );
 };

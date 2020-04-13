@@ -117,7 +117,7 @@ const FormCopy = styled.h4`
 const Home = ({ showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
-    sessionStorage.setItem('ndaMetadata', null);
+    sessionStorage.setItem('nda', null);
   }, []);
 
   const handleFormValidate = (values) => {
@@ -137,12 +137,14 @@ const Home = ({ showCustomNote = false }) => {
 
     try {
       sessionStorage.setItem(
-        'ndaMetadata',
+        'nda',
         {
-          secretLink,
+          metadata: {
+            secretLinks: [secretLink],
+          },
         },
       );
-      Router.pushRoute('form');
+      Router.pushRoute('nda-new');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
