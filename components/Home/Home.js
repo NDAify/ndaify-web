@@ -114,7 +114,7 @@ const FormCopy = styled.h4`
   }
 `;
 
-const Home = ({ showCustomNote = false }) => {
+const Home = ({ user, showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);
@@ -222,15 +222,28 @@ const Home = ({ showCustomNote = false }) => {
             )}
           </Formik>
 
-          <FormCopy>
-            Or,
-            {' '}
-            <Link route="/login">
-              <Anchor>log in</Anchor>
-            </Link>
-            {' '}
-            to see your NDAs.
-          </FormCopy>
+          {
+            user ? (
+              <FormCopy>
+                Or, go to your
+                {' '}
+                <Link route="/dashboard">
+                  <Anchor>dashboard</Anchor>
+                </Link>
+                .
+              </FormCopy>
+            ) : (
+              <FormCopy>
+                Or,
+                {' '}
+                <Link route="/login">
+                  <Anchor>log in</Anchor>
+                </Link>
+                {' '}
+                to see your NDAs.
+              </FormCopy>
+            )
+          }
           <Footer />
         </ContentContainer>
       </PageContainer>
