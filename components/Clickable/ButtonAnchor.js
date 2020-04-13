@@ -24,6 +24,22 @@ const ButtonAnchor = styled.a`
 
   cursor: pointer;
 
+  ${props => (props.color ? `background-color: ${props.color};` : '')}
+  ${props => (props.disabled ? 'background-color: #aaaaaa;' : '')}
+  ${props => (props.outline ? `
+      width: unset;
+      height: 40px;
+      background-color: transparent;
+      border: 1px solid #ffffff;
+    ` : '')
+}
+  ${props => (props.compact ? `
+      width: unset;
+      height: 40px;
+      border: 0;
+    ` : '')
+}
+
   :focus {
     outline: -webkit-focus-ring-color auto 5px;;
     outline-offset: 0px;

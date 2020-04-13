@@ -13,10 +13,10 @@ Home.getInitialProps = async (ctx) => {
 
   let user;
   try {
-    // ({ user } = await api.getSession());
+    ({ user } = await api.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    console.info(error);
   }
 
   return {

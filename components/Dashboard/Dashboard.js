@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styled from 'styled-components';
+import { FormattedDate } from 'react-intl';
+
+import { Link, Router } from '../../routes';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import Footer from '../Footer/Footer';
 import Button from '../Clickable/Button';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
+import ActiveLink from '../ActiveLink/ActiveLink';
+
+import { API } from '../../api';
+
+import { NDA_OPTIONS } from '../SenderForm/SenderForm';
 
 const Container = styled.div`
   width: 100%;
@@ -49,6 +58,7 @@ const StyledLink = styled.a`
   margin-right: 2pc;
   padding-bottom: 6px;
   border-bottom: ${({ active }) => active && '4px solid #EDD9A3'};
+  cursor: pointer;
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -57,14 +67,16 @@ const StyledLink = styled.a`
 
 const HistoryList = styled.div`
   width: 100%;
-  height: 500px;
 `;
 
-const ItemCardContainer = styled.div`
+const ItemCardContainer = styled.a`
   display: flex;
-  border: 1px solid #EDD9A3;
+  border: 1px solid #4E5263;
   border-radius: 4px;
   margin-bottom: 1pc;
+  cursor: pointer;
+
+  ${props => (props.pending ? 'border-color: #EDD9A3;' : '')}
 `;
 
 const RightArrowContainer = styled.div`
@@ -150,57 +162,114 @@ const StatusText = styled(RecipientInfoText)`
   color: #EDD9A3;
 `;
 
-const HistoryItem = () => (
-  <ItemCardContainer>
-    <HistoryItemContainer>
-      <HistoryTimeRow>
-        <CalendarIcon src="/static/calendarIcon.svg" alt="calendar icon" />
-        <HistoryTimeText>March 3, 2019</HistoryTimeText>
-      </HistoryTimeRow>
-      <RecipientRow>
-        <HistoryItemTitle>Recipient</HistoryItemTitle>
-        <RecipientInfoText>{'Jeremy Voss <jeremy.voss@gmail.com>'}</RecipientInfoText>
-      </RecipientRow>
-      <TypeAndStatusRow>
-        <TypeContainer>
-          <HistoryItemTitle>Type</HistoryItemTitle>
-          <RecipientInfoText>Mutual NDA</RecipientInfoText>
-        </TypeContainer>
-        <StatusContainer>
-          <HistoryItemTitle>Statue</HistoryItemTitle>
-          <StatusText>Unsigned</StatusText>
-        </StatusContainer>
-      </TypeAndStatusRow>
-    </HistoryItemContainer>
-    <RightArrowContainer>
-      <RightArrowIcon src="/static/rightArrowIcon.svg" alt="right arrow icon" />
+const NDA_STATUS_LABEL = {
+  pending: 'Unsigned',
+  signed: 'Signed',
+  revoked: 'Revoked',
+  declined: 'Declined',
+};
 
-    </RightArrowContainer>
-  </ItemCardContainer>
+const HistoryItem = ({ nda }) => (
+  <Link
+    route={`/nda/${nda.ndaId}`}
+  >
+    <ItemCardContainer pending={nda.metadata.status === 'pending'}>
+      <HistoryItemContainer>
+        <HistoryTimeRow>
+          <CalendarIcon src="/static/calendarIcon.svg" alt="calendar icon" />
+          <HistoryTimeText>
+            <FormattedDate
+              year="numeric"
+              month="long"
+              day="numeric"
+              value={nda.createdAt}
+            />
+          </HistoryTimeText>
+        </HistoryTimeRow>
+        <RecipientRow>
+          <HistoryItemTitle>Recipient</HistoryItemTitle>
+          <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail}>`}</RecipientInfoText>
+        </RecipientRow>
+        <TypeAndStatusRow>
+          <TypeContainer>
+            <HistoryItemTitle>Type</HistoryItemTitle>
+            <RecipientInfoText>{NDA_OPTIONS.find(option => option.value === nda.metadata.ndaType).label}</RecipientInfoText>
+          </TypeContainer>
+          <StatusContainer>
+            <HistoryItemTitle>Status</HistoryItemTitle>
+            <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
+          </StatusContainer>
+        </TypeAndStatusRow>
+      </HistoryItemContainer>
+      <RightArrowContainer>
+        <RightArrowIcon src="/static/rightArrowIcon.svg" alt="right arrow icon" />
+      </RightArrowContainer>
+    </ItemCardContainer>
+  </Link>
 );
 
 
-const Dashboard = () => (
-  <Container>
-    <UserActionBanner ActionButton={() => <Button compact color="#dc564a">Log Out</Button>} />
-    <PageContainer>
-      <ActionRow>
-        <LinksContainer>
-          <StyledLink>Inbox</StyledLink>
-          <StyledLink active>Sent</StyledLink>
-        </LinksContainer>
-        <Button outline>New</Button>
-      </ActionRow>
+const Dashboard = ({ user, ndas }) => {
+  const handleLogOutClick = async () => {
+    const api = new API();
+    await api.endSession();
 
-      <HistoryList>
-        <HistoryItem />
-        <HistoryItem />
-      </HistoryList>
+    Router.push('/');
+  };
+  const onLogOutClick = useCallback(handleLogOutClick, []);
 
-      <Footer withLogo />
+  return (
+    <Container>
 
-    </PageContainer>
-  </Container>
-);
+      <UserActionBanner
+        user={user}
+        ActionButton={() => (
+          <Button
+            compact
+            color="#dc564a"
+            onClick={onLogOutClick}
+          >
+            Log Out
+          </Button>
+        )}
+      />
+      <PageContainer>
+        <ActionRow>
+          <LinksContainer>
+            <ActiveLink route="/dashboard/inbox">
+              {
+                active => (
+                  <StyledLink active={active}>Inbox</StyledLink>
+                )
+              }
+            </ActiveLink>
+            <ActiveLink route="/dashboard/outbox">
+              {
+                active => (
+                  <StyledLink active={active}>Sent</StyledLink>
+
+                )
+              }
+            </ActiveLink>
+          </LinksContainer>
+          <Link route="/">
+            <ButtonAnchor outline>New</ButtonAnchor>
+          </Link>
+        </ActionRow>
+
+        <HistoryList>
+          {
+            ndas.map(nda => (
+              <HistoryItem key={nda.ndaId} nda={nda} />
+            ))
+          }
+        </HistoryList>
+
+        <Footer withLogo />
+
+      </PageContainer>
+    </Container>
+  );
+};
 
 export default Dashboard;

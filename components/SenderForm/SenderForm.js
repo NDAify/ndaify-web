@@ -147,7 +147,7 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
-const NDA_OPTIONS = [
+export const NDA_OPTIONS = [
   {
     label: 'One Way',
     value: 'one-way',

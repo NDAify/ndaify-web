@@ -168,7 +168,7 @@ const Divider = () => (
   </DividerContainer>
 );
 
-const PaymentForm = ({ nda: ndaPayload }) => {
+const PaymentForm = ({ user, nda: ndaPayload }) => {
   const handleSubmit = async (
     values,
     {
@@ -192,6 +192,12 @@ const PaymentForm = ({ nda: ndaPayload }) => {
   };
   const onSubmit = useCallback(handleSubmit, []);
 
+  const handleCancelClick = () => {
+    Router.replaceRoute('/');
+    sessionStorage.clear();
+  };
+  const onCancelClick = useCallback(handleCancelClick, []);
+
   const initialValues = {
     nameOnCard: '',
     cardNumber: '',
@@ -202,7 +208,18 @@ const PaymentForm = ({ nda: ndaPayload }) => {
 
   return (
     <Container>
-      <UserActionBanner ActionButton={() => <Button outline>Dashboard</Button>} />
+      <UserActionBanner
+        user={user}
+        ActionButton={() => (
+          <Button
+            outline
+            onClick={onCancelClick}
+          >
+            Cancel
+          </Button>
+        )}
+      />
+
       <ContentContainer>
         <DialogContainer>
           <DialogTitle>One last thing before delivery…</DialogTitle>

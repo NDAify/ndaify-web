@@ -14,9 +14,14 @@ import Input from '../Input/Input';
 import CustomNote from '../CustomNote/CustomNote';
 import Footer from '../Footer/Footer';
 import Button from '../Clickable/Button';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
+
+import { API } from '../../api';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 
@@ -156,7 +161,24 @@ const Home = ({ user, showCustomNote = false }) => {
 
   return (
     <Container>
-      <OpenSourceBanner />
+
+      {
+        user ? (
+          <UserActionBanner
+            user={user}
+            ActionButton={() => (
+              <Link route="dashboard-inbox">
+                <ButtonAnchor outline>
+                  Dashboard
+                </ButtonAnchor>
+              </Link>
+            )}
+          />
+        ) : (
+          <OpenSourceBanner />
+        )
+      }
+
       {
         showCustomNote && <CustomNote />
       }
@@ -225,12 +247,13 @@ const Home = ({ user, showCustomNote = false }) => {
           {
             user ? (
               <FormCopy>
-                Or, go to your
+                Or, go to
                 {' '}
-                <Link route="/dashboard">
+                <Link route="dashboard-inbox">
                   <Anchor>dashboard</Anchor>
                 </Link>
-                .
+                {' '}
+                to see your NDAs.
               </FormCopy>
             ) : (
               <FormCopy>

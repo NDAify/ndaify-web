@@ -79,11 +79,12 @@ const post = (endpoint, headers, payload, config = {}) => fetch(normalizeUrl(end
 
 export const dispatch = (method, endpoint, config) => (ctx, sessionToken) => async (payload) => {
   if (!sessionToken) {
-    redirect(ctx, '/login', {
-      errorMessage: 'You must log in to continue',
-      redirectUrl: getRedirectUrl(ctx),
-    });
-
+    if (!config.noRedirect) {
+      redirect(ctx, '/login', {
+        errorMessage: 'You must log in to continue',
+        redirectUrl: getRedirectUrl(ctx),
+      });
+    }
     throw new Error('Missing sessionToken');
   }
 
@@ -118,10 +119,12 @@ export const dispatch = (method, endpoint, config) => (ctx, sessionToken) => asy
 
   if (response.status !== statuses('OK') && response.status !== statuses('Created')) {
     if (response.status === statuses('Unauthorized')) {
-      redirect(ctx, '/login', {
-        errorMessage: 'Your session has expired. Log in to continue.',
-        redirectUrl: getRedirectUrl(ctx),
-      });
+      if (!config.noRedirect) {
+        redirect(ctx, '/login', {
+          errorMessage: 'Your session has expired. Log in to continue.',
+          redirectUrl: getRedirectUrl(ctx),
+        });
+      }
 
       throw new Error('Invalid session token');
     }
@@ -170,6 +173,11 @@ export class API {
     return dispatch(DISPATCH_METHOD.GET, 'sessions')(this.ctx, sessionToken)();
   }
 
+  tryGetSession() {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.GET, 'sessions', { noRedirect: true })(this.ctx, sessionToken)();
+  }
+
   createNda(nda) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(nda);
@@ -182,5 +190,10 @@ export class API {
 
   getNdaPreview(ndaId) {
     return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`)(this.ctx, NO_SESSION)();
+  }
+
+  getNdas() {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.GET, 'ndas')(this.ctx, sessionToken)();
   }
 }

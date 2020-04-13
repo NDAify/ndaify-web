@@ -13,9 +13,11 @@ routes.add('nda-sent', '/nda/sent-:ndaId', 'success-message');
 
 routes.add('nda-preview', '/nda/:ndaId/preview', 'recipient-nda');
 
-// routes.add('nda', '/nda/:ndaId', 'nda');
 
 routes.add('login', '/login', 'login');
-routes.add('dashboard', '/dashboard', 'dashboard');
+
+routes.add('dashboard-inbox', '/dashboard/inbox', 'dashboard');
+routes.add('dashboard-outbox', '/dashboard/outbox', 'dashboard');
+routes.add('dashboard-nda', '/nda/:ndaId', 'nda');
 
 module.exports = routes;

@@ -60,9 +60,23 @@ const SucessMessage = styled.p`
   }
 `;
 
-const SuccessMessage = ({ nda }) => (
+const SuccessMessage = ({ user, nda }) => (
   <Container>
-    <UserActionBanner ActionButton={() => <ButtonAnchor outline>Dashboard</ButtonAnchor>} />
+    {
+      user ? (
+        <UserActionBanner
+          user={user}
+          ActionButton={() => (
+            <Link route="dashboard-inbox">
+              <ButtonAnchor outline>
+                Dashboard
+              </ButtonAnchor>
+            </Link>
+          )}
+        />
+      ) : null
+    }
+
     <PageContentContainer>
       <LogoHeaderContainer>
         <LogoHeader />
@@ -79,7 +93,7 @@ const SuccessMessage = ({ nda }) => (
           {' '}
           views and/or accepts the NDA.
         </SucessMessage>
-        <Link route="/" replace>
+        <Link route="dashboard-outbox" replace>
           <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>
