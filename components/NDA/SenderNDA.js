@@ -264,7 +264,7 @@ const SenderNDA = ({ user, nda }) => {
     <Container>
       <UserActionBanner
         user={user}
-        ActionButton={() => (
+        actionButton={() => (
           <Button
             compact
             color="#dc564a"

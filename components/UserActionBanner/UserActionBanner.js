@@ -64,7 +64,7 @@ const UserEmailText = styled.span`
   }
 `;
 
-const UserActionBanner = ({ user, ActionButton }) => {
+const UserActionBanner = ({ user, actionButton: ActionButton }) => {
   if (!user) {
     return null;
   }

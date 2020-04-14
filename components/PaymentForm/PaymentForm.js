@@ -210,7 +210,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     <Container>
       <UserActionBanner
         user={user}
-        ActionButton={() => (
+        actionButton={() => (
           <Button
             outline
             onClick={onCancelClick}

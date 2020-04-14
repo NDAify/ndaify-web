@@ -66,7 +66,7 @@ const SuccessMessage = ({ user, nda }) => (
       user ? (
         <UserActionBanner
           user={user}
-          ActionButton={() => (
+          actionButton={() => (
             <Link route="dashboard-inbox">
               <ButtonAnchor outline>
                 Dashboard

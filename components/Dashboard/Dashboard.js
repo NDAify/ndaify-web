@@ -223,7 +223,7 @@ const Dashboard = ({ user, ndas }) => {
 
       <UserActionBanner
         user={user}
-        ActionButton={() => (
+        actionButton={() => (
           <Button
             compact
             color="#dc564a"
