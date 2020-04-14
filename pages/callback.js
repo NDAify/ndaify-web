@@ -19,6 +19,13 @@ class Callback extends Component {
       errorDescription: oAuthErrorDescription,
     } = humps.camelizeKeys(query);
 
+    let redirectUrl;
+    let redirectOnErrorUrl;
+    try {
+      ({ redirectUrl, redirectOnErrorUrl } = JSON.parse(oAuthState));
+      // eslint-disable-next-line
+    } catch (error) {}
+
     try {
       if (oAuthError) {
         if (oAuthError === OAUTH_ERROR_USER_CANCELLED_AUTHORIZE) {
@@ -30,7 +37,7 @@ class Callback extends Component {
         }
 
         if (oAuthError === OAUTH_ERROR_UNAUTHORIZED_SCOPE_ERROR) {
-          throw new Error('Issue connection LinkedIn to Linkedin. Please try again later.');
+          throw new Error('Encountered an error connecting to Linkedin. Please try again later.');
         }
 
         // eslint-disable-next-line
@@ -43,18 +50,40 @@ class Callback extends Component {
       const CALLBACK_URL_LINKEDIN = `${getOrigin(ctx.req)}/sessions/linkedin/callback`;
 
       // `sessionToken` will be injected into app and handeled via cookies
-      await api.startSessionByOAuth(
-        oAuthAuthorizationCode,
-        oAuthState,
-        CALLBACK_URL_LINKEDIN,
-      );
+      try {
+        await api.startSessionByOAuth(
+          oAuthAuthorizationCode,
+          oAuthState,
+          CALLBACK_URL_LINKEDIN,
+        );
+      } catch (error) {
+        // eslint-disable-next-line
+        console.error(error);
 
-      return redirect(ctx, '/nda/compose');
+        // User is suspended or something else went wrong
+        throw new Error('Failed to authenticate');
+      }
+
+      if (redirectUrl) {
+        return redirect(ctx, redirectUrl);
+      }
+
+      return redirect(ctx, '/dashboard/incoming');
     } catch (error) {
       // eslint-disable-next-line
       console.error(error);
 
-      return redirect(ctx, `/nda/new?errorMessage=${error.message}`);
+      let loginPage = '/login';
+
+      if (redirectOnErrorUrl) {
+        loginPage = redirectOnErrorUrl;
+      }
+
+      if (redirectUrl) {
+        return redirect(ctx, `${loginPage}?errorMessage=${error.message}&redirectUrl=${redirectUrl}`);
+      }
+
+      return redirect(ctx, `${loginPage}?errorMessage=${error.message}`);
     }
   }
 

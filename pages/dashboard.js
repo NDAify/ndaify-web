@@ -13,6 +13,10 @@ DashBoardPage.getInitialProps = async (ctx) => {
 
   const { dashboardType } = ctx.query;
 
+  if (dashboardType !== 'incoming' && dashboardType !== 'outgoing') {
+    throw new Error('Invalid dashboard type');
+  }
+
   let user;
   let ndas;
   try {

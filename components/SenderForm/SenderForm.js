@@ -210,7 +210,11 @@ const SenderForm = ({ nda }) => {
       );
 
       const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
-      const oAuthState = serializeOAuthState();
+      const oAuthState = serializeOAuthState({
+        redirectUrl: '/nda/compose',
+        // If there is an error during the login phase, redirect the errors properly
+        redirectOnErrorUrl: '/nda/new',
+      });
       window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
     } catch (error) {
       // eslint-disable-next-line no-console

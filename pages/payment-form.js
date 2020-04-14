@@ -10,7 +10,10 @@ const PaymentFormPage = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
   // `nda` is in session storge, it's not available server side
   if (process.browser && !nda) {
+    // TODO(juliaqiuxy) I don't think we can call Router.[methods] in the render
+    // function Check a better way of doing this 
     Router.replaceRoute('/');
+    return null;
   }
 
   return (

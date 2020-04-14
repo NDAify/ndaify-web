@@ -1,16 +1,22 @@
 import React from 'react';
 
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import getConfig from 'next/config';
 
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+
+import { getClientOrigin, serializeOAuthState } from '../../util';
+
+const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const LinkedInButtonWrapper = styled.div`
   display: flex;
   margin-bottom: 3pc;
   width:100%;
-  max-width: 400px;
 `;
 
 const Container = styled.div`
@@ -26,7 +32,6 @@ const Container = styled.div`
 const PageContentContainer = styled.div`
   padding: 1pc;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   max-width: 768px;
   width: 100%;
@@ -36,28 +41,64 @@ const PageContentContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const ContentContainer = styled.div`
+  flex: 1;
+  margin: 1pc;
+  max-width: 576px;
+  width: 100%;
+  margin: 2pc;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
 const LogoHeaderContainer = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 10pc;
 `;
 
-const Login = () => (
-  <Container>
-    <PageContentContainer>
-      <LogoHeaderContainer>
-        <LogoHeader />
-      </LogoHeaderContainer>
+const Login = () => {
+  const router = useRouter();
 
-      <LinkedInButtonWrapper>
-        <LinkedInButton>
-          Login with LinkedIn
-        </LinkedInButton>
-      </LinkedInButtonWrapper>
+  return (
+    <Container>
+      <PageContentContainer>
+        <LogoHeaderContainer>
+          <LogoHeader />
+        </LogoHeaderContainer>
 
-      <Footer />
-    </PageContentContainer>
-  </Container>
-);
+        <ContentContainer>
+          {
+            router.query.errorMessage ? (
+              <ErrorMessage style={{ marginBottom: '3pc' }}>
+                {router.query.errorMessage}
+              </ErrorMessage>
+            ) : null
+          }
+
+          <LinkedInButtonWrapper>
+            <LinkedInButton 
+              onClick={() => {
+                const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
+
+                const { redirectUrl } = router.query;
+                const oAuthState = serializeOAuthState({ redirectUrl });
+
+                window.location.href = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`;
+              }}
+            >
+              Login with LinkedIn
+            </LinkedInButton>
+          </LinkedInButtonWrapper>
+
+          <Footer />
+        </ContentContainer>
+
+      </PageContentContainer>
+    </Container>
+  );
+};
 
 export default Login;
