@@ -16,8 +16,7 @@ routes.add('nda-preview', '/nda/:ndaId/preview', 'recipient-nda');
 
 routes.add('login', '/login', 'login');
 
-routes.add('dashboard-inbox', '/dashboard/inbox', 'dashboard');
-routes.add('dashboard-outbox', '/dashboard/outbox', 'dashboard');
+routes.add('dashboard', '/dashboard/:dashboardType', 'dashboard');
 routes.add('dashboard-nda', '/nda/:ndaId', 'nda');
 
 module.exports = routes;

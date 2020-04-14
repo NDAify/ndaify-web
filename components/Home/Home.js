@@ -167,7 +167,7 @@ const Home = ({ user, showCustomNote = false }) => {
           <UserActionBanner
             user={user}
             actionButton={() => (
-              <Link route="dashboard-inbox">
+              <Link route="/dashboard/incoming">
                 <ButtonAnchor outline>
                   Dashboard
                 </ButtonAnchor>
@@ -249,7 +249,7 @@ const Home = ({ user, showCustomNote = false }) => {
               <FormCopy>
                 Or, go to
                 {' '}
-                <Link route="dashboard-inbox">
+                <Link route="/dashboard/incoming">
                   <Anchor>dashboard</Anchor>
                 </Link>
                 {' '}

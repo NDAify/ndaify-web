@@ -4,12 +4,14 @@ import { API } from '../api';
 
 import Dashboard from '../components/Dashboard/Dashboard';
 
-const DashBoardPage = ({ user, ndas }) => (
-  <Dashboard user={user} ndas={ndas} />
+const DashBoardPage = ({ user, ndas, dashboardType }) => (
+  <Dashboard dashboardType={dashboardType} user={user} ndas={ndas} />
 );
 
 DashBoardPage.getInitialProps = async (ctx) => {
   const api = new API(ctx);
+
+  const { dashboardType } = ctx.query;
 
   let user;
   let ndas;
@@ -29,6 +31,7 @@ DashBoardPage.getInitialProps = async (ctx) => {
   return {
     user,
     ndas,
+    dashboardType,
   };
 };
 

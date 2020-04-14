@@ -68,7 +68,6 @@ const UserActionBanner = ({ user, actionButton: ActionButton }) => {
   if (!user) {
     return null;
   }
-
   return (
     <UserDetailBannerContainer>
       <UserDetails>

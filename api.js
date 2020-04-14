@@ -77,7 +77,11 @@ const post = (endpoint, headers, payload, config = {}) => fetch(normalizeUrl(end
   signal: config.signal,
 });
 
-export const dispatch = (method, endpoint, config) => (ctx, sessionToken) => async (payload) => {
+export const dispatch = (
+  method,
+  endpoint,
+  config = {},
+) => (ctx, sessionToken) => async (payload) => {
   if (!sessionToken) {
     if (!config.noRedirect) {
       redirect(ctx, '/login', {

@@ -67,7 +67,7 @@ const SuccessMessage = ({ user, nda }) => (
         <UserActionBanner
           user={user}
           actionButton={() => (
-            <Link route="dashboard-inbox">
+            <Link route="/dashboard/incoming">
               <ButtonAnchor outline>
                 Dashboard
               </ButtonAnchor>
@@ -93,7 +93,7 @@ const SuccessMessage = ({ user, nda }) => (
           {' '}
           views and/or accepts the NDA.
         </SucessMessage>
-        <Link route="dashboard-outbox" replace>
+        <Link route="/dashboard/outgoing" replace>
           <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>

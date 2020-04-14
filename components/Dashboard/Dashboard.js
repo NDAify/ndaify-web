@@ -209,7 +209,7 @@ const HistoryItem = ({ nda }) => (
 );
 
 
-const Dashboard = ({ user, ndas }) => {
+const Dashboard = ({ dashboardType, user, ndas }) => {
   const handleLogOutClick = async () => {
     const api = new API();
     await api.endSession();
@@ -217,6 +217,10 @@ const Dashboard = ({ user, ndas }) => {
     Router.push('/');
   };
   const onLogOutClick = useCallback(handleLogOutClick, []);
+
+  const byDashboardType = dashboardType === 'incoming' ? nda => nda.ownerId !== user.userId : nda => nda.ownerId === user.userId;
+
+  const filteredNdas = ndas.filter(byDashboardType);
 
   return (
     <Container>
@@ -236,18 +240,17 @@ const Dashboard = ({ user, ndas }) => {
       <PageContainer>
         <ActionRow>
           <LinksContainer>
-            <ActiveLink route="/dashboard/inbox">
+            <ActiveLink route="/dashboard/incoming">
               {
                 active => (
                   <StyledLink active={active}>Inbox</StyledLink>
                 )
               }
             </ActiveLink>
-            <ActiveLink route="/dashboard/outbox">
+            <ActiveLink route="/dashboard/outgoing">
               {
                 active => (
                   <StyledLink active={active}>Sent</StyledLink>
-
                 )
               }
             </ActiveLink>
@@ -259,7 +262,7 @@ const Dashboard = ({ user, ndas }) => {
 
         <HistoryList>
           {
-            ndas.map(nda => (
+            filteredNdas.map(nda => (
               <HistoryItem key={nda.ndaId} nda={nda} />
             ))
           }
