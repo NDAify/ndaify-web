@@ -13,10 +13,13 @@ routes.add('nda-sent', '/nda/sent-:ndaId', 'success-message');
 
 routes.add('nda-preview', '/nda/:ndaId/preview', 'recipient-nda');
 
-
 routes.add('login', '/login', 'login');
 
 routes.add('dashboard', '/dashboard/:dashboardType', 'dashboard');
 routes.add('dashboard-nda', '/nda/:ndaId', 'nda');
+
+routes.add('terms-of-use', '/terms', 'terms-of-use');
+routes.add('privacy-policy', '/privacy', 'privacy-policy');
+routes.add('ueta-and-esign-act', '/ueta-esign', 'ueta-and-esign-act');
 
 module.exports = routes;

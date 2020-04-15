@@ -30,6 +30,15 @@ const Disclaimer = styled.span`
   display: block;
   font-weight: 200;
   line-height: 20px;
+
+  a {
+    text-decoration: underline;
+    color: #aaaaaa;
+  }
+
+  a:visited {
+    color: #aaaaaa;
+  }
 `;
 
 const FooterContainer = styled.div`
@@ -68,6 +77,8 @@ const FooterText = styled.span`
   }
 `;
 
+const currentYear = (new Date()).getFullYear();
+
 const Footer = ({ withLogo }) => (
   <Container>
     {withLogo && (
@@ -85,7 +96,7 @@ const Footer = ({ withLogo }) => (
         Powered by 25% sweet no ice coconut green tea with oat milk & boba.
       </FooterText>
       <FooterText>
-        © 2019
+        {`© ${currentYear}`}
         {' '}
         <a
           href="https://juliaqiu.com/"
@@ -100,8 +111,15 @@ const Footer = ({ withLogo }) => (
     <Disclaimer>
       NDAify is not a law firm, does not provide legal services or advice, and
       does not provide or participate in legal representation. Singing the NDA
-      signifies that you have read and agree to the Terms of Use and Privacy
-      Policy.
+      signifies that you have read and agree to the
+      {' '} 
+      <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a> 
+      {' '}
+      and
+      {' '}
+      <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
+      {' '}
+      .
     </Disclaimer>
     <FooterContainer />
   </Container>

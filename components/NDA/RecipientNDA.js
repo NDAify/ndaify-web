@@ -14,7 +14,10 @@ import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
 import { extractCompanyNameFromText } from './SenderNDA';
+
+import { Link } from '../../routes';
 
 import getFullNameFromUser from './getFullNameFromUser';
 
@@ -76,8 +79,8 @@ const PartyWrapper = styled.div`
 
   @media screen and (min-width: 992px) {
     align-items: flex-start;
-    padding-left: 4pc;
-    padding-right: 4pc;
+    padding-left: 3pc;
+    padding-right: 3pc;
 
     :first-of-type {
       padding-left: 0;
@@ -164,7 +167,7 @@ const DeclineButtonWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const RecipientDNA = ({ nda }) => {
+const RecipientDNA = ({ user, nda }) => {
   const senderFullName = getFullNameFromUser(nda.owner);
 
   const senderCompanyName = extractCompanyNameFromText(
@@ -181,7 +184,17 @@ const RecipientDNA = ({ nda }) => {
 
   return (
     <Container>
-      <UserActionBanner />
+      <UserActionBanner
+        user={user}
+        actionButton={() => (
+          <Link route="/dashboard/incoming">
+            <ButtonAnchor outline>
+              Dashboard
+            </ButtonAnchor>
+          </Link>
+        )}
+      />
+
       <DeclineButtonWrapper>
         <Button compact color="#dc564a">Decline</Button>
       </DeclineButtonWrapper>

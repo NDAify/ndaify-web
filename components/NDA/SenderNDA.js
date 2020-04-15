@@ -78,8 +78,8 @@ const PartyWrapper = styled.div`
 
   @media screen and (min-width: 992px) {
     align-items: flex-start;
-    padding-left: 4pc;
-    padding-right: 4pc;
+    padding-left: 3pc;
+    padding-right: 3pc;
 
     :first-of-type {
       padding-left: 0;
@@ -138,14 +138,10 @@ const AttachmentTitle = styled.h4`
 
 const LinkWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
   margin-bottom: 2pc;
-
-  @media screen and (min-width: 992px) {
-    flex-direction: row;
-    align-items: center;
-  }
 `;
 
 const HideIcon = styled.img`
@@ -346,7 +342,7 @@ const SenderNDA = ({ user, nda }) => {
                     </LinkWrapper>
                     <DescriptionTitle>
                       Recipient does not have access to your link unless he accepts the
-                      term of the NDA.
+                      terms of the NDA.
                     </DescriptionTitle>
                   </AttachmentSectionContainer>
 

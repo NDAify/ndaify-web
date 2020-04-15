@@ -3,29 +3,23 @@ import React from 'react';
 import { API } from '../api';
 import RecipientNDA from '../components/NDA/RecipientNDA';
 
-const RecipientNDAPage = props => (
+const NDAPage = props => (
   <RecipientNDA {...props} />
 );
 
-RecipientNDAPage.getInitialProps = async (ctx) => {
+NDAPage.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
   const api = new API(ctx);
 
   let nda;
+  let user;
   try {
-    ({ nda } = await api.getNdaPreview(ndaId));
+    ({ nda } = await api.getNda(ndaId));
+    ({ user } = await api.getSession());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-  }
-
-  let user;
-  try {
-    ({ user } = await api.tryGetSession());
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.info(error);
   }
 
   return {
@@ -34,4 +28,4 @@ RecipientNDAPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default RecipientNDAPage;
+export default NDAPage;

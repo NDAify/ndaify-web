@@ -67,14 +67,10 @@ const LogoImageContainer = styled.div`
 
 const LinkWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
   margin-bottom: 2pc;
-
-  @media screen and (min-width: 992px) {
-    flex-direction: row;
-    align-items: center;
-  }
 `;
 
 const HideIcon = styled.img`
@@ -127,11 +123,15 @@ const DisclaimerText = styled.span`
   @media screen and (min-width: 992px) {
     font-size: 20px;
   }
-`;
 
-const UnderlineText = styled.span`
-  color: #ffffff;
-  text-decoration: underline;
+  a {
+    text-decoration: underline;
+    color: #ffffff;
+  }
+
+  a:visited {
+    color: #fffff;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -254,7 +254,7 @@ const SenderForm = ({ nda }) => {
             <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
-            Recipient does not have access to your link unless he accepts the term
+            Recipient does not have access to your link unless he accepts the terms
             of the NDA.
           </DescriptionTitle>
 
@@ -341,12 +341,13 @@ const SenderForm = ({ nda }) => {
 
                 <DisclaimerText>
                   Singing the NDA signifies that you have read and agree to the
-                  {' '}
-                  <UnderlineText>Terms of Use</UnderlineText>
+                  {' '} 
+                  <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a> 
                   {' '}
                   and
                   {' '}
-                  <UnderlineText>Privacy Policy</UnderlineText>
+                  <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
+                  {' '}
                   .
                 </DisclaimerText>
 

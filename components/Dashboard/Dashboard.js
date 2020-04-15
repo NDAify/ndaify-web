@@ -14,6 +14,7 @@ import ActiveLink from '../ActiveLink/ActiveLink';
 import { API } from '../../api';
 
 import { NDA_OPTIONS } from '../SenderForm/SenderForm';
+import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 const Container = styled.div`
   width: 100%;
@@ -169,44 +170,56 @@ const NDA_STATUS_LABEL = {
   declined: 'Declined',
 };
 
-const HistoryItem = ({ nda }) => (
-  <Link
-    route={`/nda/${nda.ndaId}`}
-  >
-    <ItemCardContainer pending={nda.metadata.status === 'pending'}>
-      <HistoryItemContainer>
-        <HistoryTimeRow>
-          <CalendarIcon src="/static/calendarIcon.svg" alt="calendar icon" />
-          <HistoryTimeText>
-            <FormattedDate
-              year="numeric"
-              month="long"
-              day="numeric"
-              value={nda.createdAt}
-            />
-          </HistoryTimeText>
-        </HistoryTimeRow>
-        <RecipientRow>
-          <HistoryItemTitle>Recipient</HistoryItemTitle>
-          <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail}>`}</RecipientInfoText>
-        </RecipientRow>
-        <TypeAndStatusRow>
-          <TypeContainer>
-            <HistoryItemTitle>Type</HistoryItemTitle>
-            <RecipientInfoText>{NDA_OPTIONS.find(option => option.value === nda.metadata.ndaType).label}</RecipientInfoText>
-          </TypeContainer>
-          <StatusContainer>
-            <HistoryItemTitle>Status</HistoryItemTitle>
-            <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
-          </StatusContainer>
-        </TypeAndStatusRow>
-      </HistoryItemContainer>
-      <RightArrowContainer>
-        <RightArrowIcon src="/static/rightArrowIcon.svg" alt="right arrow icon" />
-      </RightArrowContainer>
-    </ItemCardContainer>
-  </Link>
-);
+const HistoryItem = ({ dashboardType, nda }) => {
+  return (
+    <Link
+      route={`/nda/${nda.ndaId}`}
+    >
+      <ItemCardContainer pending={nda.metadata.status === 'pending'}>
+        <HistoryItemContainer>
+          <HistoryTimeRow>
+            <CalendarIcon src="/static/calendarIcon.svg" alt="calendar icon" />
+            <HistoryTimeText>
+              <FormattedDate
+                year="numeric"
+                month="long"
+                day="numeric"
+                value={nda.createdAt}
+              />
+            </HistoryTimeText>
+          </HistoryTimeRow>
+
+          {
+            dashboardType === 'incoming' ? (
+              <RecipientRow>
+                <HistoryItemTitle>Sender</HistoryItemTitle>
+                <RecipientInfoText>{`${getFullNameFromUser(nda.owner)} <${nda.owner.metadata.linkedInProfile.emailAddress}>`}</RecipientInfoText>
+              </RecipientRow>
+            ) : (
+              <RecipientRow>
+                <HistoryItemTitle>Recipient</HistoryItemTitle>
+                <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail}>`}</RecipientInfoText>
+              </RecipientRow>
+            )
+          }
+          <TypeAndStatusRow>
+            <TypeContainer>
+              <HistoryItemTitle>Type</HistoryItemTitle>
+              <RecipientInfoText>{NDA_OPTIONS.find(option => option.value === nda.metadata.ndaType).label}</RecipientInfoText>
+            </TypeContainer>
+            <StatusContainer>
+              <HistoryItemTitle>Status</HistoryItemTitle>
+              <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
+            </StatusContainer>
+          </TypeAndStatusRow>
+        </HistoryItemContainer>
+        <RightArrowContainer>
+          <RightArrowIcon src="/static/rightArrowIcon.svg" alt="right arrow icon" />
+        </RightArrowContainer>
+      </ItemCardContainer>
+    </Link>
+  );
+};
 
 
 const Dashboard = ({ dashboardType, user, ndas }) => {
@@ -263,7 +276,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
         <HistoryList>
           {
             filteredNdas.map(nda => (
-              <HistoryItem key={nda.ndaId} nda={nda} />
+              <HistoryItem key={nda.ndaId} nda={nda} dashboardType={dashboardType} />
             ))
           }
         </HistoryList>
