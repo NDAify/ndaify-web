@@ -8,6 +8,12 @@ const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
 const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';
 const OAUTH_ERROR_UNAUTHORIZED_SCOPE_ERROR = 'unauthorized_scope_error';
 
+const ACTIONS = {
+  async sign(ndaId) {
+    throw new Error(`Emails should match. Failed to sign ${ndaId}`);
+  },
+};
+
 class Callback extends Component {
   static async getInitialProps(ctx) {
     const { query } = ctx;
@@ -21,8 +27,9 @@ class Callback extends Component {
 
     let redirectUrl;
     let redirectOnErrorUrl;
+    let actions;
     try {
-      ({ redirectUrl, redirectOnErrorUrl } = JSON.parse(oAuthState));
+      ({ redirectUrl, redirectOnErrorUrl, actions } = JSON.parse(oAuthState));
       // eslint-disable-next-line
     } catch (error) {}
 
@@ -64,6 +71,12 @@ class Callback extends Component {
         throw new Error('Failed to authenticate');
       }
 
+      for (let ii = 0; ii < actions?.length; ii += 1) {
+        const action = actions[ii];
+        // eslint-disable-next-line no-await-in-loop
+        await ACTIONS[action.fn](...action.args);
+      }
+
       if (redirectUrl) {
         return redirect(ctx, redirectUrl);
       }
@@ -80,7 +93,7 @@ class Callback extends Component {
       }
 
       if (redirectUrl) {
-        return redirect(ctx, `${loginPage}?errorMessage=${error.message}&redirectUrl=${redirectUrl}`);
+        return redirect(ctx, `${loginPage}?errorMessage=${error.message}&redirectUrl=${redirectUrl}&query=`);
       }
 
       return redirect(ctx, `${loginPage}?errorMessage=${error.message}`);

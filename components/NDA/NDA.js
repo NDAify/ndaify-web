@@ -1,39 +1,237 @@
-import React from 'react';
-
-import { FormattedDate } from 'react-intl';
+import React, { Fragment, useCallback } from 'react';
 import styled from 'styled-components';
-import { Field as FormikField } from 'formik';
+import { FormattedDate } from 'react-intl';
+import { FadingCircle as Spinner } from 'better-react-spinkit';
+import getConfig from 'next/config';
+import { useRouter } from 'next/router';
 
-import AnchorButton from '../Clickable/AnchorButton';
+import {
+  Formik,
+  Form,
+} from 'formik';
 
-import ContentEditableInput from '../Input/ContentEditableInput';
+import NDABody from './NDABody';
+import Button from '../Clickable/Button';
+import Footer from '../Footer/Footer';
+import LinkedInButton from '../LinkedInButton/LinkedInButton';
+import SignatureHolder from '../SignatureHolder/SignatureHolder';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
+import { extractCompanyNameFromText } from './NDAComposer';
 
-import nowISO8601 from '../../utils/nowISO8601';
+import { Link } from '../../routes';
 
 import getFullNameFromUser from './getFullNameFromUser';
+import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
+
+const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
+
+// Initial NDA is publicly viewable and if the viewer is not logged in, we
+// assume they are the recepient
+const isPublicViewer = (nda, user) => !user;
+const isNdaRecepient = (nda, user) => nda.recepientId === user?.userId
+|| nda.recipientEmail === user?.metadata.linkedInProfile.emailAddress;
+const isNdaOwner = (nda, user) => nda.ownerId === user?.userId;
+const isNdaParty = (nda, user) => isNdaRecepient(nda, user) || isNdaOwner(nda, user);
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const NDADocumentContainer = styled.div`
+  padding: 1pc;
+  padding-top: 2pc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 768px;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 3pc;
+  box-sizing: border-box;
+`;
+
+const NDAContainer = styled.div`
+  width: 100%;
+`;
+
+const NDAWrapper = styled.div`
+  margin-bottom: 5pc;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const NDADisclaimerWrapper = styled.div`
-  max-width: 576px;
+const SigRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: space-between;
+  margin-bottom: 3pc;
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+    height: auto;
+  }
+`;
+
+const PartyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+  flex: 1;
+  align-items: center;
+
+  :first-of-type {
+    margin-bottom: 3pc;
+  }
+
+  @media screen and (min-width: 992px) {
+    align-items: flex-start;
+    padding-left: 3pc;
+    padding-right: 3pc;
+
+    :first-of-type {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    :nth-of-type(2) {
+      padding-right: 0;
+    }
+  }
+`;
+
+const NDAPartyName = styled.span`
+  font-size: 16px;
+  margin-top: 1pc;
+  color: #ffffff;
+  font-weight: 200;
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
+`;
+
+const NDAPartyOrganization = styled.span`
+  font-size: 16px;
+  line-height: 28px;
+  color: #ffffff;
+  font-weight: 200;
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
+`;
+
+const NDASignedDate = styled.span`
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 28px;
+  font-weight: 200;
+
+  @media screen and (min-width: 992px) {
+    font-size: 16px;
+  }
+`;
+
+const NDASenderDisclaimer = styled.span`
+  font-size: 12px;
+  color: #aaaaaa;
+  margin-top: 8px;
+  line-heitgh: 20px;
+`;
+
+const AttachmentSectionContainer = styled.div``;
+
+const AttachmentTitle = styled.h4`
+  font-size: 28px;
+  font-weight: 200;
+  margin: 0;
+  color: #ffffff;
+  margin-bottom: 2pc;
+
+  @media screen and (min-width: 992px) {
+    font-size: 32px;
+  }
+`;
+
+const LinkWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2pc;
+`;
+
+const HideIcon = styled.img`
+  width: 20px;
+  margin-left: 0;
+  margin-right: 1pc;
+
+  @media screen and (min-width: 992px) {
+    width: 28px;
+    margin-left: -46px;
+    margin-right: 1pc;
+  }
+`;
+
+const DocumentUrl = styled.h4`
+  color: #aaaaaa;
+  font-size: 20px;
+  word-wrap: break-word;
+  font-weight: 200;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
+`;
+
+const DescriptionTitle = styled.h4`
+  font-weight: 200;
+  color: #ffffff;
+  font-size: 20px;
+  margin: 0;
+  margin-bottom: 2pc;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
+`;
+
+const AttachmentMessage = styled.h4`
+  margin: 0;
+  font-size: 20px;
+  font-weight: 200;
+  color: #4ac09a;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
+`;
+
+const DeclineButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-`;
-
-const BoldText = styled.span`
-  font-weight: 700;
-  color: #ffffff;
+  justify-content: flex-end;
+  padding: 2pc;
+  padding-bottom: 0;
+  box-sizing: border-box;
 `;
 
 const DisclaimerTitle = styled.h4`
+  font-weight: 200;
   font-size: 20px;
   margin: 0;
   color: #ffffff;
@@ -44,8 +242,23 @@ const DisclaimerTitle = styled.h4`
   }
 `;
 
+const BoldText = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;
+
+const NDADisclaimerWrapper = styled.div`
+  width: 100%;
+  max-width: 576px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+`;
+
 const DisclaimerBody = styled.h4`
   font-size: 20px;
+  line-height: 28px;
   margin: 0;
   margin-bottom: 4pc;
   font-weight: 200;
@@ -53,259 +266,313 @@ const DisclaimerBody = styled.h4`
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
+    line-height: 32px;
   }
 `;
 
-const NDATitleContainer = styled.div`
-  text-align: center;
-`;
+const NDAHeader = ({ nda, user }) => {
+  return (
+    <Fragment>
+      {
+        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          <NDADisclaimerWrapper>
+            <DisclaimerTitle>
+              <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+              {' '}
+              has requested your signature
+            </DisclaimerTitle>
+          </NDADisclaimerWrapper>
+        ) : null
+      }
 
-const NDATitle = styled.h4`
-  font-size: 28px;
-  margin: 0;
-  margin-bottom: 4pc;
-  font-weight: 200;
-  color: #ffffff;
+      {
+        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          <NDADisclaimerWrapper>
+            <DisclaimerBody>
+              By signing, both
+              {' '}
+              <BoldText>you</BoldText>
+              {' '}
+              and
+              {' '}
+              <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+              {' '}
+              are agreeing to terms of an NDA to
+              {' '}
+              <BoldText>protect all parties and materials disclosed</BoldText>
+              .
+            </DisclaimerBody>
+          </NDADisclaimerWrapper>
+        ) : null
+      }
 
-  @media screen and (min-width: 992px) {
-    font-size: 32px;
-  }
-`;
+      {
+        isNdaOwner(nda, user) ? (
+          <NDADisclaimerWrapper>
+            <DisclaimerTitle>
+              <BoldText>
+                Awaiting
+                {' '}
+                {nda.metadata.recipientFullName}
+                {' '}
+                to sign
+              </BoldText>
+            </DisclaimerTitle>
+          </NDADisclaimerWrapper>
+        ) : null
+      }
 
-const NDASectionContainer = styled.div`
-  width: 100%;
-`;
+      {
+        isNdaOwner(nda, user) ? (
+          <NDADisclaimerWrapper>
+            <DisclaimerBody>
+              By signing, both
+              {' '}
+              <BoldText>you</BoldText>
+              {' '}
+              and
+              {' '}
+              <BoldText>{nda.metadata.recipientFullName}</BoldText>
+              {' '}
+              are agreeing to terms of an NDA to
+              {' '}
+              <BoldText>protect all parties and materials disclosed</BoldText>
+              .
+            </DisclaimerBody>
+          </NDADisclaimerWrapper>
+        ) : null
+      }
+    </Fragment>
+  );
+};
 
-const NDASectionTitle = styled.span`
-  font-size: 16px;
-  text-transform: uppercase;
-  font-weight: 700;
-  margin-bottom: 1pc;
-  display: block;
-  color: #ffffff;
+const NDAActions = ({ nda, user }) => {
+  return (
+    <Fragment>
+      {
+        isNdaOwner(nda, user) ? (
+          <DeclineButtonWrapper>
+            <Button compact color="#7254B7">Resend</Button>
+            <Button compact color="#dc564a">Revoke</Button>
+          </DeclineButtonWrapper>
+        ) : null
+      }
 
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
-  }
-`;
+      {
+        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          <DeclineButtonWrapper>
+            <Button compact color="#dc564a">Decline</Button>
+          </DeclineButtonWrapper>
+        ) : null
+      }
+    </Fragment>
+  );
+};
 
-const NDASectionBodyText = styled.span`
-  font-size: 16px;
-  color: #ffffff;
+const NDAAttachments = ({ nda, user }) => {
+  return (
+    <Fragment>
+      {
+        isNdaOwner(nda, user) ? (
+          <AttachmentSectionContainer>
+            <AttachmentTitle>Attachments</AttachmentTitle>
+            <LinkWrapper>
+              <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+              <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+            </LinkWrapper>
+            <DescriptionTitle>
+              Recipient does not have access to your link unless he accepts the
+              terms of the NDA.
+            </DescriptionTitle>
+          </AttachmentSectionContainer>
+        ) : null
+      }
 
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
-  }
-`;
+      {
+        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          <AttachmentSectionContainer>
+            <AttachmentTitle>Attachments</AttachmentTitle>
+            <AttachmentMessage>
+              You need to accept to view attachments.
+            </AttachmentMessage>
+          </AttachmentSectionContainer>
+        ) : null
+      }
+    </Fragment>
+  );
+};
 
-const BetweenPartyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-weight: 200;
-  margin-left: 1pc;
-  margin-top: 8px;
-  line-height: 34px;
-`;
+const NDA = ({ user, nda }) => {
+  const router = useRouter();
+  const handleSubmit = (
+    values,
+    {
+      setStatus,
+      setSubmitting,
+    },
+  ) => {
+    setStatus();
 
-const DisclaimerEnding = styled.span`
-  font-size: 16px;
-  display: block;
-  font-weight: 200;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
-  color: #ffffff;
-
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
-  }
-`;
-
-const LongText = styled.p`
-  font-size: 16px;
-  font-weight: 200;
-  margin-top: 1pc;
-  line-height: 28px;
-  color: #ffffff;
-
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
-  }
-`;
-
-const NDAReadMoreContainer = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 4pc;
-`;
-
-const NDAReadMoreText = styled.h4`
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-  color: #ffffff;
-
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
-  }
-`;
-
-const DisclaimerTitleText = ({ isRecipientNDA, sender }) => (isRecipientNDA ? (
-  <DisclaimerTitle>
-    <BoldText>{getFullNameFromUser(sender)}</BoldText>
-    {' '}
-    has requested your signature
-  </DisclaimerTitle>
-) : (
-  <DisclaimerTitle>
-    <BoldText>Almost done.</BoldText>
-  </DisclaimerTitle>
-));
-
-const BetweenParty = ({
-  isRecipientNDA, ndaParamaters,
-}) => (isRecipientNDA ? (
-  <BetweenPartyContainer>
-    <NDASectionBodyText>
-      1.
-      {' '}
-      <BoldText>{ndaParamaters.disclosingParty}</BoldText>
-      {' '}
-      (the Disclosing Party); and
-    </NDASectionBodyText>
-    <NDASectionBodyText>
-      2.
-      {' '}
-      <BoldText>
-        {ndaParamaters.receivingParty}
-      </BoldText>
-      {' '}
-      (the Receiving Party), collectively referred to as the Parties.
-    </NDASectionBodyText>
-  </BetweenPartyContainer>
-) : (
-  <BetweenPartyContainer>
-    <NDASectionBodyText>
-      1.
-      {' '}
-      <FormikField
-        as={ContentEditableInput}
-        name="disclosingParty"
-      />
-      {' '}
-      (the Disclosing Party) and
-    </NDASectionBodyText>
-    <NDASectionBodyText>
-      2.
-      {' '}
-      <FormikField
-        as={ContentEditableInput}
-        name="receivingParty"
-      />
-      {' '}
-      (the Receiving Party), collectively referred to as the Parties.
-    </NDASectionBodyText>
-  </BetweenPartyContainer>
-));
-
-const NDA = ({
-  nda,
-  isRecipientNDA,
-}) => {
-  const createdAt = nda.createdAt || nowISO8601();
+    try {
+      const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
+      const oAuthState = serializeOAuthState({
+        redirectUrl: `/nda/${nda.ndaId}`,
+        // If there is an error during the login phase, redirect the errors properly
+        redirectOnErrorUrl: `/nda/${nda.ndaId}`,
+        actions: [{
+          fn: 'sign',
+          args: [
+            nda.ndaId,
+          ],
+        }],
+      });
+      window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStatus({ errorMessage: error.message });
+    } finally {
+      // Keep the spinner running during the transition to LinkedIn oAuth
+      // This is much better UX than spinner flickering momentarily before
+      // we navigate away
+      timeout(5000).then(() => setSubmitting(false));
+    }
+  };
+  const onSubmit = useCallback(handleSubmit, []);
 
   const ownerFullName = getFullNameFromUser(nda.owner);
-  const { recipientFullName } = nda.metadata;
-  const otherPartyName = isRecipientNDA ? ownerFullName : recipientFullName;
+
+  const ownerCompanyName = extractCompanyNameFromText(
+    nda.metadata.ndaParamaters.disclosingParty,
+    ownerFullName,
+  );
+  const recipientCompanyName = extractCompanyNameFromText(
+    nda.metadata.ndaParamaters.receivingParty,
+    nda.metadata.recipientFullName,
+  );
+
+  if (user && !isNdaParty(nda, user)) {
+    return (
+      <Container>
+        You are not a party.
+      </Container>
+    );
+  }
 
   return (
     <Container>
-      <NDADisclaimerWrapper>
-        <DisclaimerTitleText isRecipientNDA={isRecipientNDA} sender={nda.owner} />
-        <DisclaimerBody>
-          By signing, both
-          {' '}
-          <BoldText>you</BoldText>
-          {' '}
-          and
-          {' '}
-          <BoldText>{otherPartyName}</BoldText>
-          {' '}
-          are agreeing to terms of an NDA to
-          {' '}
-          <BoldText>protect all parties and materials disclosed</BoldText>
-          .
-        </DisclaimerBody>
-      </NDADisclaimerWrapper>
-      <NDATitleContainer>
-        <NDATitle>
-          <span>Non-Disclosure</span>
-          <br />
-          <span>Agreement</span>
-        </NDATitle>
-      </NDATitleContainer>
-      <NDASectionContainer>
-        <NDASectionTitle
-          style={{ display: 'inline-block', marginRight: '6px' }}
-        >
-          This Agreement
-          {' '}
-        </NDASectionTitle>
-        <NDASectionBodyText style={{ display: 'inline' }}>
-          is made on
-          {' '}
-          <FormattedDate
-            year="numeric"
-            month="long"
-            day="numeric"
-            value={createdAt}
-          />
-          .
-        </NDASectionBodyText>
-      </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>Between</NDASectionTitle>
-        <BetweenParty
-          isRecipientNDA={isRecipientNDA}
-          ndaParamaters={nda.metadata.ndaParamaters}
-        />
-        <DisclaimerEnding>
-          collectively referred to as the
-          {' '}
-          <BoldText>Parties</BoldText>
-          .
-        </DisclaimerEnding>
-      </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>RECITALS</NDASectionTitle>
-        <LongText>
-          A. The Receiving Party understands that the Disclosing Party has
-          disclosed or may disclose information relating to its business,
-          operations, plans, prospects, affairs, source code, product designs,
-          art, and other related concepts, which to the extent previously,
-          presently, or subsequently disclosed to the Receiving Party is
-          hereinafter referred to as Proprietary Information of the Disclosing
-          Party.
-        </LongText>
-      </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>OPERATIVE PROVISIONS</NDASectionTitle>
-        <LongText>
-          1. In consideration of the disclosure of Proprietary Information by
-          the Disclosing Party, the Receiving Party hereby agrees: (i) to hold
-          the Proprietary Information in strict confidence and to take all
-          reasonable precautions to protect such Proprietary Information
-          (including, without limitation, all precautions…
-        </LongText>
-      </NDASectionContainer>
+      <UserActionBanner
+        user={user}
+        actionButton={() => (
+          <Link route="/dashboard/incoming">
+            <ButtonAnchor outline>
+              Dashboard
+            </ButtonAnchor>
+          </Link>
+        )}
+      />
 
-      <NDAReadMoreContainer>
-        <NDAReadMoreText>
-          To read all terms,
-          {' '}
-          <AnchorButton>click here</AnchorButton>
-          .
-        </NDAReadMoreText>
-      </NDAReadMoreContainer>
+      <NDAActions user={user} nda={nda} />
+
+      <Formik
+        initialValues={{}}
+        onSubmit={onSubmit}
+      >
+        {({ status, isSubmitting }) => (
+          <Form>
+            <NDADocumentContainer>
+              <NDAContainer>
+                <NDAWrapper>
+
+                  <NDAHeader user={user} nda={nda} />
+                  <NDABody nda={nda} />
+
+                </NDAWrapper>
+
+                {
+                  router.query.errorMessage ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {router.query.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
+
+                {
+                  status ? (
+                    <ErrorMessage style={{ marginBottom: '3pc' }}>
+                      {status.errorMessage}
+                    </ErrorMessage>
+                  ) : null
+                }
+
+                <SigRow>
+                  {
+                    isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+                      <PartyWrapper>
+                        <LinkedInButton
+                          type="submit"
+                          disabled={isSubmitting}
+                        >
+                          {
+                            isSubmitting ? (
+                              <Spinner color="#FFFFFF" size={14} />
+                            ) : 'Sign with LinkedIn'
+                          }
+                        </LinkedInButton>
+                        <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+                        {
+                          recipientCompanyName ? (
+                            <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+                          ) : null
+                        }
+                        <NDASenderDisclaimer>
+                          {`I, ${nda.metadata.recipientFullName}, certify that I have read the contract, and understand that clicking 'Sign' constitutes a legally binding signature.`}
+                        </NDASenderDisclaimer>
+                      </PartyWrapper>
+                    ) : null
+                  }
+
+                  {
+                    isNdaOwner(nda, user) ? (
+                      <PartyWrapper>
+                        <SignatureHolder name={null} />
+                        <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+                        {
+                          recipientCompanyName ? (
+                            <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+                          ) : null
+                        }
+                      </PartyWrapper>
+                    ) : null
+                  }
+
+                  <PartyWrapper>
+                    <SignatureHolder name={ownerFullName} />
+                    <NDAPartyName>{ownerFullName}</NDAPartyName>
+                    {
+                      ownerCompanyName ? (
+                        <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+                      ) : null
+                    }
+                    <NDASignedDate>
+                      <FormattedDate
+                        year="numeric"
+                        month="long"
+                        day="numeric"
+                        value={nda.createdAt}
+                      />
+                    </NDASignedDate>
+                  </PartyWrapper>
+                </SigRow>
+
+                <NDAAttachments user={user} nda={nda} />
+
+                <Footer withLogo />
+              </NDAContainer>
+            </NDADocumentContainer>
+          </Form>
+        )}
+      </Formik>
     </Container>
   );
 };

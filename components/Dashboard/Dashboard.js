@@ -38,7 +38,7 @@ const PageContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const ActionRow = styled.div`
+const SigRow = styled.div`
   padding-top: 2pc;
   padding-bottom: 2pc;
   display: flex;
@@ -251,7 +251,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
         )}
       />
       <PageContainer>
-        <ActionRow>
+        <SigRow>
           <LinksContainer>
             <ActiveLink route="/dashboard/incoming">
               {
@@ -271,7 +271,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           <Link route="/">
             <ButtonAnchor outline>New</ButtonAnchor>
           </Link>
-        </ActionRow>
+        </SigRow>
 
         <HistoryList>
           {

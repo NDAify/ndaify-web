@@ -9,7 +9,7 @@ import {
 
 import { Router } from '../../routes';
 
-import NDA from './NDA';
+import NDABody from './NDABody';
 import Button from '../Clickable/Button';
 import Footer from '../Footer/Footer';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
@@ -50,9 +50,12 @@ const NDAContainer = styled.div`
 
 const NDAWrapper = styled.div`
   margin-bottom: 5pc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const ActionRow = styled.div`
+const SigRow = styled.div`
   display: flex;
   flex-direction: column;
   height: 300px;
@@ -183,6 +186,45 @@ const DescriptionTitle = styled.h4`
   }
 `;
 
+const DisclaimerTitle = styled.h4`
+  font-size: 20px;
+  margin: 0;
+  color: #ffffff;
+  margin-bottom: 2pc;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
+`;
+
+const BoldText = styled.span`
+  font-weight: 700;
+  color: #ffffff;
+`;
+
+const NDADisclaimerWrapper = styled.div`
+  width: 100%;
+  max-width: 576px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+`;
+
+const DisclaimerBody = styled.h4`
+  font-size: 20px;
+  line-height: 28px;
+  margin: 0;
+  margin-bottom: 4pc;
+  font-weight: 200;
+  color: #ffffff;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+`;
+
 export const extractCompanyNameFromText = (text, personName) => {
   if (!text || !personName) {
     return null;
@@ -202,7 +244,7 @@ export const extractCompanyNameFromText = (text, personName) => {
   return text;
 };
 
-const SenderNDA = ({ user, nda }) => {
+const NDAComposer = ({ user, nda }) => {
   const handleDiscardButtonClick = () => {
     Router.replaceRoute('/');
     sessionStorage.clear();
@@ -249,12 +291,14 @@ const SenderNDA = ({ user, nda }) => {
   };
   const onSubmit = useCallback(handleSubmit, []);
 
-  const senderFullName = getFullNameFromUser(user);
+  const ownerFullName = getFullNameFromUser(user);
 
   const initialValues = {
-    disclosingParty: senderFullName,
+    disclosingParty: ownerFullName,
     receivingParty: nda.metadata.recipientFullName,
   };
+
+  const { recipientFullName } = nda.metadata;
 
   return (
     <Container>
@@ -275,7 +319,7 @@ const SenderNDA = ({ user, nda }) => {
         onSubmit={onSubmit}
       >
         {({ values, status, isSubmitting }) => {
-          const senderCompanyName = extractCompanyNameFromText(values.disclosingParty, senderFullName);
+          const ownerCompanyName = extractCompanyNameFromText(values.disclosingParty, ownerFullName);
           const recipientCompanyName = extractCompanyNameFromText(
             values.receivingParty, nda.metadata.recipientName,
           );
@@ -285,7 +329,32 @@ const SenderNDA = ({ user, nda }) => {
               <NDADocumentContainer>
                 <NDAContainer>
                   <NDAWrapper>
-                    <NDA
+
+                    <NDADisclaimerWrapper>
+                      <DisclaimerTitle>
+                        <BoldText>Almost done.</BoldText>
+                      </DisclaimerTitle>
+                    </NDADisclaimerWrapper>
+
+                    <NDADisclaimerWrapper>
+                      <DisclaimerBody>
+                        By signing, both
+                        {' '}
+                        <BoldText>you</BoldText>
+                        {' '}
+                        and
+                        {' '}
+                        <BoldText>{recipientFullName}</BoldText>
+                        {' '}
+                        are agreeing to terms of an NDA to
+                        {' '}
+                        <BoldText>protect all parties and materials disclosed</BoldText>
+                        .
+                      </DisclaimerBody>
+                    </NDADisclaimerWrapper>
+
+                    <NDABody
+                      editable
                       nda={{
                         ...nda,
                         owner: user,
@@ -301,7 +370,7 @@ const SenderNDA = ({ user, nda }) => {
                     ) : null
                   }
 
-                  <ActionRow>
+                  <SigRow>
                     <PartyWrapper>
                       <SignatureHolder />
                       <NDAPartyName>{nda.metadata.recipientName}</NDAPartyName>
@@ -319,12 +388,12 @@ const SenderNDA = ({ user, nda }) => {
                           ) : 'Sign'
                         }
                       </Button>
-                      <NDAPartyName>{senderFullName}</NDAPartyName>
-                      <NDAPartyOrganization>{senderCompanyName}</NDAPartyOrganization>
+                      <NDAPartyName>{ownerFullName}</NDAPartyName>
+                      <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
                       <NDASenderDisclaimer>
                         I,
                         {' '}
-                        {senderFullName}
+                        {ownerFullName}
                         , certify that I have read the contract,
                         {' '}
                         and understand that clicking &#39;Sign&#39;
@@ -332,7 +401,7 @@ const SenderNDA = ({ user, nda }) => {
                         constitutes a legally binding signature.
                       </NDASenderDisclaimer>
                     </PartyWrapper>
-                  </ActionRow>
+                  </SigRow>
 
                   <AttachmentSectionContainer>
                     <AttachmentTitle>Attachments</AttachmentTitle>
@@ -357,4 +426,4 @@ const SenderNDA = ({ user, nda }) => {
   );
 };
 
-export default SenderNDA;
+export default NDAComposer;

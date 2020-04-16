@@ -24,7 +24,6 @@ const Button = styled.button`
   cursor: pointer;
 
   ${props => (props.color ? `background-color: ${props.color};` : '')}
-  ${props => (props.disabled ? 'background-color: #aaaaaa;' : '')}
   ${props => (props.outline ? `
       width: unset;
       height: 40px;

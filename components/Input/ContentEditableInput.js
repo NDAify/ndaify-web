@@ -21,11 +21,6 @@ const ContentEditableInput = (props) => {
     field.onBlur(field.name);
   };
 
-  // console.log('props',props)
-  // console.log('field',field)
-  // console.log('meta',meta)
-  // console.log('helpers',helpers)
-
   const onChange = useCallback(handleChange, []);
   const onBlur = useCallback(handleBlur, []);
 

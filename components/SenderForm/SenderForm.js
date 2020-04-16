@@ -245,7 +245,9 @@ const SenderForm = ({ nda }) => {
         <ContentContainer>
           {
             router.query.errorMessage ? (
-              <ErrorMessage style={{ marginBottom: '3pc' }} message={router.query.errorMessage} />
+              <ErrorMessage style={{ marginBottom: '3pc' }}>
+                {router.query.errorMessage}
+              </ErrorMessage>
             ) : null
           }
 
@@ -353,13 +355,14 @@ const SenderForm = ({ nda }) => {
 
                 <LinkedInButtonWrapper>
                   <LinkedInButton
+                    disabled={isSubmitting}
                     type="submit"
                   >
                     {
-                        isSubmitting ? (
-                          <Spinner color="#FFFFFF" size={14} />
-                        ) : 'Review and Sign with LinkedIn'
-                      }
+                      isSubmitting ? (
+                        <Spinner color="#FFFFFF" size={14} />
+                      ) : 'Review and Sign with LinkedIn'
+                    }
                   </LinkedInButton>
                 </LinkedInButtonWrapper>
               </Form>
