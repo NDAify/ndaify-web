@@ -9,8 +9,9 @@ const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';
 const OAUTH_ERROR_UNAUTHORIZED_SCOPE_ERROR = 'unauthorized_scope_error';
 
 const ACTIONS = {
-  async sign(ndaId) {
-    throw new Error(`Emails should match. Failed to sign ${ndaId}`);
+  sign(ctx, ndaId) {
+    const api = new API(ctx);
+    return api.acceptNda(ndaId);
   },
 };
 
@@ -74,7 +75,7 @@ class Callback extends Component {
       for (let ii = 0; ii < actions?.length; ii += 1) {
         const action = actions[ii];
         // eslint-disable-next-line no-await-in-loop
-        await ACTIONS[action.fn](...action.args);
+        await ACTIONS[action.fn](ctx, ...action.args);
       }
 
       if (redirectUrl) {

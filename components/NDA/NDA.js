@@ -1,9 +1,10 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
 import { FadingCircle as Spinner } from 'better-react-spinkit';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
+import { useAlert } from 'react-alert';
 
 import {
   Formik,
@@ -20,10 +21,12 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import { extractCompanyNameFromText } from './NDAComposer';
 
-import { Link } from '../../routes';
+import { Link, Router } from '../../routes';
 
 import getFullNameFromUser from './getFullNameFromUser';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
+
+import { API } from '../../api';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
@@ -214,7 +217,7 @@ const AttachmentMessage = styled.h4`
   margin: 0;
   font-size: 20px;
   font-weight: 200;
-  color: #4ac09a;
+  ${props => (props.declined ? 'color: #dc564a;' : 'color: #4ac09a;')}
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -271,6 +274,27 @@ const DisclaimerBody = styled.h4`
 `;
 
 const NDAHeader = ({ nda, user }) => {
+
+  if (nda.metadata.status === 'declined') {
+    return (
+      <Fragment>
+        {
+          isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>
+                  {`You declined ${getFullNameFromUser(nda.owner)}'s request`}
+                </BoldText>
+                {' '}
+                to sign this NDA
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
+          ) : null
+        }
+      </Fragment>
+    );
+  }
+
   return (
     <Fragment>
       {
@@ -347,6 +371,30 @@ const NDAHeader = ({ nda, user }) => {
 };
 
 const NDAActions = ({ nda, user }) => {
+  const toast = useAlert();
+
+  const [isDeclining, setDeclining] = useState(false);
+
+  const handleDeclineClick = async () => {
+    setDeclining(true);
+
+    try {
+      const api = new API();
+      await api.declineNda(nda.ndaId);
+
+      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+
+      toast.show('Successfully declined NDA');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.show('Failed to decline NDA');
+    } finally {
+      setDeclining(false);
+    }
+  };
+  const onDeclineClick = useCallback(handleDeclineClick);
+
   return (
     <Fragment>
       {
@@ -359,17 +407,41 @@ const NDAActions = ({ nda, user }) => {
       }
 
       {
-        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+        (
+          nda.metadata.status !== 'declined'
+          && (isPublicViewer(nda, user) || isNdaRecepient(nda, user))
+        ) ? (
           <DeclineButtonWrapper>
-            <Button compact color="#dc564a">Decline</Button>
+            <Button
+              compact
+              color="#dc564a"
+              onClick={onDeclineClick}
+            >
+              {
+                isDeclining ? (
+                  <Spinner color="#FFFFFF" size={14} />
+                ) : 'Decline'
+              }
+            </Button>
           </DeclineButtonWrapper>
-        ) : null
+          ) : null
       }
     </Fragment>
   );
 };
 
 const NDAAttachments = ({ nda, user }) => {
+  if (nda.metadata.status === 'declined') {
+    return (
+      <AttachmentSectionContainer>
+        <AttachmentTitle>Attachments</AttachmentTitle>
+        <AttachmentMessage declined>
+          You declined to view the enclosed attachments.
+        </AttachmentMessage>
+      </AttachmentSectionContainer>
+    );
+  }
+
   return (
     <Fragment>
       {
@@ -401,6 +473,116 @@ const NDAAttachments = ({ nda, user }) => {
     </Fragment>
   );
 };
+
+const NDASigPads = ({ nda, user, isSubmitting }) => {
+  const ownerFullName = getFullNameFromUser(nda.owner);
+
+  const ownerCompanyName = extractCompanyNameFromText(
+    nda.metadata.ndaParamaters.disclosingParty,
+    ownerFullName,
+  );
+  const recipientCompanyName = extractCompanyNameFromText(
+    nda.metadata.ndaParamaters.receivingParty,
+    nda.metadata.recipientFullName,
+  );
+
+  if (nda.metadata.status === 'declined') {
+    return (
+      <SigRow>
+        <PartyWrapper>
+          <SignatureHolder name={null} />
+          <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+          {
+            recipientCompanyName ? (
+              <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+        </PartyWrapper>
+
+        <PartyWrapper>
+          <SignatureHolder name={ownerFullName} />
+          <NDAPartyName>{ownerFullName}</NDAPartyName>
+          {
+            ownerCompanyName ? (
+              <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+          <NDASignedDate>
+            <FormattedDate
+              year="numeric"
+              month="long"
+              day="numeric"
+              value={nda.createdAt}
+            />
+          </NDASignedDate>
+        </PartyWrapper>
+      </SigRow>
+    );
+  }
+
+  return (
+    <SigRow>
+      {
+        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          <PartyWrapper>
+            <LinkedInButton
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {
+                isSubmitting ? (
+                  <Spinner color="#FFFFFF" size={14} />
+                ) : 'Sign with LinkedIn'
+              }
+            </LinkedInButton>
+            <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+            {
+              recipientCompanyName ? (
+                <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+              ) : null
+            }
+            <NDASenderDisclaimer>
+              {`I, ${nda.metadata.recipientFullName}, certify that I have read the contract, and understand that clicking 'Sign' constitutes a legally binding signature.`}
+            </NDASenderDisclaimer>
+          </PartyWrapper>
+        ) : null
+      }
+
+      {
+        isNdaOwner(nda, user) ? (
+          <PartyWrapper>
+            <SignatureHolder name={null} />
+            <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+            {
+              recipientCompanyName ? (
+                <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+              ) : null
+            }
+          </PartyWrapper>
+        ) : null
+      }
+
+      <PartyWrapper>
+        <SignatureHolder name={ownerFullName} />
+        <NDAPartyName>{ownerFullName}</NDAPartyName>
+        {
+          ownerCompanyName ? (
+            <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+          ) : null
+        }
+        <NDASignedDate>
+          <FormattedDate
+            year="numeric"
+            month="long"
+            day="numeric"
+            value={nda.createdAt}
+          />
+        </NDASignedDate>
+      </PartyWrapper>
+    </SigRow>
+  );
+};
+
 
 const NDA = ({ user, nda }) => {
   const router = useRouter();
@@ -439,17 +621,6 @@ const NDA = ({ user, nda }) => {
     }
   };
   const onSubmit = useCallback(handleSubmit, []);
-
-  const ownerFullName = getFullNameFromUser(nda.owner);
-
-  const ownerCompanyName = extractCompanyNameFromText(
-    nda.metadata.ndaParamaters.disclosingParty,
-    ownerFullName,
-  );
-  const recipientCompanyName = extractCompanyNameFromText(
-    nda.metadata.ndaParamaters.receivingParty,
-    nda.metadata.recipientFullName,
-  );
 
   if (user && !isNdaParty(nda, user)) {
     return (
@@ -505,65 +676,7 @@ const NDA = ({ user, nda }) => {
                   ) : null
                 }
 
-                <SigRow>
-                  {
-                    isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
-                      <PartyWrapper>
-                        <LinkedInButton
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          {
-                            isSubmitting ? (
-                              <Spinner color="#FFFFFF" size={14} />
-                            ) : 'Sign with LinkedIn'
-                          }
-                        </LinkedInButton>
-                        <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
-                        {
-                          recipientCompanyName ? (
-                            <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
-                          ) : null
-                        }
-                        <NDASenderDisclaimer>
-                          {`I, ${nda.metadata.recipientFullName}, certify that I have read the contract, and understand that clicking 'Sign' constitutes a legally binding signature.`}
-                        </NDASenderDisclaimer>
-                      </PartyWrapper>
-                    ) : null
-                  }
-
-                  {
-                    isNdaOwner(nda, user) ? (
-                      <PartyWrapper>
-                        <SignatureHolder name={null} />
-                        <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
-                        {
-                          recipientCompanyName ? (
-                            <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
-                          ) : null
-                        }
-                      </PartyWrapper>
-                    ) : null
-                  }
-
-                  <PartyWrapper>
-                    <SignatureHolder name={ownerFullName} />
-                    <NDAPartyName>{ownerFullName}</NDAPartyName>
-                    {
-                      ownerCompanyName ? (
-                        <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
-                      ) : null
-                    }
-                    <NDASignedDate>
-                      <FormattedDate
-                        year="numeric"
-                        month="long"
-                        day="numeric"
-                        value={nda.createdAt}
-                      />
-                    </NDASignedDate>
-                  </PartyWrapper>
-                </SigRow>
+                <NDASigPads user={user} nda={nda} isSubmitting={isSubmitting} />
 
                 <NDAAttachments user={user} nda={nda} />
 

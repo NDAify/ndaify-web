@@ -121,7 +121,11 @@ export const dispatch = (
     // eslint-disable-next-line
   } catch (error) {}
 
-  if (response.status !== statuses('OK') && response.status !== statuses('Created')) {
+  if (
+    response.status !== statuses('OK')
+      && response.status !== statuses('Created')
+      && response.status !== statuses('Accepted')
+  ) {
     if (response.status === statuses('Unauthorized')) {
       if (!config.noRedirect) {
         redirect(ctx, '/login', {
@@ -131,6 +135,10 @@ export const dispatch = (
       }
 
       throw new Error('Invalid session token');
+    }
+
+    if (response.status === statuses('Forbidden')) {
+      throw new Error(data?.errorMessage || 'You are not allowed to do that.');
     }
 
     throw new Error('Oops! Something went wrong. Try again later.');
@@ -199,5 +207,24 @@ export class API {
   getNdas() {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.GET, 'ndas')(this.ctx, sessionToken)();
+  }
+
+  acceptNda(ndaId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`)(this.ctx, sessionToken)();
+  }
+
+  revokeNda(ndaId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`)(this.ctx, sessionToken)();
+  }
+
+  declineNda(ndaId) {
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/decline`)(this.ctx, NO_SESSION)();
+  }
+
+  resendNda(ndaId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`)(this.ctx, sessionToken)();
   }
 }

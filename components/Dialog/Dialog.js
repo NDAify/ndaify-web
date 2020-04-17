@@ -4,7 +4,7 @@ const Dialog = styled.div`
 height: 100%;
 position: relative;
 background-color: #383B49;
-border-radius: 0.4em;
+border-radius: 4px;
 line-height: 28px;
 padding: 2pc;
 margin-bottom: 2pc;
