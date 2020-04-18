@@ -34,7 +34,7 @@ const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = 
 // assume they are the recepient
 const isPublicViewer = (nda, user) => !user;
 const isNdaRecepient = (nda, user) => nda.recepientId === user?.userId
-|| nda.recipientEmail === user?.metadata.linkedInProfile.emailAddress;
+|| nda.recipientEmail.toLowerCase() === user?.metadata.linkedInProfile.emailAddress.toLowerCase();
 const isNdaOwner = (nda, user) => nda.ownerId === user?.userId;
 const isNdaParty = (nda, user) => isNdaRecepient(nda, user) || isNdaOwner(nda, user);
 

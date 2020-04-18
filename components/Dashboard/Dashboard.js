@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
@@ -110,6 +110,16 @@ const HistoryTimeRow = styled.div`
 const CalendarIcon = styled.img`
   width: 24px;
   margin-right: 1pc;
+`;
+
+const EmptyHistoryList = styled.span`
+  font-size: 20px;
+  color: #ffffff;
+  font-weight: 700;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
 `;
 
 const HistoryTimeText = styled.span`
@@ -273,13 +283,31 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           </Link>
         </SigRow>
 
-        <HistoryList>
-          {
-            filteredNdas.map(nda => (
-              <HistoryItem key={nda.ndaId} nda={nda} dashboardType={dashboardType} />
-            ))
-          }
-        </HistoryList>
+        {
+          filteredNdas.length > 0 ? (
+            <HistoryList>
+              {
+                filteredNdas.map(nda => (
+                  <HistoryItem key={nda.ndaId} nda={nda} dashboardType={dashboardType} />
+                ))
+              }
+            </HistoryList>
+          ) : (
+            <EmptyHistoryList>
+              {
+                dashboardType === 'incoming' ? (
+                  <Fragment>
+                    You have nothing in your inbox
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    You have not sent NDAs
+                  </Fragment>
+                )
+              }
+            </EmptyHistoryList>
+          )
+        }
 
         <Footer withLogo />
 
