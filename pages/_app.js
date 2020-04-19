@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import NextApp, { Container } from 'next/app';
+import NextApp from 'next/app';
 import NProgress from 'nprogress';
 import { IntlProvider } from 'react-intl';
 import { positions, Provider as AlertProvider } from 'react-alert';
@@ -49,17 +49,15 @@ class App extends NextApp {
         <PageTitle />
 
         <AlertProvider template={Alert} {...ALERT_OPTIONS}>
-          <Container>
-            <IntlProvider
-              locale="en"
-              timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
-              messages={{}}
-              initialNow={ssrNow}
-              textComponent={Fragment}
-            >
-              <Component {...pageProps} />
-            </IntlProvider>
-          </Container>
+          <IntlProvider
+            locale="en"
+            timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
+            messages={{}}
+            initialNow={ssrNow}
+            textComponent={Fragment}
+          >
+            <Component {...pageProps} />
+          </IntlProvider>
         </AlertProvider>
 
       </>
