@@ -5,6 +5,7 @@ import { FadingCircle as Spinner } from 'better-react-spinkit';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
+import { Waypoint } from 'react-waypoint';
 
 import {
   Formik,
@@ -232,16 +233,30 @@ const AttachmentMessage = styled.h4`
   }
 `;
 
-const DeclineButtonWrapper = styled.div`
+const ActionButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   padding: 2pc;
   padding-bottom: 0;
   box-sizing: border-box;
+  position: sticky;
+  top: 0;
+`;
 
-  > :first-of-type {
-    margin-right: 18px;
+const ActionButtonBackground = styled.div`
+  ${(props) => (props.isScrolledBeyondActions ? 'background-color: rgba(0, 0, 0, .3);' : 'color: transparent;')}
+  padding: 1pc;
+  border-radius: 4px;
+  transition: background-color 1s ease;
+  display: flex;
+
+  > button {
+    margin-left: 18px;
+  }
+
+  > button:first-of-type {
+    margin-left: 0;
   }
 `;
 
@@ -381,7 +396,7 @@ const NDAHeader = ({ nda, user }) => {
   );
 };
 
-const NDAActions = ({ nda, user }) => {
+const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const toast = useAlert();
 
   const [isDeclining, setDeclining] = useState(false);
@@ -410,18 +425,22 @@ const NDAActions = ({ nda, user }) => {
     <>
       {
         nda.metadata.status === 'signed' ? (
-          <DeclineButtonWrapper>
-            <Button compact color="#7254B7">Download</Button>
-          </DeclineButtonWrapper>
+          <ActionButtonWrapper>
+            <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
+              <Button compact color="#7254B7">Download</Button>
+            </ActionButtonBackground>
+          </ActionButtonWrapper>
         ) : null
       }
 
       {
         isNdaOwner(nda, user) ? (
-          <DeclineButtonWrapper>
-            <Button compact color="#7254B7">Resend</Button>
-            <Button compact color="#dc564a">Revoke</Button>
-          </DeclineButtonWrapper>
+          <ActionButtonWrapper>
+            <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
+              <Button compact color="#7254B7">Resend</Button>
+              <Button compact color="#dc564a">Revoke</Button>
+            </ActionButtonBackground>
+          </ActionButtonWrapper>
         ) : null
       }
 
@@ -430,19 +449,21 @@ const NDAActions = ({ nda, user }) => {
           nda.metadata.status !== 'declined'
           && (isPublicViewer(nda, user) || isNdaRecepient(nda, user))
         ) ? (
-          <DeclineButtonWrapper>
-            <Button
-              compact
-              color="#dc564a"
-              onClick={onDeclineClick}
-            >
-              {
-                isDeclining ? (
-                  <Spinner color="#FFFFFF" size={14} />
-                ) : 'Decline'
-              }
-            </Button>
-          </DeclineButtonWrapper>
+          <ActionButtonWrapper>
+            <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
+              <Button
+                compact
+                color="#dc564a"
+                onClick={onDeclineClick}
+              >
+                {
+                  isDeclining ? (
+                    <Spinner color="#FFFFFF" size={14} />
+                  ) : 'Decline'
+                }
+              </Button>
+            </ActionButtonBackground>
+          </ActionButtonWrapper>
           ) : null
       }
     </>
@@ -643,6 +664,8 @@ const NDA = ({ user, nda }) => {
   };
   const onSubmit = useCallback(handleSubmit, []);
 
+  const [isScrolledBeyondActions, setIsScrolledBeyondActions] = useState(false);
+
   if (user && !isNdaParty(nda, user)) {
     return (
       <Container>
@@ -664,7 +687,18 @@ const NDA = ({ user, nda }) => {
         )}
       />
 
-      <NDAActions user={user} nda={nda} />
+      <Waypoint
+        onEnter={() => setIsScrolledBeyondActions(false)}
+        onLeave={() => setIsScrolledBeyondActions(true)}
+        onPositionChange={(props) => {
+          // Handle case where the page is refreshed while scrolled past waypoint
+          if (props.currentPosition !== Waypoint.inside) {
+            setIsScrolledBeyondActions(true);
+          }
+        }}
+      />
+
+      <NDAActions user={user} nda={nda} isScrolledBeyondActions={isScrolledBeyondActions} />
 
       <Formik
         initialValues={{}}

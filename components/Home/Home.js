@@ -117,7 +117,7 @@ const FormCopy = styled.h4`
   }
 `;
 
-const Home = ({ user, showCustomNote = true }) => {
+const Home = ({ user, showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);
