@@ -25,6 +25,8 @@ import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
 
+import HideIcon from './images/hide.svg';
+
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const Container = styled.div`
@@ -73,15 +75,21 @@ const LinkWrapper = styled.div`
   margin-bottom: 2pc;
 `;
 
-const HideIcon = styled.img`
-  width: 20px;
+const HideIconWrapper = styled.div`
   margin-left: 0;
   margin-right: 1pc;
 
+  svg {
+    width: 20px;
+  }
+
   @media screen and (min-width: 992px) {
-    width: 28px;
     margin-left: -46px;
     margin-right: 1pc;
+
+    svg {
+      width: 28px;
+    }
   }
 `;
 
@@ -158,7 +166,7 @@ export const NDA_OPTIONS = [
   },
 ];
 
-const isValidEmail = string => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
 const SenderForm = ({ nda }) => {
   const router = useRouter();
@@ -252,7 +260,9 @@ const SenderForm = ({ nda }) => {
           }
 
           <LinkWrapper>
-            <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+            <HideIconWrapper>
+              <HideIcon />
+            </HideIconWrapper>
             <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
@@ -343,8 +353,8 @@ const SenderForm = ({ nda }) => {
 
                 <DisclaimerText>
                   Singing the NDA signifies that you have read and agree to the
-                  {' '} 
-                  <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a> 
+                  {' '}
+                  <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
                   {' '}
                   and
                   {' '}

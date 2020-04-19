@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import julia from './images/julia.png';
+
 const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
@@ -39,7 +41,7 @@ const ProfileText = styled.span`
 
 const CreatorInfo = () => (
   <ProfileContainer>
-    <ProfileImage src="/static/julia.png" alt="julia" />
+    <ProfileImage src={julia} alt="julia" />
     <ProfileTextContainer>
       <ProfileText>
         Julia

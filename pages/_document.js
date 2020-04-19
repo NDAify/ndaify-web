@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import NextDocument from 'next/document';
 
 import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
@@ -28,12 +28,12 @@ class Document extends NextDocument {
 
     try {
       ctx.renderPage = () => originalRenderPage({
-        enhanceApp: App => props => sheet.collectStyles(
-          <Fragment>
+        enhanceApp: (App) => (props) => sheet.collectStyles(
+          <>
             <Head />
             <GlobalStyle />
             <App {...props} />
-          </Fragment>,
+          </>,
         ),
       });
 
@@ -41,14 +41,14 @@ class Document extends NextDocument {
       return {
         ...initialProps,
         styles: (
-          <Fragment>
+          <>
             {
               initialProps.styles
             }
             {
               sheet.getStyleElement()
             }
-          </Fragment>
+          </>
         ),
       };
     } finally {

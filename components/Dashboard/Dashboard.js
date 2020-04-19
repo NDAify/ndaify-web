@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from 'react';
+import React, { useCallback } from 'react';
 
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
@@ -15,6 +15,9 @@ import { API } from '../../api';
 
 import { NDA_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
+
+import CalendarIcon from './images/calendar.svg';
+import RightArrowIcon from './images/rightArrow.svg';
 
 const Container = styled.div`
   width: 100%;
@@ -77,7 +80,7 @@ const ItemCardContainer = styled.a`
   margin-bottom: 1pc;
   cursor: pointer;
 
-  ${props => (props.pending ? 'border-color: #EDD9A3;' : '')}
+  ${(props) => (props.pending ? 'border-color: #EDD9A3;' : '')}
 `;
 
 const RightArrowContainer = styled.div`
@@ -90,8 +93,10 @@ const RightArrowContainer = styled.div`
   }
 `;
 
-const RightArrowIcon = styled.img`
-  width: 20px;
+const RightArrowIconwrapper = styled.div`
+  svg {
+    width: 20px;
+  }
 `;
 
 const HistoryItemContainer = styled.div`
@@ -107,9 +112,12 @@ const HistoryTimeRow = styled.div`
   margin-bottom: 1pc;
 `;
 
-const CalendarIcon = styled.img`
-  width: 24px;
+const CalendarIconWrapper = styled.div`
   margin-right: 1pc;
+  
+  svg {
+    width: 24px;
+  }
 `;
 
 const EmptyHistoryList = styled.span`
@@ -180,26 +188,27 @@ const NDA_STATUS_LABEL = {
   declined: 'Declined',
 };
 
-const HistoryItem = ({ dashboardType, nda }) => {
-  return (
-    <Link
-      route={`/nda/${nda.ndaId}`}
-    >
-      <ItemCardContainer pending={nda.metadata.status === 'pending'}>
-        <HistoryItemContainer>
-          <HistoryTimeRow>
-            <CalendarIcon src="/static/calendarIcon.svg" alt="calendar icon" />
-            <HistoryTimeText>
-              <FormattedDate
-                year="numeric"
-                month="long"
-                day="numeric"
-                value={nda.createdAt}
-              />
-            </HistoryTimeText>
-          </HistoryTimeRow>
+const HistoryItem = ({ dashboardType, nda }) => (
+  <Link
+    route={`/nda/${nda.ndaId}`}
+  >
+    <ItemCardContainer pending={nda.metadata.status === 'pending'}>
+      <HistoryItemContainer>
+        <HistoryTimeRow>
+          <CalendarIconWrapper>
+            <CalendarIcon />
+          </CalendarIconWrapper>
+          <HistoryTimeText>
+            <FormattedDate
+              year="numeric"
+              month="long"
+              day="numeric"
+              value={nda.createdAt}
+            />
+          </HistoryTimeText>
+        </HistoryTimeRow>
 
-          {
+        {
             dashboardType === 'incoming' ? (
               <RecipientRow>
                 <HistoryItemTitle>Sender</HistoryItemTitle>
@@ -212,24 +221,27 @@ const HistoryItem = ({ dashboardType, nda }) => {
               </RecipientRow>
             )
           }
-          <TypeAndStatusRow>
-            <TypeContainer>
-              <HistoryItemTitle>Type</HistoryItemTitle>
-              <RecipientInfoText>{NDA_OPTIONS.find(option => option.value === nda.metadata.ndaType).label}</RecipientInfoText>
-            </TypeContainer>
-            <StatusContainer>
-              <HistoryItemTitle>Status</HistoryItemTitle>
-              <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
-            </StatusContainer>
-          </TypeAndStatusRow>
-        </HistoryItemContainer>
-        <RightArrowContainer>
-          <RightArrowIcon src="/static/rightArrowIcon.svg" alt="right arrow icon" />
-        </RightArrowContainer>
-      </ItemCardContainer>
-    </Link>
-  );
-};
+        <TypeAndStatusRow>
+          <TypeContainer>
+            <HistoryItemTitle>Type</HistoryItemTitle>
+            <RecipientInfoText>
+              {NDA_OPTIONS.find((option) => option.value === nda.metadata.ndaType).label}
+            </RecipientInfoText>
+          </TypeContainer>
+          <StatusContainer>
+            <HistoryItemTitle>Status</HistoryItemTitle>
+            <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
+          </StatusContainer>
+        </TypeAndStatusRow>
+      </HistoryItemContainer>
+      <RightArrowContainer>
+        <RightArrowIconwrapper>
+          <RightArrowIcon />
+        </RightArrowIconwrapper>
+      </RightArrowContainer>
+    </ItemCardContainer>
+  </Link>
+);
 
 
 const Dashboard = ({ dashboardType, user, ndas }) => {
@@ -241,7 +253,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
   };
   const onLogOutClick = useCallback(handleLogOutClick, []);
 
-  const byDashboardType = dashboardType === 'incoming' ? nda => nda.ownerId !== user.userId : nda => nda.ownerId === user.userId;
+  const byDashboardType = dashboardType === 'incoming' ? (nda) => nda.ownerId !== user.userId : (nda) => nda.ownerId === user.userId;
 
   const filteredNdas = ndas.filter(byDashboardType);
 
@@ -265,14 +277,14 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           <LinksContainer>
             <ActiveLink route="/dashboard/incoming">
               {
-                active => (
+                (active) => (
                   <StyledLink active={active}>Inbox</StyledLink>
                 )
               }
             </ActiveLink>
             <ActiveLink route="/dashboard/outgoing">
               {
-                active => (
+                (active) => (
                   <StyledLink active={active}>Sent</StyledLink>
                 )
               }
@@ -287,7 +299,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           filteredNdas.length > 0 ? (
             <HistoryList>
               {
-                filteredNdas.map(nda => (
+                filteredNdas.map((nda) => (
                   <HistoryItem key={nda.ndaId} nda={nda} dashboardType={dashboardType} />
                 ))
               }
@@ -296,13 +308,13 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
             <EmptyHistoryList>
               {
                 dashboardType === 'incoming' ? (
-                  <Fragment>
+                  <>
                     You have nothing in your inbox
-                  </Fragment>
+                  </>
                 ) : (
-                  <Fragment>
+                  <>
                     You have not sent NDAs
-                  </Fragment>
+                  </>
                 )
               }
             </EmptyHistoryList>

@@ -1,8 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
 import Dialog from '../Dialog/Dialog';
+import HeartIcon from './images/heart.svg';
+import LogoIcon from './images/logo.svg';
+import productHuntLogo from './images/productHuntLogo.png';
+import yCombinatorLogo from './images/yCombinatorLogo.png';
 
 const Container = styled.div`
   display: flex;
@@ -23,12 +27,16 @@ const SourceLogoContainer = styled.div`
   width: 200px;
 `;
 
-const NdaifyLogo = styled.img`
-  width: 54px;
+const NdaifyLogo = styled.div`
+  svg {
+    width: 54px;
+  }
 `;
 
-const HeartIcon = styled.img`
-  width: 30px;
+const HeartIconWrapper = styled.div`
+  svg {
+    width: 30px;
+  }
 `;
 
 const SourceLogo = styled.img`
@@ -63,7 +71,7 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
     sourceData = {
       name: 'Product Hunt',
       people: 'Product Hunter',
-      logoSrc: '/static/productHuntLogo.png',
+      logoSrc: productHuntLogo,
     };
   }
 
@@ -71,16 +79,20 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
     sourceData = {
       name: 'Y Combinator',
       people: 'Hacker News Reader',
-      logoSrc: '/static/YCombinatorLogo.png',
+      logoSrc: yCombinatorLogo,
     };
   }
 
   return (
-    <Fragment>
+    <>
       <Container>
         <SourceLogoContainer>
-          <NdaifyLogo src="/static/logo.svg" alt="ndaify logo" />
-          <HeartIcon src="/static/heartIcon.svg" alt="heart" />
+          <NdaifyLogo>
+            <LogoIcon />
+          </NdaifyLogo>
+          <HeartIconWrapper>
+            <HeartIcon />
+          </HeartIconWrapper>
           <SourceLogo src={sourceData.logoSrc} alt={sourceData.name} />
         </SourceLogoContainer>
         <DialogContainer>
@@ -104,7 +116,7 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
           <CreatorInfo />
         </DialogContainer>
       </Container>
-    </Fragment>
+    </>
   );
 };
 

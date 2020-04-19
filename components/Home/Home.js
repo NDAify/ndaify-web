@@ -21,8 +21,6 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
-import { API } from '../../api';
-
 import * as sessionStorage from '../../lib/sessionStorage';
 
 const Container = styled.div`
@@ -119,7 +117,7 @@ const FormCopy = styled.h4`
   }
 `;
 
-const Home = ({ user, showCustomNote = false }) => {
+const Home = ({ user, showCustomNote = true }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);

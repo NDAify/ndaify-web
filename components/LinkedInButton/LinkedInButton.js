@@ -3,16 +3,21 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../Clickable/Button';
 
+import LinkedInLogoIcon from './images/linkedInLogo.svg';
+
 const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
   padding: 0;
 `;
 
-const LinkedInLogo = styled.img`
-  width: 64px;
-  height: 64px;
+const LinkedInLogoWrapper = styled.div`
   margin-top: -2px;
+
+  svg {
+    width: 64px;
+    height: 64px;
+  }
 `;
 
 const ButtonText = styled.span`
@@ -26,7 +31,9 @@ const LinkedInButton = ({ children, ...otherProps }) => (
     color="#0F96CC"
     {...otherProps}
   >
-    <LinkedInLogo src="/static/linkedInLogo.svg" alt="linkedin-logo" />
+    <LinkedInLogoWrapper>
+      <LinkedInLogoIcon />
+    </LinkedInLogoWrapper>
     <ButtonText>
       {children}
     </ButtonText>

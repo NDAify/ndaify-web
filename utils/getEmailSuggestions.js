@@ -64,7 +64,7 @@ const checkForCloseMatch = (sample, string) => {
 };
 
 const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) => {
-  const scoredDataSet = dataset.map(data => ({ string, data, score: score(data, string, 0.99) }));
+  const scoredDataSet = dataset.map((data) => ({ string, data, score: score(data, string, 0.99) }));
 
   const sortedDataSet = scoredDataSet.sort((a, b) => {
     if (a.score < b.score) {
@@ -81,7 +81,7 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
 
   if (matchWithSameCharLength) {
     const suggestionWithSameCharLength = sortedDataSet.find(
-      dataObj => dataObj.string.length === dataObj.data.length
+      (dataObj) => dataObj.string.length === dataObj.data.length
         && dataObj.score >= CONFIDENCE_SCORE_WITH_EXACT_CHAR_COUNT_MATCH,
     );
     if (suggestionWithSameCharLength) {
@@ -96,7 +96,7 @@ const getClosestMatchedSuggestion = (string, dataset, matchWithSameCharLength) =
   return null;
 };
 
-const isValidEmail = string => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
 const getSuggestion = (email) => {
   if (!email || !isValidEmail(email)) {
@@ -113,7 +113,7 @@ const getSuggestion = (email) => {
     return null;
   }
 
-  const closestMatchedTld = tlds.find(tldSample => checkForCloseMatch(tldSample, tld)) || '';
+  const closestMatchedTld = tlds.find((tldSample) => checkForCloseMatch(tldSample, tld)) || '';
   const closeMatchTldScore = score(closestMatchedTld, tld);
   const correctedTld = closeMatchTldScore >= CONFIDENCE_SCORE
     ? closestMatchedTld
@@ -135,7 +135,7 @@ const getSuggestion = (email) => {
   }
 
   const closestMatchedEmailProvider = commonEmailProviders.find(
-    emailProviderSample => checkForCloseMatch(emailProviderSample, emailProviderWithCorrectTld),
+    (emailProviderSample) => checkForCloseMatch(emailProviderSample, emailProviderWithCorrectTld),
   );
   return closestMatchedEmailProvider || `${emailUserName}@${emailProviderWithCorrectTld}`;
 };

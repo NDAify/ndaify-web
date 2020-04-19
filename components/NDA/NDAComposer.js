@@ -19,6 +19,8 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import * as sessionStorage from '../../lib/sessionStorage';
 import { timeout } from '../../util';
 
+import HideIcon from './images/hide.svg';
+
 import getFullNameFromUser from './getFullNameFromUser';
 
 const Container = styled.div`
@@ -147,15 +149,21 @@ const LinkWrapper = styled.div`
   margin-bottom: 2pc;
 `;
 
-const HideIcon = styled.img`
-  width: 20px;
+const HideIconWrapper = styled.div`
   margin-left: 0;
   margin-right: 1pc;
 
+  svg {
+    width: 20px;
+  }
+
   @media screen and (min-width: 992px) {
-    width: 28px;
     margin-left: -46px;
     margin-right: 1pc;
+
+    svg {
+      width: 28px;
+    }
   }
 `;
 
@@ -319,7 +327,10 @@ const NDAComposer = ({ user, nda }) => {
         onSubmit={onSubmit}
       >
         {({ values, status, isSubmitting }) => {
-          const ownerCompanyName = extractCompanyNameFromText(values.disclosingParty, ownerFullName);
+          const ownerCompanyName = extractCompanyNameFromText(
+            values.disclosingParty,
+            ownerFullName,
+          );
           const recipientCompanyName = extractCompanyNameFromText(
             values.receivingParty, nda.metadata.recipientName,
           );
@@ -406,7 +417,9 @@ const NDAComposer = ({ user, nda }) => {
                   <AttachmentSectionContainer>
                     <AttachmentTitle>Attachments</AttachmentTitle>
                     <LinkWrapper>
-                      <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+                      <HideIconWrapper>
+                        <HideIcon />
+                      </HideIconWrapper>
                       <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
                     </LinkWrapper>
                     <DescriptionTitle>

@@ -79,7 +79,7 @@ const Login = () => {
           }
 
           <LinkedInButtonWrapper>
-            <LinkedInButton 
+            <LinkedInButton
               onClick={() => {
                 const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
 

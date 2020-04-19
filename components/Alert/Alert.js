@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Close from './images/close.svg';
+import CloseIcon from './images/close.svg';
 
 const Container = styled.div`
   background-color: #FFFFFF;
@@ -43,7 +43,7 @@ const Alert = ({
   <Container style={style}>
     <AlertText>{message}</AlertText>
     <CloseButton type="button" onClick={close}>
-      <Close />
+      <CloseIcon />
     </CloseButton>
   </Container>
 );

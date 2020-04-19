@@ -44,7 +44,7 @@ class App extends NextApp {
     const { Component, pageProps, ssrNow } = this.props;
 
     return (
-      <Fragment>
+      <>
 
         <PageTitle />
 
@@ -62,7 +62,7 @@ class App extends NextApp {
           </Container>
         </AlertProvider>
 
-      </Fragment>
+      </>
     );
   }
 }

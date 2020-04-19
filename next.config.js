@@ -1,6 +1,7 @@
 const withCSS = require('@zeit/next-css');
+const withImages = require('next-images');
 
-module.exports = () => withCSS({
+module.exports = () => withCSS(withImages({
   // delegate to next-routes
   useFileSystemPublicRoutes: false,
   env: {
@@ -23,4 +24,4 @@ module.exports = () => withCSS({
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
   },
-});
+}));

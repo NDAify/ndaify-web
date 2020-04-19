@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
 import { FadingCircle as Spinner } from 'better-react-spinkit';
@@ -27,6 +27,8 @@ import getFullNameFromUser from './getFullNameFromUser';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 
 import { API } from '../../api';
+
+import HideIcon from './images/hide.svg';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
@@ -174,15 +176,21 @@ const LinkWrapper = styled.div`
   margin-bottom: 2pc;
 `;
 
-const HideIcon = styled.img`
-  width: 20px;
+const HideIconWrapper = styled.div`
   margin-left: 0;
   margin-right: 1pc;
 
+  svg {
+    width: 20px;
+  }
+
   @media screen and (min-width: 992px) {
-    width: 28px;
     margin-left: -46px;
     margin-right: 1pc;
+
+    svg {
+      width: 28px;
+    }
   }
 `;
 
@@ -217,7 +225,7 @@ const AttachmentMessage = styled.h4`
   margin: 0;
   font-size: 20px;
   font-weight: 200;
-  ${props => (props.declined ? 'color: #dc564a;' : 'color: #4ac09a;')}
+  ${(props) => (props.declined ? 'color: #dc564a;' : 'color: #4ac09a;')}
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -231,6 +239,10 @@ const DeclineButtonWrapper = styled.div`
   padding: 2pc;
   padding-bottom: 0;
   box-sizing: border-box;
+
+  > :first-of-type {
+    margin-right: 18px;
+  }
 `;
 
 const DisclaimerTitle = styled.h4`
@@ -274,10 +286,9 @@ const DisclaimerBody = styled.h4`
 `;
 
 const NDAHeader = ({ nda, user }) => {
-
   if (nda.metadata.status === 'declined') {
     return (
-      <Fragment>
+      <>
         {
           isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
             <NDADisclaimerWrapper>
@@ -291,12 +302,12 @@ const NDAHeader = ({ nda, user }) => {
             </NDADisclaimerWrapper>
           ) : null
         }
-      </Fragment>
+      </>
     );
   }
 
   return (
-    <Fragment>
+    <>
       {
         isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
           <NDADisclaimerWrapper>
@@ -366,7 +377,7 @@ const NDAHeader = ({ nda, user }) => {
           </NDADisclaimerWrapper>
         ) : null
       }
-    </Fragment>
+    </>
   );
 };
 
@@ -396,7 +407,15 @@ const NDAActions = ({ nda, user }) => {
   const onDeclineClick = useCallback(handleDeclineClick);
 
   return (
-    <Fragment>
+    <>
+      {
+        nda.metadata.status === 'signed' ? (
+          <DeclineButtonWrapper>
+            <Button compact color="#7254B7">Download</Button>
+          </DeclineButtonWrapper>
+        ) : null
+      }
+
       {
         isNdaOwner(nda, user) ? (
           <DeclineButtonWrapper>
@@ -426,7 +445,7 @@ const NDAActions = ({ nda, user }) => {
           </DeclineButtonWrapper>
           ) : null
       }
-    </Fragment>
+    </>
   );
 };
 
@@ -443,13 +462,15 @@ const NDAAttachments = ({ nda, user }) => {
   }
 
   return (
-    <Fragment>
+    <>
       {
         isNdaOwner(nda, user) ? (
           <AttachmentSectionContainer>
             <AttachmentTitle>Attachments</AttachmentTitle>
             <LinkWrapper>
-              <HideIcon src="/static/hideIcon.svg" alt="hidded icon" />
+              <HideIconWrapper>
+                <HideIcon />
+              </HideIconWrapper>
               <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
             </LinkWrapper>
             <DescriptionTitle>
@@ -470,7 +491,7 @@ const NDAAttachments = ({ nda, user }) => {
           </AttachmentSectionContainer>
         ) : null
       }
-    </Fragment>
+    </>
   );
 };
 

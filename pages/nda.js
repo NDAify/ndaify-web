@@ -3,7 +3,7 @@ import React from 'react';
 import { API } from '../api';
 import NDA from '../components/NDA/NDA';
 
-const NDAPage = props => (
+const NDAPage = (props) => (
   <NDA {...props} />
 );
 

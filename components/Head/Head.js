@@ -10,7 +10,7 @@ export const PageTitle = ({ title = TITLE, prepend = '', append = '' }) => (
   </NextHead>
 );
 
-export const PageAlternate = href => (
+export const PageAlternate = (href) => (
   <NextHead>
     <link rel="alternate" href={href} />
   </NextHead>
@@ -25,7 +25,7 @@ const Head = ({ description = META_DESCRIPTION }) => (
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,400,700&display=swap" />
 
-    <link rel="shortcut icon" href="/static/favicon.png" />
+    <link rel="shortcut icon" href="/public/favicon.png" />
   </NextHead>
 );
 

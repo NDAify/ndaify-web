@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useField } from 'formik';
 
+import DownIcon from './images/down.svg';
+
 const SelectLabel = styled.div`
   font-size: 20px;
   font-weight: 200;
@@ -21,11 +23,17 @@ const SelectLabel = styled.div`
   }
 `;
 
-const SelectLabelIcon = styled.img`
+const DownIconWrapper = styled.div`
   position: absolute;
   right: 16px;
-  width: 16px;
   top: 24px;
+  width: 16px;
+  display: flex;
+
+  svg {
+    width: 16px;
+    height: auto;
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -68,17 +76,19 @@ const SelectInput = (props) => {
 
   const { innerRef, options } = props;
 
-  const option = props.options.find(opt => opt.value === field.value);
+  const option = props.options.find((opt) => opt.value === field.value);
 
   return (
     <SelectContainer>
       <SelectLabel>
         {option.label}
-        <SelectLabelIcon src="/static/downIcon.svg" alt="down" />
+        <DownIconWrapper>
+          <DownIcon />
+        </DownIconWrapper>
       </SelectLabel>
       <StyledSelect ref={innerRef} {...props} {...field}>
         {
-          options.map(opt => (
+          options.map((opt) => (
             <StyledOption key={opt.value} value={opt.value}>{opt.label}</StyledOption>
           ))
         }

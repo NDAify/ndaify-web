@@ -16,6 +16,7 @@
     "koa-router": "^8.0.8",
     "lodash.debounce": "^4.0.8",
     "next": "9.3.5",
+    "next-images": "^1.4.0",
     "next-routes": "^1.4.2",
     "nookies": "^2.2.2",
     "nprogress": "^0.2.0",

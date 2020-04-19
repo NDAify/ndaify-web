@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Link } from '../../routes';
+import LogoWithTextIcon from './images/logoWithText.svg';
 
 const Container = styled.footer`
   margin-top: 3pc;
@@ -19,8 +20,10 @@ const FooterLogoContainer = styled.div`
   margin-bottom: 2pc;
 `;
 
-const FooterLogoImg = styled.img`
-  height: 50px;
+const FooterLogoWrapper = styled.div`
+  svg {
+    height: 50px;
+  }
 `;
 
 const Disclaimer = styled.span`
@@ -85,7 +88,9 @@ const Footer = ({ withLogo }) => (
       <FooterLogoContainer>
         <Link route="/" replace>
           <a>
-            <FooterLogoImg src="/static/logoWithText.svg" alt="ndaify logo" />
+            <FooterLogoWrapper>
+              <LogoWithTextIcon />
+            </FooterLogoWrapper>
           </a>
         </Link>
       </FooterLogoContainer>
@@ -112,8 +117,8 @@ const Footer = ({ withLogo }) => (
       NDAify is not a law firm, does not provide legal services or advice, and
       does not provide or participate in legal representation. Singing the NDA
       signifies that you have read and agree to the
-      {' '} 
-      <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a> 
+      {' '}
+      <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
       {' '}
       and
       {' '}

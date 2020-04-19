@@ -3,7 +3,7 @@ import React from 'react';
 import { API } from '../api';
 import SuccessMessage from '../components/SuccessMessage/SuccessMessage';
 
-const SuccessMessagePage = props => (<SuccessMessage {...props} />);
+const SuccessMessagePage = (props) => (<SuccessMessage {...props} />);
 
 SuccessMessagePage.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;

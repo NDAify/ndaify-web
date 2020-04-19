@@ -2,20 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../routes';
 
+import LogoWithTextIcon from './images/logoWithText.svg';
+
 const LogoContaier = styled.div`
   width: 100%;
   display: flex;
   `;
 
-const Logo = styled.img`
-  width: 216px;
+const LogoWithTextIconWrapper = styled.div`
+  svg {
+    width: 216px;
+  }
 `;
 
 const LogoHeader = () => (
   <LogoContaier>
     <Link route="/">
       <a>
-        <Logo src="/static/logoWithText.svg" alt="ndaify-logo" />
+        <LogoWithTextIconWrapper>
+          <LogoWithTextIcon />
+        </LogoWithTextIconWrapper>
       </a>
     </Link>
   </LogoContaier>

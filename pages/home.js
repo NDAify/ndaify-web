@@ -4,7 +4,7 @@ import { API } from '../api';
 
 import HomeImpl from '../components/Home/Home';
 
-const Home = props => (
+const Home = (props) => (
   <HomeImpl user={props.user} />
 );
 
