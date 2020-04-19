@@ -28,6 +28,7 @@ const EmailInput = ({ onEmailSuggest, ...props }) => {
 
   return (
     <Input
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       onChange={onChange}
     />

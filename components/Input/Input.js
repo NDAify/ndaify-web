@@ -38,7 +38,9 @@ const Input = (props) => {
   return (
     <StyledInput
       ref={props.innerRef}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...field}
       onChange={onChange}
     />

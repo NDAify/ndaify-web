@@ -34,7 +34,9 @@ const ContentEditableInput = (props) => {
       maxLength={120}
       multiLine={false}
 
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...field}
       onChange={onChange}
       onBlur={onBlur}

@@ -32,7 +32,10 @@ class Document extends NextDocument {
           <>
             <Head />
             <GlobalStyle />
-            <App {...props} />
+            <App
+            // eslint-disable-next-line react/jsx-props-no-spreading
+              {...props}
+            />
           </>,
         ),
       });

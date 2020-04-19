@@ -62,6 +62,7 @@ const Button = styled.button`
 `;
 
 export default ({ children, ...rest }) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
   <Button {...rest}>
     {children}
   </Button>

@@ -30,7 +30,10 @@ const ErrorPopUp = styled.div`
 `;
 
 const ErrorMessage = ({ children, ...rest }) => (
-  <ErrorPopUp {...rest}>
+  <ErrorPopUp
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...rest}
+  >
     <WarningIcon />
     {children}
   </ErrorPopUp>

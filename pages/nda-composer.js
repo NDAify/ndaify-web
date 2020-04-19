@@ -38,7 +38,12 @@ const LazyNDAComposerPage = (props) => {
     return null;
   }
 
-  return <NDAComposerPage {...props} />;
+  return (
+    <NDAComposerPage
+    // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
+  );
 };
 
 LazyNDAComposerPage.getInitialProps = async (ctx) => {

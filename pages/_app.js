@@ -48,7 +48,11 @@ class App extends NextApp {
 
         <PageTitle />
 
-        <AlertProvider template={Alert} {...ALERT_OPTIONS}>
+        <AlertProvider
+          template={Alert}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...ALERT_OPTIONS}
+        >
           <IntlProvider
             locale="en"
             timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
@@ -56,7 +60,10 @@ class App extends NextApp {
             initialNow={ssrNow}
             textComponent={Fragment}
           >
-            <Component {...pageProps} />
+            <Component
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...pageProps}
+            />
           </IntlProvider>
         </AlertProvider>
 

@@ -34,7 +34,12 @@ const LazyForm = (props) => {
     return null;
   }
 
-  return <Form {...props} />;
+  return (
+    <Form
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
+  );
 };
 
 

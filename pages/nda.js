@@ -4,7 +4,10 @@ import { API } from '../api';
 import NDA from '../components/NDA/NDA';
 
 const NDAPage = (props) => (
-  <NDA {...props} />
+  <NDA
+  // eslint-disable-next-line react/jsx-props-no-spreading
+    {...props}
+  />
 );
 
 NDAPage.getInitialProps = async (ctx) => {

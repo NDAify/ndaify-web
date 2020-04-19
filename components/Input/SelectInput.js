@@ -86,7 +86,13 @@ const SelectInput = (props) => {
           <DownIcon />
         </DownIconWrapper>
       </SelectLabel>
-      <StyledSelect ref={innerRef} {...props} {...field}>
+      <StyledSelect
+        ref={innerRef}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+        {...field}
+      >
         {
           options.map((opt) => (
             <StyledOption key={opt.value} value={opt.value}>{opt.label}</StyledOption>
