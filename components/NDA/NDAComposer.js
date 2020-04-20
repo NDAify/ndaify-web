@@ -392,12 +392,9 @@ const NDAComposer = ({ user, nda }) => {
                         type="submit"
                         disabled={isSubmitting}
                         style={{ backgroundColor: '#4AC09A' }}
+                        spin={isSubmitting}
                       >
-                        {
-                          isSubmitting ? (
-                            <Spinner color="#FFFFFF" size={14} />
-                          ) : 'Sign'
-                        }
+                        Sign
                       </Button>
                       <NDAPartyName>{ownerFullName}</NDAPartyName>
                       <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>

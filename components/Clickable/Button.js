@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 const Button = styled.button`
   display: inline-block;
@@ -20,6 +21,8 @@ const Button = styled.button`
   height: 60px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
 
   cursor: pointer;
 
@@ -61,9 +64,25 @@ const Button = styled.button`
   }
 `;
 
-export default ({ children, ...rest }) => (
+const ButtonContent = styled.span`
+  ${(props) => (props.visible ? 'visibility: visible;' : 'visibility: hidden;')}
+  width: 100%;
+`;
+
+const ButtonSpinner = styled(Spinner)`
+  position: absolute;
+`;
+
+export default ({ children, spin, ...rest }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <Button {...rest}>
-    {children}
+    {
+      spin ? (
+        <ButtonSpinner color="#FFFFFF" size={14} />
+      ) : null
+    }
+    <ButtonContent visible={!spin}>
+      {children}
+    </ButtonContent>
   </Button>
 );

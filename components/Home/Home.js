@@ -230,13 +230,9 @@ const Home = ({ user, showCustomNote = false }) => {
                 <Button
                   type="submit"
                   color="#39d494"
+                  spin={isSubmitting}
                 >
-                  {
-                    isSubmitting ? (
-                      <Spinner color="#FFFFFF" size={14} />
-                    ) : 'Continue'
-                  }
-
+                  Continue
                 </Button>
               </Form>
             )}

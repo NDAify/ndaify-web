@@ -15,7 +15,6 @@ import Button from '../Clickable/Button';
 import Input from '../Input/Input';
 import Footer from '../Footer/Footer';
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
-import Dialog from '../Dialog/Dialog';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
@@ -157,6 +156,31 @@ const Total = styled.h4`
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
+  }
+`;
+
+const Dialog = styled.div`
+  height: 100%;
+  position: relative;
+  background-color: #383B49;
+  border-radius: 4px;
+  line-height: 28px;
+  padding: 2pc;
+  margin-bottom: 2pc;
+
+  :after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 6%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top-color: #383b49;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -6px;
+    margin-bottom: -12px;
   }
 `;
 
@@ -329,12 +353,13 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
 
                 <Total>Total $ 1.00</Total>
 
-                <Button type="submit" disabled={isSubmitting} style={{ backgroundColor: '#39d494' }}>
-                  {
-                    isSubmitting ? (
-                      <Spinner color="#FFFFFF" size={14} />
-                    ) : 'Send'
-                  }
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{ backgroundColor: '#39d494' }}
+                  spin={isSubmitting}
+                >
+                  Send
                 </Button>
               </Form>
             )}

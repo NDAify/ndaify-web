@@ -8,7 +8,7 @@ import Head from '../components/Head/Head';
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: Signerica Fat;
-    src: url('fonts/Signerica_Fat.ttf');
+    src: url('/fonts/Signerica_Fat.ttf');
   }
 
   body {
@@ -18,6 +18,11 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
     margin: 0;
     padding: 0;
+  }
+
+  // mute reach-ui missing style warnings
+  :root {
+    --reach-dialog: 1;
   }
 `;
 

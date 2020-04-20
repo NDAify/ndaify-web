@@ -367,12 +367,9 @@ const SenderForm = ({ nda }) => {
                   <LinkedInButton
                     disabled={isSubmitting}
                     type="submit"
+                    spin={isSubmitting}
                   >
-                    {
-                      isSubmitting ? (
-                        <Spinner color="#FFFFFF" size={14} />
-                      ) : 'Review and Sign with LinkedIn'
-                    }
+                    Review and Sign with LinkedIn
                   </LinkedInButton>
                 </LinkedInButtonWrapper>
               </Form>

@@ -30,7 +30,6 @@ const LazyForm = (props) => {
   }, []);
 
   if (!shouldRender) {
-    // TODO(juliaqiuxy) put a spinner here
     return null;
   }
 

@@ -34,7 +34,6 @@ const LazyNDAComposerPage = (props) => {
   }, []);
 
   if (!renderNda) {
-    // TODO(juliaqiuxy) put a spinner here
     return null;
   }
 

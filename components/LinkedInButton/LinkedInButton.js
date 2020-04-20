@@ -6,24 +6,28 @@ import Button from '../Clickable/Button';
 import LinkedInLogoIcon from './images/linkedInLogo.svg';
 
 const StyledButton = styled(Button)`
-  display: flex;
-  align-items: center;
   padding: 0;
 `;
 
-const LinkedInLogoWrapper = styled.div`
-  margin-top: -2px;
+const LinkedInButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
 
+const LinkedInLogoWrapper = styled.div`
   svg {
-    width: 64px;
-    height: 64px;
+    width: 100%;
+    height: 100%;
   }
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  margin-top: -2px;
 `;
 
 const ButtonText = styled.span`
   flex: 1;
-  display: flex;
-  justify-content: center;
 `;
 
 const LinkedInButton = ({ children, ...otherProps }) => (
@@ -32,12 +36,16 @@ const LinkedInButton = ({ children, ...otherProps }) => (
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...otherProps}
   >
-    <LinkedInLogoWrapper>
-      <LinkedInLogoIcon />
-    </LinkedInLogoWrapper>
-    <ButtonText>
-      {children}
-    </ButtonText>
+    <LinkedInButtonContent>
+      <LinkedInLogoWrapper>
+        <LinkedInLogoIcon />
+      </LinkedInLogoWrapper>
+
+      <ButtonText>
+        {children}
+      </ButtonText>
+
+    </LinkedInButtonContent>
   </StyledButton>
 );
 

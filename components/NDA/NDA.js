@@ -20,6 +20,7 @@ import SignatureHolder from '../SignatureHolder/SignatureHolder';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
+import SimpleDialog from '../Dialog/SimpleDialog';
 import { extractCompanyNameFromText } from './NDAComposer';
 
 import { Link, Router } from '../../routes';
@@ -300,6 +301,40 @@ const DisclaimerBody = styled.h4`
   }
 `;
 
+const DialogButton = styled(Button)`
+  font-size: 16px;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const DialogFooter = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+`;
+
+const DialogTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 700;
+  padding-bottom: 16px;
+  color: #FFFFFF;
+`;
+
+const DialogText = styled.p`
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  line-height: 24px;
+  padding-bottom: 16px;
+  color: #FFFFFF;
+`;
+
 const NDAHeader = ({ nda, user }) => {
   if (nda.metadata.status === 'declined') {
     return (
@@ -399,16 +434,21 @@ const NDAHeader = ({ nda, user }) => {
 const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const toast = useAlert();
 
+  const [isDeclineDialogOpen, setDeclineDialogOpen] = useState(false);
+
   const [isDeclining, setDeclining] = useState(false);
 
-  const handleDeclineClick = async () => {
+  const handleDeclineNda = async () => {
     setDeclining(true);
 
     try {
-      const api = new API();
-      await api.declineNda(nda.ndaId);
+      await timeout(1000);
+      // const api = new API();
+      // await api.declineNda(nda.ndaId);
 
       Router.replaceRoute('nda', { ndaId: nda.ndaId });
+
+      setDeclineDialogOpen(false);
 
       toast.show('Successfully declined NDA');
     } catch (error) {
@@ -419,6 +459,13 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       setDeclining(false);
     }
   };
+
+  const onDeclineNda = useCallback(handleDeclineNda);
+
+  const handleDeclineClick = async () => {
+    setDeclineDialogOpen(true);
+  };
+
   const onDeclineClick = useCallback(handleDeclineClick);
 
   return (
@@ -456,16 +503,42 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
                 color="#dc564a"
                 onClick={onDeclineClick}
               >
-                {
-                  isDeclining ? (
-                    <Spinner color="#FFFFFF" size={14} />
-                  ) : 'Decline'
-                }
+                Decline
               </Button>
             </ActionButtonBackground>
           </ActionButtonWrapper>
           ) : null
       }
+
+      <SimpleDialog show={isDeclineDialogOpen}>
+        <DialogTitle>
+          Are you sure you want to decline?
+        </DialogTitle>
+        <DialogText>
+          This action cannot be undone. We will notify Jake Murzy of your decision.
+        </DialogText>
+        <DialogFooter>
+          <DialogButton
+            outline
+            disabled={isDeclining}
+            onClick={() => {
+              setDeclineDialogOpen(false);
+            }}
+          >
+            Cancel
+          </DialogButton>
+
+          <DialogButton
+            compact
+            color="#dc564a"
+            disabled={isDeclining}
+            spin={isDeclining}
+            onClick={onDeclineNda}
+          >
+            Decline
+          </DialogButton>
+        </DialogFooter>
+      </SimpleDialog>
     </>
   );
 };
@@ -570,12 +643,9 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
             <LinkedInButton
               type="submit"
               disabled={isSubmitting}
+              spin={isSubmitting}
             >
-              {
-                isSubmitting ? (
-                  <Spinner color="#FFFFFF" size={14} />
-                ) : 'Sign with LinkedIn'
-              }
+              Sign with LinkedIn
             </LinkedInButton>
             <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
             {
