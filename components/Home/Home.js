@@ -86,7 +86,6 @@ const CopyText = styled.span`
 `;
 
 const FreeText = styled.span`
-  text-decoration: underline;
   color: #ffffff;
 `;
 
@@ -191,7 +190,7 @@ const Home = ({ user, showCustomNote = false }) => {
             <CopyText>
               Try it
               {' '}
-              <FreeText>FREE</FreeText>
+              <FreeText>free</FreeText>
               .
             </CopyText>
           </CopyTitle>

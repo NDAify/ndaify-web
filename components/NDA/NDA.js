@@ -35,12 +35,12 @@ import HideIcon from './images/hide.svg';
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 // Initial NDA is publicly viewable and if the viewer is not logged in, we
-// assume they are the recepient
+// assume they are the recipient
 const isPublicViewer = (nda, user) => !user;
-const isNdaRecepient = (nda, user) => nda.recepientId === user?.userId
+const isNdaRecipient = (nda, user) => nda.recipientId === user?.userId
 || nda.recipientEmail.toLowerCase() === user?.metadata.linkedInProfile.emailAddress.toLowerCase();
 const isNdaOwner = (nda, user) => nda.ownerId === user?.userId;
-const isNdaParty = (nda, user) => isNdaRecepient(nda, user) || isNdaOwner(nda, user);
+const isNdaParty = (nda, user) => isNdaRecipient(nda, user) || isNdaOwner(nda, user);
 
 const Container = styled.div`
   width: 100%;
@@ -227,7 +227,7 @@ const AttachmentMessage = styled.h4`
   margin: 0;
   font-size: 20px;
   font-weight: 200;
-  ${(props) => (props.declined ? 'color: #dc564a;' : 'color: #4ac09a;')}
+  ${(props) => (props.warning ? 'color: #dc564a;' : 'color: #4ac09a;')}
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -301,13 +301,7 @@ const DisclaimerBody = styled.h4`
   }
 `;
 
-const DialogButton = styled(Button)`
-  font-size: 16px;
-
-  @media only screen and (min-width: 768px) {
-    font-size: 16px;
-  }
-`;
+const DialogButton = styled(Button)``;
 
 const DialogFooter = styled.div`
   display: flex;
@@ -340,92 +334,161 @@ const NDAHeader = ({ nda, user }) => {
     return (
       <>
         {
-          isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
+          isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
                 <BoldText>
                   {`You declined ${getFullNameFromUser(nda.owner)}'s request`}
                 </BoldText>
                 {' '}
-                to sign this NDA
+                to sign this NDA.
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
-          ) : null
+          ) : (
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>
+                  {`${nda.metadata.recipientFullName} declined your request`}
+                </BoldText>
+                {' '}
+                to sign this NDA.
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
+          )
         }
       </>
     );
   }
 
+  if (nda.metadata.status === 'revoked') {
+    return (
+      <>
+        {
+          isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>
+                  {`${nda.metadata.recipientFullName} revoked this NDA.`}
+                </BoldText>
+                {' '}
+                You can no longer accept it.
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
+          ) : (
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>
+                  You revoked this NDA.
+                </BoldText>
+                {' '}
+                {`${nda.metadata.recipientFullName} can no longer accept it.`}
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
+          )
+        }
+      </>
+    );
+  }
+
+  if (nda.metadata.status === 'signed') {
+    return (
+      <>
+        {
+          isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+            <NDADisclaimerWrapper>
+              <DisclaimerBody>
+                <BoldText>You</BoldText>
+                {' '}
+                and
+                {' '}
+                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+                {' '}
+                have agreed to terms of the following NDA
+                {' '}
+                <BoldText>to protect all parties and materials disclosed.</BoldText>
+              </DisclaimerBody>
+            </NDADisclaimerWrapper>
+          ) : (
+            <NDADisclaimerWrapper>
+              <DisclaimerBody>
+                <BoldText>You</BoldText>
+                {' '}
+                and
+                {' '}
+                <BoldText>{nda.metadata.recipientFullName}</BoldText>
+                {' '}
+                have agreed to terms of the following NDA
+                {' '}
+                <BoldText>to protect all parties and materials disclosed.</BoldText>
+              </DisclaimerBody>
+            </NDADisclaimerWrapper>
+          )
+        }
+      </>
+    );
+  }
+
+  // pending
   return (
     <>
       {
-        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
-          <NDADisclaimerWrapper>
-            <DisclaimerTitle>
-              <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
-              {' '}
-              has requested your signature
-            </DisclaimerTitle>
-          </NDADisclaimerWrapper>
-        ) : null
-      }
-
-      {
-        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
-          <NDADisclaimerWrapper>
-            <DisclaimerBody>
-              By signing, both
-              {' '}
-              <BoldText>you</BoldText>
-              {' '}
-              and
-              {' '}
-              <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
-              {' '}
-              are agreeing to terms of an NDA to
-              {' '}
-              <BoldText>protect all parties and materials disclosed</BoldText>
-              .
-            </DisclaimerBody>
-          </NDADisclaimerWrapper>
-        ) : null
-      }
-
-      {
-        isNdaOwner(nda, user) ? (
-          <NDADisclaimerWrapper>
-            <DisclaimerTitle>
-              <BoldText>
-                Awaiting
+        isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+          <>
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
                 {' '}
-                {nda.metadata.recipientFullName}
-                {' '}
-                to sign
-              </BoldText>
-            </DisclaimerTitle>
-          </NDADisclaimerWrapper>
-        ) : null
-      }
+                has requested your signature.
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
 
-      {
-        isNdaOwner(nda, user) ? (
-          <NDADisclaimerWrapper>
-            <DisclaimerBody>
-              By signing, both
-              {' '}
-              <BoldText>you</BoldText>
-              {' '}
-              and
-              {' '}
-              <BoldText>{nda.metadata.recipientFullName}</BoldText>
-              {' '}
-              are agreeing to terms of an NDA to
-              {' '}
-              <BoldText>protect all parties and materials disclosed</BoldText>
-              .
-            </DisclaimerBody>
-          </NDADisclaimerWrapper>
-        ) : null
+            <NDADisclaimerWrapper>
+              <DisclaimerBody>
+                By signing, both
+                {' '}
+                <BoldText>you</BoldText>
+                {' '}
+                and
+                {' '}
+                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+                {' '}
+                are agreeing to terms of an NDA to
+                {' '}
+                <BoldText>protect all parties and materials disclosed.</BoldText>
+              </DisclaimerBody>
+            </NDADisclaimerWrapper>
+          </>
+        ) : (
+          <>
+            <NDADisclaimerWrapper>
+              <DisclaimerTitle>
+                <BoldText>
+                  Awaiting
+                  {' '}
+                  {nda.metadata.recipientFullName}
+                  {' '}
+                  to sign
+                </BoldText>
+              </DisclaimerTitle>
+            </NDADisclaimerWrapper>
+
+            <NDADisclaimerWrapper>
+              <DisclaimerBody>
+                By signing, both
+                {' '}
+                <BoldText>you</BoldText>
+                {' '}
+                and
+                {' '}
+                <BoldText>{nda.metadata.recipientFullName}</BoldText>
+                {' '}
+                are agreeing to terms of an NDA to
+                {' '}
+                <BoldText>protect all parties and materials disclosed.</BoldText>
+              </DisclaimerBody>
+            </NDADisclaimerWrapper>
+          </>
+        )
       }
     </>
   );
@@ -435,16 +498,20 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const toast = useAlert();
 
   const [isDeclineDialogOpen, setDeclineDialogOpen] = useState(false);
-
   const [isDeclining, setDeclining] = useState(false);
+
+  const [isRevokeDialogOpen, setRevokeDialogOpen] = useState(false);
+  const [isRevoking, setRevoking] = useState(false);
+
+  const [isResendDialogOpen, setResendDialogOpen] = useState(false);
+  const [isResending, setResending] = useState(false);
 
   const handleDeclineNda = async () => {
     setDeclining(true);
 
     try {
-      await timeout(1000);
-      // const api = new API();
-      // await api.declineNda(nda.ndaId);
+      const api = new API();
+      await api.declineNda(nda.ndaId);
 
       Router.replaceRoute('nda', { ndaId: nda.ndaId });
 
@@ -459,14 +526,71 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       setDeclining(false);
     }
   };
-
   const onDeclineNda = useCallback(handleDeclineNda);
+
+  const handleResendNda = async () => {
+    setResending(true);
+
+    try {
+      const api = new API();
+      await api.resendNda(nda.ndaId);
+
+      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+
+      setResendDialogOpen(false);
+
+      toast.show('Successfully resent NDA');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.show('Failed to resend NDA');
+    } finally {
+      setResending(false);
+    }
+  };
+  const onResendNda = useCallback(handleResendNda);
+
+  const handleRevokeNda = async () => {
+    setRevoking(true);
+
+    try {
+      const api = new API();
+      await api.revokeNda(nda.ndaId);
+
+      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+
+      setRevokeDialogOpen(false);
+
+      toast.show('Successfully revoked NDA');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      toast.show('Failed to revoke NDA');
+    } finally {
+      setRevoking(false);
+    }
+  };
+  const onRevokeNda = useCallback(handleRevokeNda);
 
   const handleDeclineClick = async () => {
     setDeclineDialogOpen(true);
   };
-
   const onDeclineClick = useCallback(handleDeclineClick);
+
+  const handleRevokeClick = async () => {
+    setRevokeDialogOpen(true);
+  };
+  const onRevokeClick = useCallback(handleRevokeClick);
+
+  const handleResendClick = async () => {
+    setResendDialogOpen(true);
+  };
+  const onResendClick = useCallback(handleResendClick);
+
+  const handleDownlaodClick = async () => {
+    alert('Not Implemented');
+  };
+  const onDownloadClick = useCallback(handleDownlaodClick);
 
   return (
     <>
@@ -474,18 +598,13 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
         nda.metadata.status === 'signed' ? (
           <ActionButtonWrapper>
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
-              <Button compact color="#7254B7">Download</Button>
-            </ActionButtonBackground>
-          </ActionButtonWrapper>
-        ) : null
-      }
-
-      {
-        isNdaOwner(nda, user) ? (
-          <ActionButtonWrapper>
-            <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
-              <Button compact color="#7254B7">Resend</Button>
-              <Button compact color="#dc564a">Revoke</Button>
+              <Button
+                compact
+                color="#7254B7"
+                onClick={onDownloadClick}
+              >
+                Download
+              </Button>
             </ActionButtonBackground>
           </ActionButtonWrapper>
         ) : null
@@ -493,8 +612,34 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
       {
         (
-          nda.metadata.status !== 'declined'
-          && (isPublicViewer(nda, user) || isNdaRecepient(nda, user))
+          nda.metadata.status !== 'revoked'
+          && isNdaOwner(nda, user)
+        ) ? (
+          <ActionButtonWrapper>
+            <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
+              <Button
+                compact
+                color="#7254B7"
+                onClick={onResendClick}
+              >
+                Resend
+              </Button>
+              <Button
+                compact
+                color="#dc564a"
+                onClick={onRevokeClick}
+              >
+                Revoke
+              </Button>
+            </ActionButtonBackground>
+          </ActionButtonWrapper>
+          ) : null
+      }
+
+      {
+        (
+          nda.metadata.status === 'pending'
+          && (isPublicViewer(nda, user) || isNdaRecipient(nda, user))
         ) ? (
           <ActionButtonWrapper>
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
@@ -539,6 +684,63 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
           </DialogButton>
         </DialogFooter>
       </SimpleDialog>
+
+      <SimpleDialog show={isRevokeDialogOpen}>
+        <DialogTitle>
+          Are you sure you want to revoke?
+        </DialogTitle>
+        <DialogText>
+          This action cannot be undone.
+        </DialogText>
+        <DialogFooter>
+          <DialogButton
+            outline
+            disabled={isRevoking}
+            onClick={() => {
+              setRevokeDialogOpen(false);
+            }}
+          >
+            Cancel
+          </DialogButton>
+
+          <DialogButton
+            compact
+            color="#dc564a"
+            disabled={isRevoking}
+            spin={isRevoking}
+            onClick={onRevokeNda}
+          >
+            Revoke
+          </DialogButton>
+        </DialogFooter>
+      </SimpleDialog>
+
+      <SimpleDialog show={isResendDialogOpen}>
+        <DialogTitle>
+          Are you sure you want to resend this to Jake Murzy?
+        </DialogTitle>
+        <DialogFooter>
+          <DialogButton
+            outline
+            disabled={isResending}
+            onClick={() => {
+              setResendDialogOpen(false);
+            }}
+          >
+            Cancel
+          </DialogButton>
+
+          <DialogButton
+            compact
+            color="#dc564a"
+            disabled={isResending}
+            spin={isResending}
+            onClick={onResendNda}
+          >
+            Resend
+          </DialogButton>
+        </DialogFooter>
+      </SimpleDialog>
     </>
   );
 };
@@ -546,19 +748,90 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 const NDAAttachments = ({ nda, user }) => {
   if (nda.metadata.status === 'declined') {
     return (
+      <>
+        {
+          isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+            <AttachmentSectionContainer>
+              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentMessage warning>
+                You declined to view the enclosed attachments.
+              </AttachmentMessage>
+            </AttachmentSectionContainer>
+          ) : (
+            <AttachmentSectionContainer>
+              <AttachmentTitle>Attachments</AttachmentTitle>
+              <LinkWrapper>
+                <HideIconWrapper>
+                  <HideIcon />
+                </HideIconWrapper>
+                <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+              </LinkWrapper>
+              <DescriptionTitle>
+                Recipient declined your request to sign and is not give access to above attachments.
+              </DescriptionTitle>
+            </AttachmentSectionContainer>
+          )
+        }
+      </>
+    );
+  }
+
+  if (nda.metadata.status === 'revoked') {
+    return (
+      <>
+        {
+          isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+            <AttachmentSectionContainer>
+              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentMessage warning>
+                The sender revoked the NDA. No attachments can be accesed.
+              </AttachmentMessage>
+            </AttachmentSectionContainer>
+          ) : (
+            <AttachmentSectionContainer>
+              <AttachmentTitle>Attachments</AttachmentTitle>
+              <LinkWrapper>
+                <HideIconWrapper>
+                  <HideIcon />
+                </HideIconWrapper>
+                <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+              </LinkWrapper>
+              <DescriptionTitle>
+                You revoked the NDA before the recipient was given access to above attachments.
+              </DescriptionTitle>
+            </AttachmentSectionContainer>
+          )
+        }
+      </>
+    );
+  }
+
+  if (nda.metadata.status === 'signed') {
+    return (
       <AttachmentSectionContainer>
         <AttachmentTitle>Attachments</AttachmentTitle>
-        <AttachmentMessage declined>
-          You declined to view the enclosed attachments.
-        </AttachmentMessage>
+        <LinkWrapper>
+          <HideIconWrapper>
+            <HideIcon />
+          </HideIconWrapper>
+          <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+        </LinkWrapper>
       </AttachmentSectionContainer>
     );
   }
 
+  // pending
   return (
     <>
       {
-        isNdaOwner(nda, user) ? (
+        isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+          <AttachmentSectionContainer>
+            <AttachmentTitle>Attachments</AttachmentTitle>
+            <AttachmentMessage>
+              You need to accept to view attachments.
+            </AttachmentMessage>
+          </AttachmentSectionContainer>
+        ) : (
           <AttachmentSectionContainer>
             <AttachmentTitle>Attachments</AttachmentTitle>
             <LinkWrapper>
@@ -572,18 +845,7 @@ const NDAAttachments = ({ nda, user }) => {
               terms of the NDA.
             </DescriptionTitle>
           </AttachmentSectionContainer>
-        ) : null
-      }
-
-      {
-        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
-          <AttachmentSectionContainer>
-            <AttachmentTitle>Attachments</AttachmentTitle>
-            <AttachmentMessage>
-              You need to accept to view attachments.
-            </AttachmentMessage>
-          </AttachmentSectionContainer>
-        ) : null
+        )
       }
     </>
   );
@@ -635,63 +897,149 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
     );
   }
 
+  if (nda.metadata.status === 'revoked') {
+    return (
+      <SigRow>
+        <PartyWrapper>
+          <SignatureHolder name={null} />
+          <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+          {
+            recipientCompanyName ? (
+              <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+        </PartyWrapper>
+
+        <PartyWrapper>
+          <SignatureHolder name={null} />
+          <NDAPartyName>{ownerFullName}</NDAPartyName>
+          {
+            ownerCompanyName ? (
+              <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+          <NDASignedDate>
+            <FormattedDate
+              year="numeric"
+              month="long"
+              day="numeric"
+              value={nda.createdAt}
+            />
+          </NDASignedDate>
+        </PartyWrapper>
+      </SigRow>
+    );
+  }
+
+  if (nda.metadata.status === 'signed') {
+    return (
+      <SigRow>
+        <PartyWrapper>
+          <SignatureHolder name={nda.metadata.recipientFullName} />
+          <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+          {
+            recipientCompanyName ? (
+              <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+        </PartyWrapper>
+
+        <PartyWrapper>
+          <SignatureHolder name={ownerFullName} />
+          <NDAPartyName>{ownerFullName}</NDAPartyName>
+          {
+            ownerCompanyName ? (
+              <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+            ) : null
+          }
+          <NDASignedDate>
+            <FormattedDate
+              year="numeric"
+              month="long"
+              day="numeric"
+              value={nda.createdAt}
+            />
+          </NDASignedDate>
+        </PartyWrapper>
+      </SigRow>
+    );
+  }
+
+  // pending
   return (
-    <SigRow>
+    <>
       {
-        isPublicViewer(nda, user) || isNdaRecepient(nda, user) ? (
-          <PartyWrapper>
-            <LinkedInButton
-              type="submit"
-              disabled={isSubmitting}
-              spin={isSubmitting}
-            >
-              Sign with LinkedIn
-            </LinkedInButton>
-            <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
-            {
-              recipientCompanyName ? (
-                <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
-              ) : null
-            }
-            <NDASenderDisclaimer>
-              {`I, ${nda.metadata.recipientFullName}, certify that I have read the contract, and understand that clicking 'Sign' constitutes a legally binding signature.`}
-            </NDASenderDisclaimer>
-          </PartyWrapper>
-        ) : null
-      }
+        isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
+          <SigRow>
+            <PartyWrapper>
+              <LinkedInButton
+                type="submit"
+                disabled={isSubmitting}
+                spin={isSubmitting}
+              >
+                Sign with LinkedIn
+              </LinkedInButton>
+              <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+              {
+                recipientCompanyName ? (
+                  <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+                ) : null
+              }
+              <NDASenderDisclaimer>
+                {`I, ${nda.metadata.recipientFullName}, certify that I have read the contract, and understand that clicking 'Sign' constitutes a legally binding signature.`}
+              </NDASenderDisclaimer>
+            </PartyWrapper>
 
-      {
-        isNdaOwner(nda, user) ? (
-          <PartyWrapper>
-            <SignatureHolder name={null} />
-            <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
-            {
-              recipientCompanyName ? (
-                <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
-              ) : null
-            }
-          </PartyWrapper>
-        ) : null
+            <PartyWrapper>
+              <SignatureHolder name={ownerFullName} />
+              <NDAPartyName>{ownerFullName}</NDAPartyName>
+              {
+                ownerCompanyName ? (
+                  <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+                ) : null
+              }
+              <NDASignedDate>
+                <FormattedDate
+                  year="numeric"
+                  month="long"
+                  day="numeric"
+                  value={nda.createdAt}
+                />
+              </NDASignedDate>
+            </PartyWrapper>
+          </SigRow>
+        ) : (
+          <SigRow>
+            <PartyWrapper>
+              <SignatureHolder name={null} />
+              <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
+              {
+                recipientCompanyName ? (
+                  <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
+                ) : null
+              }
+            </PartyWrapper>
+            <PartyWrapper>
+              <SignatureHolder name={ownerFullName} />
+              <NDAPartyName>{ownerFullName}</NDAPartyName>
+              {
+                ownerCompanyName ? (
+                  <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
+                ) : null
+              }
+              <NDASignedDate>
+                <FormattedDate
+                  year="numeric"
+                  month="long"
+                  day="numeric"
+                  value={nda.createdAt}
+                />
+              </NDASignedDate>
+            </PartyWrapper>
+          </SigRow>
+        )
       }
-
-      <PartyWrapper>
-        <SignatureHolder name={ownerFullName} />
-        <NDAPartyName>{ownerFullName}</NDAPartyName>
-        {
-          ownerCompanyName ? (
-            <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
-          ) : null
-        }
-        <NDASignedDate>
-          <FormattedDate
-            year="numeric"
-            month="long"
-            day="numeric"
-            value={nda.createdAt}
-          />
-        </NDASignedDate>
-      </PartyWrapper>
-    </SigRow>
+    </>
   );
 };
 
@@ -736,10 +1084,23 @@ const NDA = ({ user, nda }) => {
 
   const [isScrolledBeyondActions, setIsScrolledBeyondActions] = useState(false);
 
-  if (user && !isNdaParty(nda, user)) {
+  if (user && !nda) {
     return (
       <Container>
-        You are not a party.
+        <UserActionBanner
+          user={user}
+          actionButton={() => (
+            <Link route="/dashboard/incoming">
+              <ButtonAnchor outline>
+                Dashboard
+              </ButtonAnchor>
+            </Link>
+          )}
+        />
+
+        <ErrorMessage style={{ marginTop: '3pc' }}>
+          You are not authorized to view this NDA.
+        </ErrorMessage>
       </Container>
     );
   }
