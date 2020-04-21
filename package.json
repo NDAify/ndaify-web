@@ -28,19 +28,23 @@
     "react-sane-contenteditable": "^1.6.1",
     "react-spring": "^8.0.27",
     "react-waypoint": "^9.0.2",
+    "sitemap": "^2.2.0",
     "statuses": "^1.5.0",
     "string-score": "^1.0.1",
     "styled-components": "^5.1.0",
     "tlds": "^1.207.0"
   },
   "scripts": {
-    "dev": "node -r dotenv/config server.js",
+    "dev": "TZ=UTC babel-node -r dotenv/config src/server.js",
+    "build": "next build && babel src/ -d .next/dist",
+    "start": "NODE_ENV=production node .next/dist/server.js",
+    "set-secrets": "flyctl secrets set $(cat .env)",
     "lint": "eslint pages/ components/ utils/",
-    "test": "yarn lint && jest",
-    "build": "next build",
-    "start": "NODE_ENV=production node .next/dist/server.js"
+    "test": "yarn lint && jest"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/node": "^7.8.7",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-inline-react-svg": "^1.1.1",

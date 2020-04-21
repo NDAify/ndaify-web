@@ -1,12 +1,15 @@
-const os = require('os');
-const Koa = require('koa');
-const KoaRouter = require('koa-router');
-const koaHelmet = require('koa-helmet');
-const statuses = require('statuses');
+import os from 'os';
+import Koa from 'koa';
+import KoaRouter from 'koa-router';
+import koaHelmet from 'koa-helmet';
+import statuses from 'statuses';
 
-const createNextApp = require('next');
+import createNextApp from 'next';
 
-const nextRoutes = require('./routes');
+import robots from './lib/robots';
+import sitemap from './lib/sitemap';
+
+import nextRoutes from './routes';
 
 const PORT = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV !== 'production';
@@ -15,6 +18,18 @@ const nextApp = createNextApp({ dev });
 const nextHandle = nextRoutes.getRequestHandler(nextApp);
 
 const koaRouter = new KoaRouter();
+
+koaRouter.get('/robots.txt', robots());
+koaRouter.get('/sitemap.xml', sitemap());
+
+koaRouter.get('/health', async (ctx) => {
+  ctx.status = statuses('OK');
+  ctx.body = {
+    CANONICAL_URL: process.env.CANONICAL_URL,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    now: Date.now(),
+  };
+});
 
 koaRouter.get('*', async (ctx) => {
   await nextHandle(ctx.req, ctx.res);
@@ -46,10 +61,21 @@ const run = async () => {
 
   koaApp.use(koaRouter.routes());
 
-  koaApp.listen(PORT, () => {
+  const server = koaApp.listen(PORT, () => {
     // eslint-disable-next-line no-console
     console.log(`> Ready on http://localhost:${PORT} with ${os.cpus().length} CPUs.`);
   });
+  
+  const handleGracefulTermination = (signal) => () => {
+    /* eslint-disable no-console */
+    console.log(`Terminating on ${signal}`);
+    /* eslint-enable */
+    server.close();
+    process.exit();
+  };
+
+  process.on('SIGINT', handleGracefulTermination('SIGINT'));
+  process.on('SIGTERM', handleGracefulTermination('SIGTERM'));
 };
 
 run();
