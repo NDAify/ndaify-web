@@ -38,10 +38,10 @@ export const getOrigin = (req) => {
   return getServerOrigin(req);
 };
 
-export const toQueryString = params => Object.keys(params)
+export const toQueryString = (params) => Object.keys(params)
   // filter out keys for undefined values
-  .filter(k => params[k] !== undefined && params[k] !== null)
-  .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+  .filter((k) => params[k] !== undefined && params[k] !== null)
+  .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
   .join('&');
 
 export const toFormData = (values) => {
@@ -58,6 +58,6 @@ export const toFormData = (values) => {
   return formData;
 };
 
-export const serializeOAuthState = params => encodeURIComponent(JSON.stringify(params));
+export const serializeOAuthState = (params) => encodeURIComponent(JSON.stringify(params));
 
-export const timeout = t => new Promise(resolve => setTimeout(() => resolve(), t));
+export const timeout = (t) => new Promise((resolve) => setTimeout(() => resolve(), t));

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
-import { FadingCircle as Spinner } from 'better-react-spinkit';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
@@ -40,7 +39,7 @@ const isPublicViewer = (nda, user) => !user;
 const isNdaRecipient = (nda, user) => nda.recipientId === user?.userId
 || nda.recipientEmail.toLowerCase() === user?.metadata.linkedInProfile.emailAddress.toLowerCase();
 const isNdaOwner = (nda, user) => nda.ownerId === user?.userId;
-const isNdaParty = (nda, user) => isNdaRecipient(nda, user) || isNdaOwner(nda, user);
+// const isNdaParty = (nda, user) => isNdaRecipient(nda, user) || isNdaOwner(nda, user);
 
 const Container = styled.div`
   width: 100%;
@@ -196,7 +195,7 @@ const HideIconWrapper = styled.div`
   }
 `;
 
-const DocumentUrl = styled.h4`
+const DocumentUrl = styled.a`
   color: #aaaaaa;
   font-size: 20px;
   word-wrap: break-word;
@@ -588,7 +587,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const onResendClick = useCallback(handleResendClick);
 
   const handleDownlaodClick = async () => {
-    alert('Not Implemented');
+    // alert('Not Implemented');
   };
   const onDownloadClick = useCallback(handleDownlaodClick);
 
@@ -764,7 +763,12 @@ const NDAAttachments = ({ nda, user }) => {
                 <HideIconWrapper>
                   <HideIcon />
                 </HideIconWrapper>
-                <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+                <DocumentUrl
+                  href={nda.metadata.secretLinks[0]}
+                  target="_blank"
+                >
+                  {nda.metadata.secretLinks[0]}
+                </DocumentUrl>
               </LinkWrapper>
               <DescriptionTitle>
                 Recipient declined your request to sign and is not give access to above attachments.
@@ -794,7 +798,12 @@ const NDAAttachments = ({ nda, user }) => {
                 <HideIconWrapper>
                   <HideIcon />
                 </HideIconWrapper>
-                <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+                <DocumentUrl
+                  href={nda.metadata.secretLinks[0]}
+                  target="_blank"
+                >
+                  {nda.metadata.secretLinks[0]}
+                </DocumentUrl>
               </LinkWrapper>
               <DescriptionTitle>
                 You revoked the NDA before the recipient was given access to above attachments.
@@ -814,7 +823,12 @@ const NDAAttachments = ({ nda, user }) => {
           <HideIconWrapper>
             <HideIcon />
           </HideIconWrapper>
-          <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+          <DocumentUrl
+            href={nda.metadata.secretLinks[0]}
+            target="_blank"
+          >
+            {nda.metadata.secretLinks[0]}
+          </DocumentUrl>
         </LinkWrapper>
       </AttachmentSectionContainer>
     );
@@ -838,7 +852,12 @@ const NDAAttachments = ({ nda, user }) => {
               <HideIconWrapper>
                 <HideIcon />
               </HideIconWrapper>
-              <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+              <DocumentUrl
+                href={nda.metadata.secretLinks[0]}
+                target="_blank"
+              >
+                {nda.metadata.secretLinks[0]}
+              </DocumentUrl>
             </LinkWrapper>
             <DescriptionTitle>
               Recipient does not have access to your link unless he accepts the

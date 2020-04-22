@@ -39,7 +39,7 @@
     "build": "next build && babel src/ -d .next/dist",
     "start": "NODE_ENV=production node .next/dist/server.js",
     "set-secrets": "flyctl secrets set $(cat .env)",
-    "lint": "eslint pages/ components/ utils/",
+    "lint": "eslint src/",
     "test": "yarn lint && jest"
   },
   "devDependencies": {

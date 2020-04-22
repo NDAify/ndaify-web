@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import isUrl from 'is-url';
 
 import styled from 'styled-components';
-import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 import { Formik, Form, Field as FormikField } from 'formik';
 

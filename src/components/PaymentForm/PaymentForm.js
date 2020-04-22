@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 import {
   Formik,

@@ -65,7 +65,7 @@ const run = async () => {
     // eslint-disable-next-line no-console
     console.log(`> Ready on http://localhost:${PORT} with ${os.cpus().length} CPUs.`);
   });
-  
+
   const handleGracefulTermination = (signal) => () => {
     /* eslint-disable no-console */
     console.log(`Terminating on ${signal}`);

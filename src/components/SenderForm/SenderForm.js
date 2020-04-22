@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { FadingCircle as Spinner } from 'better-react-spinkit';
 import getConfig from 'next/config';
 
 import {
@@ -93,7 +92,7 @@ const HideIconWrapper = styled.div`
   }
 `;
 
-const DocumentUrl = styled.h4`
+const DocumentUrl = styled.a`
   color: #aaaaaa;
   font-size: 20px;
   word-wrap: break-word;
@@ -263,7 +262,12 @@ const SenderForm = ({ nda }) => {
             <HideIconWrapper>
               <HideIcon />
             </HideIconWrapper>
-            <DocumentUrl>{nda.metadata.secretLinks[0]}</DocumentUrl>
+            <DocumentUrl
+              href={nda.metadata.secretLinks[0]}
+              target="_blank"
+            >
+              {nda.metadata.secretLinks[0]}
+            </DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
             Recipient does not have access to your link unless he accepts the terms
