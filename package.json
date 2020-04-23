@@ -35,10 +35,10 @@
     "tlds": "^1.207.0"
   },
   "scripts": {
-    "dev": "TZ=UTC babel-node -r dotenv/config src/server.js",
+    "dev": "babel-node -r dotenv/config src/server.js",
     "build": "next build && babel src/ -d .next/dist",
     "start": "NODE_ENV=production node .next/dist/server.js",
-    "set-secrets": "flyctl secrets set $(cat .env)",
+    "set-secrets": "flyctl secrets set $(cat .env.prod)",
     "lint": "eslint src/",
     "test": "yarn lint && jest"
   },

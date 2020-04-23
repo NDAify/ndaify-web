@@ -26,6 +26,7 @@ koaRouter.get('/health', async (ctx) => {
   ctx.status = statuses('OK');
   ctx.body = {
     CANONICAL_URL: process.env.CANONICAL_URL,
+    API_URL: process.env.API_URL,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     now: Date.now(),
   };
