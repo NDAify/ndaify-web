@@ -249,7 +249,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
     const api = new API();
     await api.endSession();
 
-    Router.push('/');
+    Router.pushRoute('root');
   };
   const onLogOutClick = useCallback(handleLogOutClick, []);
 

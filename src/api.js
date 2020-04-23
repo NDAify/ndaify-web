@@ -169,7 +169,7 @@ export class API {
   }
 
   async endSession() {
-    destroyCookie(this.ctx, 'sessionToken');
+    destroyCookie(this.ctx, 'sessionToken', COOKIE_OPTIONS);
     // Log out all windows
     if (process.browser) {
       // TODO(juliaqiuxy) How can we make so if session expires, the first window to
