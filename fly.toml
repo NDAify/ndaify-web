@@ -1,4 +1,4 @@
-app = "ndaify-frontend"
+app = "ndaify-web"
 
 [[services]]
   internal_port = 3001
