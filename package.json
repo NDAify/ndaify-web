@@ -38,7 +38,7 @@
     "dev": "babel-node -r dotenv/config src/server.js",
     "build": "next build && babel src/ -d .next/dist",
     "start": "NODE_ENV=production node .next/dist/server.js",
-    "set-secrets": "flyctl secrets set $(cat .env.prod)",
+    "set-secrets": "cat .env.prod | tr '\n' ' ' | xargs flyctl secrets set",
     "lint": "eslint src/",
     "test": "yarn lint && jest"
   },
