@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 
 import NDAComposer from '../components/NDA/NDAComposer';
 import { API } from '../api';
@@ -7,11 +7,14 @@ import * as sessionStorage from '../lib/sessionStorage';
 
 const NDAComposerPage = (props) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
-  // `nda` is in session storge, it's not available server side
-  if (process.browser && !nda) {
-    // TODO(juliaqiuxy) I don't think we can call Router.[methods] in the render
-    // function Check a better way of doing this
-    Router.replaceRoute('/');
+
+  useEffect(() => {
+    if (!nda) {
+      Router.replaceRoute('/');
+    }
+  }, [nda]);
+
+  if (!nda) {
     return null;
   }
 
@@ -23,29 +26,7 @@ const NDAComposerPage = (props) => {
   );
 };
 
-// See https://fb.me/react-uselayouteffect-ssr
-const LazyNDAComposerPage = (props) => {
-  const [renderNda, setRenderNda] = useState(false);
-
-  // Wait until after client-side hydration so that we have access to session
-  // storage for recipient data
-  useEffect(() => {
-    setRenderNda(true);
-  }, []);
-
-  if (!renderNda) {
-    return null;
-  }
-
-  return (
-    <NDAComposerPage
-    // eslint-disable-next-line react/jsx-props-no-spreading
-      {...props}
-    />
-  );
-};
-
-LazyNDAComposerPage.getInitialProps = async (ctx) => {
+NDAComposerPage.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   let user;
@@ -61,4 +42,4 @@ LazyNDAComposerPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default LazyNDAComposerPage;
+export default NDAComposerPage;

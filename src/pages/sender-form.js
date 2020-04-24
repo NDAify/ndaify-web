@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Router } from '../routes';
 
 import * as sessionStorage from '../lib/sessionStorage';
@@ -6,11 +6,14 @@ import SenderForm from '../components/SenderForm/SenderForm';
 
 const Form = () => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
-  // because nda is in session storge, it's not available server side
-  if (process.browser && !nda) {
-    // TODO(juliaqiuxy) I don't think we can call Router.[methods] in the render
-    // function Check a better way of doing this
-    Router.replaceRoute('/');
+
+  useEffect(() => {
+    if (!nda) {
+      Router.replaceRoute('/');
+    }
+  }, [nda]);
+
+  if (!nda) {
     return null;
   }
 
@@ -19,27 +22,4 @@ const Form = () => {
   );
 };
 
-// See https://fb.me/react-uselayouteffect-ssr
-const LazyForm = (props) => {
-  const [shouldRender, setRender] = useState(false);
-
-  // Wait until after client-side hydration so that we have access to session
-  // storage for recipient data
-  useEffect(() => {
-    setRender(true);
-  }, []);
-
-  if (!shouldRender) {
-    return null;
-  }
-
-  return (
-    <Form
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...props}
-    />
-  );
-};
-
-
-export default LazyForm;
+export default Form;
