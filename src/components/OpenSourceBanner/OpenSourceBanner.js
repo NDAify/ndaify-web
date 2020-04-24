@@ -31,7 +31,7 @@ const BannerText = styled.span`
 
 const OpenSourceBanner = () => (
   <BannerLink
-    href="https://github.com/juliaqiuxy/ndaify-frontend"
+    href="https://github.com/ndaify"
     target="_blank"
     rel="noopener noreferrer"
   >
