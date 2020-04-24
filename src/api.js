@@ -6,11 +6,18 @@ import { getCookie, setCookie, destroyCookie } from './lib/cookies';
 import { toQueryString } from './util';
 import { Router } from './routes';
 
-const { publicRuntimeConfig: { API_URL, COOKIE_DOMAIN } } = getConfig();
+const { publicRuntimeConfig: { API_URL, COOKIE_DOMAIN, CANONICAL_URL } } = getConfig();
+
+const REDIRECT_WHITELIST = [
+  CANONICAL_URL,
+];
 
 const COOKIE_OPTIONS = {
   path: '/',
   domain: COOKIE_DOMAIN,
+  // httpOnly: false,
+  // secure: true,
+  // sameSite: 'Lax',
 };
 
 const NO_SESSION = Symbol('No Session');
@@ -21,7 +28,23 @@ const DISPATCH_METHOD = {
   XHR_PUT: 'XHR_PUT',
 };
 
+export const isSafeToRedirect = (to) => {
+  if (!to.startsWith('http')) {
+    return true;
+  }
+
+  if (REDIRECT_WHITELIST.find((item) => to.startsWith(item))) {
+    return true;
+  }
+
+  return false;
+};
+
 export const redirect = (ctx, to, params = {}) => {
+  if (!isSafeToRedirect(to)) {
+    throw new Error('Failed to redirect to unsafe target');
+  }
+
   let qs = toQueryString(params);
   if (qs) {
     qs = `?${qs}`;

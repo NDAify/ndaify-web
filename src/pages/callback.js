@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import humps from 'humps';
 
-import { API, redirect } from '../api';
+import { API, redirect, isSafeToRedirect } from '../api';
 import { getOrigin } from '../util';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
@@ -93,11 +93,16 @@ class Callback extends Component {
         loginPage = redirectOnErrorUrl;
       }
 
-      if (redirectUrl) {
-        return redirect(ctx, `${loginPage}?errorMessage=${error.message}&redirectUrl=${redirectUrl}&query=`);
+      if (redirectUrl && isSafeToRedirect(redirectUrl)) {
+        return redirect(ctx, loginPage, {
+          errorMessage: error.message,
+          redirectUrl,
+        });
       }
 
-      return redirect(ctx, `${loginPage}?errorMessage=${error.message}`);
+      return redirect(ctx, loginPage, {
+        errorMessage: error.message,
+      });
     }
   }
 
