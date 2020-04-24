@@ -11,6 +11,8 @@ import {
   Form,
 } from 'formik';
 
+import { Link } from '../../routes';
+
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
 import EmailInput from '../Input/EmailInput';
@@ -20,6 +22,8 @@ import Footer from '../Footer/Footer';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
+import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import ButtonAnchor from '../Clickable/ButtonAnchor';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -29,11 +33,13 @@ import HideIcon from './images/hide.svg';
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: row;
   width: 100%;
   height: 100%;
   justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
 `;
 
 const PageContentContainer = styled.div`
@@ -167,7 +173,7 @@ export const NDA_OPTIONS = [
 
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-const SenderForm = ({ nda }) => {
+const SenderForm = ({ user, nda }) => {
   const router = useRouter();
   const [suggestedEmail, setSuggestedEmail] = useState();
 
@@ -244,6 +250,21 @@ const SenderForm = ({ nda }) => {
 
   return (
     <Container>
+      {
+        user ? (
+          <UserActionBanner
+            user={user}
+            actionButton={() => (
+              <Link route="/dashboard/incoming">
+                <ButtonAnchor outline>
+                  Dashboard
+                </ButtonAnchor>
+              </Link>
+            )}
+          />
+        ) : null
+      }
+
       <PageContentContainer>
         <LogoImageContainer>
           <LogoHeader />

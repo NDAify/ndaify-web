@@ -4,8 +4,8 @@ import { API } from '../api';
 
 import HomeImpl from '../components/Home/Home';
 
-const Home = (props) => (
-  <HomeImpl user={props.user} />
+const Home = ({ user }) => (
+  <HomeImpl user={user} />
 );
 
 Home.getInitialProps = async (ctx) => {
