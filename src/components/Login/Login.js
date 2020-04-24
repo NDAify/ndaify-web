@@ -86,7 +86,9 @@ const Login = () => {
                 const { redirectUrl } = router.query;
                 const oAuthState = serializeOAuthState({ redirectUrl });
 
-                window.location.href = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`;
+                window.location.assign(
+                  `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`,
+                );
               }}
             >
               Login with LinkedIn

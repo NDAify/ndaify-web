@@ -228,7 +228,9 @@ const SenderForm = ({ user, nda }) => {
         // If there is an error during the login phase, redirect the errors properly
         redirectOnErrorUrl: '/nda/new',
       });
-      window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
+      window.location.replace(
+        `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`,
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

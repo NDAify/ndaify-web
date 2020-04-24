@@ -6,6 +6,8 @@ import { getCookie, setCookie, destroyCookie } from './lib/cookies';
 import { toQueryString } from './util';
 import { Router } from './routes';
 
+const dev = process.env.NODE_ENV !== 'production';
+
 const { publicRuntimeConfig: { API_URL, COOKIE_DOMAIN, CANONICAL_URL } } = getConfig();
 
 const REDIRECT_WHITELIST = [
@@ -15,9 +17,14 @@ const REDIRECT_WHITELIST = [
 const COOKIE_OPTIONS = {
   path: '/',
   domain: COOKIE_DOMAIN,
-  // httpOnly: false,
-  // secure: true,
-  // sameSite: 'Lax',
+};
+
+const SESSION_TOKEN_COOKIE_OPTIONS = {
+  ...COOKIE_OPTIONS,
+  // TODO make session cookie httpOnly
+  httpOnly: false,
+  secure: !dev,
+  sameSite: 'Lax',
 };
 
 const NO_SESSION = Symbol('No Session');
@@ -186,13 +193,13 @@ export class API {
       redirectUri: oauthRedirectUri,
     });
 
-    setCookie(this.ctx, 'sessionToken', response.sessionToken, COOKIE_OPTIONS);
+    setCookie(this.ctx, 'sessionToken', response.sessionToken, SESSION_TOKEN_COOKIE_OPTIONS);
 
     return response;
   }
 
   async endSession() {
-    destroyCookie(this.ctx, 'sessionToken', COOKIE_OPTIONS);
+    destroyCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     // Log out all windows
     if (process.browser) {
       // TODO(juliaqiuxy) How can we make so if session expires, the first window to
