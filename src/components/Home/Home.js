@@ -17,6 +17,7 @@ import ButtonAnchor from '../Clickable/ButtonAnchor';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
@@ -115,6 +116,16 @@ const FormCopy = styled.h4`
   }
 `;
 
+const ProfileImage = styled.img`
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-right: 12px;
+`;
+
 const Home = ({ user, showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
@@ -163,11 +174,24 @@ const Home = ({ user, showCustomNote = false }) => {
           <UserActionBanner
             user={user}
             actionButton={() => (
-              <Link route="/dashboard/incoming">
-                <ButtonAnchor outline>
-                  Dashboard
-                </ButtonAnchor>
-              </Link>
+              <>
+                <Link route="/dashboard/incoming">
+                  <ButtonAnchor
+                    outline
+                    style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                  >
+                    <ProfileImage
+                      alt=""
+                      src={user.metadata.linkedInProfile.profilePicture}
+                    />
+                    <span>
+                      Dashboard
+                    </span>
+                  </ButtonAnchor>
+                </Link>
+
+                <UserActionsDropdown user={user} />
+              </>
             )}
           />
         ) : (

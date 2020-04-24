@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 const Button = styled.button`
-  display: inline-block;
   margin: 0;
   padding: 0;
   padding-left: 1pc;
@@ -42,7 +41,8 @@ const Button = styled.button`
 }
 
   :focus {
-    outline: -webkit-focus-ring-color auto 5px;;
+    background: #333333;
+    outline: -webkit-focus-ring-color auto 0px;
     outline-offset: 0px;
   }
 
@@ -67,6 +67,8 @@ const Button = styled.button`
 const ButtonContent = styled.span`
   ${(props) => (props.visible ? 'visibility: visible;' : 'visibility: hidden;')}
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const ButtonSpinner = styled(Spinner)`

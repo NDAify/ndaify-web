@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reach/dialog": "^0.10.0",
+    "@reach/menu-button": "^0.1.17",
     "@zeit/next-css": "^1.0.1",
     "better-react-spinkit": "^2.0.4",
     "cookie": "^0.4.0",

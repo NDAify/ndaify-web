@@ -76,7 +76,7 @@ const FooterText = styled.span`
   }
 
   a:visited {
-    color: #000000;
+    color: #ffffff;
   }
 `;
 
@@ -104,7 +104,7 @@ const Footer = ({ withLogo }) => (
         {`© ${currentYear}`}
         {' '}
         <a
-          href="https://juliaqiu.com/"
+          href="https://github.com/ndaify"
           target="_blank"
           rel="noopener noreferrer"
         >

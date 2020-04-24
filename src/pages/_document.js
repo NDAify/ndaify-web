@@ -22,6 +22,8 @@ const GlobalStyle = createGlobalStyle`
 
   // mute reach-ui missing style warnings
   :root {
+    --reach-menu-button: 1;
+    --reach-tooltip: 1;
     --reach-dialog: 1;
   }
 `;

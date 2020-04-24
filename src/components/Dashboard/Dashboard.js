@@ -1,17 +1,15 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
 
-import { Link, Router } from '../../routes';
+import { Link } from '../../routes';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import Footer from '../Footer/Footer';
-import Button from '../Clickable/Button';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import ActiveLink from '../ActiveLink/ActiveLink';
-
-import { API } from '../../api';
+import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
 import { NDA_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
@@ -181,6 +179,16 @@ const StatusText = styled(RecipientInfoText)`
   color: #EDD9A3;
 `;
 
+const ProfileImage = styled.img`
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-right: 12px;
+`;
+
 const NDA_STATUS_LABEL = {
   pending: 'Unsigned',
   signed: 'Signed',
@@ -243,16 +251,7 @@ const HistoryItem = ({ dashboardType, nda }) => (
   </Link>
 );
 
-
 const Dashboard = ({ dashboardType, user, ndas }) => {
-  const handleLogOutClick = async () => {
-    const api = new API();
-    await api.endSession();
-
-    Router.pushRoute('root');
-  };
-  const onLogOutClick = useCallback(handleLogOutClick, []);
-
   const byDashboardType = dashboardType === 'incoming' ? (nda) => nda.ownerId !== user.userId : (nda) => nda.ownerId === user.userId;
 
   const filteredNdas = ndas.filter(byDashboardType);
@@ -263,13 +262,24 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
       <UserActionBanner
         user={user}
         actionButton={() => (
-          <Button
-            compact
-            color="#dc564a"
-            onClick={onLogOutClick}
-          >
-            Log Out
-          </Button>
+          <>
+            <Link route="/dashboard/incoming">
+              <ButtonAnchor
+                outline
+                style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+              >
+                <ProfileImage
+                  alt=""
+                  src={user.metadata.linkedInProfile.profilePicture}
+                />
+                <span>
+                  Dashboard
+                </span>
+              </ButtonAnchor>
+            </Link>
+
+            <UserActionsDropdown user={user} />
+          </>
         )}
       />
       <PageContainer>
