@@ -219,7 +219,7 @@ export class API {
   }
 
   async startSessionByOAuth(authorizationCode, oauthState, oauthRedirectUri) {
-    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions')(this.ctx, NO_SESSION)({
+    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { noRedirect: true })(this.ctx, NO_SESSION)({
       code: authorizationCode,
       state: oauthState,
       redirectUri: oauthRedirectUri,
