@@ -59,7 +59,7 @@ const LogoHeaderContainer = styled.div`
   margin-bottom: 10pc;
 `;
 
-const Login = () => {
+const LogIn = () => {
   const router = useRouter();
 
   return (
@@ -91,7 +91,7 @@ const Login = () => {
                 );
               }}
             >
-              Login with LinkedIn
+              Log in with LinkedIn
             </LinkedInButton>
           </LinkedInButtonWrapper>
 
@@ -103,4 +103,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LogIn;

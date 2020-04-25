@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Login from '../components/Login/Login';
+import LogInImpl from '../components/LogIn/LogIn';
 
-const LoginPage = () => (
-  <Login />
+const LogIn = () => (
+  <LogInImpl />
 );
 
-export default LoginPage;
+export default LogIn;

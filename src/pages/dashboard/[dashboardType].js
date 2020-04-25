@@ -2,13 +2,13 @@ import React from 'react';
 
 import { API } from '../../api';
 
-import Dashboard from '../../components/Dashboard/Dashboard';
+import DashboardImpl from '../../components/Dashboard/Dashboard';
 
-const DashBoardPage = ({ user, ndas, dashboardType }) => (
-  <Dashboard dashboardType={dashboardType} user={user} ndas={ndas} />
+const Dashboard = ({ user, ndas, dashboardType }) => (
+  <DashboardImpl dashboardType={dashboardType} user={user} ndas={ndas} />
 );
 
-DashBoardPage.getInitialProps = async (ctx) => {
+Dashboard.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   const { dashboardType } = ctx.query;
@@ -32,4 +32,4 @@ DashBoardPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default DashBoardPage;
+export default Dashboard;

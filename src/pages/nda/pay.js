@@ -4,9 +4,9 @@ import Router from 'next/router';
 import { API } from '../../api';
 
 import * as sessionStorage from '../../lib/sessionStorage';
-import PaymentForm from '../../components/PaymentForm/PaymentForm';
+import PaymentFormImpl from '../../components/PaymentForm/PaymentForm';
 
-const PaymentFormPage = ({ user }) => {
+const PaymentForm = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
@@ -20,11 +20,11 @@ const PaymentFormPage = ({ user }) => {
   }
 
   return (
-    <PaymentForm user={user} nda={nda} />
+    <PaymentFormImpl user={user} nda={nda} />
   );
 };
 
-PaymentFormPage.getInitialProps = async (ctx) => {
+PaymentForm.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   const { user } = await api.getSession();
@@ -34,4 +34,4 @@ PaymentFormPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default PaymentFormPage;
+export default PaymentForm;

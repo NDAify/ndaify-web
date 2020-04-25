@@ -4,9 +4,9 @@ import Router from 'next/router';
 import { API } from '../../api';
 
 import * as sessionStorage from '../../lib/sessionStorage';
-import SenderForm from '../../components/SenderForm/SenderForm';
+import SenderFormImpl from '../../components/SenderForm/SenderForm';
 
-const Form = ({ user }) => {
+const SenderForm = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
@@ -20,11 +20,11 @@ const Form = ({ user }) => {
   }
 
   return (
-    <SenderForm user={user} nda={nda} />
+    <SenderFormImpl user={user} nda={nda} />
   );
 };
 
-Form.getInitialProps = async (ctx) => {
+SenderForm.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   const { user } = await api.tryGetSession();
@@ -34,4 +34,4 @@ Form.getInitialProps = async (ctx) => {
   };
 };
 
-export default Form;
+export default SenderForm;

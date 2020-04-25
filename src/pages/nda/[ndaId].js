@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { API } from '../../api';
-import NDA from '../../components/NDA/NDA';
+import NDAImpl from '../../components/NDA/NDA';
 
-const NDAPage = (props) => (
+const NDA = (props) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <NDA {...props} />
+  <NDAImpl {...props} />
 );
 
-NDAPage.getInitialProps = async (ctx) => {
+NDA.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
   if (!ndaId) {
@@ -38,4 +38,4 @@ NDAPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default NDAPage;
+export default NDA;

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import UETAEsignImpl from '../components/LegalPolicy/LegalPolicy';
+import UETAESignImpl from '../components/LegalPolicy/LegalPolicy';
 
-const UETAEsign = () => (
-  <UETAEsignImpl title="UETA and ESIGN Act" />
+const UETAESign = () => (
+  <UETAESignImpl title="UETA and ESIGN Act" />
 );
 
-export default UETAEsign;
+export default UETAESign;

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { API } from '../../api';
-import SuccessMessage from '../../components/SuccessMessage/SuccessMessage';
+import { API } from '../../../api';
+import SuccessViewImpl from '../../../components/SuccessMessage/SuccessMessage';
 
-const SuccessMessagePage = (props) => (
-  <SuccessMessage
+const SuccessView = (props) => (
+  <SuccessViewImpl
   // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}
   />
 );
 
-SuccessMessagePage.getInitialProps = async (ctx) => {
+SuccessView.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
   const api = new API(ctx);
@@ -29,4 +29,4 @@ SuccessMessagePage.getInitialProps = async (ctx) => {
   };
 };
 
-export default SuccessMessagePage;
+export default SuccessView;

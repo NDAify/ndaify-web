@@ -207,7 +207,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     try {
       const { nda } = await api.createNda(ndaPayload);
 
-      Router.replace('/nda/sent-[ndaId]', `/nda/sent-${nda.ndaId}`);
+      Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

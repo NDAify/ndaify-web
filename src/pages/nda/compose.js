@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
 
-import NDAComposer from '../../components/NDA/NDAComposer';
+import NDAComposerImpl from '../../components/NDA/NDAComposer';
 import { API } from '../../api';
 import * as sessionStorage from '../../lib/sessionStorage';
 
 import { toQueryString } from '../../util';
 
-const NDAComposerPage = (props) => {
+const NDAComposer = (props) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   const senderEmail = props.user.metadata.linkedInProfile.emailAddress;
@@ -36,14 +36,14 @@ const NDAComposerPage = (props) => {
   }
 
   return (
-    <NDAComposer
+    <NDAComposerImpl
       user={props.user}
       nda={nda}
     />
   );
 };
 
-NDAComposerPage.getInitialProps = async (ctx) => {
+NDAComposer.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   const { user } = await api.getSession();
@@ -53,4 +53,4 @@ NDAComposerPage.getInitialProps = async (ctx) => {
   };
 };
 
-export default NDAComposerPage;
+export default NDAComposer;
