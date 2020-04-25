@@ -17,20 +17,13 @@ DashBoardPage.getInitialProps = async (ctx) => {
     throw new Error('Invalid dashboard type');
   }
 
-  let user;
-  let ndas;
-  try {
-    ([
-      { user },
-      { ndas },
-    ] = await Promise.all([
-      api.getSession(),
-      api.getNdas(),
-    ]));
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.info(error);
-  }
+  const [
+    { user },
+    { ndas },
+  ] = await Promise.all([
+    api.getSession(),
+    api.getNdas(),
+  ]);
 
   return {
     user,

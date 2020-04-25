@@ -16,7 +16,7 @@ Home.getInitialProps = async (ctx) => {
     ({ user } = await api.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.info(error);
+    console.warn(error);
   }
 
   return {

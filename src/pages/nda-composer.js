@@ -46,13 +46,7 @@ const NDAComposerPage = (props) => {
 NDAComposerPage.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
-  let user;
-  try {
-    ({ user } = await api.getSession());
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  }
+  const { user } = await api.getSession();
 
   return {
     user,

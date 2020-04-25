@@ -27,14 +27,8 @@ const Form = ({ user }) => {
 Form.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
-  let user;
-  try {
-    ({ user } = await api.tryGetSession());
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.info(error);
-  }
-
+  const { user } = await api.tryGetSession();
+  
   return {
     user,
   };

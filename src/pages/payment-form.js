@@ -27,13 +27,7 @@ const PaymentFormPage = ({ user }) => {
 PaymentFormPage.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
-  let user;
-  try {
-    ({ user } = await api.getSession());
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  }
+  let { user } = await api.getSession()
 
   return {
     user,
