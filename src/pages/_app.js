@@ -8,6 +8,9 @@ import { Router } from '../routes';
 
 import { PageTitle } from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
+import ErrorView from '../components/ErrorView/ErrorView';
+
+import { EntityNotFoundError, APIError } from '../api';
 
 import '../css/nprogress.css';
 
@@ -30,22 +33,45 @@ const ALERT_OPTIONS = {
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
+    let errorPageProps;
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      try {
+        pageProps = await Component.getInitialProps(ctx);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+
+        if (error instanceof EntityNotFoundError) {
+          errorPageProps = {
+            ...error.data,
+            errorMessage: error.message,
+            statusCode: error.statusCode,
+          };
+        }
+
+        if (error instanceof APIError) {
+          errorPageProps = {
+            ...error.data,
+            errorMessage: error.message,
+            statusCode: error.statusCode,
+          };
+        }
+      }
     }
 
     const ssrNow = Date.now();
 
-    return { pageProps, ssrNow };
+    return { pageProps, errorPageProps, ssrNow };
   }
 
   render() {
-    const { Component, pageProps, ssrNow } = this.props;
+    const {
+      Component, pageProps, errorPageProps, ssrNow,
+    } = this.props;
 
     return (
       <>
-
         <PageTitle />
 
         <AlertProvider
@@ -60,10 +86,19 @@ class App extends NextApp {
             initialNow={ssrNow}
             textComponent={Fragment}
           >
-            <Component
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...pageProps}
-            />
+            {
+              errorPageProps ? (
+                <ErrorView
+                  statusCode={errorPageProps.statusCode}
+                  errorMessage={errorPageProps.errorMessage}
+                />
+              ) : (
+                <Component
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...pageProps}
+                />
+              )
+            }
           </IntlProvider>
         </AlertProvider>
 

@@ -1,3 +1,10 @@
+export class BaseError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
+
 export const getClientOrigin = () => {
   if (!process.browser) {
     throw Error('Unsupported platform encountered running `getClientOrigin`');

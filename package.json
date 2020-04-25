@@ -30,7 +30,7 @@
     "react-spring": "^8.0.27",
     "react-waypoint": "^9.0.2",
     "sitemap": "^2.2.0",
-    "statuses": "^1.5.0",
+    "statuses": "^2.0.0",
     "string-score": "^1.0.1",
     "styled-components": "^5.1.0",
     "tlds": "^1.207.0"

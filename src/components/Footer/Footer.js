@@ -86,7 +86,7 @@ const Footer = ({ withLogo }) => (
   <Container>
     {withLogo && (
       <FooterLogoContainer>
-        <Link route="/" replace>
+        <Link route="/">
           <a>
             <FooterLogoWrapper>
               <LogoWithTextIcon />

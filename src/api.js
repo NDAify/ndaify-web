@@ -1,10 +1,38 @@
+/* eslint-disable max-classes-per-file */
+
 import fetch from 'cross-fetch';
 import getConfig from 'next/config';
 import statuses from 'statuses';
 
 import { getCookie, setCookie, destroyCookie } from './lib/cookies';
-import { toQueryString } from './util';
+import { toQueryString, BaseError } from './util';
 import { Router } from './routes';
+
+export class APIError extends BaseError {
+  constructor(message = 'API Error', statusCode, data) {
+    super(message);
+    this.statusCode = statusCode;
+    this.data = data;
+  }
+}
+
+export class EntityNotFoundError extends APIError {
+  constructor(message = 'Entity does not exist', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+export class ForbiddenError extends APIError {
+  constructor(message = 'Action not allowed', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+export class InvalidSessionError extends APIError {
+  constructor(message = 'Invalid session token', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -164,14 +192,18 @@ export const dispatch = (
         });
       }
 
-      throw new Error('Invalid session token');
+      throw new InvalidSessionError('Invalid session token', response.status, data);
     }
 
     if (response.status === statuses('Forbidden')) {
-      throw new Error(data?.errorMessage || 'You are not allowed to do that.');
+      throw new ForbiddenError(data?.errorMessage, response.status, data);
     }
 
-    throw new Error('Oops! Something went wrong. Try again later.');
+    if (response.status === statuses('Not Found')) {
+      throw new EntityNotFoundError(data?.errorMessage, response.status, data);
+    }
+
+    throw new APIError('Oops! Something went wrong. Try again later.', response.status, data);
   }
 
   return data;

@@ -135,9 +135,14 @@ const UserActionsDropdown = () => {
             <ChevronDown aria-hidden />
           </MoreOptionsButton>
           <MoreOptionsMenuList>
-            <ReachMenuLink as={MenuLink} route="/">
-              New
-            </ReachMenuLink>
+            {
+              // eslint-disable-next-line no-constant-condition
+              false ? (
+                <ReachMenuLink as={MenuLink} route="/">
+                  Settings
+                </ReachMenuLink>
+              ) : null
+            }
             <ReachMenuItem onSelect={onLogOutClick}>
               Log Out
             </ReachMenuItem>
