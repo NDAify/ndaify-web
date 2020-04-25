@@ -63,10 +63,16 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   // FIXME(jmurzy) reach-ui does not provide a way to set className on the data-reach-menu element.
   // We should probably report this as a bug rather than polluting the global scope with magic
   body:not(&) {
-    [data-reach-menu] {
+    [data-reach-menu],
+    [data-reach-menu-popover] {
       display: block;
       position: absolute;
       z-index: 1;
+    }
+
+    [data-reach-menu][hidden],
+    [data-reach-menu-popover][hidden] {
+      display: none;
     }
   }
 
@@ -91,7 +97,14 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
 
   [data-reach-menu-item] {
     display: block;
+    user-select: none;
+  }
+  
+  [data-reach-menu-item] {
     cursor: pointer;
+
+    display: block;
+
     color: inherit;
     font-size: 16px;
     line-height: 24px;
@@ -129,8 +142,8 @@ const UserActionsDropdown = () => {
   const onLogOutClick = useCallback(handleLogOutClick, []);
 
   return (
-    <ReachMenu isOpen>
-      {(/* { isOpen } */) => (
+    <ReachMenu>
+      {({/* isExpanded */}) => (
         <>
           <MoreOptionsButton id="header-more-options">
             <ChevronDown aria-hidden />
