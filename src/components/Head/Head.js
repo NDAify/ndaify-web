@@ -25,7 +25,7 @@ const Head = ({ description = META_DESCRIPTION }) => (
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,400,700&display=swap" />
 
-    <link rel="shortcut icon" href="/public/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.png" />
   </NextHead>
 );
 
