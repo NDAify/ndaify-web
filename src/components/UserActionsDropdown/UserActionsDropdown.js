@@ -10,7 +10,8 @@ import {
   MenuLink as ReachMenuLink,
 } from '@reach/menu-button';
 
-import { Link, Router } from '../../routes';
+import Link from 'next/link';
+import Router from 'next/router';
 
 import { API } from '../../api';
 
@@ -106,8 +107,8 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   }
 `;
 
-const MenuLink = React.forwardRef(({ children, route, ...props }, ref) => (
-  <Link route={route}>
+const MenuLink = React.forwardRef(({ children, href, routeAs, ...props }, ref) => (
+  <Link href={href} as={routeAs}>
     <a
       ref={ref}
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -123,7 +124,7 @@ const UserActionsDropdown = () => {
     const api = new API();
     await api.endSession();
 
-    Router.pushRoute('root');
+    Router.push('/');
   };
   const onLogOutClick = useCallback(handleLogOutClick, []);
 
@@ -138,7 +139,7 @@ const UserActionsDropdown = () => {
             {
               // eslint-disable-next-line no-constant-condition
               false ? (
-                <ReachMenuLink as={MenuLink} route="/">
+                <ReachMenuLink as={MenuLink} href="/">
                   Settings
                 </ReachMenuLink>
               ) : null

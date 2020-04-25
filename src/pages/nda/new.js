@@ -1,17 +1,17 @@
 import React, { useMemo, useEffect } from 'react';
-import { Router } from '../routes';
+import Router from 'next/router';
 
-import { API } from '../api';
+import { API } from '../../api';
 
-import * as sessionStorage from '../lib/sessionStorage';
-import SenderForm from '../components/SenderForm/SenderForm';
+import * as sessionStorage from '../../lib/sessionStorage';
+import SenderForm from '../../components/SenderForm/SenderForm';
 
 const Form = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
     if (!nda) {
-      Router.replaceRoute('/');
+      Router.replace('/');
     }
   }, [nda]);
 

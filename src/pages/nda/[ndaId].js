@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { API } from '../api';
-import NDA from '../components/NDA/NDA';
+import { API } from '../../api';
+import NDA from '../../components/NDA/NDA';
 
 const NDAPage = (props) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
@@ -10,6 +10,10 @@ const NDAPage = (props) => (
 
 NDAPage.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
+
+  if (!ndaId) {
+    throw new Error('Missing NDA ID');
+  }
 
   const api = new API(ctx);
 

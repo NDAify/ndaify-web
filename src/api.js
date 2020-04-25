@@ -3,10 +3,10 @@
 import fetch from 'cross-fetch';
 import getConfig from 'next/config';
 import statuses from 'statuses';
+import Router from 'next/router';
 
 import { getCookie, setCookie, destroyCookie } from './lib/cookies';
 import { toQueryString, BaseError } from './util';
-import { Router } from './routes';
 
 export class APIError extends BaseError {
   constructor(message = 'API Error', statusCode, data) {
@@ -86,7 +86,7 @@ export const redirect = (ctx, to, params = {}) => {
   }
 
   if (process.browser) {
-    Router.replaceRoute(`${to}${qs}`);
+    Router.replace(`${to}${qs}`);
   } else {
     ctx.res.writeHead(statuses('Found'), { Location: `${to}${qs}` });
     ctx.res.end();

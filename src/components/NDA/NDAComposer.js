@@ -6,7 +6,7 @@ import {
   Form,
 } from 'formik';
 
-import { Router } from '../../routes';
+import Router from 'next/router';
 
 import NDABody from './NDABody';
 import Button from '../Clickable/Button';
@@ -253,7 +253,7 @@ export const extractCompanyNameFromText = (text, personName) => {
 
 const NDAComposer = ({ user, nda }) => {
   const handleDiscardButtonClick = () => {
-    Router.replaceRoute('/');
+    Router.replace('/');
     sessionStorage.clear();
   };
   const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
@@ -289,7 +289,7 @@ const NDAComposer = ({ user, nda }) => {
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      Router.replaceRoute('nda-pay');
+      Router.replace('/nda/pay');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

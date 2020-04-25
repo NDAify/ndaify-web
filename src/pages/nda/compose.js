@@ -1,11 +1,11 @@
 import React, { useMemo, useEffect } from 'react';
+import Router from 'next/router';
 
-import NDAComposer from '../components/NDA/NDAComposer';
-import { API } from '../api';
-import { Router } from '../routes';
-import * as sessionStorage from '../lib/sessionStorage';
+import NDAComposer from '../../components/NDA/NDAComposer';
+import { API } from '../../api';
+import * as sessionStorage from '../../lib/sessionStorage';
 
-import { toQueryString } from '../util';
+import { toQueryString } from '../../util';
 
 const NDAComposerPage = (props) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
@@ -15,7 +15,7 @@ const NDAComposerPage = (props) => {
 
   useEffect(() => {
     if (!nda) {
-      Router.replaceRoute('/');
+      Router.replace('/');
       return;
     }
 
@@ -24,7 +24,7 @@ const NDAComposerPage = (props) => {
         errorMessage: 'You can not send an NDA to yourself',
       });
 
-      Router.replaceRoute(`/nda/new?${qs}`);
+      Router.replace(`/nda/new?${qs}`);
       // let me return for god's sake
       // eslint-disable-next-line no-useless-return
       return;

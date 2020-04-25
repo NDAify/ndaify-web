@@ -7,7 +7,8 @@ import {
   Form,
 } from 'formik';
 
-import { Router } from '../../routes';
+import Router from 'next/router';
+
 import { API } from '../../api';
 
 import Button from '../Clickable/Button';
@@ -206,7 +207,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     try {
       const { nda } = await api.createNda(ndaPayload);
 
-      Router.replaceRoute('nda-sent', { ndaId: nda.ndaId });
+      Router.replace('/nda/sent-[ndaId]', `/nda/sent-${nda.ndaId}`);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -216,7 +217,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const handleCancelClick = () => {
-    Router.replaceRoute('/');
+    Router.replace('/');
     sessionStorage.clear();
   };
   const onCancelClick = useCallback(handleCancelClick, []);

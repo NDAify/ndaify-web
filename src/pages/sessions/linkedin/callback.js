@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import humps from 'humps';
 
-import { API, redirect, isSafeToRedirect } from '../api';
-import { getOrigin } from '../util';
+import { API, redirect, isSafeToRedirect } from '../../../api';
+import { getOrigin } from '../../../util';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
 const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';

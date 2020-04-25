@@ -9,13 +9,11 @@ import createNextApp from 'next';
 import robots from './lib/robots';
 import sitemap from './lib/sitemap';
 
-import nextRoutes from './routes';
-
 const PORT = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV !== 'production';
 
 const nextApp = createNextApp({ dev });
-const nextHandle = nextRoutes.getRequestHandler(nextApp);
+const nextHandle = nextApp.getRequestHandler();
 
 const koaRouter = new KoaRouter();
 

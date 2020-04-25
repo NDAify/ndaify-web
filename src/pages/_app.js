@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 import { IntlProvider } from 'react-intl';
 import { positions, Provider as AlertProvider } from 'react-alert';
 
-import { Router } from '../routes';
+import Router from 'next/router';
 
 import { PageTitle } from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
@@ -21,7 +21,6 @@ Router.events.on('routeChangeStart', () => {
 });
 Router.events.on('routeChangeComplete', () => {
   NProgress.done();
-  window.scrollTo(0, 0);
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
 
@@ -17,7 +17,7 @@ const LogoWithTextIconWrapper = styled.div`
 
 const LogoHeader = () => (
   <LogoContaier>
-    <Link route="/">
+    <Link href="/">
       <a>
         <LogoWithTextIconWrapper>
           <LogoWithTextIcon />

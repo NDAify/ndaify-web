@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { API } from '../api';
-import SuccessMessage from '../components/SuccessMessage/SuccessMessage';
+import { API } from '../../api';
+import SuccessMessage from '../../components/SuccessMessage/SuccessMessage';
 
 const SuccessMessagePage = (props) => (
   <SuccessMessage

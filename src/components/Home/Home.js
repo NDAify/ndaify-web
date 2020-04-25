@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import isUrl from 'is-url';
+import Link from 'next/link';
+import Router from 'next/router';
 
 import styled from 'styled-components';
 
 import { Formik, Form, Field as FormikField } from 'formik';
-
-import { Link, Router } from '../../routes';
 
 import Anchor from '../Clickable/Anchor';
 import LogoHeader from '../LogoHeader/LogoHeader';
@@ -156,7 +156,7 @@ const Home = ({ user, showCustomNote = false }) => {
           },
         },
       );
-      Router.pushRoute('nda-new');
+      Router.push('/nda/new');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -175,7 +175,7 @@ const Home = ({ user, showCustomNote = false }) => {
             user={user}
             actionButton={() => (
               <>
-                <Link route="/dashboard/incoming">
+                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                   <ButtonAnchor
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -265,7 +265,7 @@ const Home = ({ user, showCustomNote = false }) => {
               <FormCopy>
                 Or, go to
                 {' '}
-                <Link route="/dashboard/incoming">
+                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                   <Anchor>dashboard</Anchor>
                 </Link>
                 {' '}
@@ -275,7 +275,7 @@ const Home = ({ user, showCustomNote = false }) => {
               <FormCopy>
                 Or,
                 {' '}
-                <Link route="/login">
+                <Link href="/login">
                   <Anchor>log in</Anchor>
                 </Link>
                 {' '}

@@ -11,7 +11,7 @@ import {
   Form,
 } from 'formik';
 
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -257,7 +257,7 @@ const SenderForm = ({ user, nda }) => {
           <UserActionBanner
             user={user}
             actionButton={() => (
-              <Link route="/dashboard/incoming">
+              <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                 <ButtonAnchor outline>
                   Dashboard
                 </ButtonAnchor>

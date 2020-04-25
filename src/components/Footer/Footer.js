@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
-import { Link } from '../../routes';
 import LogoWithTextIcon from './images/logoWithText.svg';
 
 const Container = styled.footer`
@@ -86,7 +86,7 @@ const Footer = ({ withLogo }) => (
   <Container>
     {withLogo && (
       <FooterLogoContainer>
-        <Link route="/">
+        <Link href="/">
           <a>
             <FooterLogoWrapper>
               <LogoWithTextIcon />

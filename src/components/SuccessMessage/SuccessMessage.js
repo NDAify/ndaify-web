@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from '../../routes';
+import Link from 'next/link';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
@@ -67,7 +67,7 @@ const SuccessMessage = ({ user, nda }) => (
         <UserActionBanner
           user={user}
           actionButton={() => (
-            <Link route="/dashboard/incoming">
+            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               <ButtonAnchor outline>
                 Dashboard
               </ButtonAnchor>
@@ -93,7 +93,7 @@ const SuccessMessage = ({ user, nda }) => (
           {' '}
           views and/or accepts the NDA.
         </SucessMessage>
-        <Link route="/dashboard/outgoing" replace>
+        <Link href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
           <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>

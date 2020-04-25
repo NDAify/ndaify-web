@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { API } from '../api';
+import { API } from '../../api';
 
-import Dashboard from '../components/Dashboard/Dashboard';
+import Dashboard from '../../components/Dashboard/Dashboard';
 
 const DashBoardPage = ({ user, ndas, dashboardType }) => (
   <Dashboard dashboardType={dashboardType} user={user} ndas={ndas} />

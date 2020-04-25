@@ -1,9 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
-
-import { Link } from '../../routes';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import Footer from '../Footer/Footer';
@@ -197,9 +196,7 @@ const NDA_STATUS_LABEL = {
 };
 
 const HistoryItem = ({ dashboardType, nda }) => (
-  <Link
-    route={`/nda/${nda.ndaId}`}
-  >
+  <Link href="/nda/[ndaId]" as={`/nda/${nda.ndaId}`}>
     <ItemCardContainer pending={nda.metadata.status === 'pending'}>
       <HistoryItemContainer>
         <HistoryTimeRow>
@@ -263,7 +260,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
         user={user}
         actionButton={() => (
           <>
-            <Link route="/dashboard/incoming">
+            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               <ButtonAnchor
                 outline
                 style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -285,14 +282,14 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
       <PageContainer>
         <SigRow>
           <LinksContainer>
-            <ActiveLink route="/dashboard/incoming">
+            <ActiveLink href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               {
                 (active) => (
                   <StyledLink active={active}>Inbox</StyledLink>
                 )
               }
             </ActiveLink>
-            <ActiveLink route="/dashboard/outgoing">
+            <ActiveLink href="/dashboard/[dashboardType]" as="/dashboard/outgoing">
               {
                 (active) => (
                   <StyledLink active={active}>Sent</StyledLink>
@@ -300,7 +297,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
               }
             </ActiveLink>
           </LinksContainer>
-          <Link route="/">
+          <Link href="/">
             <ButtonAnchor outline>New</ButtonAnchor>
           </Link>
         </SigRow>

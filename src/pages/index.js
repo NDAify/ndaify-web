@@ -2,13 +2,13 @@ import React from 'react';
 
 import { API } from '../api';
 
-import HomeImpl from '../components/Home/Home';
+import IndexImpl from '../components/Home/Home';
 
-const Home = ({ user }) => (
-  <HomeImpl user={user} />
+const Index = ({ user }) => (
+  <IndexImpl user={user} />
 );
 
-Home.getInitialProps = async (ctx) => {
+Index.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   let user;
@@ -24,4 +24,4 @@ Home.getInitialProps = async (ctx) => {
   };
 };
 
-export default Home;
+export default Index;

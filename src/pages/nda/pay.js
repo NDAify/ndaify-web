@@ -1,17 +1,17 @@
 import React, { useMemo, useEffect } from 'react';
-import { Router } from '../routes';
+import Router from 'next/router';
 
-import { API } from '../api';
+import { API } from '../../api';
 
-import * as sessionStorage from '../lib/sessionStorage';
-import PaymentForm from '../components/PaymentForm/PaymentForm';
+import * as sessionStorage from '../../lib/sessionStorage';
+import PaymentForm from '../../components/PaymentForm/PaymentForm';
 
 const PaymentFormPage = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
     if (process.browser && !nda) {
-      Router.replaceRoute('/');
+      Router.replace('/');
     }
   }, [nda]);
 

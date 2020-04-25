@@ -6,6 +6,9 @@ import { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
 
+import Link from 'next/link';
+import Router from 'next/router';
+
 import {
   Formik,
   Form,
@@ -21,8 +24,6 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import SimpleDialog from '../Dialog/SimpleDialog';
 import { extractCompanyNameFromText } from './NDAComposer';
-
-import { Link, Router } from '../../routes';
 
 import getFullNameFromUser from './getFullNameFromUser';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
@@ -512,7 +513,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const api = new API();
       await api.declineNda(nda.ndaId);
 
-      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 
       setDeclineDialogOpen(false);
 
@@ -534,7 +535,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const api = new API();
       await api.resendNda(nda.ndaId);
 
-      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 
       setResendDialogOpen(false);
 
@@ -556,7 +557,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const api = new API();
       await api.revokeNda(nda.ndaId);
 
-      Router.replaceRoute('nda', { ndaId: nda.ndaId });
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 
       setRevokeDialogOpen(false);
 
@@ -1109,7 +1110,7 @@ const NDA = ({ user, nda }) => {
         <UserActionBanner
           user={user}
           actionButton={() => (
-            <Link route="/dashboard/incoming">
+            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               <ButtonAnchor outline>
                 Dashboard
               </ButtonAnchor>
@@ -1129,7 +1130,7 @@ const NDA = ({ user, nda }) => {
       <UserActionBanner
         user={user}
         actionButton={() => (
-          <Link route="/dashboard/incoming">
+            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
             <ButtonAnchor outline>
               Dashboard
             </ButtonAnchor>

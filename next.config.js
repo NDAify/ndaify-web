@@ -2,9 +2,6 @@ const withCSS = require('@zeit/next-css');
 const withImages = require('next-images');
 
 module.exports = () => withCSS(withImages({
-  target: 'server',
-  // delegate to next-routes
-  useFileSystemPublicRoutes: false,
   env: {
     // Build-time configuration (that we want inlined in the bundle)
     // This option inlines the environment variables of the build machine e.g.
