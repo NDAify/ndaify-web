@@ -2,12 +2,12 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate } from 'react-intl';
 import getConfig from 'next/config';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
 
 import Link from 'next/link';
-import Router from 'next/router';
+
 
 import {
   Formik,
@@ -1130,7 +1130,7 @@ const NDA = ({ user, nda }) => {
       <UserActionBanner
         user={user}
         actionButton={() => (
-            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+          <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
             <ButtonAnchor outline>
               Dashboard
             </ButtonAnchor>

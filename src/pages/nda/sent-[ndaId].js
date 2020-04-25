@@ -15,7 +15,7 @@ SuccessMessagePage.getInitialProps = async (ctx) => {
 
   const api = new API(ctx);
 
-  let [
+  const [
     { user },
     { nda },
   ] = await Promise.all([

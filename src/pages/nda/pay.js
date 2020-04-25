@@ -27,7 +27,7 @@ const PaymentFormPage = ({ user }) => {
 PaymentFormPage.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
-  let { user } = await api.getSession()
+  const { user } = await api.getSession();
 
   return {
     user,

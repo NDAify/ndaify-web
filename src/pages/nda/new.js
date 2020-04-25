@@ -28,7 +28,7 @@ Form.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
   const { user } = await api.tryGetSession();
-  
+
   return {
     user,
   };

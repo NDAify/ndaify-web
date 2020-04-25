@@ -120,7 +120,9 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   }
 `;
 
-const MenuLink = React.forwardRef(({ children, href, routeAs, ...props }, ref) => (
+const MenuLink = React.forwardRef(({
+  children, href, routeAs, ...props
+}, ref) => (
   <Link href={href} as={routeAs}>
     <a
       ref={ref}
@@ -143,7 +145,7 @@ const UserActionsDropdown = () => {
 
   return (
     <ReachMenu>
-      {({/* isExpanded */}) => (
+      {(/* { isExpanded } */) => (
         <>
           <MoreOptionsButton id="header-more-options">
             <ChevronDown aria-hidden />
