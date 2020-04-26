@@ -245,7 +245,7 @@ const SenderForm = ({ user, nda }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
-    ndaType: nda.metadata.ndaType || NDA_OPTIONS.find(opt => opt.label === 'One Way').value,
+    ndaType: nda.metadata.ndaType || NDA_OPTIONS.find((opt) => opt.label === 'One Way').value,
     recipientFullName: nda.metadata.recipientFullName || '',
     recipientEmail: nda.recipientEmail || '',
   };
