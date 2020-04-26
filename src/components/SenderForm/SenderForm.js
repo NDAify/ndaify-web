@@ -163,11 +163,11 @@ const LinkedInButtonWrapper = styled.div`
 export const NDA_OPTIONS = [
   {
     label: 'One Way',
-    value: 'one-way',
+    value: 'f8a74320-8760-11ea-8fac-ff87bd917b7f',
   },
   {
     label: 'Mutual',
-    value: 'mutual',
+    value: '68f35700-8760-11ea-bd7b-1704efe89a6a',
   },
 ];
 
@@ -245,7 +245,7 @@ const SenderForm = ({ user, nda }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
-    ndaType: nda.metadata.ndaType || 'one-way',
+    ndaType: nda.metadata.ndaType || NDA_OPTIONS.find(opt => opt.label === 'One Way').value,
     recipientFullName: nda.metadata.recipientFullName || '',
     recipientEmail: nda.recipientEmail || '',
   };
