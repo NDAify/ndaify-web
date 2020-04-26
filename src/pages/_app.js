@@ -3,7 +3,6 @@ import NextApp from 'next/app';
 import NProgress from 'nprogress';
 import { IntlProvider } from 'react-intl';
 import { positions, Provider as AlertProvider } from 'react-alert';
-
 import Router from 'next/router';
 
 import Head, { PageTitle } from '../components/Head/Head';
@@ -11,8 +10,18 @@ import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
 import { EntityNotFoundError, APIError } from '../api';
+import getLocale from '../utils/getLocale';
 
 import '../css/nprogress.css';
+
+import es from '../langs/es.json';
+
+const MESSAGES = {
+  es,
+  'es-ES': es,
+  'es-US': es,
+  'es-MX': es,
+};
 
 NProgress.configure({ showSpinner: false });
 
@@ -60,13 +69,28 @@ class App extends NextApp {
     }
 
     const ssrNow = Date.now();
+    const locale = getLocale(ctx.req?.headers['accept-language'], 'en');
 
-    return { pageProps, errorPageProps, ssrNow };
+    // eslint-disable-next-line no-console
+    console.info(process.browser ? 'Browser' : 'Server', 'locale is set to', locale);
+
+    return {
+      errorPageProps,
+      locale,
+      messages: MESSAGES[locale],
+      pageProps,
+      ssrNow,
+    };
   }
 
   render() {
     const {
-      Component, pageProps, errorPageProps, ssrNow,
+      Component,
+      errorPageProps,
+      locale,
+      messages,
+      pageProps,
+      ssrNow,
     } = this.props;
 
     return (
@@ -80,9 +104,9 @@ class App extends NextApp {
           {...ALERT_OPTIONS}
         >
           <IntlProvider
-            locale="en"
+            locale={locale}
             timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
-            messages={{}}
+            messages={messages}
             initialNow={ssrNow}
             textComponent={Fragment}
           >

@@ -192,7 +192,7 @@ export const dispatch = (
         });
       }
 
-      throw new InvalidSessionError('Invalid session token', response.status, data);
+      throw new InvalidSessionError(data?.errorMessage, response.status, data);
     }
 
     if (response.status === statuses('Forbidden')) {

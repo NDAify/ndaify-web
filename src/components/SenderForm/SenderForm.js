@@ -258,7 +258,7 @@ const SenderForm = ({ user, nda }) => {
             user={user}
             actionButton={() => (
               <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-                <ButtonAnchor outline>
+                <ButtonAnchor>
                   Dashboard
                 </ButtonAnchor>
               </Link>

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import isUrl from 'is-url';
 import Link from 'next/link';
 import Router from 'next/router';
+import { FormattedMessage } from 'react-intl';
 
 import styled from 'styled-components';
 
@@ -208,7 +209,10 @@ const Home = ({ user, showCustomNote = false }) => {
         </LogoImageContainer>
         <ContentContainer>
           <CopyTitle>
-            NDAify helps you keep your trade secrets under wraps.
+            <FormattedMessage
+              id="home-title"
+              defaultMessage="NDAify helps you keep your trade secrets under wraps."
+            />
             {' '}
             <CopyText>
               Try it
@@ -217,8 +221,12 @@ const Home = ({ user, showCustomNote = false }) => {
               .
             </CopyText>
           </CopyTitle>
-          <Subtitle>Send an NDA in a couple minutes.</Subtitle>
-
+          <Subtitle>
+            <FormattedMessage
+              id="home-nda-couple-minutes"
+              defaultMessage="Send an NDA in a couple minutes."
+            />
+          </Subtitle>
           <Formik
             initialValues={{ secretLink: '' }}
             validateOnChange={false}

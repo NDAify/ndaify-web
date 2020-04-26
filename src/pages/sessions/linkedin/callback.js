@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import humps from 'humps';
 
-import { API, redirect, isSafeToRedirect } from '../../../api';
+import { API, redirect, isSafeToRedirect, InvalidSessionError } from '../../../api';
 import { getOrigin } from '../../../util';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
@@ -67,6 +67,10 @@ class Callback extends Component {
       } catch (error) {
         // eslint-disable-next-line
         console.error(error);
+
+        if (error instanceof InvalidSessionError) {
+          throw error;
+        }
 
         // User is suspended or something else went wrong
         throw new Error('Failed to authenticate');

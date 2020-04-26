@@ -27,7 +27,13 @@ const SenderForm = ({ user }) => {
 SenderForm.getInitialProps = async (ctx) => {
   const api = new API(ctx);
 
-  const { user } = await api.tryGetSession();
+  let user;
+  try {
+    ({ user } = await api.tryGetSession());
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(error);
+  }
 
   return {
     user,
