@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useField } from 'formik';
 
 const StyledInput = styled.input`
+  font-family: inherit;
   font-size: 20px;
   font-weight: 200;
   background-color: #ffffff;

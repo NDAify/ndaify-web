@@ -6,7 +6,7 @@ import { positions, Provider as AlertProvider } from 'react-alert';
 
 import Router from 'next/router';
 
-import { PageTitle } from '../components/Head/Head';
+import Head, { PageTitle } from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
@@ -72,6 +72,7 @@ class App extends NextApp {
     return (
       <>
         <PageTitle />
+        <Head />
 
         <AlertProvider
           template={Alert}
