@@ -282,14 +282,14 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
       <PageContainer>
         <SigRow>
           <LinksContainer>
-            <ActiveLink href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+            <ActiveLink scroll={false} href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               {
                 (active) => (
                   <StyledLink active={active}>Inbox</StyledLink>
                 )
               }
             </ActiveLink>
-            <ActiveLink href="/dashboard/[dashboardType]" as="/dashboard/outgoing">
+            <ActiveLink scroll={false} href="/dashboard/[dashboardType]" as="/dashboard/outgoing">
               {
                 (active) => (
                   <StyledLink active={active}>Sent</StyledLink>
