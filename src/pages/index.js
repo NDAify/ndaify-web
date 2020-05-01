@@ -2,10 +2,15 @@ import React from 'react';
 
 import { API } from '../api';
 
+import { PageTitle, PageDescription } from '../components/Head/Head';
 import IndexImpl from '../components/Home/Home';
 
 const Index = ({ user }) => (
-  <IndexImpl user={user} />
+  <>
+    <PageTitle />
+    <PageDescription />
+    <IndexImpl user={user} />
+  </>
 );
 
 Index.getInitialProps = async (ctx) => {

@@ -1,31 +1,17 @@
 import React from 'react';
-import NextDocument from 'next/document';
+import NextDocument, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+} from 'next/document';
+import getConfig from 'next/config';
 
-import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
+import { ServerStyleSheet } from 'styled-components';
 
-import Head from '../components/Head/Head';
+import { StaticHead } from '../components/Head/Head';
 
-const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: Signerica Fat;
-    src: url('/fonts/Signerica_Fat.ttf');
-  }
-
-  body {
-    font-family: 'Raleway', sans-serif;
-    background-color: #424657;
-    min-width: 100vw;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-
-  // mute reach-ui missing style warnings
-  :root {
-    --reach-menu-button: 1;
-    --reach-dialog: 1;
-  }
-`;
+const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 
 class Document extends NextDocument {
   static async getInitialProps(ctx) {
@@ -36,8 +22,7 @@ class Document extends NextDocument {
       ctx.renderPage = () => originalRenderPage({
         enhanceApp: (App) => (props) => sheet.collectStyles(
           <>
-            <Head />
-            <GlobalStyle />
+            <StaticHead />
             <App
             // eslint-disable-next-line react/jsx-props-no-spreading
               {...props}
@@ -63,6 +48,27 @@ class Document extends NextDocument {
     } finally {
       sheet.seal();
     }
+  }
+
+  render() {
+    return (
+      <Html lang="en" dir="ltr">
+        <Head />
+        <body>
+          <noscript>
+            <iframe
+              title="Google Analytics Manager"
+              src={`https://www.googletagmanager.com/ns.html?id=${GOOGLE_TAG_MANAGER_ID}`}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            />
+          </noscript>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
 

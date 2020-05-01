@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
 
+import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAComposerImpl from '../../components/NDA/NDAComposer';
 import { API } from '../../api';
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -36,10 +37,15 @@ const NDAComposer = (props) => {
   }
 
   return (
-    <NDAComposerImpl
-      user={props.user}
-      nda={nda}
-    />
+
+    <>
+      <PageTitle prepend="Compose – " />
+      <PageDescription />
+      <NDAComposerImpl
+        user={props.user}
+        nda={nda}
+      />
+    </>
   );
 };
 

@@ -2,10 +2,15 @@ import React from 'react';
 
 import { API } from '../../api';
 
+import { PageTitle, PageDescription } from '../../components/Head/Head';
 import DashboardImpl from '../../components/Dashboard/Dashboard';
 
 const Dashboard = ({ user, ndas, dashboardType }) => (
-  <DashboardImpl dashboardType={dashboardType} user={user} ndas={ndas} />
+  <>
+    <PageTitle prepend="Dashboard – " />
+    <PageDescription />
+    <DashboardImpl dashboardType={dashboardType} user={user} ndas={ndas} />
+  </>
 );
 
 Dashboard.getInitialProps = async (ctx) => {

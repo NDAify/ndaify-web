@@ -1,11 +1,16 @@
 import React from 'react';
 
 import { API } from '../../api';
+import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAImpl from '../../components/NDA/NDA';
 
 const NDA = (props) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <NDAImpl {...props} />
+  <>
+    <PageTitle />
+    <PageDescription />
+    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+    <NDAImpl {...props} />
+  </>
 );
 
 NDA.getInitialProps = async (ctx) => {

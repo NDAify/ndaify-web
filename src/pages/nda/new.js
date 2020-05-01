@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { API } from '../../api';
 
 import * as sessionStorage from '../../lib/sessionStorage';
+import { PageTitle, PageDescription } from '../../components/Head/Head';
 import SenderFormImpl from '../../components/SenderForm/SenderForm';
 
 const SenderForm = ({ user }) => {
@@ -20,7 +21,11 @@ const SenderForm = ({ user }) => {
   }
 
   return (
-    <SenderFormImpl user={user} nda={nda} />
+    <>
+      <PageTitle />
+      <PageDescription />
+      <SenderFormImpl user={user} nda={nda} />
+    </>
   );
 };
 

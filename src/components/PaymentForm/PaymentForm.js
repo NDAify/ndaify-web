@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import humps from 'humps';
 
@@ -161,16 +161,6 @@ const Dialog = styled.div`
   }
 `;
 
-const CardElement = styled(StripeCardElement)`
-  border-radius: 4px;
-  padding: 16px;
-  height: 60px;
-  width: 100%;
-  background: #FFFFFF;
-  box-sizing: border-box;
-`;
-
-
 const Divider = () => (
   <DividerContainer>
     <DividerLine />
@@ -214,7 +204,10 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
         // Stripe I'm lookin' at ya!
         cardPaymentPayload.payment_method.card = elements.getElement(StripeCardElement);
 
-        const cardPayment = await stripe.confirmCardPayment(paymentIntent.clientSecret, cardPaymentPayload);
+        const cardPayment = await stripe.confirmCardPayment(
+          paymentIntent.clientSecret,
+          cardPaymentPayload,
+        );
 
         if (cardPayment.error) {
           throw Error(`${cardPayment.error.message}`);

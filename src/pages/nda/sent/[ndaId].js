@@ -1,13 +1,18 @@
 import React from 'react';
 
 import { API } from '../../../api';
+import { PageTitle, PageDescription } from '../../../components/Head/Head';
 import SuccessViewImpl from '../../../components/SuccessMessage/SuccessMessage';
 
 const SuccessView = (props) => (
-  <SuccessViewImpl
-  // eslint-disable-next-line react/jsx-props-no-spreading
-    {...props}
-  />
+  <>
+    <PageTitle />
+    <PageDescription />
+    <SuccessViewImpl
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
+  </>
 );
 
 SuccessView.getInitialProps = async (ctx) => {

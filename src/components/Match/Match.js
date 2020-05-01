@@ -5,13 +5,13 @@ import * as pathToRegexp from 'path-to-regexp';
 const openingBrackets = /\[/g;
 const closingBrackets = /\]/g;
 
-const parameterizeDynamicPath = path => path.replace(openingBrackets, ':').replace(closingBrackets, '');
+const parameterizeDynamicPath = (path) => path.replace(openingBrackets, ':').replace(closingBrackets, '');
 
 const Match = (props) => {
   const router = useRouter();
 
   const regexp = useMemo(
-    () => pathToRegexp.pathToRegexp(parameterizeDynamicPath(props.href)), 
+    () => pathToRegexp.pathToRegexp(parameterizeDynamicPath(props.href)),
     [props.href],
   );
 

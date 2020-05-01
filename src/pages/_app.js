@@ -5,7 +5,9 @@ import { IntlProvider } from 'react-intl';
 import { positions, Provider as AlertProvider } from 'react-alert';
 import Router from 'next/router';
 
-import Head, { PageTitle } from '../components/Head/Head';
+import { createGlobalStyle } from 'styled-components';
+
+import Head from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
@@ -22,6 +24,28 @@ const MESSAGES = {
   'es-US': es,
   'es-MX': es,
 };
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: Signerica Fat;
+    src: url('/fonts/Signerica_Fat.ttf');
+  }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #424657;
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  // mute reach-ui missing style warnings
+  :root {
+    --reach-menu-button: 1;
+    --reach-dialog: 1;
+  }
+`;
 
 NProgress.configure({ showSpinner: false });
 
@@ -95,8 +119,8 @@ class App extends NextApp {
 
     return (
       <>
-        <PageTitle />
         <Head />
+        <GlobalStyle />
 
         <AlertProvider
           template={Alert}

@@ -10,6 +10,7 @@ import {
 import { API } from '../../api';
 
 import * as sessionStorage from '../../lib/sessionStorage';
+import { PageTitle, PageDescription } from '../../components/Head/Head';
 import PaymentFormImpl from '../../components/PaymentForm/PaymentForm';
 
 const { publicRuntimeConfig: { STRIPE_PUBLISHABLE_KEY } } = getConfig();
@@ -39,9 +40,13 @@ const PaymentForm = ({ user }) => {
   }
 
   return (
-    <Elements stripe={stripePromise} options={{ locale: 'auto' }}>
-      <PaymentFormImpl user={user} nda={nda} />
-    </Elements>
+    <>
+      <PageTitle />
+      <PageDescription />
+      <Elements stripe={stripePromise} options={{ locale: 'auto' }}>
+        <PaymentFormImpl user={user} nda={nda} />
+      </Elements>
+    </>
   );
 };
 
