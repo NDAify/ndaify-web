@@ -1,5 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import humps from 'humps';
+
+import {
+  CardElement as StripeCardElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 
 import {
   Formik,
@@ -17,6 +24,9 @@ import Footer from '../Footer/Footer';
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
+import StripeInput from '../Input/StripeInput';
+import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 const Container = styled.div`
   width: 100%;
@@ -61,7 +71,7 @@ const DialogTitle = styled.h3`
 const DialogLongText = styled.p`
   font-size: 16px;
   margin: 0;
-  margin-bottom: 2pc;
+  margin-bottom: 1pc;
   color: #ffffff;
   font-weight: 200;
 
@@ -86,39 +96,6 @@ const PaymentFormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-`;
-
-const PaymentFormRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  flex-direction: column;
-  height: 140px;
-
-  @media screen and (min-width: 992px) {
-    flex-direction: row;
-    height: auto;
-    margin: 0;
-    margin-bottom: 2pc;
-
-    :nth-of-type(3) {
-      margin-bottom: 0;
-    }
-  }
-`;
-
-const TwoColInputContainer = styled.div`
-  flex: 1;
-
-  :nth-child(2) {
-    margin-left: 0;
-  }
-
-  @media screen and (min-width: 992px) {
-    :nth-child(2) {
-      margin-left: 1pc;
-    }
-  }
 `;
 
 const DividerContainer = styled.div`
@@ -184,6 +161,16 @@ const Dialog = styled.div`
   }
 `;
 
+const CardElement = styled(StripeCardElement)`
+  border-radius: 4px;
+  padding: 16px;
+  height: 60px;
+  width: 100%;
+  background: #FFFFFF;
+  box-sizing: border-box;
+`;
+
+
 const Divider = () => (
   <DividerContainer>
     <DividerLine />
@@ -193,6 +180,9 @@ const Divider = () => (
 );
 
 const PaymentForm = ({ user, nda: ndaPayload }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
   const handleSubmit = async (
     values,
     {
@@ -205,7 +195,42 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     const api = new API();
 
     try {
-      const { nda } = await api.createNda(ndaPayload);
+      let paymentIntentId;
+
+      // User wants to donate!
+      if (!values.noPaymentReason && values.stripeEntry?.complete) {
+        const { paymentIntent } = await api.createPaymentIntent(values.amount /* in cents */, 'usd');
+
+        const cardPaymentPayload = humps.decamelizeKeys({
+          receiptEmail: user.metadata.linkedInProfile.emailAddress,
+          paymentMethod: {
+            billingDetails: {
+              name: values.nameOnCard,
+            },
+          },
+        });
+
+        // We can decamelize `card` so we have to live with that snake case,
+        // Stripe I'm lookin' at ya!
+        cardPaymentPayload.payment_method.card = elements.getElement(StripeCardElement);
+
+        const cardPayment = await stripe.confirmCardPayment(paymentIntent.clientSecret, cardPaymentPayload);
+
+        if (cardPayment.error) {
+          throw Error(`${cardPayment.error.message}`);
+        }
+
+        paymentIntentId = cardPayment.paymentIntent.id;
+      }
+
+      const { nda } = await api.createNda({
+        ...ndaPayload,
+        metadata: {
+          ...ndaPayload.metadata,
+          paymentIntentId,
+          noPaymentReason: values.noPaymentReason || null,
+        },
+      });
 
       Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`);
     } catch (error) {
@@ -214,7 +239,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
       setStatus({ errorMessage: error.message });
     }
   };
-  const onSubmit = useCallback(handleSubmit, []);
+  const onSubmit = useCallback(handleSubmit, [stripe, elements]);
 
   const handleCancelClick = () => {
     Router.replace('/');
@@ -222,12 +247,27 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
   };
   const onCancelClick = useCallback(handleCancelClick, []);
 
+  const handleFormValidate = (values) => {
+    const errors = {};
+    if (!values.noPaymentReason) {
+      if (!values.nameOnCard) {
+        errors.nameOnCard = 'Please enter name of the card holder';
+      } else if (values.stripeEntry?.error) {
+        errors.stripeEntry = values.stripeEntry?.error.message;
+      } else if (!values.stripeEntry?.complete) {
+        errors.noPaymentReason = 'Please provide a reason to skip payment';
+      }
+    }
+
+    return errors;
+  };
+  const onFormValidate = useCallback(handleFormValidate, []);
+
   const initialValues = {
-    nameOnCard: '',
-    cardNumber: '',
-    expiration: '',
-    cvc: '',
+    nameOnCard: getFullNameFromUser(user),
+    stripeEntry: null,
     noPaymentReason: '',
+    amount: 100, /* in cents */
   };
 
   return (
@@ -249,7 +289,12 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
           <DialogTitle>One last thing before delivery…</DialogTitle>
 
           <Dialog>
-            <DialogLongText>Hi Joe,</DialogLongText>
+            <DialogLongText>
+              Hi
+              {' '}
+              {user.metadata.linkedInProfile.firstName}
+              ,
+            </DialogLongText>
             <DialogLongText>
               It costs money to keep NDAify running. If you use the service and
               find it valuable, plese help me stay online by making a small
@@ -275,6 +320,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
         <PaymentFormContainer>
           <Formik
             initialValues={initialValues}
+            validate={onFormValidate}
             validateOnChange={false}
             validateOnBlur
             onSubmit={onSubmit}
@@ -288,54 +334,25 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
                     </ErrorMessage>
                   ) : null
                 }
-                <PaymentFormRow>
-                  <TwoColInputContainer>
-                    <FormikField
-                      as={Input}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="nameOnCard"
-                      placeholder="Name on card"
-                      spellCheck={false}
-                    />
-                  </TwoColInputContainer>
-                  <TwoColInputContainer>
-                    <FormikField
-                      as={Input}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="cardNumber"
-                      placeholder="Card Number"
-                      spellCheck={false}
-                    />
-                  </TwoColInputContainer>
-                </PaymentFormRow>
-                <PaymentFormRow>
-                  <TwoColInputContainer>
-                    <FormikField
-                      as={Input}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="expiration"
-                      placeholder="MM / YY"
-                      spellCheck={false}
-                    />
-                  </TwoColInputContainer>
-                  <TwoColInputContainer>
-                    <FormikField
-                      as={Input}
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      name="cvc"
-                      placeholder="CVC"
-                      spellCheck={false}
-                    />
-                  </TwoColInputContainer>
-                </PaymentFormRow>
+
+                <div style={{ marginBottom: '2pc' }}>
+                  <FormikField
+                    as={Input}
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    name="nameOnCard"
+                    placeholder="Name on card"
+                    spellCheck={false}
+                  />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="nameOnCard" component="div" />
+                </div>
+
+                <FormikField
+                  as={StripeInput}
+                  name="stripeEntry"
+                />
+                <FieldErrorMessage style={{ marginTop: '1pc' }} name="stripeEntry" component="div" />
 
                 <Divider />
 
@@ -349,17 +366,18 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
                     placeholder="I can’t pay because…"
                     spellCheck={false}
                   />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="noPaymentReason" component="div" />
                 </div>
 
                 <Total>Total $ 1.00</Total>
 
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !stripe || !elements}
                   style={{ backgroundColor: '#39d494' }}
-                  spin={isSubmitting}
+                  spin={isSubmitting || !stripe || !elements}
                 >
-                  Send
+                  Submit
                 </Button>
               </Form>
             )}

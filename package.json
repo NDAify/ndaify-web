@@ -5,6 +5,8 @@
   "dependencies": {
     "@reach/dialog": "^0.10.0",
     "@reach/menu-button": "^0.10.1",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.5.0",
     "@zeit/next-css": "^1.0.1",
     "accept-language-parser": "^1.5.0",
     "better-react-spinkit": "^2.0.4",

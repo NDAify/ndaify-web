@@ -22,5 +22,6 @@ module.exports = () => withCSS(withImages({
     COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 }));

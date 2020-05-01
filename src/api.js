@@ -34,6 +34,12 @@ export class InvalidSessionError extends APIError {
   }
 }
 
+export class RequestError extends APIError {
+  constructor(message = 'Bad Request', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
 const dev = process.env.NODE_ENV !== 'production';
 
 const { publicRuntimeConfig: { API_URL, COOKIE_DOMAIN, CANONICAL_URL } } = getConfig();
@@ -203,6 +209,10 @@ export const dispatch = (
       throw new EntityNotFoundError(data?.errorMessage, response.status, data);
     }
 
+    if (response.status === statuses('Bad Request')) {
+      throw new RequestError(data?.errorMessage, response.status, data);
+    }
+
     throw new APIError('Oops! Something went wrong. Try again later.', response.status, data);
   }
 
@@ -288,5 +298,13 @@ export class API {
   resendNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
     return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`)(this.ctx, sessionToken)();
+  }
+
+  createPaymentIntent(amount, currency) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    return dispatch(DISPATCH_METHOD.POST, 'payment-intents')(this.ctx, sessionToken)({
+      amount,
+      currency,
+    });
   }
 }
