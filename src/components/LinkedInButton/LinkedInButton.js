@@ -7,6 +7,14 @@ import LinkedInLogoIcon from './images/linkedInLogo.svg';
 
 const StyledButton = styled(Button)`
   padding: 0;
+
+  :focus {
+    svg {
+      path:nth-of-type(1) {
+        filter: brightness(90%);
+      }
+    }
+  }
 `;
 
 const LinkedInButtonContent = styled.div`
@@ -20,6 +28,7 @@ const LinkedInLogoWrapper = styled.div`
     width: 100%;
     height: 100%;
   }
+
   padding: 0;
   margin: 0;
   display: inline-flex;

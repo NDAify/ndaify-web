@@ -41,7 +41,7 @@ const Button = styled.button`
 }
 
   :focus {
-    background: #333333;
+    filter: brightness(90%);
     outline: -webkit-focus-ring-color auto 0px;
     outline-offset: 0px;
   }
