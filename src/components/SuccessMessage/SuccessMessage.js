@@ -6,6 +6,7 @@ import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
 const Container = styled.div`
   width: 100%;
@@ -60,6 +61,16 @@ const SucessMessage = styled.p`
   }
 `;
 
+const ProfileImage = styled.img`
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-right: 12px;
+`;
+
 const SuccessMessage = ({ user, nda }) => (
   <Container>
     {
@@ -67,11 +78,24 @@ const SuccessMessage = ({ user, nda }) => (
         <UserActionBanner
           user={user}
           actionButton={() => (
-            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-              <ButtonAnchor outline>
-                Dashboard
-              </ButtonAnchor>
-            </Link>
+            <>
+              <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                <ButtonAnchor
+                  outline
+                  style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                >
+                  <ProfileImage
+                    alt=""
+                    src={user.metadata.linkedInProfile.profilePicture}
+                  />
+                  <span>
+                    Dashboard
+                  </span>
+                </ButtonAnchor>
+              </Link>
+
+              <UserActionsDropdown user={user} />
+            </>
           )}
         />
       ) : null

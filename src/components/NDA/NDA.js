@@ -23,6 +23,8 @@ import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import SimpleDialog from '../Dialog/SimpleDialog';
+import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
+
 import { extractCompanyNameFromText } from './NDAComposer';
 
 import getFullNameFromUser from './getFullNameFromUser';
@@ -327,6 +329,16 @@ const DialogText = styled.p`
   line-height: 24px;
   padding-bottom: 16px;
   color: #FFFFFF;
+`;
+
+const ProfileImage = styled.img`
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-right: 12px;
 `;
 
 const NDAHeader = ({ nda, user }) => {
@@ -1110,11 +1122,24 @@ const NDA = ({ user, nda }) => {
         <UserActionBanner
           user={user}
           actionButton={() => (
-            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-              <ButtonAnchor outline>
-                Dashboard
-              </ButtonAnchor>
-            </Link>
+            <>
+              <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                <ButtonAnchor
+                  outline
+                  style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                >
+                  <ProfileImage
+                    alt=""
+                    src={user.metadata.linkedInProfile.profilePicture}
+                  />
+                  <span>
+                    Dashboard
+                  </span>
+                </ButtonAnchor>
+              </Link>
+
+              <UserActionsDropdown user={user} />
+            </>
           )}
         />
 
@@ -1130,11 +1155,24 @@ const NDA = ({ user, nda }) => {
       <UserActionBanner
         user={user}
         actionButton={() => (
-          <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-            <ButtonAnchor outline>
-              Dashboard
-            </ButtonAnchor>
-          </Link>
+          <>
+            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+              <ButtonAnchor
+                outline
+                style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+              >
+                <ProfileImage
+                  alt=""
+                  src={user.metadata.linkedInProfile.profilePicture}
+                />
+                <span>
+                  Dashboard
+                </span>
+              </ButtonAnchor>
+            </Link>
+
+            <UserActionsDropdown user={user} />
+          </>
         )}
       />
 

@@ -24,6 +24,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
+import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -160,6 +161,16 @@ const LinkedInButtonWrapper = styled.div`
   margin-bottom: 3pc;
 `;
 
+const ProfileImage = styled.img`
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-right: 12px;
+`;
+
 export const NDA_OPTIONS = [
   {
     label: 'One Way',
@@ -257,11 +268,24 @@ const SenderForm = ({ user, nda }) => {
           <UserActionBanner
             user={user}
             actionButton={() => (
-              <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-                <ButtonAnchor>
-                  Dashboard
-                </ButtonAnchor>
-              </Link>
+              <>
+                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                  <ButtonAnchor
+                    outline
+                    style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                  >
+                    <ProfileImage
+                      alt=""
+                      src={user.metadata.linkedInProfile.profilePicture}
+                    />
+                    <span>
+                      Dashboard
+                    </span>
+                  </ButtonAnchor>
+                </Link>
+
+                <UserActionsDropdown user={user} />
+              </>
             )}
           />
         ) : null
