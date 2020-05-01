@@ -24,29 +24,48 @@ const ButtonAnchor = styled.a`
 
   cursor: pointer;
 
+  :focus {
+    filter: brightness(90%);
+    outline: -webkit-focus-ring-color auto 0px;
+    outline-offset: 0px;
+  }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+
+  :visited {
+    color: ffffff;
+  }
+
   ${(props) => (props.color ? `background-color: ${props.color};` : '')}
   ${(props) => (props.disabled ? 'background-color: #aaaaaa;' : '')}
-  ${(props) => (props.outline ? `
+  ${(props) => (
+    props.outline ? `
       width: unset;
       height: 40px;
       background-color: transparent;
       border: 1px solid #ffffff;
-    ` : '')
-}
+
+      :focus {
+        filter: brightness(80%);
+      }
+    ` : ''
+  )}
   ${(props) => (props.compact ? `
       width: unset;
       height: 40px;
       border: 0;
-    ` : '')
-}
-
-  :focus {
-    outline: -webkit-focus-ring-color auto 5px;;
-    outline-offset: 0px;
-  }
+    ` : ''
+  )}
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
+
+  ${(props) => ((props.outline || props.compact) ? `
+    font-size: 20px;
+  ` : ''
+  )}
   }
 `;
 

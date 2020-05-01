@@ -86,7 +86,7 @@ const Footer = ({ withLogo }) => (
   <Container>
     {withLogo && (
       <FooterLogoContainer>
-        <Link href="/">
+        <Link passHref href="/">
           <a>
             <FooterLogoWrapper>
               <LogoWithTextIcon />

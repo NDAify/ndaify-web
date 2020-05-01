@@ -25,21 +25,6 @@ const Button = styled.button`
 
   cursor: pointer;
 
-  ${(props) => (props.color ? `background-color: ${props.color};` : '')}
-  ${(props) => (props.outline ? `
-      width: unset;
-      height: 40px;
-      background-color: transparent;
-      border: 1px solid #ffffff;
-    ` : '')
-}
-  ${(props) => (props.compact ? `
-      width: unset;
-      height: 40px;
-      border: 0;
-    ` : '')
-}
-
   :focus {
     filter: brightness(90%);
     outline: -webkit-focus-ring-color auto 0px;
@@ -50,17 +35,35 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 
+  ${(props) => (props.color ? `background-color: ${props.color};` : '')}
+
+  ${(props) => (
+    props.outline ? `
+      width: unset;
+      height: 40px;
+      background-color: transparent;
+      border: 1px solid #ffffff;
+
+      :focus {
+        filter: brightness(80%);
+      }
+    ` : ''
+  )}
+
+  ${(props) => (props.compact ? `
+      width: unset;
+      height: 40px;
+      border: 0;
+    ` : ''
+  )}
+
   @media screen and (min-width: 992px) {
     font-size: 24px;
 
-    ${(props) => {
-    if (props.outline || props.compact) {
-      return `
-          font-size: 20px;
-        `;
-    }
-    return '';
-  }};
+  ${(props) => ((props.outline || props.compact) ? `
+      font-size: 20px;
+    ` : ''
+  )}
   }
 `;
 

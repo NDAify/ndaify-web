@@ -7,7 +7,7 @@ const ActiveLink = ({ children, ...props }) => {
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Link {...props}>{children((props.as || props.href) === router.asPath)}</Link>
+    <Link passHref {...props}>{children((props.as || props.href) === router.asPath)}</Link>
   );
 };
 

@@ -123,7 +123,7 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
 const MenuLink = React.forwardRef(({
   children, href, routeAs, ...props
 }, ref) => (
-  <Link href={href} as={routeAs}>
+  <Link passHref href={href} as={routeAs}>
     <a
       ref={ref}
       // eslint-disable-next-line react/jsx-props-no-spreading

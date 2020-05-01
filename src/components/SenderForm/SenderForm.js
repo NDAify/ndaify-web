@@ -269,7 +269,7 @@ const SenderForm = ({ user, nda }) => {
             user={user}
             actionButton={() => (
               <>
-                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                   <ButtonAnchor
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}

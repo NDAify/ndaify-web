@@ -60,6 +60,11 @@ const StyledLink = styled.a`
   padding-bottom: 6px;
   border-bottom: ${({ active }) => active && '4px solid #EDD9A3'};
   cursor: pointer;
+  text-decoration: none;
+
+  :visited {
+    color: ffffff;
+  }
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -76,6 +81,7 @@ const ItemCardContainer = styled.a`
   border-radius: 4px;
   margin-bottom: 1pc;
   cursor: pointer;
+  text-decoration: none;
 
   ${(props) => (props.pending ? 'border-color: #EDD9A3;' : '')}
 `;
@@ -196,7 +202,7 @@ const NDA_STATUS_LABEL = {
 };
 
 const HistoryItem = ({ dashboardType, nda }) => (
-  <Link href="/nda/[ndaId]" as={`/nda/${nda.ndaId}`}>
+  <Link passHref href="/nda/[ndaId]" as={`/nda/${nda.ndaId}`}>
     <ItemCardContainer pending={nda.metadata.status === 'pending'}>
       <HistoryItemContainer>
         <HistoryTimeRow>
@@ -260,7 +266,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
         user={user}
         actionButton={() => (
           <>
-            <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+            <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               <ButtonAnchor
                 outline
                 style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -297,7 +303,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
               }
             </ActiveLink>
           </LinksContainer>
-          <Link href="/">
+          <Link passHref href="/">
             <ButtonAnchor outline>New</ButtonAnchor>
           </Link>
         </SigRow>

@@ -229,7 +229,7 @@ const Home = ({ user, showCustomNote = false }) => {
             user={user}
             actionButton={() => (
               <>
-                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                   <ButtonAnchor
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -326,7 +326,7 @@ const Home = ({ user, showCustomNote = false }) => {
               <FormCopy>
                 Or, go to
                 {' '}
-                <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                   <Anchor>dashboard</Anchor>
                 </Link>
                 {' '}
@@ -336,7 +336,7 @@ const Home = ({ user, showCustomNote = false }) => {
               <FormCopy>
                 Or,
                 {' '}
-                <Link href="/login">
+                <Link passHref href="/login">
                   <Anchor>log in</Anchor>
                 </Link>
                 {' '}

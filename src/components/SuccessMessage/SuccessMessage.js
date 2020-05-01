@@ -79,7 +79,7 @@ const SuccessMessage = ({ user, nda }) => (
           user={user}
           actionButton={() => (
             <>
-              <Link href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+              <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
                 <ButtonAnchor
                   outline
                   style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
@@ -117,7 +117,7 @@ const SuccessMessage = ({ user, nda }) => (
           {' '}
           views and/or accepts the NDA.
         </SucessMessage>
-        <Link href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
+        <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
           <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>

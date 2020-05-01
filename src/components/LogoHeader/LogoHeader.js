@@ -17,7 +17,7 @@ const LogoWithTextIconWrapper = styled.div`
 
 const LogoHeader = () => (
   <LogoContaier>
-    <Link href="/">
+    <Link passHref href="/">
       <a>
         <LogoWithTextIconWrapper>
           <LogoWithTextIcon />
