@@ -1738,7 +1738,6 @@ abbrev@1:
 accept-language-parser@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/accept-language-parser/-/accept-language-parser-1.5.0.tgz#8877c54040a8dcb59e0a07d9c1fde42298334791"
-  integrity sha1-iHfFQECo3LWeCgfZwf3kIpgzR5E=
 
 accepts@^1.3.5:
   version "1.3.7"
@@ -6618,6 +6617,10 @@ path-to-regexp@1.x:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.8.0.tgz#887b3ba9d84393e87a0a0b9f4cb756198b53548a"
   dependencies:
     isarray "0.0.1"
+
+path-to-regexp@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.1.0.tgz#0b18f88b7a0ce0bfae6a25990c909ab86f512427"
 
 path-type@^2.0.0:
   version "2.0.0"

@@ -24,6 +24,7 @@
     "next-images": "^1.4.0",
     "nookies": "^2.2.2",
     "nprogress": "^0.2.0",
+    "path-to-regexp": "^6.1.0",
     "react": "^16.13.1",
     "react-alert": "^7.0.0",
     "react-dom": "^16.13.1",
