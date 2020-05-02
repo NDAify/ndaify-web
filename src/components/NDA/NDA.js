@@ -624,7 +624,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
       {
         (
-          nda.metadata.status !== 'revoked'
+          nda.metadata.status === 'pending'
           && isNdaOwner(nda, user)
         ) ? (
           <ActionButtonWrapper>

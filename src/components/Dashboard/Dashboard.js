@@ -228,7 +228,7 @@ const HistoryItem = ({ dashboardType, nda }) => (
             ) : (
               <RecipientRow>
                 <HistoryItemTitle>Recipient</HistoryItemTitle>
-                <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail}>`}</RecipientInfoText>
+                <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail === 'void' ? nda.recipient.metadata.linkedInProfile.emailAddress : nda.recipientEmail}>`}</RecipientInfoText>
               </RecipientRow>
             )
           }
