@@ -21,6 +21,7 @@ module.exports = () => withCSS(withImages({
     API_URL: process.env.API_URL,
     CANONICAL_URL: process.env.CANONICAL_URL,
     COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
+    GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
