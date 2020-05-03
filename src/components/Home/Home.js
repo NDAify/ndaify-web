@@ -19,6 +19,7 @@ import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
+import Browser from '../Browser/Browser';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 
@@ -127,6 +128,59 @@ const ProfileImage = styled.img`
   margin-right: 12px;
 `;
 
+const PageSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.05);
+`;
+
+const PageSectionPane = styled.div`
+  flex: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 1pc;
+
+  width: 50%;
+  font-size: 20px;
+  font-weight: 200;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  span {
+    align-self: flex-end;
+    box-sizing: border-box;
+    margin-right: 1pc;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+    padding: 2pc;
+
+    span {
+      margin-right: 4pc;
+      width: 280px;
+    }
+  }
+`;
+
+const PageOverflowPane = styled.div`
+  flex: 1;
+  flex-basis: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 4pc;
+  padding-left: 0pc;
+
+  width: 50%;
+  height: 100%;
+`;
+
 const Home = ({ user, showCustomNote = false }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
@@ -169,7 +223,6 @@ const Home = ({ user, showCustomNote = false }) => {
 
   return (
     <Container>
-
       {
         user ? (
           <UserActionBanner
@@ -291,6 +344,23 @@ const Home = ({ user, showCustomNote = false }) => {
               </FormCopy>
             )
           }
+
+        </ContentContainer>
+      </PageContainer>
+
+      <PageSection>
+        <PageSectionPane>
+          <span>
+            Protect your assets behind an NDA-wall
+          </span>
+        </PageSectionPane>
+        <PageOverflowPane>
+          <Browser />
+        </PageOverflowPane>
+      </PageSection>
+
+      <PageContainer>
+        <ContentContainer>
           <Footer />
         </ContentContainer>
       </PageContainer>
