@@ -54,9 +54,9 @@ const Container = styled.div`
 const Disclaimer = styled.div`
   color: #aaaaaa;
   font-weight: 200;
-  fonr-size: 10px;
+  font-size: 12px;
   align-self: flex-end;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 `;
 
 const ButtonGroupContainer = styled.div`
@@ -133,7 +133,7 @@ const Description = ({ activeOption }) => {
           Golden Boy
         </Anchor>
         {' '}
-        or the drunk me.
+        for the drunk me.
       </DescriptionContainer>
     );
   }
@@ -208,7 +208,7 @@ const ButtonGroup = (props) => {
   return (
     <Container>
       <Disclaimer>
-        * Prices based on San Francisco cost of living
+        *Prices based on San Francisco cost of living
       </Disclaimer>
       <ButtonGroupContainer
         ref={innerRef}
