@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import Router from 'next/router';
 
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
+import Button from '../Clickable/Button';
 import HeartIcon from './images/heart.svg';
 import LogoIcon from './images/logo.svg';
 import productHuntLogo from './images/productHuntLogo.png';
@@ -57,6 +59,10 @@ const DialogText = styled.p`
   :first-of-type {
     margin-top: 0;
   }
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
 `;
 
 const Dialog = styled.div`
@@ -84,14 +90,25 @@ const Dialog = styled.div`
   }
 `;
 
-const CustomNote = ({ source = 'Product Hunt' }) => {
-  if (!source) {
+const StyledButton = styled(Button)`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+`;
+
+const CustomNote = ({ refSource }) => {
+  const handleClick = () => {
+    Router.push('/');
+  };
+  const onClick = useCallback(handleClick, []);
+
+  if (!refSource) {
     return null;
   }
 
   let sourceData;
 
-  if (source === 'Product Hunt') {
+  if (refSource === 'ph') {
     sourceData = {
       name: 'Product Hunt',
       people: 'Product Hunter',
@@ -99,7 +116,7 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
     };
   }
 
-  if (source === 'Y Combinator') {
+  if (refSource === 'hn') {
     sourceData = {
       name: 'Y Combinator',
       people: 'Hacker News Reader',
@@ -121,6 +138,7 @@ const CustomNote = ({ source = 'Product Hunt' }) => {
         </SourceLogoContainer>
         <DialogContainer>
           <Dialog>
+            <StyledButton outline onClick={onClick}>Close</StyledButton>
             <DialogText>
               Hey
               {' '}

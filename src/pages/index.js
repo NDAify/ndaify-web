@@ -1,17 +1,23 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { API } from '../api';
 
 import { PageTitle, PageDescription } from '../components/Head/Head';
 import IndexImpl from '../components/Home/Home';
 
-const Index = ({ user }) => (
-  <>
-    <PageTitle />
-    <PageDescription />
-    <IndexImpl user={user} />
-  </>
-);
+const Index = ({ user }) => {
+  const router = useRouter();
+  const refSource = router.query.ref;
+
+  return (
+    <>
+      <PageTitle />
+      <PageDescription />
+      <IndexImpl user={user} refSource={refSource} />
+    </>
+  );
+};
 
 Index.getInitialProps = async (ctx) => {
   const api = new API(ctx);

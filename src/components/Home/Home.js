@@ -181,7 +181,7 @@ const PageOverflowPane = styled.div`
   height: 100%;
 `;
 
-const Home = ({ user, showCustomNote = false }) => {
+const Home = ({ user, refSource }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);
@@ -254,7 +254,7 @@ const Home = ({ user, showCustomNote = false }) => {
       }
 
       {
-        showCustomNote && <CustomNote />
+        refSource ? (<CustomNote refSource={refSource} />) : null
       }
       <PageContainer>
         <LogoImageContainer>
