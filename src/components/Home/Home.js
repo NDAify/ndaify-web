@@ -22,6 +22,7 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Browser from '../Browser/Browser';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
+import NdaIcon from './images/nda.svg';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 
@@ -126,6 +127,25 @@ const ProfileImage = styled.img`
   height: 24px;
   border-radius: 24px;
   margin-right: 12px;
+`;
+
+const NdaInfoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3pc;
+
+  svg {
+    width: 140px;
+    margin-right: 2pc;
+  }
+`;
+
+const NDAInfoText = styled.span`
+  color: #EDD9A3;
+  font-size: 16px;
+  font-weight: 200;
+  max-width: 140px;
 `;
 
 const PageSection = styled.div`
@@ -346,6 +366,13 @@ const Home = ({ user, refSource }) => {
           }
 
         </ContentContainer>
+      </PageContainer>
+
+      <PageContainer>
+        <NdaInfoContainer>
+          <NdaIcon />
+          <NDAInfoText>43 NDAs were sent in the last 7 days</NDAInfoText>
+        </NdaInfoContainer>
       </PageContainer>
 
       <PageSection>
