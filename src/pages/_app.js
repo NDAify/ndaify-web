@@ -53,6 +53,7 @@ Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
 Router.events.on('routeChangeComplete', () => {
+  window.scrollTo(0, 0);
   NProgress.done();
 });
 Router.events.on('routeChangeError', () => NProgress.done());
