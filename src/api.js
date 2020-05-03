@@ -307,4 +307,8 @@ export class API {
       currency,
     });
   }
+
+  getNdaStatistics() {
+    return dispatch(DISPATCH_METHOD.GET, 'nda-statistics')(this.ctx, NO_SESSION)();
+  }
 }

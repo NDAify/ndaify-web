@@ -133,7 +133,7 @@ const NdaInfoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 3pc;
+  margin-bottom: 2pc;
 
   svg {
     width: 140px;
@@ -144,6 +144,7 @@ const NdaInfoContainer = styled.div`
 const NDAInfoText = styled.span`
   color: #EDD9A3;
   font-size: 16px;
+  line-height: 24px;
   font-weight: 200;
   max-width: 140px;
 `;
@@ -165,8 +166,7 @@ const PageSectionPane = styled.div`
   padding: 1pc;
 
   width: 50%;
-  font-size: 20px;
-  font-weight: 200;
+
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -176,15 +176,21 @@ const PageSectionPane = styled.div`
     align-self: flex-end;
     box-sizing: border-box;
     margin-right: 1pc;
+
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 200;
   }
 
   @media screen and (min-width: 768px) {
-    font-size: 24px;
     padding: 2pc;
 
     span {
       margin-right: 4pc;
       width: 280px;
+
+      font-size: 24px;
+      line-height: 32px;
     }
   }
 `;
@@ -201,7 +207,58 @@ const PageOverflowPane = styled.div`
   height: 100%;
 `;
 
-const Home = ({ user, refSource }) => {
+const FAQContainer = styled.div`
+  margin-top: 4pc;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 992px;
+  padding: 1pc;
+`;
+
+const FAQTitle = styled.div`
+  font-size: 20px;
+  color: #FFFFFF;
+  margin-bottom: 2pc;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+  }
+`;
+
+const FAQcontent = styled.div`
+  margin-top: 1pc;
+  margin-bottom: 2pc;
+  width: 100%;
+  font-size: 20px;
+  color: #FFFFFF;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+  }
+`;
+
+const FAQQuestion = styled.div`
+  font-size: 20px;
+  color: #FFFFFF;
+  margin-bottom: 1pc;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+  }
+`;
+
+const FAQAnswer = styled.div`
+  font-size: 20px;
+  color: #FFFFFF;
+  font-weight: 200;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+  }
+`;
+
+const Home = ({ user, ndaStatistics, refSource }) => {
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);
@@ -365,15 +422,18 @@ const Home = ({ user, refSource }) => {
             )
           }
 
+          <NdaInfoContainer>
+            <NdaIcon />
+            <NDAInfoText>
+              {ndaStatistics.sum7days}
+              {' '}
+              NDAs were sent in the last 7 days
+            </NDAInfoText>
+          </NdaInfoContainer>
+
         </ContentContainer>
       </PageContainer>
 
-      <PageContainer>
-        <NdaInfoContainer>
-          <NdaIcon />
-          <NDAInfoText>43 NDAs were sent in the last 7 days</NDAInfoText>
-        </NdaInfoContainer>
-      </PageContainer>
 
       <PageSection>
         <PageSectionPane>
@@ -385,6 +445,24 @@ const Home = ({ user, refSource }) => {
           <Browser />
         </PageOverflowPane>
       </PageSection>
+
+      <FAQContainer>
+        <FAQTitle>Frequently asked questions</FAQTitle>
+
+        <FAQcontent>
+          <FAQQuestion>Can I add a new NDA?</FAQQuestion>
+          <FAQAnswer>No. This is the whole point of NDAify. We want to have a standard text that everyone’s familiar with as to how they’re protected by being a party to it.</FAQAnswer>
+        </FAQcontent>
+        <FAQcontent>
+          <FAQQuestion>Can I amend the NDA?</FAQQuestion>
+          <FAQAnswer>You can’t currently make ammendments to the NDA.</FAQAnswer>
+        </FAQcontent>
+        <FAQcontent>
+          <FAQQuestion>How much does NDAify cost?</FAQQuestion>
+          <FAQAnswer>NDAify is <b>free</b>. If and only if you think it adds value, you can consider supporting the project on Github Sponsorships.</FAQAnswer>
+        </FAQcontent>
+      </FAQContainer>
+
 
       <PageContainer>
         <ContentContainer>
