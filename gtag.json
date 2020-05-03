@@ -1,0 +1,158 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2020-05-03 20:54:45",
+    "containerVersion": {
+        "path": "accounts/6001093902/containers/31279164/versions/1",
+        "accountId": "6001093902",
+        "containerId": "31279164",
+        "containerVersionId": "1",
+        "name": "add google analytics",
+        "container": {
+            "path": "accounts/6001093902/containers/31279164",
+            "accountId": "6001093902",
+            "containerId": "31279164",
+            "name": "ndaify.com",
+            "publicId": "GTM-KT6XSZS",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1588538339460",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6001093902/containers/31279164/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "tagId": "5",
+                "name": "Google Analytics - Universal Analytics",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{GOOGLE_ANALYTICS_TRACKING_ID}}"
+                    }
+                ],
+                "fingerprint": "1588538923480",
+                "firingTriggerId": [
+                    "4"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "triggerId": "4",
+                "name": "Client Side Navigation",
+                "type": "HISTORY_CHANGE",
+                "fingerprint": "1588538919924"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "variableId": "3",
+                "name": "GOOGLE_ANALYTICS_TRACKING_ID",
+                "type": "gas",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieDomain",
+                        "value": "auto"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-165425745-1"
+                    }
+                ],
+                "fingerprint": "1588538959666"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "type": "PAGE_URL",
+                "name": "Page URL"
+            },
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "type": "PAGE_HOSTNAME",
+                "name": "Page Hostname"
+            },
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "type": "PAGE_PATH",
+                "name": "Page Path"
+            },
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "type": "REFERRER",
+                "name": "Referrer"
+            },
+            {
+                "accountId": "6001093902",
+                "containerId": "31279164",
+                "type": "EVENT",
+                "name": "Event"
+            }
+        ],
+        "fingerprint": "1588539028779",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6001093902/containers/31279164/versions/1?apiLink=version"
+    }
+}
