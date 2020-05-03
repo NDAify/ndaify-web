@@ -70,7 +70,8 @@ export const StaticHead = () => (
 const Head = withRouter((props) => (
   <NextHead>
     <meta charSet="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+
     <meta name="theme-color" content="#424657" />
 
     <link rel="shortcut icon" href="images/favicon.png" />

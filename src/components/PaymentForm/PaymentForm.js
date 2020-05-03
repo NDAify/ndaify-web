@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import humps from 'humps';
+import { FormattedNumber } from 'react-intl';
 
 import {
   CardElement as StripeCardElement,
@@ -26,6 +27,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import StripeInput from '../Input/StripeInput';
+import PaymentAmountButtonGroup, { DOLLAR_IN_CENTS } from '../Input/PaymentAmountButtonGroup';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 const Container = styled.div`
@@ -161,6 +163,8 @@ const Dialog = styled.div`
   }
 `;
 
+const CURRENCY = 'USD';
+
 const Divider = () => (
   <DividerContainer>
     <DividerLine />
@@ -189,7 +193,10 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
 
       // User wants to donate!
       if (!values.noPaymentReason && values.stripeEntry?.complete) {
-        const { paymentIntent } = await api.createPaymentIntent(values.amount /* in cents */, 'usd');
+        const { paymentIntent } = await api.createPaymentIntent(
+          values.paymentAmount /* in cents */,
+          CURRENCY,
+        );
 
         const cardPaymentPayload = humps.decamelizeKeys({
           receiptEmail: user.metadata.linkedInProfile.emailAddress,
@@ -260,7 +267,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     nameOnCard: getFullNameFromUser(user),
     stripeEntry: null,
     noPaymentReason: '',
-    amount: 100, /* in cents */
+    paymentAmount: 5 * DOLLAR_IN_CENTS, /* in cents */
   };
 
   return (
@@ -318,7 +325,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
             validateOnBlur
             onSubmit={onSubmit}
           >
-            {({ status, isSubmitting }) => (
+            {({ values, status, isSubmitting }) => (
               <Form>
                 {
                   status ? (
@@ -327,6 +334,14 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
                     </ErrorMessage>
                   ) : null
                 }
+
+                <div style={{ marginBottom: '2pc' }}>
+                  <FormikField
+                    as={PaymentAmountButtonGroup}
+                    name="paymentAmount"
+                  />
+                  <FieldErrorMessage style={{ marginTop: '1pc' }} name="paymentAmount" component="div" />
+                </div>
 
                 <div style={{ marginBottom: '2pc' }}>
                   <FormikField
@@ -362,7 +377,16 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
                   <FieldErrorMessage style={{ marginTop: '1pc' }} name="noPaymentReason" component="div" />
                 </div>
 
-                <Total>Total $ 1.00</Total>
+                <Total>
+                  Total
+                  {' '}
+                  <FormattedNumber
+                    value={values.paymentAmount / DOLLAR_IN_CENTS}
+                    // eslint-disable-next-line react/style-prop-object
+                    style="currency"
+                    currency={CURRENCY}
+                  />
+                </Total>
 
                 <Button
                   type="submit"

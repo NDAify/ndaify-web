@@ -5,7 +5,7 @@ import { useField } from 'formik';
 
 const CardElement = styled(StripeCardElement)`
   border-radius: 4px;
-  padding: 16px;
+  padding: 18px;
   height: 60px;
   width: 100%;
   background: #FFFFFF;
@@ -20,7 +20,7 @@ const cardStyle = {
       fontFamily: 'Raleway, sans-serif',
       fontWeight: '200',
       fontSmoothing: 'antialiased',
-      fontSize: '24px',
+      fontSize: '20px',
       ':-webkit-autofill': {
         color: '#5cbfc8',
       },
