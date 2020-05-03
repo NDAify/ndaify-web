@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import {
-  useSpring, animated as a, interpolate, useTransition,
+  useSpring, animated, interpolate, useTransition,
 } from 'react-spring';
 
 import NDAImpl from '../NDA/NDA';
@@ -91,17 +91,13 @@ const BrowserInner = styled.div`
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   box-sizing: border-box;
-  
   overflow: hidden;
   transform: translateZ(40px);
 `;
 
-const NDA = styled.div`
+const NDAContainer = styled(animated.div)`
   width: 956px;
-
   pointer-events: none; 
-
-  transform: scale(.6);
   transform-origin: top left;
 `;
 
@@ -156,27 +152,23 @@ const user = {
 };
 
 const Browser = () => {
-  const [{ srollY }, setScrollY] = useSpring(() => ({
-    srollY: 0,
+  const [{ scrollY }, setScrollY] = useSpring(() => ({
+    scrollY: 0,
   }));
+
+  const interpScroll = scrollY.interpolate(
+    [0,  500,  900, 99999], 
+    [50,   0, -780, -780]
+  ).interpolate(
+    (innerPageY) => `scale(.6) translateY(${innerPageY}px)`,
+  );
 
   const [{ tiltAngleX, tiltAngleY }, setTilt] = useState({
     tiltAngleX: 0,
     tiltAngleY: -30,
-    // tiltAngleX: 0,
-    // tiltAngleY: 0,
   });
 
-  const handleScroll = (event) => {
-    setScrollY({ srollY: window.scrollY });
-
-    // TODO interpolate scrollY to titltX and tiltY
-
-    // setTilt({
-    //   tiltAngleX: -15,
-    //   tiltAngleY: -15,
-    // })
-  };
+  const handleScroll = (event) => void setScrollY({ scrollY: window.scrollY });
   const onScroll = useCallback(handleScroll, []);
 
   useEffect(() => {
@@ -205,14 +197,18 @@ const Browser = () => {
         </BrowserToolbar>
         <BrowserWindow>
           <BrowserInner>
-            <NDA>
+            <NDAContainer
+              style={{
+                transform: interpScroll,
+              }}
+            >
 
               <NDAImpl
                 user={user}
                 nda={nda}
               />
 
-            </NDA>
+            </NDAContainer>
           </BrowserInner>
         </BrowserWindow>
       </BrowserFrame>
