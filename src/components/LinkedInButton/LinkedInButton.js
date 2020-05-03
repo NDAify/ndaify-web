@@ -25,8 +25,7 @@ const LinkedInButtonContent = styled.div`
 
 const LinkedInLogoWrapper = styled.div`
   svg {
-    width: 100%;
-    height: 100%;
+    width: 64px;
   }
 
   padding: 0;
