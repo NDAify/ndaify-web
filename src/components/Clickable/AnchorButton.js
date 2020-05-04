@@ -23,4 +23,6 @@ const AnchorButton = styled.button`
   }
 `;
 
-export default AnchorButton;
+export default (props) => (
+  <AnchorButton type="button" {...props} />
+);

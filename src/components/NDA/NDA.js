@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import getConfig from 'next/config';
 import Router, { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
 
 import Link from 'next/link';
-
 
 import {
   Formik,
@@ -83,9 +82,11 @@ const SigRow = styled.div`
   flex-direction: column;
   height: 300px;
   justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: 3pc;
 
   @media screen and (min-width: 992px) {
+    align-items: stretch;
     flex-direction: row;
     height: auto;
   }
@@ -95,8 +96,9 @@ const PartyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 280px;
+  max-width: 400px;
   flex: 1;
-  align-items: center;
+  align-items: flex-start;
 
   :first-of-type {
     margin-bottom: 3pc;
@@ -106,6 +108,7 @@ const PartyWrapper = styled.div`
     align-items: flex-start;
     padding-left: 3pc;
     padding-right: 3pc;
+    max-width: auto;
 
     :first-of-type {
       padding-left: 0;
@@ -518,6 +521,8 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const [isResendDialogOpen, setResendDialogOpen] = useState(false);
   const [isResending, setResending] = useState(false);
 
+  const [isDetailDialogOpen, setDetailDialogOpen] = useState(false);
+
   const handleDeclineNda = async () => {
     setDeclining(true);
 
@@ -600,9 +605,13 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const onResendClick = useCallback(handleResendClick);
 
   const handleDownlaodClick = async () => {
-    // alert('Not Implemented');
   };
   const onDownloadClick = useCallback(handleDownlaodClick);
+
+  const handleDetailClick = async () => {
+    setDetailDialogOpen(true);
+  };
+  const onDetailClick = useCallback(handleDetailClick);
 
   return (
     <>
@@ -610,6 +619,14 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
         nda.metadata.status === 'signed' ? (
           <ActionButtonWrapper>
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
+              <Button
+                compact
+                color="#7254B7"
+                onClick={onDetailClick}
+              >
+                Details
+              </Button>
+
               <Button
                 compact
                 color="#7254B7"
@@ -666,6 +683,43 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
           </ActionButtonWrapper>
           ) : null
       }
+
+      <SimpleDialog show={isDetailDialogOpen}>
+        <DialogTitle>
+          Details
+        </DialogTitle>
+        <DialogText>
+          Sender: {'Julia Qiu <julia@juliaqiu.com>'}
+          <br />
+          Recipient: {'Jake Murzy <jake@murzy.com>'}
+          <br />
+          Delivered: <FormattedTime
+            year="numeric"
+            month="long"
+            day="numeric"
+            value={nda.createdAt}
+          />
+          <br />
+          Action: Signed on Date at Time
+          <br />
+          IP Address: 127.0.0.1
+          <br />
+          User Agent: Chrome
+          <br />
+          NDA Version: 4ca57fe4-8e52-11ea-8d3e-3f1bd62619aa
+        </DialogText>
+        <DialogFooter>
+          <DialogButton
+            outline
+            disabled={false}
+            onClick={() => {
+              setDetailDialogOpen(false);
+            }}
+          >
+            Dismiss
+          </DialogButton>
+        </DialogFooter>
+      </SimpleDialog>
 
       <SimpleDialog show={isDeclineDialogOpen}>
         <DialogTitle>

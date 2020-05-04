@@ -382,10 +382,10 @@ const SenderForm = ({ user, nda }) => {
                         <ErrorMessage style={{ marginTop: '1pc' }} color="#fff">
                           Did you mean
                           <AnchorButton
+                            type="button"
                             style={{
                               marginLeft: '6px',
                             }}
-                            type="button"
                             onClick={() => {
                               setFieldValue('recipientEmail', suggestedEmail, true);
                               setSuggestedEmail(null);

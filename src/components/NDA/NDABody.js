@@ -235,7 +235,7 @@ const NDA = ({
         <NDAReadMoreText>
           To read all terms,
           {' '}
-          <AnchorButton>click here</AnchorButton>
+          <AnchorButton type="button" onClick={() => { alert('Not Implemented'); }}>click here</AnchorButton>
           .
         </NDAReadMoreText>
       </NDAReadMoreContainer>
