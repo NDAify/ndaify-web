@@ -7,9 +7,11 @@ import {
   DialogContent as ReachDialogContent,
 } from '@reach/dialog';
 
-import { Transition } from 'react-spring/renderprops.cjs';
+import {
+  animated, useTransition,
+} from 'react-spring';
 
-const DialogOverlay = styled(ReachDialogOverlay)`
+const AnimatedDialogOverlay = animated(styled(ReachDialogOverlay)`
   background: hsla(0, 0%, 0%, 0.8);
   position: fixed;
   top: 0;
@@ -17,9 +19,9 @@ const DialogOverlay = styled(ReachDialogOverlay)`
   bottom: 0;
   left: 0;
   overflow: auto;
-`;
+`);
 
-const DialogContent = styled(ReachDialogContent)`
+const AnimatedDialogContent = animated(styled(ReachDialogContent)`
   width: 80vw;
   margin: 10vh auto;
   padding-top: 36px;
@@ -43,41 +45,42 @@ const DialogContent = styled(ReachDialogContent)`
   @media only screen and (min-width: 1200px) {
     width: 40vw;
   }
-`;
+`);
 
-const SimpleDialog = (props) => (
-  <Transition
-    items={props.show}
-    from={{ opacity: 0, y: -5 }}
-    enter={{ opacity: 1, y: 0 }}
-    leave={{}}
-    onStart={(item) => {
-      // skip the initial event when the Transition mounts
-      if (item) {
-        NProgress.start();
+const SimpleDialog = (props) => {
+  const transitions = useTransition(props.show, null, {
+    from: { opacity: 0, transform: `translate3d(0px, -5px, 0px)` },
+    enter: { opacity: 1, transform: `translate3d(0px, 0px, 0px)` },
+    leave: { opacity: 0, transform: `translate3d(0px, -5px, 0px)` },
+    onStart: (item, key) => {
+      if (
+        process.browser
+        && key === 'enter'
+        && !NProgress.isStarted()
+      ) {
+        NProgress.done(true)
       }
-    }}
-    onRest={() => NProgress.done()}
-  >
-    {
-      ((show) => show && (({ y, opacity }) => (
-        <DialogOverlay
+    },
+  });
+
+  return transitions.map((transition) =>
+  transition.item && (
+      <AnimatedDialogOverlay
+        style={{
+          opacity: transition.props.opacity,
+        }}
+      >
+        <AnimatedDialogContent
+          aria-label="Dialog"
           style={{
-            opacity,
+            transform: transition.props.transform,
           }}
         >
-          <DialogContent
-            aria-label="Confirmation Dialog"
-            style={{
-              transform: `translate3d(0px, ${y}px, 0px)`,
-            }}
-          >
-            {props.children}
-          </DialogContent>
-        </DialogOverlay>
-      )))
-    }
-  </Transition>
-);
+          {props.children}
+        </AnimatedDialogContent>
+      </AnimatedDialogOverlay>
+    )
+  );
+};
 
 export default SimpleDialog;

@@ -10,7 +10,7 @@
     "@zeit/next-css": "^1.0.1",
     "accept-language-parser": "^1.5.0",
     "better-react-spinkit": "^2.0.4",
-    "cookie": "^0.4.0",
+    "cookie": "^0.4.1",
     "cross-fetch": "^3.0.4",
     "email-providers": "^1.9.0",
     "formik": "^2.1.4",
@@ -20,7 +20,7 @@
     "koa-helmet": "^5.2.0",
     "koa-router": "^8.0.8",
     "lodash.debounce": "^4.0.8",
-    "next": "9.3.5",
+    "next": "9.3.6",
     "next-images": "^1.4.0",
     "nookies": "^2.2.2",
     "nprogress": "^0.2.0",
@@ -28,7 +28,7 @@
     "react": "^16.13.1",
     "react-alert": "^7.0.0",
     "react-dom": "^16.13.1",
-    "react-intl": "^4.4.0",
+    "react-intl": "^4.5.1",
     "react-sane-contenteditable": "^1.6.1",
     "react-spring": "^8.0.27",
     "react-waypoint": "^9.0.2",
@@ -62,6 +62,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "jest": "^25.3.0"
+    "jest": "^25.5.4"
   }
 }
