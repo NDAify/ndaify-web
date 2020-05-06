@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
+import { timeout } from '../../util';
+
 const Wrapper = styled.div`
   transition: all 1500ms cubic-bezier(.03,.98,.52,.99);
   will-change: transform;
@@ -21,7 +23,6 @@ const getElementCoords = (element) => {
   };
 };
 
-const timeout = (t) => new Promise((resolve) => setTimeout(() => resolve(), t));
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
 const calculateTilt = (xPercentage, yPercentage, maxTiltAngeX, maxTiltAngeY) => ({
