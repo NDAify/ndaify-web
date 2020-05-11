@@ -465,6 +465,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           <FAQQuestion>How much does NDAify cost?</FAQQuestion>
           <FAQAnswer>
             NDAify is
+            {' '}
             <b>free</b>
             . If and only if you think it adds value, you can consider supporting the project
             {' '}

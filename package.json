@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=12.16.2"
+    "node": ">=12.16.3"
   },
   "dependencies": {
     "@reach/dialog": "^0.10.0",
