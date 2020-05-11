@@ -1,4 +1,11 @@
-import { useEffect, useState, useCallback, createContext, useContext, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+  useMemo,
+} from 'react';
 
 const context = createContext();
 
@@ -6,7 +13,7 @@ const prefersDark = '(prefers-color-scheme: dark)';
 
 export const useSystemAppearance = () => {
   const [appearance, setAppearance] = useState(
-    () => window.matchMedia(prefersDark).matches ? 'dark' : 'light',
+    () => (window.matchMedia(prefersDark).matches ? 'dark' : 'light'),
   );
 
   useEffect(() => {
@@ -18,7 +25,7 @@ export const useSystemAppearance = () => {
     darkQuery.addListener(onChange);
     return () => {
       darkQuery.removeListener(onChange);
-    }
+    };
   }, [setAppearance]);
 
   return appearance;
@@ -38,7 +45,7 @@ export const ThemeProvider = ({ children, initialTheme }) => {
       document.body.classList.replace(theme, preference);
     } else if (preference) {
       document.body.classList.add(preference);
-    } else {
+    } else if (theme) {
       document.body.classList.remove(theme);
     }
 
@@ -54,11 +61,8 @@ export const ThemeProvider = ({ children, initialTheme }) => {
       {children}
     </context.Provider>
   );
-}
+};
 
-const useTheme = () => {
-  return useContext(context);
-}
+const useTheme = () => useContext(context);
 
 export default useTheme;
-

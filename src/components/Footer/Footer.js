@@ -107,7 +107,7 @@ const Footer = ({ withLogo }) => {
           </Link>
         </FooterLogoContainer>
       )}
-  
+
       <FootetTextWrapper>
         <FooterText>
           Powered by 25% sweet no ice coconut green tea with oat milk & boba.
@@ -124,42 +124,44 @@ const Footer = ({ withLogo }) => {
           </a>
         </FooterText>
       </FootetTextWrapper>
-  
+
       <FootetTextWrapper>
         <FooterText>
-          current theme: {theme}
+          current theme:
+          {' '}
+          {theme}
         </FooterText>
-        
-        <Button 
-         compact
-         color="var(--ndaify-accents-info)"
+
+        <Button
+          compact
+          color="var(--ndaify-accents-info)"
           onClick={() => {
-            setTheme('dark')
+            setTheme('dark');
           }}
         >
           dark
         </Button>
 
-        <Button 
-         compact
-         color="var(--ndaify-accents-info)"
+        <Button
+          compact
+          color="var(--ndaify-accents-info)"
           onClick={() => {
-            setTheme('light')
+            setTheme('light');
           }}
         >
           light
         </Button>
-        <Button 
-         compact
-         color="var(--ndaify-accents-info)"
+        <Button
+          compact
+          color="var(--ndaify-accents-info)"
           onClick={() => {
-            setTheme(null)
+            setTheme(null);
           }}
         >
           system
         </Button>
       </FootetTextWrapper>
-  
+
       <Disclaimer>
         NDAify is not a law firm, does not provide legal services or advice, and
         does not provide or participate in legal representation. Singing the NDA

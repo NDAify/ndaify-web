@@ -614,7 +614,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const onDownloadClick = useCallback(handleDownlaodClick);
 
   const handleDetailClick = async () => {
-      setDetailDialogOpen(true);
+    setDetailDialogOpen(true);
   };
   const onDetailClick = useCallback(handleDetailClick);
 
@@ -694,11 +694,17 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
           Details
         </DialogTitle>
         <DialogText>
-          Sender: {'Julia Qiu <julia@juliaqiu.com>'}
+          Sender:
+          {' '}
+          {'Julia Qiu <julia@juliaqiu.com>'}
           <br />
-          Recipient: {'Jake Murzy <jake@murzy.com>'}
+          Recipient:
+          {' '}
+          {'Jake Murzy <jake@murzy.com>'}
           <br />
-          Delivered: <FormattedTime
+          Delivered:
+          {' '}
+          <FormattedTime
             year="numeric"
             month="long"
             day="numeric"

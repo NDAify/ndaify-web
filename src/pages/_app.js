@@ -66,7 +66,7 @@ const lightVars = `
   --ndaify-user-action-bg: #BDD8D3;
   --ndaify-link-color: var(--ndaify-fg);
   --ndaify-signature-line: var(--ndaify-accents-8);
-  --ndaify-portal-opacity: 0.8
+  --ndaify-portal-opacity: 0.8;
 `;
 
 const darkVars = `
@@ -108,7 +108,7 @@ const darkVars = `
   --ndaify-user-action-bg: #5dbfc8;
   --ndaify-link-color: var(--ndaify-fg);
   --ndaify-signature-line: #F1E65D;
-  --ndaify-portal-opacity: 0.8
+  --ndaify-portal-opacity: 0.8;
 `;
 
 const themeVars = `
@@ -218,9 +218,9 @@ class App extends NextApp {
     // eslint-disable-next-line no-console
     console.info(process.browser ? 'Browser' : 'Server', 'locale is set to', locale);
 
-    let theme = null;
-    let lang = 'en';
-    let dir = 'ltr';
+    let theme;
+    const lang = 'en';
+    const dir = 'ltr';
 
     return {
       errorPageProps,

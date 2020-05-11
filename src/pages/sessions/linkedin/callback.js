@@ -5,7 +5,7 @@ import {
   API, redirect, isSafeToRedirect, InvalidSessionError,
 } from '../../../api';
 import { getOrigin } from '../../../util';
-import createXForwardedFor from './utils/createXForwardedFor';
+import createXForwardedFor from '../../../utils/createXForwardedFor';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
 const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';

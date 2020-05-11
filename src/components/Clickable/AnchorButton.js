@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const AnchorButton = styled.button`
@@ -20,5 +21,6 @@ const AnchorButton = styled.button`
 `;
 
 export default (props) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
   <AnchorButton type="button" {...props} />
 );

@@ -82,7 +82,7 @@ const ButtonSpinner = styled(Spinner)`
 
 export default ({ children, spin, ...rest }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <Button {...rest}>
+  <Button type="button" {...rest}>
     {
       spin ? (
         <ButtonSpinner color="var(--ndaify-button-fg)" size={14} />

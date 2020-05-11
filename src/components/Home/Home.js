@@ -451,7 +451,11 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
         <FAQcontent>
           <FAQQuestion>Can I add a new NDA?</FAQQuestion>
-          <FAQAnswer>No. This is the whole point of NDAify. We want to have a standard text that everyone’s familiar with as to how they’re protected by being a party to it.</FAQAnswer>
+          <FAQAnswer>
+            No. This is the whole point of NDAify. We want to have a standard
+            {' '}
+            text that everyone’s familiar with as to how they’re protected by being a party to it.
+          </FAQAnswer>
         </FAQcontent>
         <FAQcontent>
           <FAQQuestion>Can I amend the NDA?</FAQQuestion>
@@ -459,13 +463,19 @@ const Home = ({ user, ndaStatistics, refSource }) => {
         </FAQcontent>
         <FAQcontent>
           <FAQQuestion>How much does NDAify cost?</FAQQuestion>
-          <FAQAnswer>NDAify is <b>free</b>. If and only if you think it adds value, you can consider supporting the project on Github Sponsorships.</FAQAnswer>
+          <FAQAnswer>
+            NDAify is
+            <b>free</b>
+            . If and only if you think it adds value, you can consider supporting the project
+            {' '}
+            on Github Sponsorships.
+          </FAQAnswer>
         </FAQcontent>
       </FAQContainer>
 
 
       <PageContainer>
-      <ContentContainer>
+        <ContentContainer>
           <Footer />
         </ContentContainer>
       </PageContainer>

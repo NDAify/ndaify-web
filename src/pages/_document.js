@@ -51,12 +51,9 @@ class Document extends NextDocument {
   }
 
   render() {
-    const {
-      lang,
-      dir,
-      theme,
-    } = this.props.__NEXT_DATA__.props;
-      
+    // eslint-disable-next-line no-underscore-dangle
+    const { lang, dir, theme } = this.props.__NEXT_DATA__.props;
+
     return (
       <Html lang={lang} dir={dir}>
         <Head />

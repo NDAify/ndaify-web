@@ -1,10 +1,8 @@
 import React, {
-  useCallback, useEffect, useRef, useState, useLayoutEffect,
+  useCallback, useEffect, useState,
 } from 'react';
 import styled from 'styled-components';
-import {
-  useSpring, animated, interpolate, useTransition,
-} from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 
 import NDAImpl from '../NDA/NDA';
 
@@ -157,18 +155,19 @@ const Browser = () => {
   }));
 
   const interpScroll = scrollY.interpolate(
-    [0,  500,  900, 99999], 
-    [50,   0, -780, -780]
+    [0, 500, 900, 99999],
+    [50, 0, -780, -780],
   ).interpolate(
     (innerPageY) => `scale(.6) translateY(${innerPageY}px)`,
   );
 
-  const [{ tiltAngleX, tiltAngleY }, setTilt] = useState({
+  const [{ tiltAngleX, tiltAngleY }] = useState({
     tiltAngleX: 0,
     tiltAngleY: -30,
   });
 
-  const handleScroll = (event) => void setScrollY({ scrollY: window.scrollY });
+  // eslint-disable-next-line no-void
+  const handleScroll = () => void setScrollY({ scrollY: window.scrollY });
   const onScroll = useCallback(handleScroll, []);
 
   useEffect(() => {
@@ -177,10 +176,11 @@ const Browser = () => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [onScroll]);
 
+  // TODO
   // useLayoutEffect(() => {
-    // perform measurements here to calc a more accurate input to interpScroll
+  // perform measurements here to calc a more accurate input to interpScroll
   // }, []);
 
   return (

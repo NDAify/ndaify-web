@@ -49,38 +49,36 @@ const AnimatedDialogContent = animated(styled(ReachDialogContent)`
 
 const SimpleDialog = (props) => {
   const transitions = useTransition(props.show, null, {
-    from: { opacity: 0, transform: `translate3d(0px, -5px, 0px)` },
-    enter: { opacity: 1, transform: `translate3d(0px, 0px, 0px)` },
-    leave: { opacity: 0, transform: `translate3d(0px, -5px, 0px)` },
+    from: { opacity: 0, transform: 'translate3d(0px, -5px, 0px)' },
+    enter: { opacity: 1, transform: 'translate3d(0px, 0px, 0px)' },
+    leave: { opacity: 0, transform: 'translate3d(0px, -5px, 0px)' },
     onStart: (item, key) => {
       if (
         process.browser
         && key === 'enter'
         && !NProgress.isStarted()
       ) {
-        NProgress.done(true)
+        NProgress.done(true);
       }
     },
   });
 
-  return transitions.map((transition) =>
-  transition.item && (
-      <AnimatedDialogOverlay
-        style={{
-          opacity: transition.props.opacity,
-        }}
-      >
-        <AnimatedDialogContent
-          aria-label="Dialog"
-          style={{
-            transform: transition.props.transform,
-          }}
-        >
-          {props.children}
-        </AnimatedDialogContent>
-      </AnimatedDialogOverlay>
-    )
-  );
+  return transitions.map((transition) => transition.item && (
+  <AnimatedDialogOverlay
+    style={{
+      opacity: transition.props.opacity,
+    }}
+  >
+    <AnimatedDialogContent
+      aria-label="Dialog"
+      style={{
+        transform: transition.props.transform,
+      }}
+    >
+      {props.children}
+    </AnimatedDialogContent>
+  </AnimatedDialogOverlay>
+  ));
 };
 
 export default SimpleDialog;
