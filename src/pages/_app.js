@@ -18,7 +18,7 @@ import '../css/nprogress.css';
 
 import es from '../langs/es.json';
 
-import { ThemeProvider } from '../lib/useTheme';
+import { ThemeProvider, getTheme } from '../lib/useTheme';
 
 const MESSAGES = {
   es,
@@ -218,7 +218,7 @@ class App extends NextApp {
     // eslint-disable-next-line no-console
     console.info(process.browser ? 'Browser' : 'Server', 'locale is set to', locale);
 
-    let theme;
+    const theme = getTheme(ctx);
     const lang = 'en';
     const dir = 'ltr';
 

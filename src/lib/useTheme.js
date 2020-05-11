@@ -7,6 +7,8 @@ import React, {
   useMemo,
 } from 'react';
 
+import { setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS } from '../lib/cookies';
+
 const context = createContext();
 
 const prefersDark = '(prefers-color-scheme: dark)';
@@ -31,6 +33,10 @@ export const useSystemAppearance = () => {
   return appearance;
 };
 
+export const getTheme = (ctx) => {
+  return getCookie(ctx, 'theme', BASE_COOKIE_OPTIONS);
+}
+
 export const ThemeProvider = ({ children, initialTheme }) => {
   const [theme, setTheme] = useState(
     () => initialTheme,
@@ -47,6 +53,12 @@ export const ThemeProvider = ({ children, initialTheme }) => {
       document.body.classList.add(preference);
     } else if (theme) {
       document.body.classList.remove(theme);
+    }
+
+    if (preference) {
+      setCookie(null, 'theme', preference, BASE_COOKIE_OPTIONS);
+    } else {
+      destroyCookie(null, 'theme', BASE_COOKIE_OPTIONS);
     }
 
     setTheme(preference);

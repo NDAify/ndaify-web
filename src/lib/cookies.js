@@ -1,7 +1,15 @@
 import { parse } from 'cookie';
 import { parseCookies as parseRequestCookies } from 'nookies';
+import getConfig from 'next/config';
 
 export { setCookie, destroyCookie } from 'nookies';
+
+const { publicRuntimeConfig: { COOKIE_DOMAIN } } = getConfig();
+
+export const BASE_COOKIE_OPTIONS = {
+  path: '/',
+  domain: COOKIE_DOMAIN,
+};
 
 const cookieStringFromSetCookie = (cookies = []) => cookies.map((cookie) => {
   const [keyValuePart] = cookie.split(';');
@@ -18,13 +26,13 @@ const parseResponseCookies = (ctx, options) => {
   return responseCookies;
 };
 
-export const getCookie = (ctx, name) => {
+export const getCookie = (ctx, name, options) => {
   // Parse cookies in response header in case we dispatch requests to endpoints
   // that require authentication (i.e. sessionToken) in the same request as the
   // one that's setting the cookie. In that case the cookie will not be available
   // in the requestCookies as it has not been returned from the client in the
   // cookie header.
-  const responseCookies = parseResponseCookies(ctx);
+  const responseCookies = parseResponseCookies(ctx, options);
 
   const requestCookies = parseRequestCookies(ctx);
   return responseCookies[name] || requestCookies[name];

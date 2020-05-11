@@ -5,7 +5,7 @@ import getConfig from 'next/config';
 import statuses from 'statuses';
 import Router from 'next/router';
 
-import { getCookie, setCookie, destroyCookie } from './lib/cookies';
+import { getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS } from './lib/cookies';
 import { toQueryString, BaseError } from './util';
 
 export class APIError extends BaseError {
@@ -42,19 +42,14 @@ export class RequestError extends APIError {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { publicRuntimeConfig: { API_URL, COOKIE_DOMAIN, CANONICAL_URL } } = getConfig();
+const { publicRuntimeConfig: { API_URL, CANONICAL_URL } } = getConfig();
 
 const REDIRECT_WHITELIST = [
   CANONICAL_URL,
 ];
 
-const COOKIE_OPTIONS = {
-  path: '/',
-  domain: COOKIE_DOMAIN,
-};
-
 const SESSION_TOKEN_COOKIE_OPTIONS = {
-  ...COOKIE_OPTIONS,
+  ...BASE_COOKIE_OPTIONS,
   // TODO make session cookie httpOnly
   httpOnly: false,
   secure: !dev,
@@ -256,22 +251,22 @@ export class API {
   }
 
   getSession() {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   tryGetSession() {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
 
   createNda(nda) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, 'ndas', { headers: this.headers })(this.ctx, sessionToken)(nda);
   }
 
   getNda(ndaId) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
@@ -280,17 +275,17 @@ export class API {
   }
 
   getNdas() {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'ndas', { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   acceptNda(ndaId) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   revokeNda(ndaId) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
@@ -299,12 +294,12 @@ export class API {
   }
 
   resendNda(ndaId) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   createPaymentIntent(amount, currency) {
-    const sessionToken = getCookie(this.ctx, 'sessionToken');
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, 'payment-intents', { headers: this.headers })(this.ctx, sessionToken)({
       amount,
       currency,
