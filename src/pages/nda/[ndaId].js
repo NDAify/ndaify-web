@@ -20,7 +20,7 @@ NDA.getInitialProps = async (ctx) => {
     throw new Error('Missing NDA ID');
   }
 
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   let user;
   try {

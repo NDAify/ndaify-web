@@ -50,7 +50,7 @@ const NDAComposer = (props) => {
 };
 
 NDAComposer.getInitialProps = async (ctx) => {
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   const { user } = await api.getSession();
 

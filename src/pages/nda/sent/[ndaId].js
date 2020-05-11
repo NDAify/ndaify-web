@@ -18,7 +18,7 @@ const SuccessView = (props) => (
 SuccessView.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   const [
     { user },

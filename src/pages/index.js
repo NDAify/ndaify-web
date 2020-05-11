@@ -28,7 +28,7 @@ const Index = ({ user, ndaStatistics }) => {
 let NDA_STATS_CACHE = {};
 
 Index.getInitialProps = async (ctx) => {
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   let user;
   try {

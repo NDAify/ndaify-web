@@ -30,7 +30,7 @@ const SenderForm = ({ user }) => {
 };
 
 SenderForm.getInitialProps = async (ctx) => {
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   let user;
   try {

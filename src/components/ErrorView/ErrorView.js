@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Footer from '../Footer/Footer';
+import { PageTitle } from '../Head/Head';
 
 const Container = styled.div`
   width: 100%;
@@ -28,15 +29,19 @@ const PageContainer = styled.div`
 `;
 
 const ErrorView = ({ statusCode, errorMessage }) => (
-  <Container>
-    <PageContainer>
-      <ErrorMessage color="#FF0000" style={{ marginTop: '3pc' }}>
-        {`${statusCode} - ${errorMessage}`}
-      </ErrorMessage>
+  <>
+    <PageTitle prepend={`${statusCode} — `} />
 
-      <Footer withLogo />
-    </PageContainer>
-  </Container>
+    <Container>
+      <PageContainer>
+        <ErrorMessage color="#FF0000" style={{ marginTop: '3pc' }}>
+          {`${statusCode} - ${errorMessage}`}
+        </ErrorMessage>
+
+        <Footer withLogo />
+      </PageContainer>
+    </Container>
+  </>
 );
 
 export default ErrorView;

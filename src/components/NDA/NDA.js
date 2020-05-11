@@ -953,7 +953,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
     return (
       <SigRow>
         <PartyWrapper>
-          <SignatureHolder name={null} />
+          <SignatureHolder />
           <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
           {
             recipientCompanyName ? (
@@ -963,7 +963,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
         </PartyWrapper>
 
         <PartyWrapper>
-          <SignatureHolder name={ownerFullName} />
+          <SignatureHolder fullName={ownerFullName} />
           <NDAPartyName>{ownerFullName}</NDAPartyName>
           {
             ownerCompanyName ? (
@@ -987,7 +987,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
     return (
       <SigRow>
         <PartyWrapper>
-          <SignatureHolder name={null} />
+          <SignatureHolder />
           <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
           {
             recipientCompanyName ? (
@@ -997,7 +997,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
         </PartyWrapper>
 
         <PartyWrapper>
-          <SignatureHolder name={null} />
+          <SignatureHolder />
           <NDAPartyName>{ownerFullName}</NDAPartyName>
           {
             ownerCompanyName ? (
@@ -1021,7 +1021,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
     return (
       <SigRow>
         <PartyWrapper>
-          <SignatureHolder name={nda.metadata.recipientFullName} />
+          <SignatureHolder fullName={nda.metadata.recipientFullName} />
           <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
           {
             recipientCompanyName ? (
@@ -1031,7 +1031,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
         </PartyWrapper>
 
         <PartyWrapper>
-          <SignatureHolder name={ownerFullName} />
+          <SignatureHolder fullName={ownerFullName} />
           <NDAPartyName>{ownerFullName}</NDAPartyName>
           {
             ownerCompanyName ? (
@@ -1077,7 +1077,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
             </PartyWrapper>
 
             <PartyWrapper>
-              <SignatureHolder name={ownerFullName} />
+              <SignatureHolder fullName={ownerFullName} />
               <NDAPartyName>{ownerFullName}</NDAPartyName>
               {
                 ownerCompanyName ? (
@@ -1097,7 +1097,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
         ) : (
           <SigRow>
             <PartyWrapper>
-              <SignatureHolder name={null} />
+              <SignatureHolder />
               <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
               {
                 recipientCompanyName ? (
@@ -1106,7 +1106,7 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
               }
             </PartyWrapper>
             <PartyWrapper>
-              <SignatureHolder name={ownerFullName} />
+              <SignatureHolder fullName={ownerFullName} />
               <NDAPartyName>{ownerFullName}</NDAPartyName>
               {
                 ownerCompanyName ? (

@@ -14,7 +14,7 @@ const Dashboard = ({ user, ndas, dashboardType }) => (
 );
 
 Dashboard.getInitialProps = async (ctx) => {
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   const { dashboardType } = ctx.query;
 

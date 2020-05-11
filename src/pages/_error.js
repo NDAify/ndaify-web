@@ -3,7 +3,6 @@ import statuses from 'statuses';
 
 import ErrorViewImpl from '../components/ErrorView/ErrorView';
 
-// TODO(jmurzy) Error page title
 // TODO(jmurzy) Generate a static 404 page:
 // (https://err.sh/next.js/custom-error-no-custom-404)
 const ErrorView = ({ statusCode, errorMessage }) => (

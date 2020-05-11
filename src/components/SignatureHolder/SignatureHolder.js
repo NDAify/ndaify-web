@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import parseFullName from '../../utils/parseFullName';
+
 const SignatureHolderContaine = styled.div`
   width: 100%;
   border-bottom: 2px solid #f1e65d;
@@ -32,8 +34,18 @@ const Signature = styled.span`
   }
 `;
 
-const getSignature = (firstName, lastName) => {
-  if ((firstName.length + lastName.length) > 10) {
+const getSignatureName = (fullName, maxSignatureLength = 10) => {
+  if (!fullName) {
+    return null;
+  }
+
+  const { firstName, lastName } = parseFullName(fullName);
+
+  if (!lastName) {
+    return firstName;
+  }
+
+  if (firstName.length + lastName.length > maxSignatureLength) {
     const [firstNameInitial] = firstName;
 
     return `${firstNameInitial}. ${lastName}`;
@@ -42,21 +54,16 @@ const getSignature = (firstName, lastName) => {
   return `${firstName} ${lastName}`;
 };
 
-const SignatureHolder = ({ name }) => {
-  let firstName;
-  let lastName;
-
-  if (name) {
-    [firstName, lastName] = name.split(' ');
-  }
+const SignatureHolder = ({ fullName }) => {
+  const signatureName = getSignatureName(fullName);
 
   return (
     <SignatureHolderContaine>
       <SignatureIndicator>X</SignatureIndicator>
       <SignatureWrapper>
         {
-          firstName || lastName ? (
-            <Signature>{getSignature(firstName, lastName)}</Signature>
+          signatureName ? (
+            <Signature>{signatureName}</Signature>
           ) : null
         }
       </SignatureWrapper>

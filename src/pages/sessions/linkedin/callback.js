@@ -5,6 +5,7 @@ import {
   API, redirect, isSafeToRedirect, InvalidSessionError,
 } from '../../../api';
 import { getOrigin } from '../../../util';
+import createXForwardedFor from './utils/createXForwardedFor';
 
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
 const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';
@@ -12,7 +13,27 @@ const OAUTH_ERROR_UNAUTHORIZED_SCOPE_ERROR = 'unauthorized_scope_error';
 
 const ACTIONS = {
   sign(ctx, ndaId) {
-    const api = new API(ctx);
+    const userAgent = ctx.req.headers['user-agent'];
+    const xForwardedFor = ctx.req.headers['x-forwarded-for'];
+
+    // fly: user_ip, front_container_ip, front_container_ip, api_container_ip
+    // exptected user_ip, fly_proxy_web_ip, front_container_ip, fly_proxy_api_ip
+    // exptected origin , proxy           , origin(proxy)     , proxy
+
+    // fly: user_ip, front_container_ip, front_container_ip, api_container_ip
+    // 136.24.31.143, 77.83.142.173, ((147.75.68.87)), 77.83.142.225
+
+    const headers = {
+      'x-forwarded-for': createXForwardedFor(
+        xForwardedFor,
+        ctx.res.socket.remoteAddress,
+        ctx.res.socket.localAddress,
+      ),
+      'x-forwarded-for-user-agent': userAgent,
+    };
+
+    const api = new API({ ctx, headers });
+
     return api.acceptNda(ndaId);
   },
 };
@@ -55,7 +76,7 @@ class Callback extends Component {
         throw new Error('Oops! Something went wrong. Please try again later.');
       }
 
-      const api = new API(ctx);
+      const api = new API({ ctx });
 
       const CALLBACK_URL_LINKEDIN = `${getOrigin(ctx.req)}/sessions/linkedin/callback`;
 

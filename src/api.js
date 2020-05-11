@@ -161,6 +161,7 @@ export const dispatch = (
     response = await get(
       endpoint,
       {
+        ...config.headers,
         Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
         'Content-Type': 'application/json',
       },
@@ -172,6 +173,7 @@ export const dispatch = (
     response = await post(
       endpoint,
       {
+        ...config.headers,
         Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
         'Content-Type': 'application/json',
       },
@@ -220,16 +222,17 @@ export const dispatch = (
 };
 
 export class API {
-  constructor(ctx) {
+  constructor({ ctx, headers } = {}) {
     if (!process.browser && !ctx) {
       throw new Error('`ctx` is required on server');
     }
 
     this.ctx = ctx;
+    this.headers = headers;
   }
 
   async startSessionByOAuth(authorizationCode, oauthState, oauthRedirectUri) {
-    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { noRedirect: true })(this.ctx, NO_SESSION)({
+    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)({
       code: authorizationCode,
       state: oauthState,
       redirectUri: oauthRedirectUri,
@@ -254,61 +257,61 @@ export class API {
 
   getSession() {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.GET, 'sessions')(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   tryGetSession() {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.GET, 'sessions', { noRedirect: true })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
 
   createNda(nda) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, 'ndas')(this.ctx, sessionToken)(nda);
+    return dispatch(DISPATCH_METHOD.POST, 'ndas', { headers: this.headers })(this.ctx, sessionToken)(nda);
   }
 
   getNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`)(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   getNdaPreview(ndaId) {
-    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`)(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`, { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   getNdas() {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.GET, 'ndas')(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'ndas', { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   acceptNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`)(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   revokeNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`)(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   declineNda(ndaId) {
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/decline`)(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/decline`, { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   resendNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`)(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   createPaymentIntent(amount, currency) {
     const sessionToken = getCookie(this.ctx, 'sessionToken');
-    return dispatch(DISPATCH_METHOD.POST, 'payment-intents')(this.ctx, sessionToken)({
+    return dispatch(DISPATCH_METHOD.POST, 'payment-intents', { headers: this.headers })(this.ctx, sessionToken)({
       amount,
       currency,
     });
   }
 
   getNdaStatistics() {
-    return dispatch(DISPATCH_METHOD.GET, 'nda-statistics')(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, 'nda-statistics', { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 }

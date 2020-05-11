@@ -51,7 +51,7 @@ const PaymentForm = ({ user }) => {
 };
 
 PaymentForm.getInitialProps = async (ctx) => {
-  const api = new API(ctx);
+  const api = new API({ ctx });
 
   const { user } = await api.getSession();
 
