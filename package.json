@@ -2,6 +2,9 @@
   "name": "ndaify-frotnend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=12.16.2"
+  },
   "dependencies": {
     "@reach/dialog": "^0.10.0",
     "@reach/menu-button": "^0.10.1",
