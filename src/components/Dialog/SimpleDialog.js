@@ -12,7 +12,7 @@ import {
 } from 'react-spring';
 
 const AnimatedDialogOverlay = animated(styled(ReachDialogOverlay)`
-  background: hsla(0, 0%, 0%, 0.8);
+  background: hsla(0, 0%, 0%, var(--ndaify-portal-opacity));
   position: fixed;
   top: 0;
   right: 0;
@@ -29,10 +29,10 @@ const AnimatedDialogContent = animated(styled(ReachDialogContent)`
   padding-right: 36px;
   padding-left: 36px;
   outline: none;
-  background: #383B49;
-  border: 1px solid #424657;
+  background: var(--ndaify-bg);
+  border: 1px solid var(--ndaify-accents-4);
   box-shadow: 0 20px 100px -20px rgba(50,50,93,0.25), 0 -18px 60px -10px rgba(0,0,0,0.02);
-  border-radius: 8px;
+  border-radius: var(--ndaify-accents-radius-2);
 
   @media only screen and (min-width: 768px) {
     width: 60vw;

@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useRef, useState,
+  useCallback, useEffect, useRef, useState, useLayoutEffect,
 } from 'react';
 import styled from 'styled-components';
 import {
@@ -78,7 +78,7 @@ const BrowserToolbarAddressBar = styled.div`
 const BrowserWindow = styled.div`
   width: 100%;
   height: 466px;
-  background: #424657;
+  background: var(--ndaify-bg);
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   box-sizing: border-box;
@@ -178,6 +178,10 @@ const Browser = () => {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
+
+  // useLayoutEffect(() => {
+    // perform measurements here to calc a more accurate input to interpScroll
+  // }, []);
 
   return (
     <InteractiveBrowser

@@ -62,8 +62,10 @@ const run = async () => {
   koaApp.use(koaRouter.routes());
 
   const server = koaApp.listen(PORT, () => {
+    const { address, port } = server.address();
+
     // eslint-disable-next-line no-console
-    console.log(`> Ready on http://localhost:${PORT} with ${os.cpus().length} CPUs.`);
+    console.log(`> Ready on http://${address}:${port} with ${os.cpus().length} CPUs.`);
   });
 
   const handleGracefulTermination = (signal) => () => {

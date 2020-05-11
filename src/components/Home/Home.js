@@ -67,7 +67,7 @@ const LogoImageContainer = styled.div`
 `;
 
 const CopyTitle = styled.h3`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 28px;
   font-weight: 200;
   margin: 0;
@@ -80,7 +80,7 @@ const CopyTitle = styled.h3`
 
 const CopyText = styled.span`
   font-size: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   padding-bottom: 5pc;
 
   @media screen and (min-width: 992px) {
@@ -89,12 +89,12 @@ const CopyText = styled.span`
 `;
 
 const FreeText = styled.span`
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 const Subtitle = styled.h3`
   font-size: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   margin-bottom: 2pc;
 
@@ -110,7 +110,7 @@ const InputContainer = styled.div`
 const FormCopy = styled.h4`
   font-size: 20px;
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin: 0;
   margin-bottom: 3pc;
 
@@ -142,7 +142,7 @@ const NdaInfoContainer = styled.div`
 `;
 
 const NDAInfoText = styled.span`
-  color: #EDD9A3;
+  color: var(--ndaify-accents-9);
   font-size: 16px;
   line-height: 24px;
   font-weight: 200;
@@ -167,7 +167,7 @@ const PageSectionPane = styled.div`
 
   width: 50%;
 
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -218,7 +218,7 @@ const FAQContainer = styled.div`
 
 const FAQTitle = styled.div`
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
   margin-bottom: 2pc;
 
   @media screen and (min-width: 768px) {
@@ -231,7 +231,7 @@ const FAQcontent = styled.div`
   margin-bottom: 2pc;
   width: 100%;
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 768px) {
     font-size: 24px;
@@ -240,7 +240,7 @@ const FAQcontent = styled.div`
 
 const FAQQuestion = styled.div`
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
   margin-bottom: 1pc;
 
   @media screen and (min-width: 768px) {
@@ -250,7 +250,7 @@ const FAQQuestion = styled.div`
 
 const FAQAnswer = styled.div`
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 768px) {
@@ -389,7 +389,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
                 <Button
                   type="submit"
-                  color="#39d494"
+                  color="var(--ndaify-accents-success)"
                   spin={isSubmitting}
                 >
                   Continue
@@ -465,7 +465,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
 
       <PageContainer>
-        <ContentContainer>
+      <ContentContainer>
           <Footer />
         </ContentContainer>
       </PageContainer>

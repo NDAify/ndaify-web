@@ -14,7 +14,11 @@ import { NDA_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 import CalendarIcon from './images/calendar.svg';
-import RightArrowIcon from './images/rightArrow.svg';
+import RightArrow from './images/rightArrow.svg';
+
+const RightArrowIcon = styled(RightArrow)`
+  color: var(--ndaify-accents-9);
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -54,16 +58,16 @@ const LinksContainer = styled.div`
 
 const StyledLink = styled.a`
   font-size: 20px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   margin-right: 2pc;
   padding-bottom: 6px;
-  border-bottom: ${({ active }) => active && '4px solid #EDD9A3'};
+  border-bottom: ${({ active }) => active && '4px solid var(--ndaify-accents-9)'};
   cursor: pointer;
   text-decoration: none;
 
   :visited {
-    color: ffffff;
+    color: var(--ndaify-fg);
   }
 
   @media screen and (min-width: 992px) {
@@ -78,12 +82,12 @@ const HistoryList = styled.div`
 const ItemCardContainer = styled.a`
   display: flex;
   border: 1px solid #4E5263;
-  border-radius: 4px;
+  border-radius: var(--ndaify-accents-radius-1);
   margin-bottom: 1pc;
   cursor: pointer;
   text-decoration: none;
 
-  ${(props) => (props.pending ? 'border-color: #EDD9A3;' : '')}
+  ${(props) => (props.pending ? 'border-color: var(--ndaify-accents-9);' : '')}
 `;
 
 const RightArrowContainer = styled.div`
@@ -125,7 +129,7 @@ const CalendarIconWrapper = styled.div`
 
 const EmptyHistoryList = styled.span`
   font-size: 20px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 700;
 
   @media screen and (min-width: 992px) {
@@ -135,7 +139,7 @@ const EmptyHistoryList = styled.span`
 
 const HistoryTimeText = styled.span`
   font-size: 20px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -149,7 +153,7 @@ const RecipientRow = styled.div`
 
 const HistoryItemTitle = styled.div`
   font-size: 16px;
-  color: #9B9B9B;
+  color: var(--ndaify-accents-6);
   width: 100%;
   line-height: 32px;
 `;
@@ -157,7 +161,7 @@ const HistoryItemTitle = styled.div`
 const RecipientInfoText = styled.div`
   display: block;
   font-size: 20px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -181,7 +185,7 @@ const StatusContainer = styled.div`
 `;
 
 const StatusText = styled(RecipientInfoText)`
-  color: #EDD9A3;
+  color: var(--ndaify-accents-9);
 `;
 
 const ProfileImage = styled.img`

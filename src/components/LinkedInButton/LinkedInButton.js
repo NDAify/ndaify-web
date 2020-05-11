@@ -40,7 +40,7 @@ const ButtonText = styled.span`
 
 const LinkedInButton = ({ children, ...otherProps }) => (
   <StyledButton
-    color="#0F96CC"
+    color="var(--ndaify-accents-secondary)"
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...otherProps}
   >

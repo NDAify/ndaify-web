@@ -1,14 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import CloseIcon from './images/close.svg';
+import CloseImg from './images/close.svg';
+
+const CloseIcon = styled(CloseImg)`
+  color: var(--ndaify-accents-0);
+`;
 
 const Container = styled.div`
-  background-color: #FFFFFF;
-  color: #424657;
+  background-color: var(--ndaify-fg);
+  color: var(--ndaify-accents-0);
   padding: 8px;
   padding-left: 12px;
-  border-radius: 4px;
+  border-radius: var(--ndaify-accents-radius-1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,7 +36,6 @@ const CloseButton = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: #FFFFFF;
 `;
 
 const Alert = ({

@@ -18,9 +18,13 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import * as sessionStorage from '../../lib/sessionStorage';
 import { timeout } from '../../util';
 
-import HideIcon from './images/hide.svg';
+import HideImg from './images/hide.svg';
 
 import getFullNameFromUser from './getFullNameFromUser';
+
+const HideIcon = styled(HideImg)`
+  color: var(--ndaify-fg);
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -99,7 +103,7 @@ const PartyWrapper = styled.div`
 const NDAPartyName = styled.span`
   font-size: 16px;
   margin-top: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -110,7 +114,7 @@ const NDAPartyName = styled.span`
 const NDAPartyOrganization = styled.span`
   font-size: 16px;
   line-height: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -120,7 +124,7 @@ const NDAPartyOrganization = styled.span`
 
 const NDASenderDisclaimer = styled.span`
   font-size: 12px;
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   margin-top: 8px;
   line-heitgh: 20px;
 `;
@@ -132,7 +136,7 @@ const AttachmentTitle = styled.h4`
   font-size: 28px;
   font-weight: 200;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 2pc;
 
   @media screen and (min-width: 992px) {
@@ -167,7 +171,7 @@ const HideIconWrapper = styled.div`
 `;
 
 const DocumentUrl = styled.a`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 20px;
   word-wrap: break-word;
   font-weight: 200;
@@ -183,7 +187,7 @@ const DocumentUrl = styled.a`
 
 const DescriptionTitle = styled.h4`
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-size: 20px;
   margin: 0;
   margin-bottom: 2pc;
@@ -196,7 +200,7 @@ const DescriptionTitle = styled.h4`
 const DisclaimerTitle = styled.h4`
   font-size: 20px;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 2pc;
 
   @media screen and (min-width: 992px) {
@@ -206,7 +210,7 @@ const DisclaimerTitle = styled.h4`
 
 const BoldText = styled.span`
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 const NDADisclaimerWrapper = styled.div`
@@ -224,7 +228,7 @@ const DisclaimerBody = styled.h4`
   margin: 0;
   margin-bottom: 4pc;
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -314,7 +318,7 @@ const NDAComposer = ({ user, nda }) => {
         actionButton={() => (
           <Button
             compact
-            color="#dc564a"
+            color="var(--ndaify-accents-danger)"
             onClick={onDiscardButtonClick}
           >
             Discard
@@ -390,7 +394,7 @@ const NDAComposer = ({ user, nda }) => {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        style={{ backgroundColor: '#4AC09A' }}
+                        style={{ backgroundColor: 'var(--ndaify-accents-success)' }}
                         spin={isSubmitting}
                       >
                         Sign

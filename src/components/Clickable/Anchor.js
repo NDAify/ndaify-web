@@ -11,12 +11,12 @@ const Anchor = styled.a`
   border: none;
   text-decoration: underline;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--ndaify-accents-8);
   cursor: pointer;
   transition: none;
 
   :visited {
-    color: #ffffff;
+    color: var(--ndaify-accents-8);
   }
 
   @media screen and (min-width: 992px) {

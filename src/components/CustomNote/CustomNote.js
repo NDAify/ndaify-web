@@ -4,10 +4,14 @@ import Router from 'next/router';
 
 import CreatorInfo from '../CreatorInfo/CreatorInfo';
 import Button from '../Clickable/Button';
-import HeartIcon from './images/heart.svg';
+import Heart from './images/heart.svg';
 import LogoIcon from './images/logo.svg';
 import productHuntLogo from './images/productHuntLogo.png';
 import yCombinatorLogo from './images/yCombinatorLogo.png';
+
+const HeartIcon = styled(Heart)`
+  color: var(--ndaify-fg);
+`;
 
 const Container = styled.div`
   display: flex;
@@ -54,7 +58,7 @@ const DialogText = styled.p`
   font-weight: 200;
   margin: 0;
   margin-top: 1pc;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
 
   :first-of-type {
     margin-top: 0;
@@ -68,8 +72,8 @@ const DialogText = styled.p`
 const Dialog = styled.div`
   height: 100%;
   position: relative;
-  background-color: #383B49;
-  border-radius: 4px;
+  background-color: var(--ndaify-bg-overlay);
+  border-radius: var(--ndaify-accents-radius-1);
   line-height: 28px;
   padding: 2pc;
   margin-bottom: 2pc;
@@ -82,7 +86,7 @@ const Dialog = styled.div`
     width: 0;
     height: 0;
     border: 12px solid transparent;
-    border-top-color: #383b49;
+    border-top-color: var(--ndaify-bg-overlay);
     border-bottom: 0;
     border-right: 0;
     margin-left: -6px;

@@ -11,11 +11,11 @@ const Button = styled.button`
   font-family: inherit;
   font-size: 20px;
   font-weight: 200;
-  border-radius: 4px;
+  border-radius: var(--ndaify-button-radius);
   border: 0;
   text-decoration: none;
   letter-spacing: 1.8px;
-  color: #ffffff;
+  color: var(--ndaify-button-fg);
   width: 100%;
   height: 60px;
   display: flex;
@@ -42,7 +42,8 @@ const Button = styled.button`
       width: unset;
       height: 40px;
       background-color: transparent;
-      border: 1px solid #ffffff;
+      border: 1px solid var(--ndaify-accents-8);
+      color: var(--ndaify-accents-8);
 
       :focus {
         filter: brightness(80%);
@@ -84,7 +85,7 @@ export default ({ children, spin, ...rest }) => (
   <Button {...rest}>
     {
       spin ? (
-        <ButtonSpinner color="#FFFFFF" size={14} />
+        <ButtonSpinner color="var(--ndaify-button-fg)" size={14} />
       ) : null
     }
     <ButtonContent visible={!spin}>

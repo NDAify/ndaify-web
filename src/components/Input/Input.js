@@ -6,8 +6,9 @@ const StyledInput = styled.input`
   font-family: inherit;
   font-size: 20px;
   font-weight: 200;
-  background-color: #ffffff;
-  border-radius: 4px;
+  background-color: var(--ndaify-input-bg);
+  color: var(--ndaify-input-fg);
+  border-radius: var(--ndaify-input-radius);
   border: 0;
   width: 100%;
   height: 60px;
@@ -21,7 +22,7 @@ const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: #aaaaaa;
+    color: var(--ndaify-input-placeholder-color);
   }
 `;
 

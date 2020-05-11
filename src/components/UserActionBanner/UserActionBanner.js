@@ -6,7 +6,7 @@ import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 const UserDetailBannerContainer = styled.div`
   padding: 1pc;
-  background-color: #5dbfc8;
+  background-color: var(--ndaify-user-action-bg);
   width: 100%;
   min-height: 90px;
   height: auto;
@@ -39,7 +39,7 @@ const UserNameText = styled.span`
   font-size: 20px;
   font-weight: 200;
   display: block;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-right: 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -54,7 +54,7 @@ const UserNameText = styled.span`
 const UserEmailText = styled.span`
   font-size: 20px;
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

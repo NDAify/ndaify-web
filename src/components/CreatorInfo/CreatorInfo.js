@@ -22,20 +22,20 @@ const ProfileTextContainer = styled.div`
   a {
     text-decoration: underline;
     background-color: transparent;
-    color: #ffffff;
+    color: var(--ndaify-fg);
     cursor: pointer;
     transition: none;
   }
 
   a:visited {
-    color: #fffff;
+    color: var(--ndaify-fg);
   }
 `;
 
 const ProfileText = styled.span`
   font-weight: 200;
   font-size: 20px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
   margin-bottom: 6px;
 `;
 

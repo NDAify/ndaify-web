@@ -4,10 +4,16 @@ import Link from 'next/link';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
 
+const ThemeLogoWithTextIcon = styled(LogoWithTextIcon)`
+  path#logo-type {
+    fill: var(--ndaify-fg);
+  }
+`;
+
 const LogoContaier = styled.div`
   width: 100%;
   display: flex;
-  `;
+`;
 
 const LogoWithTextIconWrapper = styled.div`
   svg {
@@ -20,7 +26,7 @@ const LogoHeader = () => (
     <Link passHref href="/">
       <a>
         <LogoWithTextIconWrapper>
-          <LogoWithTextIcon />
+          <ThemeLogoWithTextIcon />
         </LogoWithTextIconWrapper>
       </a>
     </Link>

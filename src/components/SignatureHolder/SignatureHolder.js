@@ -6,7 +6,7 @@ import parseFullName from '../../utils/parseFullName';
 
 const SignatureHolderContaine = styled.div`
   width: 100%;
-  border-bottom: 2px solid #f1e65d;
+  border-bottom: 2px solid var(--ndaify-signature-line);
   display: flex;
   min-height: 60px;
 `;
@@ -15,7 +15,7 @@ const SignatureIndicator = styled.span`
   align-self: flex-end;
   padding-bottom: 8px;
   font-size: 8px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 const SignatureWrapper = styled.div`
@@ -27,7 +27,7 @@ const SignatureWrapper = styled.div`
 const Signature = styled.span`
   font-family: "Signerica Fat", cursive;
   font-size: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 32px;

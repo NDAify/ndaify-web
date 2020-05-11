@@ -3,6 +3,15 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
+import Button from '../Clickable/Button';
+
+import useTheme from '../../lib/useTheme';
+
+const ThemeLogoWithTextIcon = styled(LogoWithTextIcon)`
+  path#logo-type {
+    fill: var(--ndaify-fg);
+  }
+`;
 
 const Container = styled.footer`
   margin-top: 3pc;
@@ -27,7 +36,7 @@ const FooterLogoWrapper = styled.div`
 `;
 
 const Disclaimer = styled.span`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 12px;
   text-align: center;
   display: block;
@@ -36,11 +45,11 @@ const Disclaimer = styled.span`
 
   a {
     text-decoration: underline;
-    color: #aaaaaa;
+    color: var(--ndaify-accents-6);
   }
 
   a:visited {
-    color: #aaaaaa;
+    color: var(--ndaify-accents-6);
   }
 `;
 
@@ -63,71 +72,110 @@ const FooterText = styled.span`
   font-size: 16px;
   font-weight: 200;
   margin-top: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 1pc;
   text-align: center;
 
   a {
     text-decoration: underline;
     background-color: transparent;
-    color: #ffffff;
+    color: var(--ndaify-fg);
     cursor: pointer;
     transition: none;
   }
 
   a:visited {
-    color: #ffffff;
+    color: var(--ndaify-fg);
   }
 `;
 
 const currentYear = (new Date()).getFullYear();
 
-const Footer = ({ withLogo }) => (
-  <Container>
-    {withLogo && (
-      <FooterLogoContainer>
-        <Link passHref href="/">
-          <a>
-            <FooterLogoWrapper>
-              <LogoWithTextIcon />
-            </FooterLogoWrapper>
+const Footer = ({ withLogo }) => {
+  const [theme, setTheme] = useTheme();
+
+  return (
+    <Container>
+      {withLogo && (
+        <FooterLogoContainer>
+          <Link passHref href="/">
+            <a>
+              <FooterLogoWrapper>
+                <ThemeLogoWithTextIcon />
+              </FooterLogoWrapper>
+            </a>
+          </Link>
+        </FooterLogoContainer>
+      )}
+  
+      <FootetTextWrapper>
+        <FooterText>
+          Powered by 25% sweet no ice coconut green tea with oat milk & boba.
+        </FooterText>
+        <FooterText>
+          {`© ${currentYear}`}
+          {' '}
+          <a
+            href="https://github.com/ndaify"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NDAify
           </a>
-        </Link>
-      </FooterLogoContainer>
-    )}
-
-    <FootetTextWrapper>
-      <FooterText>
-        Powered by 25% sweet no ice coconut green tea with oat milk & boba.
-      </FooterText>
-      <FooterText>
-        {`© ${currentYear}`}
-        {' '}
-        <a
-          href="https://github.com/ndaify"
-          target="_blank"
-          rel="noopener noreferrer"
+        </FooterText>
+      </FootetTextWrapper>
+  
+      <FootetTextWrapper>
+        <FooterText>
+          current theme: {theme}
+        </FooterText>
+        
+        <Button 
+         compact
+         color="var(--ndaify-accents-info)"
+          onClick={() => {
+            setTheme('dark')
+          }}
         >
-          NDAify
-        </a>
-      </FooterText>
-    </FootetTextWrapper>
+          dark
+        </Button>
 
-    <Disclaimer>
-      NDAify is not a law firm, does not provide legal services or advice, and
-      does not provide or participate in legal representation. Singing the NDA
-      signifies that you have read and agree to the
-      {' '}
-      <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
-      {' '}
-      and
-      {' '}
-      <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
-      {' '}
-      .
-    </Disclaimer>
-    <FooterContainer />
-  </Container>
-);
+        <Button 
+         compact
+         color="var(--ndaify-accents-info)"
+          onClick={() => {
+            setTheme('light')
+          }}
+        >
+          light
+        </Button>
+        <Button 
+         compact
+         color="var(--ndaify-accents-info)"
+          onClick={() => {
+            setTheme(null)
+          }}
+        >
+          system
+        </Button>
+      </FootetTextWrapper>
+  
+      <Disclaimer>
+        NDAify is not a law firm, does not provide legal services or advice, and
+        does not provide or participate in legal representation. Singing the NDA
+        signifies that you have read and agree to the
+        {' '}
+        <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
+        {' '}
+        and
+        {' '}
+        <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
+        {' '}
+        .
+      </Disclaimer>
+      <FooterContainer />
+    </Container>
+  );
+};
 
 export default Footer;

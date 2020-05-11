@@ -53,7 +53,7 @@ const SucessMessage = styled.p`
   font-weight: 200;
   text-align: center;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 3pc;
 
   @media screen and (min-width: 992px) {
@@ -118,7 +118,7 @@ const SuccessMessage = ({ user, nda }) => (
           views and/or accepts the NDA.
         </SucessMessage>
         <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
-          <ButtonAnchor style={{ backgroundColor: '#39d494' }}>Done</ButtonAnchor>
+          <ButtonAnchor style={{ backgroundColor: 'var(--ndaify-accents-success)' }}>Done</ButtonAnchor>
         </Link>
       </SucessMessageContainer>
 

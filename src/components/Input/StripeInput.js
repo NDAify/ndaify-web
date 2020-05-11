@@ -4,7 +4,7 @@ import { CardElement as StripeCardElement } from '@stripe/react-stripe-js';
 import { useField } from 'formik';
 
 const CardElement = styled(StripeCardElement)`
-  border-radius: 4px;
+  border-radius: var(--ndaify-input-radius);
   padding: 18px;
   height: 60px;
   width: 100%;
@@ -15,17 +15,17 @@ const CardElement = styled(StripeCardElement)`
 const cardStyle = {
   style: {
     base: {
-      iconColor: '#424657',
+      iconColor: '#000000',
       color: '#000000',
       fontFamily: 'Raleway, sans-serif',
       fontWeight: '200',
       fontSmoothing: 'antialiased',
       fontSize: '20px',
       ':-webkit-autofill': {
-        color: '#5cbfc8',
+        color: '#FFFFFF',
       },
       '::placeholder': {
-        color: '#aaaaaa',
+        color: '#AAAAAA',
       },
     },
     complete: {
@@ -35,8 +35,8 @@ const cardStyle = {
       color: '#000000',
     },
     invalid: {
-      color: '#dc564a',
-      iconColor: '#dc564a',
+      color: '#DC564A',
+      iconColor: '#DC564A',
     },
   },
 };

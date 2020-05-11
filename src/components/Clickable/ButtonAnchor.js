@@ -10,11 +10,11 @@ const ButtonAnchor = styled.a`
   font-family: inherit;
   font-size: 20px;
   font-weight: 200;
-  border-radius: 4px;
+  border-radius: var(--ndaify-button-radius);
   border: 0;
   text-decoration: none;
   letter-spacing: 1.8px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   width: 100%;
   height: 60px;
   display: flex;
@@ -35,17 +35,17 @@ const ButtonAnchor = styled.a`
   }
 
   :visited {
-    color: ffffff;
+    color: var(--ndaify-fg);
   }
 
   ${(props) => (props.color ? `background-color: ${props.color};` : '')}
-  ${(props) => (props.disabled ? 'background-color: #aaaaaa;' : '')}
+  ${(props) => (props.disabled ? 'background-color: var(--ndaify-input-disabled-bg);' : '')}
   ${(props) => (
     props.outline ? `
       width: unset;
       height: 40px;
       background-color: transparent;
-      border: 1px solid #ffffff;
+      border: 1px solid var(--ndaify-fg);
 
       :focus {
         filter: brightness(80%);

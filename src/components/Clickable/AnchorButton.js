@@ -10,13 +10,9 @@ const AnchorButton = styled.button`
   border: none;
   text-decoration: underline;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   cursor: pointer;
   transition: none;
-
-  :visited {
-    color: #000000;
-  }
 
   :disabled {
     cursor: not-allowed;

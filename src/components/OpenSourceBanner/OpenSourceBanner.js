@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import GithubLogoIcon from './images/githubLogo.svg';
+import GithubLogo from './images/githubLogo.svg';
+
+const GithubLogoIcon = styled(GithubLogo)`
+  color: var(--ndaify-accents-1);
+`;
 
 const BannerLink = styled.a`
-  background-color: #edd9a3;
+  background-color: var(--ndaify-accents-9);
   width: 100%;
   min-height: 40px;
   display: flex;
@@ -24,7 +28,7 @@ const GithubLogoIconWrapper = styled.div`
 `;
 
 const BannerText = styled.span`
-  color: #424657;
+  color: var(--ndaify-accents-0);
   font-weight: 200;
   text-align: center;
 `;

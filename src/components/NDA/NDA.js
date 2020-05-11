@@ -31,7 +31,7 @@ import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 
 import { API } from '../../api';
 
-import HideIcon from './images/hide.svg';
+import HideImg from './images/hide.svg';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
@@ -42,6 +42,10 @@ const isNdaRecipient = (nda, user) => nda.recipientId === user?.userId
 || nda.recipientEmail.toLowerCase() === user?.metadata.linkedInProfile.emailAddress.toLowerCase();
 const isNdaOwner = (nda, user) => nda.ownerId === user?.userId;
 // const isNdaParty = (nda, user) => isNdaRecipient(nda, user) || isNdaOwner(nda, user);
+
+const HideIcon = styled(HideImg)`
+  color: var(--ndaify-fg);
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -124,7 +128,7 @@ const PartyWrapper = styled.div`
 const NDAPartyName = styled.span`
   font-size: 16px;
   margin-top: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -135,7 +139,7 @@ const NDAPartyName = styled.span`
 const NDAPartyOrganization = styled.span`
   font-size: 16px;
   line-height: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -145,7 +149,7 @@ const NDAPartyOrganization = styled.span`
 
 const NDASignedDate = styled.span`
   font-size: 12px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   line-height: 28px;
   font-weight: 200;
 
@@ -156,7 +160,7 @@ const NDASignedDate = styled.span`
 
 const NDASenderDisclaimer = styled.span`
   font-size: 12px;
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   margin-top: 8px;
   line-heitgh: 20px;
 `;
@@ -167,7 +171,7 @@ const AttachmentTitle = styled.h4`
   font-size: 28px;
   font-weight: 200;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 2pc;
 
   @media screen and (min-width: 992px) {
@@ -202,7 +206,7 @@ const HideIconWrapper = styled.div`
 `;
 
 const DocumentUrl = styled.a`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 20px;
   word-wrap: break-word;
   font-weight: 200;
@@ -218,7 +222,7 @@ const DocumentUrl = styled.a`
 
 const DescriptionTitle = styled.h4`
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-size: 20px;
   margin: 0;
   margin-bottom: 2pc;
@@ -232,7 +236,7 @@ const AttachmentMessage = styled.h4`
   margin: 0;
   font-size: 20px;
   font-weight: 200;
-  ${(props) => (props.warning ? 'color: #dc564a;' : 'color: #4ac09a;')}
+  ${(props) => (props.warning ? 'color: var(--ndaify-accents-danger);' : 'color: var(--ndaify-accents-success);')}
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -253,7 +257,7 @@ const ActionButtonWrapper = styled.div`
 const ActionButtonBackground = styled.div`
   ${(props) => (props.isScrolledBeyondActions ? 'background-color: rgba(0, 0, 0, .3);' : 'color: transparent;')}
   padding: 1pc;
-  border-radius: 4px;
+  border-radius: var(--ndaify-accents-radius-1);
   transition: background-color 1s ease;
   display: flex;
 
@@ -270,7 +274,7 @@ const DisclaimerTitle = styled.h4`
   font-weight: 200;
   font-size: 20px;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   margin-bottom: 2pc;
 
   @media screen and (min-width: 992px) {
@@ -280,7 +284,7 @@ const DisclaimerTitle = styled.h4`
 
 const BoldText = styled.span`
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 const NDADisclaimerWrapper = styled.div`
@@ -298,7 +302,7 @@ const DisclaimerBody = styled.h4`
   margin: 0;
   margin-bottom: 4pc;
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -322,7 +326,7 @@ const DialogTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
   padding-bottom: 16px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
 `;
 
 const DialogText = styled.p`
@@ -331,7 +335,7 @@ const DialogText = styled.p`
   font-size: 20px;
   line-height: 24px;
   padding-bottom: 16px;
-  color: #FFFFFF;
+  color: var(--ndaify-fg);
 `;
 
 const ProfileImage = styled.img`
@@ -605,11 +609,12 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const onResendClick = useCallback(handleResendClick);
 
   const handleDownlaodClick = async () => {
+    toast.show('Starting download...');
   };
   const onDownloadClick = useCallback(handleDownlaodClick);
 
   const handleDetailClick = async () => {
-    setDetailDialogOpen(true);
+      setDetailDialogOpen(true);
   };
   const onDetailClick = useCallback(handleDetailClick);
 
@@ -621,7 +626,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
               <Button
                 compact
-                color="#7254B7"
+                color="var(--ndaify-accents-info)"
                 onClick={onDetailClick}
               >
                 Details
@@ -629,7 +634,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
               <Button
                 compact
-                color="#7254B7"
+                color="var(--ndaify-accents-info)"
                 onClick={onDownloadClick}
               >
                 Download
@@ -648,14 +653,14 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
               <Button
                 compact
-                color="#7254B7"
+                color="var(--ndaify-accents-info)"
                 onClick={onResendClick}
               >
                 Resend
               </Button>
               <Button
                 compact
-                color="#dc564a"
+                color="var(--ndaify-accents-danger)"
                 onClick={onRevokeClick}
               >
                 Revoke
@@ -674,7 +679,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             <ActionButtonBackground isScrolledBeyondActions={isScrolledBeyondActions}>
               <Button
                 compact
-                color="#dc564a"
+                color="var(--ndaify-accents-danger)"
                 onClick={onDeclineClick}
               >
                 Decline
@@ -741,7 +746,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
           <DialogButton
             compact
-            color="#dc564a"
+            color="var(--ndaify-accents-danger)"
             disabled={isDeclining}
             spin={isDeclining}
             onClick={onDeclineNda}
@@ -771,7 +776,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
           <DialogButton
             compact
-            color="#dc564a"
+            color="var(--ndaify-accents-danger)"
             disabled={isRevoking}
             spin={isRevoking}
             onClick={onRevokeNda}
@@ -798,7 +803,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
           <DialogButton
             compact
-            color="#dc564a"
+            color="var(--ndaify-accents-danger)"
             disabled={isResending}
             spin={isResending}
             onClick={onResendNda}

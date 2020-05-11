@@ -51,10 +51,16 @@ class Document extends NextDocument {
   }
 
   render() {
+    const {
+      lang,
+      dir,
+      theme,
+    } = this.props.__NEXT_DATA__.props;
+      
     return (
-      <Html lang="en" dir="ltr">
+      <Html lang={lang} dir={dir}>
         <Head />
-        <body>
+        <body className={theme}>
           <noscript>
             <iframe
               title="Google Analytics Manager"

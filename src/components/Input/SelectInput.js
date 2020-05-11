@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { useField } from 'formik';
 
-import DownIcon from './images/down.svg';
+import DownImg from './images/down.svg';
+
+const DownIcon = styled(DownImg)`
+  color: var(--ndaify-input-fg);
+`;
 
 const SelectLabel = styled.div`
   font-size: 20px;
   font-weight: 200;
-  background-color: #ffffff;
-  border-radius: 4px;
+  background-color: var(--ndaify-input-bg);
+  color: var(--ndaify-input-fg);
+  border-radius: var(--ndaify-input-radius);
   border: 0;
   width: 100%;
   height: 60px;
@@ -43,11 +48,9 @@ const SelectContainer = styled.div`
 `;
 
 const StyledSelect = styled.select`
-  color: #aaaaaa;
   font-size: 20px;
   font-weight: 200;
-  background-color: #ffffff;
-  border-radius: 4px;
+  border-radius: var(--ndaify-input-radius);
   border: 0;
   width: 100%;
   height: 60px;

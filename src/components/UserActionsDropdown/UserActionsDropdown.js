@@ -17,6 +17,10 @@ import { API } from '../../api';
 
 import ChevronDown from './images/chevron-down.svg';
 
+const ChevronDownIcon = styled(ChevronDown)`
+  color: var(--ndaify-fg);
+`;
+
 const NavigationListItemButton = styled(ReachMenuButton)`
   display: block;
   margin: 0;
@@ -24,16 +28,16 @@ const NavigationListItemButton = styled(ReachMenuButton)`
   padding-left: 10px;
   padding-right: 10px;
   font-family: inherit;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--ndaify-fg);
   border-left: 0px;
   text-decoration: none;
   background-color: transparent;
-  color: #000000;
+  color: var(--ndaify-fg);
   cursor: pointer;
   transition: none;
   font-size: 20px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-top-right-radius: var(--ndaify-button-radius);
+  border-bottom-right-radius: var(--ndaify-button-radius);
   height: 40px;
           
   :focus {
@@ -43,7 +47,7 @@ const NavigationListItemButton = styled(ReachMenuButton)`
   }
 
   :visited {
-    color: #000000;
+    color: var(--ndaify-fg);
   }
 
   :disabled {
@@ -87,11 +91,11 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   padding: 0;
 
   margin-top: 8px;
-  border-radius: 4px;
+  border-radius: var(--ndaify-button-radius);
   overflow: hidden;
 
   background-color: #FFFFFF;
-  border: 1px solid #DEDCE0;
+  border: 1px solid #EAEAEA;
   box-shadow: 0 10px 20px 0 rgba(255,255,255,0.15);
   z-index: 10000;
 
@@ -114,7 +118,7 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   }
 
   [data-reach-menu-item][data-selected] {
-    background: #f5f5f5;
+    background-color: #FAFAFA;
     color: #000000;
     outline: none;
   }
@@ -148,7 +152,7 @@ const UserActionsDropdown = () => {
       {(/* { isExpanded } */) => (
         <>
           <MoreOptionsButton id="header-more-options">
-            <ChevronDown aria-hidden />
+            <ChevronDownIcon aria-hidden />
           </MoreOptionsButton>
           <MoreOptionsMenuList>
             {

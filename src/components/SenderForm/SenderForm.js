@@ -29,9 +29,13 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
 
-import HideIcon from './images/hide.svg';
+import HideImg from './images/hide.svg';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
+
+const HideIcon = styled(HideImg)`
+  color: var(--ndaify-fg);
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -87,6 +91,7 @@ const HideIconWrapper = styled.div`
 
   svg {
     width: 20px;
+    color: var(--ndaify-fg)
   }
 
   @media screen and (min-width: 992px) {
@@ -100,7 +105,7 @@ const HideIconWrapper = styled.div`
 `;
 
 const DocumentUrl = styled.a`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 20px;
   word-wrap: break-word;
   font-weight: 200;
@@ -116,7 +121,7 @@ const DocumentUrl = styled.a`
 
 const DescriptionTitle = styled.h4`
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-size: 20px;
   margin: 0;
   margin-bottom: 2pc;
@@ -129,7 +134,7 @@ const DescriptionTitle = styled.h4`
 const DisclaimerText = styled.span`
   display: block;
   margin-bottom: 2pc;
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-size: 16px;
   font-weight: 200;
   line-height: 28px;
@@ -140,11 +145,11 @@ const DisclaimerText = styled.span`
 
   a {
     text-decoration: underline;
-    color: #ffffff;
+    color: var(--ndaify-fg);
   }
 
   a:visited {
-    color: #fffff;
+    color: var(--ndaify-fg);
   }
 `;
 
@@ -379,7 +384,7 @@ const SenderForm = ({ user, nda }) => {
 
                   {
                       suggestedEmail && (
-                        <ErrorMessage style={{ marginTop: '1pc' }} color="#fff">
+                        <ErrorMessage style={{ marginTop: '1pc' }} color="var(--ndaify-accents-8)">
                           Did you mean
                           <AnchorButton
                             type="button"

@@ -29,7 +29,7 @@ const DocumentContainer = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   margin-bottom: 3pc;
   font-size: 28px;
@@ -38,7 +38,7 @@ const Title = styled.h1`
 const Disclainer = styled.p`
   margin: 0;
   margin-bottom: 2pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   text-transform: uppercase;
   line-height: 24px;
@@ -48,7 +48,7 @@ const Disclainer = styled.p`
 const SectionTitle = styled.h5`
   margin: 0;
   margin-bottom: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-size: 20px;
   align-self: flex-start;
   text-transform: uppercase;
@@ -56,7 +56,7 @@ const SectionTitle = styled.h5`
 
 const SectionContentText = styled.div`
   margin-bottom: 2pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
   line-height: 24px;
   font-size: 20px;
@@ -73,7 +73,7 @@ const SectionListItem = styled.li`
   font-weight: 200;
   line-height: 32px;
   font-size: 20px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 /* eslint-disable max-len */

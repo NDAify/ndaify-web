@@ -19,7 +19,7 @@ const Container = styled.div`
 
 const BoldText = styled.span`
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 `;
 
 const NDATitleContainer = styled.div`
@@ -31,7 +31,7 @@ const NDATitle = styled.h4`
   margin: 0;
   margin-bottom: 4pc;
   font-weight: 200;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
@@ -48,7 +48,7 @@ const NDASectionTitle = styled.span`
   font-weight: 700;
   margin-bottom: 1pc;
   display: block;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 20px;
@@ -57,7 +57,7 @@ const NDASectionTitle = styled.span`
 
 const NDASectionBodyText = styled.span`
   font-size: 16px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 20px;
@@ -79,7 +79,7 @@ const DisclaimerEnding = styled.span`
   font-weight: 200;
   margin-top: 1pc;
   margin-bottom: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 20px;
@@ -91,7 +91,7 @@ const LongText = styled.p`
   font-weight: 200;
   margin-top: 1pc;
   line-height: 28px;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 20px;
@@ -108,7 +108,7 @@ const NDAReadMoreText = styled.h4`
   font-size: 16px;
   font-weight: 700;
   margin: 0;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 20px;

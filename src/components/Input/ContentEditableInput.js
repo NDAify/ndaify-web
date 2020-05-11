@@ -6,8 +6,8 @@ import { useField } from 'formik';
 const StyledSpan = styled(ContentEditable)`
   font-weight: 700;
   padding: 4px;
-  outline: 1px dashed #edd9a3;
-  color: #ffffff;
+  outline: 1px dashed var(--ndaify-accents-9);
+  color: var(--ndaify-fg);
 `;
 
 const ContentEditableInput = (props) => {

@@ -63,7 +63,7 @@ const DialogTitle = styled.h3`
   margin-bottom: 2pc;
   font-weight: 400;
   text-align: center;
-  color: #ffffff;
+  color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
@@ -74,7 +74,7 @@ const DialogLongText = styled.p`
   font-size: 16px;
   margin: 0;
   margin-bottom: 1pc;
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 992px) {
@@ -111,13 +111,13 @@ const DividerContainer = styled.div`
 const DividerLine = styled.div`
   height: 3px;
   width: 200px;
-  background-color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   margin-left: 1pc;
   margin-right: 1pc;
 `;
 
 const DividerText = styled.span`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   text-transform: uppercase;
   font-size: 16px;
   font-weight: 700;
@@ -131,7 +131,7 @@ const Total = styled.h4`
   font-size: 20px;
   margin-top: 2pc;
   font-weight: 200;
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -141,8 +141,8 @@ const Total = styled.h4`
 const Dialog = styled.div`
   height: 100%;
   position: relative;
-  background-color: #383B49;
-  border-radius: 4px;
+  background-color: var(--ndaify-bg-overlay);
+  border-radius: var(--ndaify-accents-radius-1);
   line-height: 28px;
   padding: 2pc;
   margin-bottom: 2pc;
@@ -155,7 +155,7 @@ const Dialog = styled.div`
     width: 0;
     height: 0;
     border: 12px solid transparent;
-    border-top-color: #383b49;
+    border-top-color: var(--ndaify-bg-overlay);
     border-bottom: 0;
     border-right: 0;
     margin-left: -6px;
@@ -391,7 +391,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
                 <Button
                   type="submit"
                   disabled={isSubmitting || !stripe || !elements}
-                  style={{ backgroundColor: '#39d494' }}
+                  style={{ backgroundColor: 'var(--ndaify-accents-success)' }}
                   spin={isSubmitting || !stripe || !elements}
                 >
                   Submit

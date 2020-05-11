@@ -31,10 +31,9 @@ const PageContainer = styled.div`
 const ErrorView = ({ statusCode, errorMessage }) => (
   <>
     <PageTitle prepend={`${statusCode} — `} />
-
     <Container>
       <PageContainer>
-        <ErrorMessage color="#FF0000" style={{ marginTop: '3pc' }}>
+        <ErrorMessage color="var(--ndaify-accents-danger)" style={{ marginTop: '3pc' }}>
           {`${statusCode} - ${errorMessage}`}
         </ErrorMessage>
 

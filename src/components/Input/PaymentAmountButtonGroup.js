@@ -52,7 +52,7 @@ const Container = styled.div`
 `;
 
 const Disclaimer = styled.div`
-  color: #aaaaaa;
+  color: var(--ndaify-accents-6);
   font-weight: 200;
   font-size: 12px;
   align-self: flex-end;
@@ -71,16 +71,15 @@ const ButtonGroupContainer = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  background-color: purple;
-  background-color: #ffffff; 
-  color: #aaaaaa;
+  background-color: var(--ndaify-input-bg); 
+  color: var(--ndaify-input-fg);
   margin-bottom: 6px;
 
   :last-of-type {
     margin-bottom: 0;
   }
 
-  ${(props) => (props.isActive ? 'background-color: #39d494; color: #ffffff;' : '')}
+  ${(props) => (props.isActive ? 'background-color: var(--ndaify-accents-success); color: var(--ndaify-input-bg);' : '')}
 
   img {
     width: 24px;
@@ -98,7 +97,7 @@ const StyledButton = styled(Button)`
 `;
 
 const DescriptionContainer = styled.div`
-  color: #ffffff;
+  color: var(--ndaify-fg);
   font-size: 24px;
   font-weight: 200;
 `;
