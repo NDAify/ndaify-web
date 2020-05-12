@@ -36,6 +36,7 @@
     "react-sane-contenteditable": "^1.6.1",
     "react-spring": "^8.0.27",
     "react-waypoint": "^9.0.2",
+    "rtl-detect": "^1.0.2",
     "sitemap": "^2.2.0",
     "statuses": "^2.0.0",
     "string-score": "^1.0.1",

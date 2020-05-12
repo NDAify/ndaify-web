@@ -10,14 +10,12 @@ import React, {
 import { IntlProvider as IntlProviderImpl } from 'react-intl';
 
 import { setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS } from '../lib/cookies';
+import parseLocaleParts from '../utils/parseLocaleParts';
 
 import es from '../langs/es.json';
 import zh from '../langs/zh.json';
 
-const DEFAULT_LOCALE_PARTS = {
-  language: 'en',
-  dir: 'ltr',
-};
+const DEFAULT_LOCALE_PARTS = parseLocaleParts('en');
 
 const MESSAGES = {
   es,
@@ -33,17 +31,6 @@ const context = createContext();
 
 export const getLocalePreference = (ctx) => {
   return getCookie(ctx, 'locale', BASE_COOKIE_OPTIONS);
-}
-
-export const parseLocaleParts = (locale) => {
-  const [language, country] = locale.split('-');
-
-  return {
-    language,
-    country,
-    // TODO derive dir from locale
-    dir: 'ltr',
-  }
 }
 
 export const pickSupportedLocale = (requestedLocale, supportedLocales = SUPPORTED_LOCALES) => {
