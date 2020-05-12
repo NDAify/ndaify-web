@@ -10,6 +10,7 @@ import getConfig from 'next/config';
 import { ServerStyleSheet } from 'styled-components';
 
 import { StaticHead } from '../components/Head/Head';
+import { pickSupportedLocale, parseLocaleParts } from '../lib/useLocale';
 
 const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 
@@ -52,12 +53,19 @@ class Document extends NextDocument {
 
   render() {
     // eslint-disable-next-line no-underscore-dangle
-    const { lang, dir, theme } = this.props.__NEXT_DATA__.props;
+    const { 
+      systemLocale, 
+      preferredLocale, 
+      preferredTheme 
+    } = this.props.__NEXT_DATA__.props;
+
+    const locale = pickSupportedLocale(preferredLocale || systemLocale);
+    const { language, dir } = parseLocaleParts(locale);
 
     return (
-      <Html lang={lang} dir={dir}>
+      <Html lang={language} dir={dir}>
         <Head />
-        <body className={theme}>
+        <body className={preferredTheme}>
           <noscript>
             <iframe
               title="Google Analytics Manager"

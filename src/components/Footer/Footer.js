@@ -1,11 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
 import Button from '../Clickable/Button';
 
+import { SelectInputImpl } from '../Input/SelectInput';
+
 import useTheme from '../../lib/useTheme';
+import useLocale from '../../lib/useLocale';
+
+export const THEME_OPTIONS = [
+  {
+    label: 'System Theme',
+    value: 'system',
+  },
+  {
+    label: 'Dark',
+    value: 'dark',
+  },
+  {
+    label: 'Light',
+    value: 'light',
+  },
+];
+
+export const LOCALE_OPTIONS = [
+  {
+    label: 'System Language',
+    value: 'system',
+  },
+  {
+    label: 'English',
+    value: 'en',
+  },
+  {
+    label: 'Espanol',
+    value: 'es',
+  },
+  {
+    label: 'Espanol Japan (es-JP)',
+    value: 'es-JP',
+  },
+  {
+    label: '中文 (zh)',
+    value: 'zh',
+  },
+];
+
 
 const ThemeLogoWithTextIcon = styled(LogoWithTextIcon)`
   path#logo-type {
@@ -61,7 +104,7 @@ const FooterContainer = styled.div`
 `;
 
 const FootetTextWrapper = styled.div`
-  margin-bottom: 3pc;
+  margin-bottom: 2pc;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -89,10 +132,33 @@ const FooterText = styled.span`
   }
 `;
 
+const PreferencesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3pc;
+  flex-direction: column;
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+  }
+`;
+
+const PreferencesInputWrapper = styled.div`
+  min-width: 50%;
+  padding: 8px;
+
+  @media screen and (min-width: 992px) {
+    min-width: 40%;
+  }
+`;
+
 const currentYear = (new Date()).getFullYear();
 
 const Footer = ({ withLogo }) => {
-  const [theme, setTheme] = useTheme();
+  const [preferredTheme, setPreferredTheme] = useTheme();
+  const [preferredLocale, setPreferredLocale] = useLocale();
 
   return (
     <Container>
@@ -110,7 +176,10 @@ const Footer = ({ withLogo }) => {
 
       <FootetTextWrapper>
         <FooterText>
-          Powered by 25% sweet no ice coconut green tea with oat milk & boba.
+          <FormattedMessage
+            id="footer-powered-by"
+            defaultMessage="Powered by 25% sweet no ice coconut green tea with oat milk & boba."
+          />
         </FooterText>
         <FooterText>
           {`© ${currentYear}`}
@@ -125,42 +194,46 @@ const Footer = ({ withLogo }) => {
         </FooterText>
       </FootetTextWrapper>
 
-      <FootetTextWrapper>
-        <FooterText>
-          current theme:
-          {' '}
-          {theme}
-        </FooterText>
+      <PreferencesContainer>
+        <PreferencesInputWrapper>
+          <SelectInputImpl
+            compact
+            outline
+            name="theme"
+            value={THEME_OPTIONS.find(opt => opt.value === (preferredTheme || 'system')).value}
+            options={THEME_OPTIONS}
+            placeholder="Theme"
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === 'system') {
+                setPreferredTheme(null);
+              } else {
+                setPreferredTheme(value);
+              }
+            }}
+          />
+        </PreferencesInputWrapper>
+        <PreferencesInputWrapper>
+          <SelectInputImpl
+            compact
+            outline
+            name="locale"
+            value={LOCALE_OPTIONS.find(opt => opt.value === (preferredLocale || 'system')).value}
+            options={LOCALE_OPTIONS}
+            placeholder="Locale"
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === 'system') {
+                setPreferredLocale(null);
+              } else {
+                setPreferredLocale(value);
+              }
+            }}
+          />
+        </PreferencesInputWrapper>
 
-        <Button
-          compact
-          color="var(--ndaify-accents-info)"
-          onClick={() => {
-            setTheme('dark');
-          }}
-        >
-          dark
-        </Button>
+      </PreferencesContainer>
 
-        <Button
-          compact
-          color="var(--ndaify-accents-info)"
-          onClick={() => {
-            setTheme('light');
-          }}
-        >
-          light
-        </Button>
-        <Button
-          compact
-          color="var(--ndaify-accents-info)"
-          onClick={() => {
-            setTheme(null);
-          }}
-        >
-          system
-        </Button>
-      </FootetTextWrapper>
 
       <Disclaimer>
         NDAify is not a law firm, does not provide legal services or advice, and

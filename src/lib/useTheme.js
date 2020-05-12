@@ -33,26 +33,26 @@ export const useSystemAppearance = () => {
   return appearance;
 };
 
-export const getTheme = (ctx) => {
+export const getThemePreference = (ctx) => {
   return getCookie(ctx, 'theme', BASE_COOKIE_OPTIONS);
 }
 
-export const ThemeProvider = ({ children, initialTheme }) => {
-  const [theme, setTheme] = useState(
-    () => initialTheme,
+export const ThemeProvider = ({ children, ...props }) => {
+  const [preferredTheme, setPreferredTheme] = useState(
+    () => props.preferredTheme,
   );
 
-  const setThemeWithSideEffects = useCallback((preference) => {
-    if (preference === theme) {
+  const setPreferredThemeWithSideEffects = useCallback((preference) => {
+    if (preference === preferredTheme) {
       return;
     }
 
-    if (theme && preference) {
-      document.body.classList.replace(theme, preference);
+    if (preferredTheme && preference) {
+      document.body.classList.replace(preferredTheme, preference);
     } else if (preference) {
       document.body.classList.add(preference);
-    } else if (theme) {
-      document.body.classList.remove(theme);
+    } else if (preferredTheme) {
+      document.body.classList.remove(preferredTheme);
     }
 
     if (preference) {
@@ -61,12 +61,12 @@ export const ThemeProvider = ({ children, initialTheme }) => {
       destroyCookie(null, 'theme', BASE_COOKIE_OPTIONS);
     }
 
-    setTheme(preference);
-  }, [theme]);
+    setPreferredTheme(preference);
+  }, [preferredTheme]);
 
   const contextValue = useMemo(() => [
-    theme, setThemeWithSideEffects,
-  ], [theme, setThemeWithSideEffects]);
+    preferredTheme, setPreferredThemeWithSideEffects,
+  ], [preferredTheme, setPreferredThemeWithSideEffects]);
 
   return (
     <context.Provider value={contextValue}>

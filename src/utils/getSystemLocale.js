@@ -1,11 +1,12 @@
 import acceptLanguageParser from 'accept-language-parser';
 
-const getLocale = (acceptLanguageHeader, fallback = 'en') => {
-  let locale = fallback;
-  if (process.browser && navigator.language) {
-    locale = navigator.language;
+const getSystemLocale = (ctx) => {
+  let locale;
+  if (process.browser) {
+    locale = navigator?.language;
   } else {
-    const values = acceptLanguageParser.parse(acceptLanguageHeader);
+    const acceptLanguage = ctx.req.headers['accept-language'];
+    const values = acceptLanguageParser.parse(acceptLanguage);
     if (values.length > 0) {
       const value = values[0];
       locale = value.code;
@@ -18,4 +19,4 @@ const getLocale = (acceptLanguageHeader, fallback = 'en') => {
   return locale;
 };
 
-export default getLocale;
+export default getSystemLocale;

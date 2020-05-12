@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import NextApp from 'next/app';
 import NProgress from 'nprogress';
-import { IntlProvider } from 'react-intl';
 import { positions, Provider as AlertProvider } from 'react-alert';
 import Router from 'next/router';
 
@@ -12,20 +11,13 @@ import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
 import { EntityNotFoundError, APIError } from '../api';
-import getLocale from '../utils/getLocale';
+
+import { IntlProvider, getLocalePreference } from '../lib/useLocale';
+import { ThemeProvider, getThemePreference } from '../lib/useTheme';
+
+import getSystemLocale from '../utils/getSystemLocale';
 
 import '../css/nprogress.css';
-
-import es from '../langs/es.json';
-
-import { ThemeProvider, getTheme } from '../lib/useTheme';
-
-const MESSAGES = {
-  es,
-  'es-ES': es,
-  'es-US': es,
-  'es-MX': es,
-};
 
 const lightVars = `
   --ndaify-bg: #DCF4E3;
@@ -177,11 +169,6 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-const ALERT_OPTIONS = {
-  timeout: 5000,
-  position: positions.TOP_CENTER,
-};
-
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
@@ -212,25 +199,23 @@ class App extends NextApp {
       }
     }
 
+    const preferredTheme = getThemePreference(ctx);
+    const preferredLocale = getLocalePreference(ctx);
+    const systemLocale = getSystemLocale(ctx);
+
     const ssrNow = Date.now();
-    const locale = getLocale(ctx.req?.headers['accept-language'], 'en');
 
-    // eslint-disable-next-line no-console
-    console.info(process.browser ? 'Browser' : 'Server', 'locale is set to', locale);
-
-    const theme = getTheme(ctx);
-    const lang = 'en';
-    const dir = 'ltr';
+    // TODO infer this value since Server TZ (UTC) !== Client TZ and it'd break ssr
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return {
       errorPageProps,
-      locale,
-      messages: MESSAGES[locale],
+      preferredLocale,
       pageProps,
       ssrNow,
-      theme,
-      lang,
-      dir,
+      systemLocale,
+      preferredTheme,
+      timeZone,
     };
   }
 
@@ -238,11 +223,12 @@ class App extends NextApp {
     const {
       Component,
       errorPageProps,
-      locale,
-      messages,
+      preferredLocale,
       pageProps,
       ssrNow,
-      theme,
+      systemLocale,
+      preferredTheme,
+      timeZone,
     } = this.props;
 
     return (
@@ -250,18 +236,17 @@ class App extends NextApp {
         <Head />
         <GlobalStyle />
 
-        <ThemeProvider initialTheme={theme}>
-          <AlertProvider
-            template={Alert}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...ALERT_OPTIONS}
-          >
-            <IntlProvider
-              locale={locale}
-              timeZone={Intl.DateTimeFormat().resolvedOptions().timeZone}
-              messages={messages}
-              initialNow={ssrNow}
-              textComponent={Fragment}
+        <IntlProvider
+          preferredLocale={preferredLocale}
+          systemLocale={systemLocale}
+          timeZone={timeZone}
+          initialNow={ssrNow}
+        >
+          <ThemeProvider preferredTheme={preferredTheme}>
+            <AlertProvider
+              template={Alert}
+              timeout={5000}
+              position={positions.TOP_CENTER}
             >
               {
                 errorPageProps ? (
@@ -276,10 +261,9 @@ class App extends NextApp {
                   />
                 )
               }
-            </IntlProvider>
-          </AlertProvider>
-        </ThemeProvider>
-
+            </AlertProvider>
+          </ThemeProvider>
+        </IntlProvider>
       </>
     );
   }
