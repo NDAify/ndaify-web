@@ -15,9 +15,12 @@ const checkForCloseMatch = (sample, string) => {
     return null;
   }
 
-  // contains?
-  if (sample.includes(string)) {
+  if (sample.includes(string) || Math.abs(sample.length - string.length) >= 3) {
     return null;
+  }
+
+  if (string === 'con') {
+    return 'com';
   }
 
   // split the string string into two at each postion e.g. g|mail gm|ail gma|il gmai|l
@@ -123,7 +126,9 @@ const getSuggestion = (email) => {
   const correctedEmailProvider = getClosestMatchedSuggestion(
     emailProviderWithCorrectTld,
     commonEmailProviders,
+    true,
   );
+
   if (correctedEmailProvider) {
     if (emailProvider === correctedEmailProvider) {
       return null;

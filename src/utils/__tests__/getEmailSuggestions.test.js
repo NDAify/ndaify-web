@@ -3,10 +3,14 @@ import getSuggestion from '../getEmailSuggestions';
 test('should return the closest email provider', () => {
   expect(getSuggestion('julia@gmail.con')).toBe('julia@gmail.com');
   expect(getSuggestion('julia@gmali.con')).toBe('julia@gmail.com');
-  expect(getSuggestion('julia@gmalii.con')).toBe('julia@gmail.com');
+  expect(getSuggestion('julia@gmial.com')).toBe('julia@gmail.com');
   expect(getSuggestion('julia@aol.con')).toBe('julia@aol.com');
   expect(getSuggestion('julia@hotmail.con')).toBe('julia@hotmail.com');
+  expect(getSuggestion('julia@hotmial.con')).toBe('julia@hotmail.com');
   expect(getSuggestion('julia@yakoo.com')).toBe('julia@yahoo.com');
+  expect(getSuggestion('julia@yshoo.com')).toBe('julia@yahoo.com');
+  expect(getSuggestion('julia@yagoo.com')).toBe('julia@yahoo.com');
+  expect(getSuggestion('julia@iclous.com')).toBe('julia@icloud.com');
   expect(getSuggestion('julia@iclous.com')).toBe('julia@icloud.com');
 });
 
