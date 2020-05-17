@@ -8,6 +8,19 @@ const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps.';
 const TITLE = 'NDAify';
 
+const JSONLD_DATA = {
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "NDAify",
+  "description": META_DESCRIPTION,
+  "url": "https://ndaify.com",
+  "image": "https://ndaify.com/images/meta.png",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": 'https://ndaify.com',
+  }
+};
+
 const GOOGLE_MAX_LENGTH = 160;
 
 export const PageTitle = ({ title = TITLE, prepend = '', append = '' }) => (
@@ -63,6 +76,12 @@ export const StaticHead = () => (
       }}
     />
     { /* eslint-enable react/no-danger */}
+
+    {/* JsonLD */}
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD_DATA) }}
+    />
   </NextHead>
 );
 
