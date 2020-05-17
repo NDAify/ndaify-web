@@ -8,6 +8,10 @@ import NDAImpl from '../NDA/NDA';
 
 import TiltView from './TiltView';
 
+import ndaTemplate from './nda-template.mock.json';
+import nda from './nda.mock.json';
+import user from './user.mock.json';
+
 const InteractiveBrowser = styled(TiltView)`
   width: 576px;
   height: 500px;
@@ -99,56 +103,6 @@ const NDAContainer = styled(animated.div)`
   transform-origin: top left;
 `;
 
-const nda = {
-  ndaId: '0984a575-c44d-446e-bef6-532ad44652a2',
-
-  metadata: {
-    recipientFullName: 'Julia Qiu',
-    secretLinks: [
-      'http://drive.google.com/secret-document',
-    ],
-    ndaParamaters: {
-      consentingParty: 'Julia Qiu, Slope Ninja',
-      proposingParty: 'Jake Murzy, Committer',
-    },
-    ndaTemplateId: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/STANDARD_MUTUAL.md',
-    status: 'signed',
-  },
-
-  recipientEmail: 'void',
-  recipientId: '6f5bbfd2-cfae-498d-babe-b295aa3fe6ca',
-
-  ownerId: 'a06bdb1b-8b02-431a-836f-33e139f471a2',
-  owner: {
-    createdAt: '2020-04-14T05:09:07Z',
-    linkedInId: 'XXXXXXXXX',
-    metadata: {
-      status: 'approved',
-      linkedInProfile: {
-        firstName: 'Jake',
-        lastName: 'Murzy',
-        profilePicture: 'https://media-exp1.licdn.com/dms/image/C5603AQGsjSSDjWCcbw/profile-displayphoto-shrink_100_100/0?e=1592438400&v=beta&t=X6L58axDyMlEXgJRY9rLy0xpm4mvfOQvuGMax96gtL0',
-        emailAddress: 'jake@murzy.com',
-      },
-    },
-    userId: 'a06bdb1b-8b02-431a-836f-33e139f471a2',
-  },
-};
-
-const user = {
-  userId: '6f5bbfd2-cfae-498d-babe-b295aa3fe6ca',
-  linkedInId: 'zMPYqX77HK',
-
-  metadata: {
-    linkedInProfile: {
-      firstName: 'Julia',
-      lastName: 'Qiu',
-      profilePicture: 'https://media-exp1.licdn.com/dms/image/C4E03AQF09QsKXkfokw/profile-displayphoto-shrink_100_100/0?e=1594252800&v=beta&t=3PofKNdkfx7HJ2PWsod_ItTKyZFkD3dpQoi_HVSISNM',
-      emailAddress: 'julia@juliaqiu.com',
-    },
-  },
-};
-
 const Browser = () => {
   const [{ scrollY }, setScrollY] = useSpring(() => ({
     scrollY: 0,
@@ -210,7 +164,7 @@ const Browser = () => {
               <NDAImpl
                 user={user}
                 nda={nda}
-                ndaTemplate={{ content:'', data: {} }}
+                ndaTemplate={ndaTemplate}
               />
 
             </NDAContainer>

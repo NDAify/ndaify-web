@@ -1,0 +1,36 @@
+{
+  "ndaId": "juliaqiuxy<>jmurzy",
+
+  "metadata": {
+    "recipientFullName": "Julia Qiu",
+    "secretLinks": [
+      "https://fimga.com/secret-mockup"
+    ],
+    "ndaParamaters": {
+      "consentingParty": "Julia Qiu, Slope Ninja",
+      "proposingParty": "Jake Murzy, Committer",
+      "governingLaw": "the State of California"
+    },
+    "ndaTemplateId": null,
+    "status": "signed"
+  },
+
+  "recipientEmail": "void",
+  "recipientId": "juliaqiuxy",
+
+  "ownerId": "jmurzy",
+  "owner": {
+    "createdAt": "2020-04-14T05:09:07Z",
+    "linkedInId": null,
+    "metadata": {
+      "status": "approved",
+      "linkedInProfile": {
+        "firstName": "Jake",
+        "lastName": "Murzy",
+        "profilePicture": null,
+        "emailAddress": "jake@murzy.com"
+      }
+    },
+    "userId": "jmurzy"
+  }
+}
