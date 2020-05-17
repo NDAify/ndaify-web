@@ -1,5 +1,7 @@
 {
-  "home-title": "NDAify te ayuda a mantener tus secretos comerciales en secreto.",
+  "home-title": "NDAify te ayuda a mantener tus secretos {typeOfSecret} en secreto.",
+  "home-title-value-trade": "comerciales",
+  "home-title-value-personal": "personales",
   "home-nda-couple-minutes": "Envía un NDA en un par de minutos.",
   "footer-powered-by": "Alimentado por 25% de té verde de coco dulce sin hielo con leche de avena y boba."
 }

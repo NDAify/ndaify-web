@@ -1,5 +1,7 @@
 {
-  "home-title": "NDAify可帮助您保护商业秘密。",
+  "home-title": "NDAify可帮助您保护{typeOfSecret}机密。",
+  "home-title-value-trade": "贸易",
+  "home-title-value-personal": "个人",
   "home-nda-couple-minutes": "在几分钟内发送NDA。",
   "footer-powered-by": "由25％甜无冰椰子绿茶与燕麦奶和波巴酒制成。"
 }

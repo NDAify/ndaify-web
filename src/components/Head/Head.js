@@ -5,7 +5,7 @@ import { withRouter } from 'next/router';
 
 const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 
-const META_DESCRIPTION = 'NDAify helps you keep your trade secrets under wraps.';
+const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps.';
 const TITLE = 'NDAify';
 
 const GOOGLE_MAX_LENGTH = 160;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import isUrl from 'is-url';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -20,6 +20,7 @@ import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Browser from '../Browser/Browser';
+import Typewriter from '../Typewriter/Typewriter';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import NdaIcon from './images/nda.svg';
@@ -341,7 +342,21 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           <CopyTitle>
             <FormattedMessage
               id="home-title"
-              defaultMessage="NDAify helps you keep your trade secrets under wraps."
+              defaultMessage="NDAify helps you keep your {typeOfSecret} secrets under wraps."
+              values={{ 
+                typeOfSecret: (
+                  <Typewriter>
+                    <FormattedMessage
+                      id="home-title-value-trade"
+                      defaultMessage="trade"
+                    />
+                    <FormattedMessage
+                      id="home-title-value-personal"
+                      defaultMessage="personal"
+                    />
+                  </Typewriter>
+                ) 
+              }}
             />
             {' '}
             <CopyText>
@@ -433,7 +448,6 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
         </ContentContainer>
       </PageContainer>
-
 
       <PageSection>
         <PageSectionPane>
