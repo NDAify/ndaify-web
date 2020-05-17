@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -10,13 +10,16 @@ import Router from 'next/router';
 
 import NDABody from './NDABody';
 import Button from '../Clickable/Button';
+import AnchorButton from '../Clickable/AnchorButton';
 import Footer from '../Footer/Footer';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 import { timeout } from '../../util';
+import fillInNdaBlanks from '../../utils/fillInNdaBlanks';
 
 import HideImg from './images/hide.svg';
 
@@ -236,6 +239,23 @@ const DisclaimerBody = styled.h4`
   }
 `;
 
+const NDAReadMoreContainer = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 4pc;
+`;
+
+const NDAReadMoreText = styled.h4`
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ndaify-fg);
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
+`;
+
 export const extractCompanyNameFromText = (text, personName) => {
   if (!text || !personName) {
     return null;
@@ -255,7 +275,9 @@ export const extractCompanyNameFromText = (text, personName) => {
   return text;
 };
 
-const NDAComposer = ({ user, nda }) => {
+const NDAComposer = ({ ndaTemplate, user, nda }) => {
+  const [expandedBody, setExpandedBody] = useState(false);
+
   const handleDiscardButtonClick = () => {
     Router.replace('/');
     sessionStorage.clear();
@@ -263,16 +285,18 @@ const NDAComposer = ({ user, nda }) => {
   const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
 
   const handleSubmit = async (
-    {
-      disclosingParty,
-      receivingParty,
-    },
+    values,
     {
       setStatus,
     },
   ) => {
     // clear all error messages before retrying
     setStatus();
+
+    if (!expandedBody) {
+      setStatus({ errorMessage: 'Please expand the NDA to read all terms' });
+      return;
+    }
 
     try {
       sessionStorage.setItem(
@@ -282,8 +306,7 @@ const NDAComposer = ({ user, nda }) => {
           metadata: {
             ...nda.metadata,
             ndaParamaters: {
-              disclosingParty,
-              receivingParty,
+              ...values,
             },
           },
         },
@@ -302,12 +325,34 @@ const NDAComposer = ({ user, nda }) => {
   };
   const onSubmit = useCallback(handleSubmit, []);
 
-  const ownerFullName = getFullNameFromUser(user);
+  const handleFormValidate = (values) => {
+    const errors = {};
 
-  const initialValues = {
-    disclosingParty: ownerFullName,
-    receivingParty: nda.metadata.recipientFullName,
+    const fieldNames = Object.keys(values); 
+
+    // check for blank-ness one at a time
+    for (let ii = 0; ii < fieldNames.length; ii++) {
+      const fieldName = fieldNames[ii];
+      const value = values[fieldName];
+      
+      if (!value) {
+        errors[fieldName] = 'You must fill in the blanks in the NDA';
+        break;
+      }
+    }
+
+    return errors;
   };
+  const onFormValidate = useCallback(handleFormValidate, []);
+
+  const ownerFullName = getFullNameFromUser(user);
+  
+  let variables = {
+    '${proposingParty}': ownerFullName,
+    '${consentingParty}': nda.metadata.recipientFullName,
+  }
+
+  const initialValues = fillInNdaBlanks(ndaTemplate.data.blanks, variables);
 
   const { recipientFullName } = nda.metadata;
 
@@ -325,18 +370,24 @@ const NDAComposer = ({ user, nda }) => {
           </Button>
         )}
       />
+
       <Formik
         initialValues={initialValues}
+        validate={onFormValidate}
+        validateOnChange={false}
+        validateOnBlur
         onSubmit={onSubmit}
       >
-        {({ values, status, isSubmitting }) => {
+        {({ values, status, setStatus, isSubmitting }) => {
           const ownerCompanyName = extractCompanyNameFromText(
-            values.disclosingParty,
+            values.proposingParty,
             ownerFullName,
           );
           const recipientCompanyName = extractCompanyNameFromText(
-            values.receivingParty, nda.metadata.recipientName,
+            values.consentingParty, nda.metadata.recipientName,
           );
+
+          const fieldKeys = Object.keys(values);
 
           return (
             <Form>
@@ -369,11 +420,35 @@ const NDAComposer = ({ user, nda }) => {
 
                     <NDABody
                       editable
+                      expanded={expandedBody}
+                      ndaTemplate={ndaTemplate}
                       nda={{
                         ...nda,
                         owner: user,
                       }}
                     />
+
+                    {
+                      expandedBody === false ? (
+                        <NDAReadMoreContainer>
+                          <NDAReadMoreText>
+                            To read all terms,
+                            {' '}
+                            <AnchorButton 
+                              type="button" 
+                              onClick={() => {
+                                setStatus();
+                                setExpandedBody(!expandedBody);
+                              }}
+                            >
+                              click here
+                            </AnchorButton>
+                            .
+                          </NDAReadMoreText>
+                        </NDAReadMoreContainer>
+                      ) : null
+                    }
+
                   </NDAWrapper>
 
                   {
@@ -382,6 +457,17 @@ const NDAComposer = ({ user, nda }) => {
                         {status.errorMessage}
                       </ErrorMessage>
                     ) : null
+                  }
+
+                  {
+                    fieldKeys.map((fieldKey, ii) => (
+                      <FieldErrorMessage 
+                        key={fieldKey}
+                        style={{ marginBottom: '3pc' }} 
+                        name={fieldKey} 
+                        component="div" 
+                      />
+                    ))
                   }
 
                   <SigRow>

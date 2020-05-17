@@ -1,6 +1,6 @@
 # NDAify
 
-[![npm](https://img.shields.io/github/license/juliaqiuxy/ndaify-frontend.svg)](https://github.com/juliaqiuxy/ndaify-frontend/blob/master/LICENSE.md)
+[![npm](https://img.shields.io/github/license/ndaify/ndaify-web.svg)](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md)
 
 This repository hosts the source code for https://ndaify.com. If you have any questions, feel free to reach out to me on Twitter [@juliaqiuxy](https://twitter.com/juliaqiuxy).
 
@@ -19,4 +19,4 @@ NDAify is available on the Web at [https://ndaify.com](https://ndaify.com).
 <a name="license"/>
 
 ### License
-All pull requests that get merged will be made available under [the MIT license](https://github.com/juliaqiuxy/ndaify-frontend/blob/master/LICENSE.md), as the rest of the repository.
+All pull requests that get merged will be made available under [the MIT license](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md), as the rest of the repository.

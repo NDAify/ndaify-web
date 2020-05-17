@@ -40,15 +40,10 @@ export const LOCALE_OPTIONS = [
     value: 'es',
   },
   {
-    label: 'Espanol Japan (es-JP)',
-    value: 'es-JP',
-  },
-  {
     label: '中文 (zh)',
     value: 'zh',
   },
 ];
-
 
 const ThemeLogoWithTextIcon = styled(LogoWithTextIcon)`
   path#logo-type {

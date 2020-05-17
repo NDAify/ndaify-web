@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import GitHubSlugger from 'github-slugger';
 
 import { FormattedDate } from 'react-intl';
 import styled from 'styled-components';
 import { Field as FormikField } from 'formik';
 
-import AnchorButton from '../Clickable/AnchorButton';
+import ReactMarkdown from 'react-markdown/with-html';
 
 import ContentEditableInput from '../Input/ContentEditableInput';
 
@@ -15,6 +16,29 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+
+  height: 800px;
+  overflow: hidden;
+
+  :after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    content: "";
+    background: linear-gradient(to top, var(--ndaify-bg) 0%, transparent 100%);
+    pointer-events:none; 
+  }
+
+  ${(props) => (props.expanded ? `
+    height: auto;
+
+    :after {
+      display: none;
+    }
+  ` : '')}
 `;
 
 const BoldText = styled.span`
@@ -23,26 +47,82 @@ const BoldText = styled.span`
 `;
 
 const NDATitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 `;
 
-const NDATitle = styled.h4`
+const NDATitle = styled.h1`
   font-size: 28px;
   margin: 0;
   margin-bottom: 4pc;
   font-weight: 200;
   color: var(--ndaify-fg);
+  max-width: 80%;
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
+    max-width: 70%;
   }
 `;
 
 const NDASectionContainer = styled.div`
   width: 100%;
+
+  ul {
+    list-style-type: decimal;
+  }
+  
+  ol ol,
+  ul ul {
+    list-style-type: lower-alpha;
+  }
+  
+  ol ol ol,
+  ul ul ul {
+    list-style-type: lower-roman;
+  }
+  
+  ol ol ol ol,
+  ul ul ul ul {
+    list-style-type: upper-alpha;
+  }
+  
+  ol ol ol ol ol,
+  ul ul ul ul ul {
+    list-style-type: upper-roman;
+  }
+
+  ol li,
+  ul li {
+    color: var(--ndaify-fg);
+  }
+
+  ol li p,
+  ul li p {
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+  }
+
+  @media screen and (min-width: 992px) {
+    ol li p,
+    ul li p {
+      line-height: 35px;
+    }
+  }
+
+  a {
+    color: var(--ndaify-fg);
+  }
+
+  a:visited {
+    color: var(--ndaify-fg);
+  }
 `;
 
-const NDASectionTitle = styled.span`
+const NDASectionH6 = styled.span`
   font-size: 16px;
   text-transform: uppercase;
   font-weight: 700;
@@ -51,34 +131,35 @@ const NDASectionTitle = styled.span`
   color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
-
-const NDASectionBodyText = styled.span`
-  font-size: 16px;
-  color: var(--ndaify-fg);
+const NDASectionH5 = styled(NDASectionH6)``;
+const NDASectionH4 = styled(NDASectionH5)``;
+const NDASectionH3 = styled(NDASectionH4)`
+  font-size: 18px;
 
   @media screen and (min-width: 992px) {
     font-size: 20px;
   }
 `;
+const NDASectionH2 = styled(NDASectionH3)`
+  font-size: 20px;
 
-const BetweenPartyContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-weight: 200;
-  margin-left: 1pc;
-  margin-top: 8px;
-  line-height: 34px;
+  @media screen and (min-width: 992px) {
+    font-size: 22px;
+  }
+`;
+const NDASectionH1 = styled(NDASectionH2)`
+  font-size: 22px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
 `;
 
-const DisclaimerEnding = styled.span`
+const NDASectionBodyText = styled.span`
   font-size: 16px;
-  display: block;
-  font-weight: 200;
-  margin-top: 1pc;
-  margin-bottom: 1pc;
   color: var(--ndaify-fg);
 
   @media screen and (min-width: 992px) {
@@ -98,92 +179,89 @@ const LongText = styled.p`
   }
 `;
 
-const NDAReadMoreContainer = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 4pc;
-`;
+const createRenderers = ({ editable, ndaParamaters }) => {
+  const slugger = new GitHubSlugger();
+  
+  const flatten = (text, child) => {
+    return typeof child === 'string'
+      ? text + child
+      : React.Children.toArray(child.props.children).reduce(flatten, text);
+  };
+  
+  const Heading = props => {
+    const children = React.Children.toArray(props.children);
+    const text = children.reduce(flatten, '');
+    const slug = encodeURIComponent(slugger.slug(text));
+  
+    let Header = [
+      ,
+      NDASectionH1, 
+      NDASectionH2, 
+      NDASectionH3, 
+      NDASectionH4,
+      NDASectionH5,
+      NDASectionH6
+    ][props.level];
+  
+    return (
+      <Header id={slug}>
+        {props.children}
+      </Header>
+    );
+  };
 
-const NDAReadMoreText = styled.h4`
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-  color: var(--ndaify-fg);
-
-  @media screen and (min-width: 992px) {
-    font-size: 20px;
+  const Paragraph = ({ children, ...other}) => (
+    <LongText>
+      {children}
+    </LongText>
+  );
+  
+  const InlineCode = props => {
+    return ( 
+      editable ? (
+        <FormikField
+          as={ContentEditableInput}
+          name={props.value}
+        />
+      ) : (
+        <BoldText>{ndaParamaters && ndaParamaters[props.value]}</BoldText>
+      )
+    );
   }
-`;
 
-const BetweenParty = ({
-  editable, ndaParamaters,
-}) => (editable ? (
-  <BetweenPartyContainer>
-    <NDASectionBodyText>
-      1.
-      {' '}
-      <FormikField
-        as={ContentEditableInput}
-        name="disclosingParty"
-      />
-      {' '}
-      (the Disclosing Party) and
-    </NDASectionBodyText>
-    <NDASectionBodyText>
-      2.
-      {' '}
-      <FormikField
-        as={ContentEditableInput}
-        name="receivingParty"
-      />
-      {' '}
-      (the Receiving Party), collectively referred to as the Parties.
-    </NDASectionBodyText>
-  </BetweenPartyContainer>
-) : (
-  <BetweenPartyContainer>
-    <NDASectionBodyText>
-      1.
-      {' '}
-      <BoldText>{ndaParamaters.disclosingParty}</BoldText>
-      {' '}
-      (the Disclosing Party); and
-    </NDASectionBodyText>
-    <NDASectionBodyText>
-      2.
-      {' '}
-      <BoldText>
-        {ndaParamaters.receivingParty}
-      </BoldText>
-      {' '}
-      (the Receiving Party), collectively referred to as the Parties.
-    </NDASectionBodyText>
-  </BetweenPartyContainer>
-));
+  return { 
+    inlineCode: InlineCode, 
+    heading: Heading, 
+    paragraph: Paragraph,
+  }
+}
 
-const NDA = ({
-  nda,
-  editable,
-}) => {
+const NDA = ({ ndaTemplate, nda, editable, expanded }) => {
   const createdAt = nda.createdAt || nowISO8601();
 
+  const markdownRenderers = useMemo(() => {
+    return createRenderers({
+      editable,
+      ndaParamaters: nda.metadata.ndaParamaters,
+    });
+  }, [editable, nda.metadata.ndaParamaters])
+
   return (
-    <Container>
+    <Container expanded={expanded}>
       <NDATitleContainer>
         <NDATitle>
-          <span>Non-Disclosure</span>
-          <br />
-          <span>Agreement</span>
+          <span>{ndaTemplate.data.title}</span>
         </NDATitle>
       </NDATitleContainer>
+
       <NDASectionContainer>
-        <NDASectionTitle
-          style={{ display: 'inline-block', marginRight: '6px' }}
+        <NDASectionH3
+          style={{ display: 'inline-block' }}
         >
           This Agreement
-          {' '}
-        </NDASectionTitle>
+        </NDASectionH3>
         <NDASectionBodyText style={{ display: 'inline' }}>
+          {' '}
           is made on
           {' '}
           <FormattedDate
@@ -195,50 +273,16 @@ const NDA = ({
           .
         </NDASectionBodyText>
       </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>Between</NDASectionTitle>
-        <BetweenParty
-          editable={editable}
-          ndaParamaters={nda.metadata.ndaParamaters}
-        />
-        <DisclaimerEnding>
-          collectively referred to as the
-          {' '}
-          <BoldText>Parties</BoldText>
-          .
-        </DisclaimerEnding>
-      </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>RECITALS</NDASectionTitle>
-        <LongText>
-          A. The Receiving Party understands that the Disclosing Party has
-          disclosed or may disclose information relating to its business,
-          operations, plans, prospects, affairs, source code, product designs,
-          art, and other related concepts, which to the extent previously,
-          presently, or subsequently disclosed to the Receiving Party is
-          hereinafter referred to as Proprietary Information of the Disclosing
-          Party.
-        </LongText>
-      </NDASectionContainer>
-      <NDASectionContainer>
-        <NDASectionTitle>OPERATIVE PROVISIONS</NDASectionTitle>
-        <LongText>
-          1. In consideration of the disclosure of Proprietary Information by
-          the Disclosing Party, the Receiving Party hereby agrees: (i) to hold
-          the Proprietary Information in strict confidence and to take all
-          reasonable precautions to protect such Proprietary Information
-          (including, without limitation, all precautions…
-        </LongText>
-      </NDASectionContainer>
 
-      <NDAReadMoreContainer>
-        <NDAReadMoreText>
-          To read all terms,
-          {' '}
-          <AnchorButton type="button" onClick={() => {}}>click here</AnchorButton>
-          .
-        </NDAReadMoreText>
-      </NDAReadMoreContainer>
+      <NDASectionContainer>
+        <ReactMarkdown
+          source={ndaTemplate.content}
+          renderers={markdownRenderers}
+          linkTarget={(url) => !url.includes('#') ? '_blank' : null }
+          parserOptions={{ commonmark: true }}
+        />
+
+      </NDASectionContainer>
     </Container>
   );
 };

@@ -15,6 +15,7 @@ import {
 
 import NDABody from './NDABody';
 import Button from '../Clickable/Button';
+import AnchorButton from '../Clickable/AnchorButton';
 import Footer from '../Footer/Footer';
 import LinkedInButton from '../LinkedInButton/LinkedInButton';
 import SignatureHolder from '../SignatureHolder/SignatureHolder';
@@ -346,6 +347,23 @@ const ProfileImage = styled.img`
   height: 24px;
   border-radius: 24px;
   margin-right: 12px;
+`;
+
+const NDAReadMoreContainer = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 4pc;
+`;
+
+const NDAReadMoreText = styled.h4`
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ndaify-fg);
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
 `;
 
 const NDAHeader = ({ nda, user }) => {
@@ -952,11 +970,11 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
   const ownerFullName = getFullNameFromUser(nda.owner);
 
   const ownerCompanyName = extractCompanyNameFromText(
-    nda.metadata.ndaParamaters.disclosingParty,
+    nda.metadata.ndaParamaters.proposingParty,
     ownerFullName,
   );
   const recipientCompanyName = extractCompanyNameFromText(
-    nda.metadata.ndaParamaters.receivingParty,
+    nda.metadata.ndaParamaters.consentingParty,
     nda.metadata.recipientFullName,
   );
 
@@ -1141,7 +1159,9 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
 };
 
 
-const NDA = ({ user, nda }) => {
+const NDA = ({ ndaTemplate, nda, user }) => {
+  const [expandedBody, setExpandedBody] = useState(false);
+
   const router = useRouter();
   const handleSubmit = (
     values,
@@ -1151,6 +1171,11 @@ const NDA = ({ user, nda }) => {
     },
   ) => {
     setStatus();
+
+    if (!expandedBody) {
+      setStatus({ errorMessage: 'Please expand the NDA to read all terms' });
+      return;
+    }
 
     try {
       const CALLBACK_URL_LINKEDIN = `${getClientOrigin()}/sessions/linkedin/callback`;
@@ -1265,7 +1290,28 @@ const NDA = ({ user, nda }) => {
                 <NDAWrapper>
 
                   <NDAHeader user={user} nda={nda} />
-                  <NDABody nda={nda} />
+                  <NDABody ndaTemplate={ndaTemplate} nda={nda} expanded={expandedBody} />
+
+                  {
+                    expandedBody === false ? (
+                      <NDAReadMoreContainer>
+                        <NDAReadMoreText>
+                          To read all terms,
+                          {' '}
+                          <AnchorButton 
+                            type="button" 
+                            onClick={() => {
+                              setStatus();
+                              setExpandedBody(!expandedBody);
+                            }}
+                          >
+                            click here
+                          </AnchorButton>
+                          .
+                        </NDAReadMoreText>
+                      </NDAReadMoreContainer>
+                    ) : null
+                  }
 
                 </NDAWrapper>
 

@@ -10,7 +10,7 @@ import ButtonAnchor from '../Clickable/ButtonAnchor';
 import ActiveLink from '../ActiveLink/ActiveLink';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
-import { NDA_OPTIONS } from '../SenderForm/SenderForm';
+import { NDA_TEMPLATE_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 import CalendarIcon from './images/calendar.svg';
@@ -240,7 +240,7 @@ const HistoryItem = ({ dashboardType, nda }) => (
           <TypeContainer>
             <HistoryItemTitle>Type</HistoryItemTitle>
             <RecipientInfoText>
-              {NDA_OPTIONS.find((option) => option.value === nda.metadata.ndaType).label}
+              {NDA_TEMPLATE_OPTIONS.find((option) => option.value === nda.metadata.ndaTemplateId).label}
             </RecipientInfoText>
           </TypeContainer>
           <StatusContainer>

@@ -108,10 +108,10 @@ const nda = {
       'http://drive.google.com/secret-document',
     ],
     ndaParamaters: {
-      receivingParty: 'Julia Qiu, Slope Ninja',
-      disclosingParty: 'Jake Murzy, Committer',
+      consentingParty: 'Julia Qiu, Slope Ninja',
+      proposingParty: 'Jake Murzy, Committer',
     },
-    ndaType: 'f8a74320-8760-11ea-8fac-ff87bd917b7f',
+    ndaTemplateId: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/STANDARD_MUTUAL.md',
     status: 'signed',
   },
 
@@ -210,6 +210,7 @@ const Browser = () => {
               <NDAImpl
                 user={user}
                 nda={nda}
+                ndaTemplate={{ content:'', data: {} }}
               />
 
             </NDAContainer>

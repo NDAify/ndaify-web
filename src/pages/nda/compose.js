@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import Router from 'next/router';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
@@ -7,8 +7,10 @@ import { API } from '../../api';
 import * as sessionStorage from '../../lib/sessionStorage';
 
 import { toQueryString } from '../../util';
+import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
 const NDAComposer = (props) => {
+  const [ndaTemplate, setNdaTemplate] = useState();
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   const senderEmail = props.user.metadata.linkedInProfile.emailAddress;
@@ -30,9 +32,23 @@ const NDAComposer = (props) => {
       // eslint-disable-next-line no-useless-return
       return;
     }
+
+    const api = new API();
+
+    const loadNdaTemplate = async (ndaTemplateId) => {
+      const { owner, repo, ref, path } = getTemplateIdParts(ndaTemplateId);
+      const { ndaTemplate } = await api.getNdaTemplate(owner, repo, ref, path);
+  
+      setNdaTemplate(ndaTemplate);
+    };
+
+    if (nda?.metadata?.ndaTemplateId) {
+      loadNdaTemplate(nda.metadata.ndaTemplateId);
+    }
   }, [nda, recipientIsSelf]);
 
-  if (!nda || recipientIsSelf) {
+  // TODO show a spinner fetching of ndaTemplate is taking too long
+  if (!nda || !ndaTemplate || recipientIsSelf) {
     return null;
   }
 
@@ -42,6 +58,7 @@ const NDAComposer = (props) => {
       <PageTitle prepend="Compose – " />
       <PageDescription />
       <NDAComposerImpl
+        ndaTemplate={ndaTemplate}
         user={props.user}
         nda={nda}
       />

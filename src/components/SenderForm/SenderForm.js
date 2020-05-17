@@ -176,14 +176,14 @@ const ProfileImage = styled.img`
   margin-right: 12px;
 `;
 
-export const NDA_OPTIONS = [
-  {
-    label: 'One Way',
-    value: 'f8a74320-8760-11ea-8fac-ff87bd917b7f',
-  },
+export const NDA_TEMPLATE_OPTIONS = [
   {
     label: 'Mutual',
-    value: '68f35700-8760-11ea-bd7b-1704efe89a6a',
+    value: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/STANDARD_MUTUAL.md',
+  },
+  {
+    label: 'PANDA',
+    value: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/PANDA.md',
   },
 ];
 
@@ -213,7 +213,7 @@ const SenderForm = ({ user, nda }) => {
 
   const handleSubmit = (
     {
-      ndaType,
+      ndaTemplateId,
       recipientFullName,
       recipientEmail,
     },
@@ -232,7 +232,7 @@ const SenderForm = ({ user, nda }) => {
           recipientEmail,
           metadata: {
             ...nda.metadata,
-            ndaType,
+            ndaTemplateId,
             recipientFullName,
           },
         },
@@ -261,7 +261,9 @@ const SenderForm = ({ user, nda }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
-    ndaType: nda.metadata.ndaType || NDA_OPTIONS.find((opt) => opt.label === 'One Way').value,
+    ndaTemplateId: nda.metadata.ndaTemplateId || NDA_TEMPLATE_OPTIONS.find(
+      (opt) => opt.label === 'Mutual'
+    ).value,
     recipientFullName: nda.metadata.recipientFullName || '',
     recipientEmail: nda.recipientEmail || '',
   };
@@ -350,11 +352,11 @@ const SenderForm = ({ user, nda }) => {
                 <InputContainer>
                   <FormikField
                     as={SelectInput}
-                    name="ndaType"
-                    options={NDA_OPTIONS}
+                    name="ndaTemplateId"
+                    options={NDA_TEMPLATE_OPTIONS}
                     placeholder="NDA type (one-way, mutual)"
                   />
-                  <FieldErrorMessage name="ndaType" component="div" />
+                  <FieldErrorMessage name="ndaTemplateId" component="div" />
                 </InputContainer>
 
                 <InputContainer>

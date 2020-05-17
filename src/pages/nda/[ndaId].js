@@ -4,6 +4,8 @@ import { API } from '../../api';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAImpl from '../../components/NDA/NDA';
 
+import getTemplateIdParts from '../../utils/getTemplateIdParts';
+
 const NDA = (props) => (
   <>
     <PageTitle />
@@ -37,7 +39,11 @@ NDA.getInitialProps = async (ctx) => {
     ({ nda } = await api.getNdaPreview(ndaId));
   }
 
+  const { owner, repo, ref, path } = getTemplateIdParts(nda.metadata.ndaTemplateId);
+  const { ndaTemplate } = await api.getNdaTemplate(owner, repo, ref, path);
+
   return {
+    ndaTemplate,
     nda,
     user,
   };
