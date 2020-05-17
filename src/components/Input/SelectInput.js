@@ -4,13 +4,7 @@ import { useField } from 'formik';
 
 import DownImg from './images/down.svg';
 
-const DownIcon = styled(DownImg)`
-  color: var(--ndaify-input-fg);
-
-  ${(props) => (props.outline ? `
-    color: var(--ndaify-fg);
-  ` : '')}
-`;
+const DownIcon = styled(DownImg)``;
 
 const SelectLabel = styled.div`
   font-size: 20px;
@@ -64,7 +58,14 @@ const DownIconWrapper = styled.div`
   svg {
     width: 16px;
     height: auto;
+    color: var(--ndaify-input-fg);
   }
+
+  ${(props) => (props.outline ? `
+    svg {
+      color: var(--ndaify-fg);
+    }
+  ` : '')}
 
   ${(props) => (props.compact ? `
     right: 8px;
@@ -120,7 +121,7 @@ export const SelectInputImpl = (props) => {
       <SelectLabel compact={props.compact} outline={props.outline}>
         {option?.label || props.placeholder}
         <DownIconWrapper compact={props.compact} outline={props.outline}>
-          <DownIcon compact={props.compact} outline={props.outline} />
+          <DownIcon />
         </DownIconWrapper>
       </SelectLabel>
       <StyledSelect

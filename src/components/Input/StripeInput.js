@@ -42,7 +42,7 @@ const cardStyle = {
 };
 
 const StripeInput = (props) => {
-  const [field, helpers] = useField(props);
+  const [field, meta, helpers] = useField(props);
 
   const handleChange = (value) => {
     helpers.setValue(value);
