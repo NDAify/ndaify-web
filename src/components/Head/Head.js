@@ -104,7 +104,7 @@ const Head = withRouter((props) => (
     <meta
       property="og:url"
       key="og:url"
-      content={`https://ndaify.com${props.router.pathname}`}
+      content={`https://ndaify.com${props.router.asPath}`}
     />
     <meta
       property="og:image"
