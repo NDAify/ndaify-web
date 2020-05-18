@@ -12,7 +12,7 @@ const Index = ({ user, ndaStatistics }) => {
 
   return (
     <>
-      <PageTitle />
+      <PageTitle append=" — Send and Receive Nondisclosure Agreements" />
       <PageDescription />
       <IndexImpl
         user={user}
