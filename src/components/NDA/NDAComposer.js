@@ -323,7 +323,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
       setStatus({ errorMessage: error.message });
     }
   };
-  const onSubmit = useCallback(handleSubmit, []);
+  const onSubmit = useCallback(handleSubmit, [expandedBody]);
 
   const handleFormValidate = (values) => {
     const errors = {};
@@ -442,7 +442,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                               type="button"
                               onClick={() => {
                                 setStatus();
-                                setExpandedBody(!expandedBody);
+                                setExpandedBody(true);
                               }}
                             >
                               click here
