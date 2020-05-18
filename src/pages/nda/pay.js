@@ -8,6 +8,7 @@ import {
 } from '@stripe/react-stripe-js';
 
 import { API } from '../../api';
+import useLocale from '../../lib/useLocale';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
@@ -16,6 +17,7 @@ import PaymentFormImpl from '../../components/PaymentForm/PaymentForm';
 const { publicRuntimeConfig: { STRIPE_PUBLISHABLE_KEY } } = getConfig();
 
 const PaymentForm = ({ user }) => {
+  const [preferredLocale] = useLocale();
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   const [stripePromise, setStripePromise] = useState(null);
@@ -43,7 +45,7 @@ const PaymentForm = ({ user }) => {
     <>
       <PageTitle />
       <PageDescription />
-      <Elements stripe={stripePromise} options={{ locale: 'auto' }}>
+      <Elements key={preferredLocale} stripe={stripePromise} options={{ locale: preferredLocale || 'auto' }}>
         <PaymentFormImpl user={user} nda={nda} />
       </Elements>
     </>
