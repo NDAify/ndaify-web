@@ -237,33 +237,45 @@ const FAQTitle = styled.div`
 
 const FAQcontent = styled.div`
   margin-top: 1pc;
-  margin-bottom: 2pc;
+  margin-bottom: 1pc;
   width: 100%;
   font-size: 20px;
+  line-height: 28px;
   color: var(--ndaify-fg);
 
   @media screen and (min-width: 768px) {
     font-size: 24px;
+    line-height: 32px;
+  }
+
+  a {
+    text-decoration: underline;
+    background-color: transparent;
+    color: var(--ndaify-fg);
+  }
+
+  a:visited {
+    color: var(--ndaify-fg);
   }
 `;
 
 const FAQQuestion = styled.div`
-  font-size: 20px;
+font-size: inherit;
+line-height: inherit;
   color: var(--ndaify-fg);
   margin-bottom: 1pc;
 
   @media screen and (min-width: 768px) {
-    font-size: 24px;
   }
 `;
 
 const FAQAnswer = styled.div`
-  font-size: 20px;
+  font-size: inherit;
+  line-height: inherit;
   color: var(--ndaify-fg);
   font-weight: 200;
 
   @media screen and (min-width: 768px) {
-    font-size: 24px;
   }
 `;
 
@@ -489,9 +501,17 @@ const Home = ({ user, ndaStatistics, refSource }) => {
             NDAify is
             {' '}
             <b>free</b>
-            . If and only if you think it adds value, you can consider supporting the project
+            . Now and then we may solicit contributions but the basic functionality
+            of sending and receiving NDAs will
             {' '}
-            on Github Sponsorships.
+            <a
+              href="https://www.npr.org/sections/money/2012/07/13/156737801/the-cost-of-free-doughnuts-70-years-of-regret"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              remain free forever
+            </a>
+            .
           </FAQAnswer>
         </FAQcontent>
       </FAQContainer>
