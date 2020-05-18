@@ -8,7 +8,7 @@ const parseLocaleParts = (locale) => {
     language,
     country,
     dir: getLangDir(locale),
-  }
-}
+  };
+};
 
 export default parseLocaleParts;

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect,
+} from 'react';
 import isUrl from 'is-url';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -113,7 +115,7 @@ const FormCopy = styled.h4`
   font-weight: 200;
   color: var(--ndaify-fg);
   margin: 0;
-  margin-bottom: 3pc;
+  margin-bottom: 4pc;
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
@@ -144,10 +146,16 @@ const NdaInfoContainer = styled.div`
 
 const NDAInfoText = styled.span`
   color: var(--ndaify-accents-9);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 28px;
   font-weight: 200;
-  max-width: 140px;
+  max-width: 200px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+    line-height: 32px;
+    max-width: 240px;
+  }
 `;
 
 const PageSection = styled.div`
@@ -343,7 +351,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
             <FormattedMessage
               id="home-title"
               defaultMessage="NDAify helps you keep your {typeOfSecret} secrets under wraps."
-              values={{ 
+              values={{
                 typeOfSecret: (
                   <Typewriter>
                     <FormattedMessage
@@ -355,7 +363,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                       defaultMessage="personal"
                     />
                   </Typewriter>
-                ) 
+                ),
               }}
             />
             {' '}

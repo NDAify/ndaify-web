@@ -262,7 +262,7 @@ const SenderForm = ({ user, nda }) => {
 
   const initialValues = {
     ndaTemplateId: nda.metadata.ndaTemplateId || NDA_TEMPLATE_OPTIONS.find(
-      (opt) => opt.label === 'Mutual'
+      (opt) => opt.label === 'Mutual',
     ).value,
     recipientFullName: nda.metadata.recipientFullName || '',
     recipientEmail: nda.recipientEmail || '',

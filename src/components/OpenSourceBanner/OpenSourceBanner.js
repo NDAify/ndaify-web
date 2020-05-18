@@ -30,7 +30,8 @@ const GithubLogoIconWrapper = styled.div`
 const BannerText = styled.span`
   color: var(--ndaify-accents-0);
   font-weight: 200;
-  text-align: center;
+  padding: 8px;
+  padding-left: 0;
 `;
 
 const OpenSourceBanner = () => (

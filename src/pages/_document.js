@@ -54,10 +54,11 @@ class Document extends NextDocument {
 
   render() {
     // eslint-disable-next-line no-underscore-dangle
-    const { 
-      systemLocale, 
-      preferredLocale, 
-      preferredTheme 
+    const {
+      systemLocale,
+      preferredLocale,
+      preferredTheme,
+    // eslint-disable-next-line no-underscore-dangle
     } = this.props.__NEXT_DATA__.props;
 
     const locale = pickSupportedLocale(preferredLocale || systemLocale);

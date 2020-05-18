@@ -9,7 +9,9 @@ import React, {
 } from 'react';
 import { IntlProvider as IntlProviderImpl } from 'react-intl';
 
-import { setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS } from '../lib/cookies';
+import {
+  setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS,
+} from './cookies';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
 import es from '../langs/es.json';
@@ -22,16 +24,14 @@ const MESSAGES = {
   'es-ES': es,
   'es-US': es,
   'es-MX': es,
-  'zh': zh,
+  zh,
 };
 
 const SUPPORTED_LOCALES = Object.keys(MESSAGES);
 
 const context = createContext();
 
-export const getLocalePreference = (ctx) => {
-  return getCookie(ctx, 'locale', BASE_COOKIE_OPTIONS);
-}
+export const getLocalePreference = (ctx) => getCookie(ctx, 'locale', BASE_COOKIE_OPTIONS);
 
 export const pickSupportedLocale = (requestedLocale, supportedLocales = SUPPORTED_LOCALES) => {
   if (supportedLocales.find((locale) => locale === requestedLocale)) {
@@ -45,7 +45,7 @@ export const pickSupportedLocale = (requestedLocale, supportedLocales = SUPPORTE
   }
 
   return DEFAULT_LOCALE_PARTS.language;
-}
+};
 
 export const IntlProvider = ({ children, ...props }) => {
   const [preferredLocale, setPreferredLocale] = useState(
@@ -81,6 +81,7 @@ export const IntlProvider = ({ children, ...props }) => {
   return (
     <context.Provider value={contextValue}>
       <IntlProviderImpl
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         locale={locale}
         defaultLocale={DEFAULT_LOCALE_PARTS.language}
@@ -96,4 +97,3 @@ export const IntlProvider = ({ children, ...props }) => {
 const useLocale = () => useContext(context);
 
 export default useLocale;
-

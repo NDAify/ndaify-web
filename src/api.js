@@ -5,7 +5,9 @@ import getConfig from 'next/config';
 import statuses from 'statuses';
 import Router from 'next/router';
 
-import { getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS } from './lib/cookies';
+import {
+  getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS,
+} from './lib/cookies';
 import { toQueryString, BaseError } from './util';
 
 export class APIError extends BaseError {

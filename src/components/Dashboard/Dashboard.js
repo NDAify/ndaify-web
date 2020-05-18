@@ -240,7 +240,11 @@ const HistoryItem = ({ dashboardType, nda }) => (
           <TypeContainer>
             <HistoryItemTitle>Type</HistoryItemTitle>
             <RecipientInfoText>
-              {NDA_TEMPLATE_OPTIONS.find((option) => option.value === nda.metadata.ndaTemplateId).label}
+              {
+                NDA_TEMPLATE_OPTIONS.find(
+                  (option) => option.value === nda.metadata.ndaTemplateId,
+                ).label
+              }
             </RecipientInfoText>
           </TypeContainer>
           <StatusContainer>

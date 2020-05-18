@@ -115,7 +115,7 @@ export const SelectInputImpl = (props) => {
   const option = props.options.find((opt) => opt.value === props.value);
 
   const { innerRef, options } = props;
-  
+
   return (
     <SelectContainer compact={props.compact} outline={props.outline}>
       <SelectLabel compact={props.compact} outline={props.outline}>
@@ -136,7 +136,7 @@ export const SelectInputImpl = (props) => {
         }
       </StyledSelect>
     </SelectContainer>
-  )
+  );
 };
 
 const SelectInput = (props) => {

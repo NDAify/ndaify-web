@@ -181,28 +181,26 @@ const LongText = styled.p`
 
 const createRenderers = ({ editable, ndaParamaters }) => {
   const slugger = new GitHubSlugger();
-  
-  const flatten = (text, child) => {
-    return typeof child === 'string'
-      ? text + child
-      : React.Children.toArray(child.props.children).reduce(flatten, text);
-  };
-  
-  const Heading = props => {
+
+  const flatten = (text, child) => (typeof child === 'string'
+    ? text + child
+    : React.Children.toArray(child.props.children).reduce(flatten, text));
+
+  const Heading = (props) => {
     const children = React.Children.toArray(props.children);
     const text = children.reduce(flatten, '');
     const slug = encodeURIComponent(slugger.slug(text));
-  
-    let Header = [
-      ,
-      NDASectionH1, 
-      NDASectionH2, 
-      NDASectionH3, 
+
+    const Header = [
+      null,
+      NDASectionH1,
+      NDASectionH2,
+      NDASectionH3,
       NDASectionH4,
       NDASectionH5,
-      NDASectionH6
+      NDASectionH6,
     ][props.level];
-  
+
     return (
       <Header id={slug}>
         {props.children}
@@ -210,41 +208,39 @@ const createRenderers = ({ editable, ndaParamaters }) => {
     );
   };
 
-  const Paragraph = ({ children, ...other}) => (
+  const Paragraph = ({ children }) => (
     <LongText>
       {children}
     </LongText>
   );
-  
-  const InlineCode = props => {
-    return ( 
-      editable ? (
-        <FormikField
-          as={ContentEditableInput}
-          name={props.value}
-        />
-      ) : (
-        <BoldText>{ndaParamaters && ndaParamaters[props.value]}</BoldText>
-      )
-    );
-  }
 
-  return { 
-    inlineCode: InlineCode, 
-    heading: Heading, 
+  const InlineCode = (props) => (
+    editable ? (
+      <FormikField
+        as={ContentEditableInput}
+        name={props.value}
+      />
+    ) : (
+      <BoldText>{ndaParamaters && ndaParamaters[props.value]}</BoldText>
+    )
+  );
+
+  return {
+    inlineCode: InlineCode,
+    heading: Heading,
     paragraph: Paragraph,
-  }
-}
+  };
+};
 
-const NDA = ({ ndaTemplate, nda, editable, expanded }) => {
+const NDA = ({
+  ndaTemplate, nda, editable, expanded,
+}) => {
   const createdAt = nda.createdAt || nowISO8601();
 
-  const markdownRenderers = useMemo(() => {
-    return createRenderers({
-      editable,
-      ndaParamaters: nda.metadata.ndaParamaters,
-    });
-  }, [editable, nda.metadata.ndaParamaters])
+  const markdownRenderers = useMemo(() => createRenderers({
+    editable,
+    ndaParamaters: nda.metadata.ndaParamaters,
+  }), [editable, nda.metadata.ndaParamaters]);
 
   return (
     <Container expanded={expanded}>
@@ -278,7 +274,7 @@ const NDA = ({ ndaTemplate, nda, editable, expanded }) => {
         <ReactMarkdown
           source={ndaTemplate.content}
           renderers={markdownRenderers}
-          linkTarget={(url) => !url.includes('#') ? '_blank' : null }
+          linkTarget={(url) => (!url.includes('#') ? '_blank' : null)}
           parserOptions={{ commonmark: true }}
         />
 

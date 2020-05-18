@@ -7,7 +7,9 @@ import React, {
   useMemo,
 } from 'react';
 
-import { setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS } from '../lib/cookies';
+import {
+  setCookie, getCookie, destroyCookie, BASE_COOKIE_OPTIONS,
+} from './cookies';
 
 const context = createContext();
 
@@ -33,9 +35,7 @@ export const useSystemAppearance = () => {
   return appearance;
 };
 
-export const getThemePreference = (ctx) => {
-  return getCookie(ctx, 'theme', BASE_COOKIE_OPTIONS);
-}
+export const getThemePreference = (ctx) => getCookie(ctx, 'theme', BASE_COOKIE_OPTIONS);
 
 export const ThemeProvider = ({ children, ...props }) => {
   const [preferredTheme, setPreferredTheme] = useState(

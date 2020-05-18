@@ -206,7 +206,7 @@ class App extends NextApp {
     const ssrNow = Date.now();
 
     // TODO infer this value since Server TZ (UTC) !== Client TZ and it'd break ssr
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
 
     return {
       errorPageProps,

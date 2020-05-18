@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
-import Button from '../Clickable/Button';
 
 import { SelectInputImpl } from '../Input/SelectInput';
 
@@ -195,11 +194,11 @@ const Footer = ({ withLogo }) => {
             compact
             outline
             name="theme"
-            value={THEME_OPTIONS.find(opt => opt.value === (preferredTheme || 'system')).value}
+            value={THEME_OPTIONS.find((opt) => opt.value === (preferredTheme || 'system')).value}
             options={THEME_OPTIONS}
             placeholder="Theme"
             onChange={(e) => {
-              const value = e.target.value;
+              const { value } = e.target;
               if (value === 'system') {
                 setPreferredTheme(null);
               } else {
@@ -213,11 +212,11 @@ const Footer = ({ withLogo }) => {
             compact
             outline
             name="locale"
-            value={LOCALE_OPTIONS.find(opt => opt.value === (preferredLocale || 'system')).value}
+            value={LOCALE_OPTIONS.find((opt) => opt.value === (preferredLocale || 'system')).value}
             options={LOCALE_OPTIONS}
             placeholder="Locale"
             onChange={(e) => {
-              const value = e.target.value;
+              const { value } = e.target;
               if (value === 'system') {
                 setPreferredLocale(null);
               } else {

@@ -328,13 +328,13 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
   const handleFormValidate = (values) => {
     const errors = {};
 
-    const fieldNames = Object.keys(values); 
+    const fieldNames = Object.keys(values);
 
     // check for blank-ness one at a time
-    for (let ii = 0; ii < fieldNames.length; ii++) {
+    for (let ii = 0; ii < fieldNames.length; ii += 1) {
       const fieldName = fieldNames[ii];
       const value = values[fieldName];
-      
+
       if (!value) {
         errors[fieldName] = 'You must fill in the blanks in the NDA';
         break;
@@ -346,11 +346,13 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
   const onFormValidate = useCallback(handleFormValidate, []);
 
   const ownerFullName = getFullNameFromUser(user);
-  
-  let variables = {
+
+  const variables = {
+    // eslint-disable-next-line no-template-curly-in-string
     '${proposingParty}': ownerFullName,
+    // eslint-disable-next-line no-template-curly-in-string
     '${consentingParty}': nda.metadata.recipientFullName,
-  }
+  };
 
   const initialValues = fillInNdaBlanks(ndaTemplate.data.blanks, variables);
 
@@ -378,7 +380,9 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
         validateOnBlur
         onSubmit={onSubmit}
       >
-        {({ values, status, setStatus, isSubmitting }) => {
+        {({
+          values, status, setStatus, isSubmitting,
+        }) => {
           const ownerCompanyName = extractCompanyNameFromText(
             values.proposingParty,
             ownerFullName,
@@ -434,8 +438,8 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                           <NDAReadMoreText>
                             To read all terms,
                             {' '}
-                            <AnchorButton 
-                              type="button" 
+                            <AnchorButton
+                              type="button"
                               onClick={() => {
                                 setStatus();
                                 setExpandedBody(!expandedBody);
@@ -460,12 +464,12 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                   }
 
                   {
-                    fieldKeys.map((fieldKey, ii) => (
-                      <FieldErrorMessage 
+                    fieldKeys.map((fieldKey) => (
+                      <FieldErrorMessage
                         key={fieldKey}
-                        style={{ marginBottom: '3pc' }} 
-                        name={fieldKey} 
-                        component="div" 
+                        style={{ marginBottom: '3pc' }}
+                        name={fieldKey}
+                        component="div"
                       />
                     ))
                   }

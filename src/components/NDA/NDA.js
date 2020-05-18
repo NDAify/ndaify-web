@@ -1283,7 +1283,7 @@ const NDA = ({ ndaTemplate, nda, user }) => {
         initialValues={{}}
         onSubmit={onSubmit}
       >
-        {({ status, isSubmitting }) => (
+        {({ status, isSubmitting, setStatus }) => (
           <Form>
             <NDADocumentContainer>
               <NDAContainer>
@@ -1298,8 +1298,8 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                         <NDAReadMoreText>
                           To read all terms,
                           {' '}
-                          <AnchorButton 
-                            type="button" 
+                          <AnchorButton
+                            type="button"
                             onClick={() => {
                               setStatus();
                               setExpandedBody(!expandedBody);

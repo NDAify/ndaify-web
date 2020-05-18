@@ -19,7 +19,7 @@ const blink = keyframes`
   100% {
     opacity: 0;
   }
-`
+`;
 
 const CursorWrapper = styled.span`
   color: var(--ndaify-fg);
@@ -28,48 +28,37 @@ const CursorWrapper = styled.span`
 
 const Cursor = () => (
   <CursorWrapper>|</CursorWrapper>
-)
+);
 
 const Typewriter = (props) => {
-  const ref = useRef(); 
+  const ref = useRef();
   const [preferredLocale] = useLocale();
-  const [output, start, destroy, pause, resume] = useTypewriter();  
+  const [output, start, destroy] = useTypewriter();
 
   useEffect(() => {
-    const items = [...ref.current.children].map(child => child.innerText);
+    const items = [...ref.current.children].map((child) => child.innerText);
     start(items);
 
     return () => {
-      destroy()
-    }
-  }, [preferredLocale]);
+      destroy();
+    };
+  }, [preferredLocale, start, destroy]);
 
   return (
     <>
       { output }
       <Cursor />
       <ItemsContainer ref={ref}>
-        { 
+        {
           React.Children.toArray(props.children).map(
-            child => (
+            (child) => (
               <li key={child.key}>{child}</li>
-            )
+            ),
           )
         }
       </ItemsContainer>
     </>
   );
-}
+};
 
 export default Typewriter;
-
-
-{/* <div>
-<button type="button" onClick={() => {
-  const items = [...ref.current.children].map(child => child.innerText);
-  start(items);
-}}>start</button>
-<button type="button" onClick={pause}>pause</button>
-<button type="button" onClick={resume}>resume</button>
-<button type="button" onClick={destroy}>destroy</button>
-</div> */}

@@ -36,10 +36,14 @@ const NDAComposer = (props) => {
     const api = new API();
 
     const loadNdaTemplate = async (ndaTemplateId) => {
-      const { owner, repo, ref, path } = getTemplateIdParts(ndaTemplateId);
-      const { ndaTemplate } = await api.getNdaTemplate(owner, repo, ref, path);
-  
-      setNdaTemplate(ndaTemplate);
+      const {
+        owner, repo, ref, path,
+      } = getTemplateIdParts(ndaTemplateId);
+      const {
+        ndaTemplate: ndaTpl,
+      } = await api.getNdaTemplate(owner, repo, ref, path);
+
+      setNdaTemplate(ndaTpl);
     };
 
     if (nda?.metadata?.ndaTemplateId) {

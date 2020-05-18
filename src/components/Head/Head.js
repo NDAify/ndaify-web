@@ -9,16 +9,16 @@ const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps.';
 const TITLE = 'NDAify';
 
 const JSONLD_DATA = {
-  "@context": "http://schema.org",
-  "@type": "Organization",
-  "name": "NDAify",
-  "description": META_DESCRIPTION,
-  "url": "https://ndaify.com",
-  "image": "https://ndaify.com/images/meta.png",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": 'https://ndaify.com',
-  }
+  '@context': 'http://schema.org',
+  '@type': 'Organization',
+  name: 'NDAify',
+  description: META_DESCRIPTION,
+  url: 'https://ndaify.com',
+  image: 'https://ndaify.com/images/meta.png',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://ndaify.com',
+  },
 };
 
 const GOOGLE_MAX_LENGTH = 160;
@@ -80,6 +80,7 @@ export const StaticHead = () => (
     {/* JsonLD */}
     <script
       type="application/ld+json"
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD_DATA) }}
     />
   </NextHead>

@@ -4,9 +4,9 @@ const fillInNdaBlanks = (blanks, variables) => {
   if (blanks) {
     Object.keys(blanks).forEach((blank) => {
       const { variable, placeholder } = blanks[blank];
-  
+
       values[blank] = placeholder || '';
-  
+
       if (variable && variables[variable]) {
         values[blank] = variables[variable];
       }
@@ -14,6 +14,6 @@ const fillInNdaBlanks = (blanks, variables) => {
   }
 
   return values;
-} 
+};
 
 export default fillInNdaBlanks;
