@@ -49,11 +49,12 @@ const SelectLabel = styled.div`
 `;
 
 const DownIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
   position: absolute;
   right: 16px;
   top: 24px;
   width: 16px;
-  display: flex;
 
   svg {
     width: 16px;

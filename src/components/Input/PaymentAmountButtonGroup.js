@@ -100,6 +100,10 @@ const DescriptionContainer = styled.div`
   color: var(--ndaify-fg);
   font-size: 24px;
   font-weight: 200;
+
+  a {
+    font-size: inherit;
+  }
 `;
 
 const Description = ({ activeOption }) => {
