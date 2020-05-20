@@ -47,10 +47,15 @@ const BoldText = styled.span`
 `;
 
 const NDATitleContainer = styled.div`
+  text-align: center;
+  width: 100%;
+`;
+
+const NDATitleFlexContainer = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
 `;
 
 const NDATitle = styled.h1`
@@ -59,11 +64,11 @@ const NDATitle = styled.h1`
   margin-bottom: 4pc;
   font-weight: 200;
   color: var(--ndaify-fg);
-  max-width: 80%;
+  max-width: 70%;
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
-    max-width: 70%;
+    max-width: 60%;
   }
 `;
 
@@ -245,9 +250,11 @@ const NDA = ({
   return (
     <Container expanded={expanded}>
       <NDATitleContainer>
-        <NDATitle>
-          <span>{ndaTemplate.data.title}</span>
-        </NDATitle>
+        <NDATitleFlexContainer>
+          <NDATitle>
+            <span>{ndaTemplate.data.title}</span>
+          </NDATitle>
+        </NDATitleFlexContainer>
       </NDATitleContainer>
 
       <NDASectionContainer>
