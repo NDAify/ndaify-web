@@ -20,7 +20,7 @@ import getSystemLocale from '../utils/getSystemLocale';
 import '../css/nprogress.css';
 
 const lightVars = `
-  --ndaify-bg: #DCF4E3;
+  --ndaify-bg: 220,244,227;
   --ndaify-fg: #424657;
 
   --ndaify-accents-0: #ffffff;
@@ -62,7 +62,7 @@ const lightVars = `
 `;
 
 const darkVars = `
-  --ndaify-bg: #424657;
+  --ndaify-bg: 66,70,87;
   --ndaify-fg: #FFFFFF;
 
   --ndaify-accents-0: #000000;
@@ -150,7 +150,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Raleway', sans-serif;
-    background-color: var(--ndaify-bg);
+    background-color: rgb(var(--ndaify-bg));
     min-width: 100vw;
     min-height: 100vh;
     margin: 0;

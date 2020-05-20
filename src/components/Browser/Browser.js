@@ -80,7 +80,7 @@ const BrowserToolbarAddressBar = styled.div`
 const BrowserWindow = styled.div`
   width: 100%;
   height: 466px;
-  background: var(--ndaify-bg);
+  background: rgb(var(--ndaify-bg));
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   box-sizing: border-box;

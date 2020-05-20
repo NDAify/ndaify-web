@@ -29,7 +29,7 @@ const AnimatedDialogContent = animated(styled(ReachDialogContent)`
   padding-right: 36px;
   padding-left: 36px;
   outline: none;
-  background: var(--ndaify-bg);
+  background: rgb(var(--ndaify-bg));
   border: 1px solid var(--ndaify-accents-4);
   box-shadow: 0 20px 100px -20px rgba(50,50,93,0.25), 0 -18px 60px -10px rgba(0,0,0,0.02);
   border-radius: var(--ndaify-accents-radius-2);

@@ -28,7 +28,7 @@ const Container = styled.div`
     width: 100%;
     height: 20%;
     content: "";
-    background: linear-gradient(to top, var(--ndaify-bg) 0%, transparent 100%);
+    background: linear-gradient(to top, rgb(var(--ndaify-bg)) 0%, rgba(var(--ndaify-bg), 0) 100%);
     pointer-events:none; 
   }
 
