@@ -14,16 +14,22 @@ import {
 } from './cookies';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
+// TODO dynamically load these in runtime instead of bundling up every lang
+import en from '../langs/en.json';
 import es from '../langs/es.json';
 import zh from '../langs/zh.json';
 
 const DEFAULT_LOCALE_PARTS = parseLocaleParts('en');
 
 const MESSAGES = {
+  // English
+  en,
+  // Spanish
   es,
   'es-ES': es,
   'es-US': es,
   'es-MX': es,
+  // Chinese
   zh,
 };
 
@@ -56,7 +62,6 @@ export const IntlProvider = ({ children, ...props }) => {
     if (preference === preferredLocale) {
       return;
     }
-
     if (preference) {
       setCookie(null, 'locale', preference, BASE_COOKIE_OPTIONS);
     } else {

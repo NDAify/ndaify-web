@@ -51,7 +51,8 @@
     "start": "node .next/dist/server.js",
     "set-secrets": "cat .env.prod | tr '\n' ' ' | xargs flyctl secrets set",
     "lint": "eslint src/",
-    "test": "yarn lint && jest"
+    "test": "yarn lint && jest",
+    "extract-i18n": "extract-messages --overwriteDefault true --defaultLocale en --locales=en,es,zh --flat true --output src/langs './src/**/!(*.test).js'"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -69,6 +70,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
+    "extract-react-intl-messages": "^4.1.1",
     "husky": "^4.2.5",
     "jest": "^25.5.4"
   },

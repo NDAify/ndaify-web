@@ -210,11 +210,11 @@ class App extends NextApp {
 
     return {
       errorPageProps,
-      preferredLocale,
       pageProps,
+      preferredLocale,
+      preferredTheme,
       ssrNow,
       systemLocale,
-      preferredTheme,
       timeZone,
     };
   }
