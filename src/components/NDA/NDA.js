@@ -5,6 +5,7 @@ import getConfig from 'next/config';
 import Router, { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
+import UAParser from 'ua-parser-js';
 
 import Link from 'next/link';
 
@@ -318,7 +319,7 @@ const DialogFooter = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding-top: 8px;
+  padding-top: 1pc;
 `;
 
 const DialogTitle = styled.h2`
@@ -336,7 +337,35 @@ const DialogText = styled.p`
   font-size: 20px;
   line-height: 24px;
   padding-bottom: 16px;
+  color
+  : var(--ndaify-fg);
+`;
+
+const DetailsRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1pc;
+`;
+
+const DetailsTitle = styled.div`
+  font-size: 16px;
+  color: var(--ndaify-accents-6);
+  width: 100%;
+  line-height: 32px;
+`;
+
+const DetailsText = styled.div`
+  display: block;
+  font-size: 20px;
   color: var(--ndaify-fg);
+  font-weight: 200;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -531,6 +560,94 @@ const NDAHeader = ({ nda, user }) => {
   );
 };
 
+const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
+  const ownerFullName = getFullNameFromUser(nda.owner);
+  const ownerEmail = nda.owner.metadata.linkedInProfile.emailAddress;
+  const [ownerIp] = nda.metadata.ownerFingerprint.xForwardedFor.split(',');
+  const ownerUserAgent = new UAParser(
+    nda.metadata.ownerFingerprint.xForwardedForUserAgent,
+  ).getBrowser();
+
+  const recipientFullName = getFullNameFromUser(nda.recipient);
+  const recipientEmail = nda.recipient.metadata.linkedInProfile.emailAddress;
+  const [recipientIp] = nda.metadata.recipientFingerprint.xForwardedFor.split(',');
+  const recipientUserAgent = new UAParser(
+    nda.metadata.recipientFingerprint.xForwardedForUserAgent,
+  ).getBrowser();
+
+  return (
+    <>
+      <DialogTitle>
+        Details
+      </DialogTitle>
+      <DetailsRow>
+        <DetailsTitle>Sender</DetailsTitle>
+        <DetailsText>{`${ownerFullName} <${ownerEmail}>`}</DetailsText>
+        <DetailsText>{ownerIp}</DetailsText>
+        <DetailsText>
+          {ownerUserAgent.name}
+          {' '}
+          {ownerUserAgent.version}
+        </DetailsText>
+      </DetailsRow>
+
+      <DetailsRow>
+        <DetailsTitle>Recipient</DetailsTitle>
+        <DetailsText>{`${recipientFullName} <${recipientEmail}>`}</DetailsText>
+        <DetailsText>{recipientIp}</DetailsText>
+        <DetailsText>
+          {recipientUserAgent.name}
+          {' '}
+          {recipientUserAgent.version}
+        </DetailsText>
+      </DetailsRow>
+
+      <DetailsRow>
+        <DetailsTitle>Delivered</DetailsTitle>
+        <DetailsText>
+          <FormattedTime
+            year="numeric"
+            month="long"
+            day="numeric"
+            value={nda.createdAt}
+          />
+        </DetailsText>
+      </DetailsRow>
+
+      <DetailsRow>
+        <DetailsTitle>Action</DetailsTitle>
+        <DetailsText>
+          Signed on
+          {' '}
+          <FormattedTime
+            year="numeric"
+            month="long"
+            day="numeric"
+            value={nda.updatedAt}
+          />
+        </DetailsText>
+      </DetailsRow>
+
+      <DetailsRow>
+        <DetailsTitle>NDA Version</DetailsTitle>
+        <DetailsText>{nda.metadata.ndaTemplateId}</DetailsText>
+      </DetailsRow>
+
+      <DialogFooter>
+        <DialogButton
+          outline
+          disabled={false}
+          onClick={() => {
+            setDetailDialogOpen(false);
+          }}
+        >
+          Dismiss
+        </DialogButton>
+      </DialogFooter>
+    </>
+  );
+};
+
 const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   const toast = useAlert();
 
@@ -708,46 +825,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       }
 
       <SimpleDialog show={isDetailDialogOpen}>
-        <DialogTitle>
-          Details
-        </DialogTitle>
-        <DialogText>
-          Sender:
-          {' '}
-          {'Julia Qiu <julia@juliaqiu.com>'}
-          <br />
-          Recipient:
-          {' '}
-          {'Jake Murzy <jake@murzy.com>'}
-          <br />
-          Delivered:
-          {' '}
-          <FormattedTime
-            year="numeric"
-            month="long"
-            day="numeric"
-            value={nda.createdAt}
-          />
-          <br />
-          Action: Signed on Date at Time
-          <br />
-          IP Address: 127.0.0.1
-          <br />
-          User Agent: Chrome
-          <br />
-          NDA Version: 4ca57fe4-8e52-11ea-8d3e-3f1bd62619aa
-        </DialogText>
-        <DialogFooter>
-          <DialogButton
-            outline
-            disabled={false}
-            onClick={() => {
-              setDetailDialogOpen(false);
-            }}
-          >
-            Dismiss
-          </DialogButton>
-        </DialogFooter>
+        <DetailsDialog nda={nda} setDetailDialogOpen={setDetailDialogOpen} />
       </SimpleDialog>
 
       <SimpleDialog show={isDeclineDialogOpen}>
@@ -1174,6 +1252,7 @@ const NDA = ({ ndaTemplate, nda, user }) => {
 
     if (!expandedBody) {
       setStatus({ errorMessage: 'Please expand the NDA to read all terms' });
+      setSubmitting(false);
       return;
     }
 
@@ -1202,7 +1281,7 @@ const NDA = ({ ndaTemplate, nda, user }) => {
       timeout(5000).then(() => setSubmitting(false));
     }
   };
-  const onSubmit = useCallback(handleSubmit, []);
+  const onSubmit = useCallback(handleSubmit, [expandedBody]);
 
   const [isScrolledBeyondActions, setIsScrolledBeyondActions] = useState(false);
 

@@ -21,6 +21,8 @@ const Container = styled.div`
   height: 800px;
   overflow: hidden;
 
+  z-index: -1;
+
   :after {
     position: absolute;
     bottom: 0;
