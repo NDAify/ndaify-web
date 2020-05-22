@@ -60,7 +60,7 @@ const useTypewriter = () => {
   }, []);
 
   const renderSequence = useCallback(async (ngrams, abortSignal) => {
-    // eslint-disable-next-line no-restricted-syntax
+    // eslint-disable-next-line no-restricted-syntax, no-unused-vars
     for (const ngram of ngrams) {
       if (abortSignal.aborted) {
         break;
@@ -87,7 +87,7 @@ const useTypewriter = () => {
       return;
     }
 
-    // eslint-disable-next-line no-restricted-syntax
+    // eslint-disable-next-line no-restricted-syntax, no-unused-vars
     for (const item of items) {
       let ngrams = generateTypeSequence(item, TYPE_PAUSE);
       // eslint-disable-next-line no-await-in-loop

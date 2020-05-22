@@ -1,6 +1,6 @@
 import React, {
   Fragment,
-  useEffect,
+  useRef,
   useState,
   useCallback,
   createContext,
@@ -14,26 +14,20 @@ import {
 } from './cookies';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
-// TODO dynamically load these in runtime instead of bundling up every lang
-import en from '../langs/en.json';
-import es from '../langs/es.json';
-import zh from '../langs/zh.json';
+const SUPPORTED_LOCALES_TO_LANG = {
+  // English
+  en: 'en',
+  // Spanish
+  es: 'es',
+  'es-ES': 'es',
+  'es-US': 'es',
+  'es-MX': 'es',
+  // Chinese
+  zh: 'zh',
+};
+const SUPPORTED_LOCALES = Object.keys(SUPPORTED_LOCALES_TO_LANG);
 
 const DEFAULT_LOCALE_PARTS = parseLocaleParts('en');
-
-const MESSAGES = {
-  // English
-  en,
-  // Spanish
-  es,
-  'es-ES': es,
-  'es-US': es,
-  'es-MX': es,
-  // Chinese
-  zh,
-};
-
-const SUPPORTED_LOCALES = Object.keys(MESSAGES);
 
 const context = createContext();
 
@@ -53,15 +47,24 @@ export const pickSupportedLocale = (requestedLocale, supportedLocales = SUPPORTE
   return DEFAULT_LOCALE_PARTS.language;
 };
 
-export const IntlProvider = ({ children, ...props }) => {
-  const [preferredLocale, setPreferredLocale] = useState(
-    () => props.preferredLocale,
-  );
+export const loadMessages = async (language) => {
+  const messages = await import(`../langs/${language}.json`).then((mod) => mod.default);
+  return messages;
+};
 
-  const setPreferredLocaleWithSideEffects = useCallback((preference) => {
+export const IntlProvider = ({ children, ...props }) => {
+  const messagesCache = useRef({
+    [props.locale]: props.initialMessages,
+  });
+
+  const [preferredLocale, setPreferredLocale] = useState(props.preferredLocale);
+  const [locale, setLocale] = useState(props.locale);
+
+  const setPreferredLocaleWithSideEffects = useCallback(async (preference) => {
     if (preference === preferredLocale) {
       return;
     }
+
     if (preference) {
       setCookie(null, 'locale', preference, BASE_COOKIE_OPTIONS);
     } else {
@@ -69,19 +72,26 @@ export const IntlProvider = ({ children, ...props }) => {
     }
 
     setPreferredLocale(preference);
-  }, [preferredLocale]);
+
+    // install new locale
+    const newLocale = pickSupportedLocale(preference || props.systemLocale);
+
+    const { language, dir } = parseLocaleParts(newLocale);
+    document.documentElement.lang = language;
+    document.documentElement.dir = dir;
+
+    const messages = await loadMessages(language);
+    messagesCache.current[language] = messages;
+
+    setLocale(newLocale);
+  }, [preferredLocale, props.systemLocale]);
 
   const contextValue = useMemo(() => [
     preferredLocale, setPreferredLocaleWithSideEffects,
   ], [preferredLocale, setPreferredLocaleWithSideEffects]);
 
-  const locale = pickSupportedLocale(preferredLocale || props.systemLocale);
-
-  useEffect(() => {
-    const { language, dir } = parseLocaleParts(locale);
-    document.documentElement.lang = language;
-    document.documentElement.dir = dir;
-  }, [locale]);
+  const { language } = parseLocaleParts(locale);
+  const messages = messagesCache.current[language];
 
   return (
     <context.Provider value={contextValue}>
@@ -90,7 +100,7 @@ export const IntlProvider = ({ children, ...props }) => {
         {...props}
         locale={locale}
         defaultLocale={DEFAULT_LOCALE_PARTS.language}
-        messages={MESSAGES[locale]}
+        messages={messages}
         textComponent={Fragment}
       >
         {children}

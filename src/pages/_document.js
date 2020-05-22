@@ -10,7 +10,6 @@ import getConfig from 'next/config';
 import { ServerStyleSheet } from 'styled-components';
 
 import { StaticHead } from '../components/Head/Head';
-import { pickSupportedLocale } from '../lib/useLocale';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
 const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
@@ -55,13 +54,11 @@ class Document extends NextDocument {
   render() {
     // eslint-disable-next-line no-underscore-dangle
     const {
-      systemLocale,
-      preferredLocale,
+      locale,
       preferredTheme,
     // eslint-disable-next-line no-underscore-dangle
     } = this.props.__NEXT_DATA__.props;
 
-    const locale = pickSupportedLocale(preferredLocale || systemLocale);
     const { language, dir } = parseLocaleParts(locale);
 
     return (

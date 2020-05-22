@@ -12,10 +12,16 @@ import ErrorView from '../components/ErrorView/ErrorView';
 
 import { EntityNotFoundError, APIError } from '../api';
 
-import { IntlProvider, getLocalePreference } from '../lib/useLocale';
+import {
+  IntlProvider,
+  getLocalePreference,
+  pickSupportedLocale,
+  loadMessages,
+} from '../lib/useLocale';
 import { ThemeProvider, getThemePreference } from '../lib/useTheme';
 
 import getSystemLocale from '../utils/getSystemLocale';
+import parseLocaleParts from '../utils/parseLocaleParts';
 
 import '../css/nprogress.css';
 
@@ -200,8 +206,16 @@ class App extends NextApp {
     }
 
     const preferredTheme = getThemePreference(ctx);
+
     const preferredLocale = getLocalePreference(ctx);
     const systemLocale = getSystemLocale(ctx);
+
+    // Given a user preferred locale and user's system locale determine the
+    // locale to render based what we support
+    const locale = pickSupportedLocale(preferredLocale || systemLocale);
+    const { language } = parseLocaleParts(locale);
+    // Initial messages are needed to rehydrate them on the client
+    const initialMessages = await loadMessages(language);
 
     const ssrNow = Date.now();
 
@@ -210,6 +224,8 @@ class App extends NextApp {
 
     return {
       errorPageProps,
+      initialMessages,
+      locale,
       pageProps,
       preferredLocale,
       preferredTheme,
@@ -223,11 +239,13 @@ class App extends NextApp {
     const {
       Component,
       errorPageProps,
-      preferredLocale,
+      initialMessages,
+      locale,
       pageProps,
+      preferredLocale,
+      preferredTheme,
       ssrNow,
       systemLocale,
-      preferredTheme,
       timeZone,
     } = this.props;
 
@@ -237,6 +255,8 @@ class App extends NextApp {
         <GlobalStyle />
 
         <IntlProvider
+          initialMessages={initialMessages}
+          locale={locale}
           preferredLocale={preferredLocale}
           systemLocale={systemLocale}
           timeZone={timeZone}
