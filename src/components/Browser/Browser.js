@@ -12,6 +12,8 @@ import ndaTemplate from './nda-template.mock.json';
 import nda from './nda.mock.json';
 import user from './user.mock.json';
 
+import BrowserLockIcon from './images/browserLock.svg';
+
 const InteractiveBrowser = styled(TiltView)`
   width: 576px;
   height: 500px;
@@ -75,6 +77,12 @@ const BrowserToolbarAddressBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  svg {
+    width: 8px;
+    height: auto;
+    margin-right: 4px;
+  }
 `;
 
 const BrowserWindow = styled.div`
@@ -150,6 +158,7 @@ const Browser = () => {
             <BrowserToolbarButton />
           </BrowserToolbarButtonGroup>
           <BrowserToolbarAddressBar>
+            <BrowserLockIcon />
             ndaify.com
           </BrowserToolbarAddressBar>
         </BrowserToolbar>
