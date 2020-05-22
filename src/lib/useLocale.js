@@ -87,8 +87,8 @@ export const IntlProvider = ({ children, ...props }) => {
   }, [preferredLocale, props.systemLocale]);
 
   const contextValue = useMemo(() => [
-    preferredLocale, setPreferredLocaleWithSideEffects,
-  ], [preferredLocale, setPreferredLocaleWithSideEffects]);
+    preferredLocale, setPreferredLocaleWithSideEffects, locale,
+  ], [preferredLocale, setPreferredLocaleWithSideEffects, locale]);
 
   const { language } = parseLocaleParts(locale);
   const messages = messagesCache.current[language];

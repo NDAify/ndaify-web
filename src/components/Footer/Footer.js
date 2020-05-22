@@ -44,7 +44,7 @@ export const LOCALE_OPTIONS = [
     value: 'es',
   },
   {
-    label: '中文 (zh)',
+    label: '漢語',
     value: 'zh',
   },
 ];
