@@ -10,6 +10,11 @@ import { SelectInputImpl } from '../Input/SelectInput';
 import useTheme from '../../lib/useTheme';
 import useLocale from '../../lib/useLocale';
 
+import SunIcon from './images/sun.svg';
+import MoonIcon from './images/moon.svg';
+import MonitorIcon from './images/monitor.svg';
+import GlobeIcon from './images/globe.svg';
+
 export const THEME_OPTIONS = [
   {
     label: 'System Theme',
@@ -154,6 +159,13 @@ const Footer = ({ withLogo }) => {
   const [preferredTheme, setPreferredTheme] = useTheme();
   const [preferredLocale, setPreferredLocale] = useLocale();
 
+  let themeIcon = MonitorIcon;
+  if (preferredTheme === 'dark') {
+    themeIcon = MoonIcon;
+  } else if (preferredTheme === 'light') {
+    themeIcon = SunIcon;
+  }
+
   return (
     <Container>
       {withLogo && (
@@ -194,6 +206,7 @@ const Footer = ({ withLogo }) => {
             compact
             outline
             name="theme"
+            labelIcon={themeIcon}
             value={THEME_OPTIONS.find((opt) => opt.value === (preferredTheme || 'system')).value}
             options={THEME_OPTIONS}
             placeholder="Theme"
@@ -211,6 +224,7 @@ const Footer = ({ withLogo }) => {
           <SelectInputImpl
             compact
             outline
+            labelIcon={GlobeIcon}
             name="locale"
             value={LOCALE_OPTIONS.find((opt) => opt.value === (preferredLocale || 'system')).value}
             options={LOCALE_OPTIONS}

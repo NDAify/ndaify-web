@@ -79,6 +79,37 @@ const DownIconWrapper = styled.div`
   ` : '')}
 `;
 
+const LabelIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 20px;
+
+  svg {
+    width: 20px;
+    height: auto;
+    color: var(--ndaify-input-fg);
+  }
+
+  ${(props) => (props.outline ? `
+    svg {
+      color: var(--ndaify-fg);
+    }
+  ` : '')}
+
+  ${(props) => (props.compact ? `
+    left: 8px;
+    top: 12px;
+    width: 16px;
+
+    svg {
+      width: 16px;
+    }
+  ` : '')}
+`;
+
 const SelectContainer = styled.div`
   position: relative;
   ${(props) => (props.compact ? 'height: 40px;' : 'height: 60px;')}
@@ -115,11 +146,20 @@ const StyledOption = styled.option`
 export const SelectInputImpl = (props) => {
   const option = props.options.find((opt) => opt.value === props.value);
 
-  const { innerRef, options } = props;
+  const { innerRef, options, labelIcon } = props;
+  const LabelIcon = labelIcon;
 
   return (
     <SelectContainer compact={props.compact} outline={props.outline}>
       <SelectLabel compact={props.compact} outline={props.outline}>
+        {
+          LabelIcon ? (
+            <LabelIconWrapper compact={props.compact} outline={props.outline}>
+              <LabelIcon />
+            </LabelIconWrapper>
+          )
+            : null
+        }
         {option?.label || props.placeholder}
         <DownIconWrapper compact={props.compact} outline={props.outline}>
           <DownIcon />
