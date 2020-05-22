@@ -13,7 +13,6 @@ const UserDetailBannerContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
 
   @media screen and (min-width: 992px) {
@@ -64,6 +63,10 @@ const UserEmailText = styled.span`
   }
 `;
 
+const UserActionButtonContainer = styled.div`
+  display: flex;
+`;
+
 const UserActionBanner = ({ user, actionButton: ActionButton }) => {
   if (!user) {
     return null;
@@ -77,7 +80,13 @@ const UserActionBanner = ({ user, actionButton: ActionButton }) => {
         </UserEmailText>
       </UserDetails>
 
-      {ActionButton && <ActionButton />}
+      {
+        ActionButton ? (
+          <UserActionButtonContainer>
+            <ActionButton />
+          </UserActionButtonContainer>
+        ) : null
+      }
 
     </UserDetailBannerContainer>
   );
