@@ -1,5 +1,5 @@
 import React, {
-  useState, useCallback,
+  useState, useCallback, useEffect,
 } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -12,6 +12,8 @@ import {
 } from 'formik';
 
 import Link from 'next/link';
+
+import { API } from '../../api';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -28,6 +30,7 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
+import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
 import HideImg from './images/hide.svg';
 
@@ -153,6 +156,19 @@ const DisclaimerText = styled.span`
   }
 `;
 
+const NdaDescriptionText = styled.span`
+  display: block;
+  color: var(--ndaify-accents-6);
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 28px;
+  margin-top: 6px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
+`;
+
 const InputContainer = styled.div`
   margin-bottom: 2pc;
 
@@ -188,6 +204,31 @@ export const NDA_TEMPLATE_OPTIONS = [
 ];
 
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
+
+const TemplateDescription = (props) => {
+  const [ndaTemplateDescription, setNdaTemplateDescription] = useState();
+
+  const loadNdaDescription = useCallback(async (ndaTemplateId) => {
+    const api = new API();
+    const {
+      owner, repo, ref, path,
+    } = getTemplateIdParts(ndaTemplateId);
+
+    const {
+      ndaTemplate,
+    } = await api.getNdaTemplate(owner, repo, ref, path);
+
+    setNdaTemplateDescription(ndaTemplate.data.description);
+  }, []);
+
+  useEffect(() => {
+    loadNdaDescription(props.ndaTemplateId);
+  }, [loadNdaDescription, props.ndaTemplateId]);
+
+  return (
+    <NdaDescriptionText>{ndaTemplateDescription}</NdaDescriptionText>
+  );
+};
 
 const SenderForm = ({ user, nda }) => {
   const router = useRouter();
@@ -336,6 +377,7 @@ const SenderForm = ({ user, nda }) => {
             onSubmit={onSubmit}
           >
             {({
+              values,
               setFieldValue,
               status,
               isSubmitting,
@@ -356,6 +398,7 @@ const SenderForm = ({ user, nda }) => {
                     options={NDA_TEMPLATE_OPTIONS}
                     placeholder="NDA type (one-way, mutual)"
                   />
+                  <TemplateDescription ndaTemplateId={values.ndaTemplateId} />
                   <FieldErrorMessage name="ndaTemplateId" component="div" />
                 </InputContainer>
 
