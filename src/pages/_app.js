@@ -205,7 +205,7 @@ class App extends NextApp {
       }
     }
 
-    const preferredTheme = getThemePreference(ctx);
+    const preferredTheme = Component.themeOverride || getThemePreference(ctx);
 
     const preferredLocale = getLocalePreference(ctx);
     const systemLocale = getSystemLocale(ctx);
