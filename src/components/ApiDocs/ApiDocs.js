@@ -29,6 +29,7 @@ const Container = styled.div`
 
 const RedocContainer = styled.div`
   margin-top: 1pc;
+  width: 100%;
   background-color: #FFFFFF;
   
   & .redoc-markdown a {
