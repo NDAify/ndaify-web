@@ -74,7 +74,8 @@ const CopyTitle = styled.h3`
   font-size: 28px;
   font-weight: 200;
   margin: 0;
-  margin-bottom: 3pc;
+  margin-bottom: 7pc;
+  position: relative;
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
@@ -84,11 +85,16 @@ const CopyTitle = styled.h3`
 const CopyText = styled.span`
   font-size: 28px;
   color: var(--ndaify-fg);
-  padding-bottom: 5pc;
 
   @media screen and (min-width: 992px) {
     font-size: 32px;
   }
+`;
+
+const FormattedMessageContainer = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const FreeText = styled.span`
@@ -360,31 +366,34 @@ const Home = ({ user, ndaStatistics, refSource }) => {
         </LogoImageContainer>
         <ContentContainer>
           <CopyTitle>
-            <FormattedMessage
-              id="home-title"
-              defaultMessage="NDAify helps you keep your {typeOfSecret} secrets under wraps."
-              values={{
-                typeOfSecret: (
-                  <Typewriter>
-                    <FormattedMessage
-                      id="home-title-value-trade"
-                      defaultMessage="trade"
-                    />
-                    <FormattedMessage
-                      id="home-title-value-personal"
-                      defaultMessage="personal"
-                    />
-                  </Typewriter>
-                ),
-              }}
-            />
-            {' '}
-            <CopyText>
-              Try it
+            <FormattedMessageContainer>
+              <FormattedMessage
+                id="home-title"
+                defaultMessage="NDAify helps you keep your {typeOfSecret} secrets under wraps."
+                values={{
+                  typeOfSecret: (
+                    <Typewriter>
+                      <FormattedMessage
+                        id="home-title-value-trade"
+                        defaultMessage="trade"
+                      />
+                      <FormattedMessage
+                        id="home-title-value-personal"
+                        defaultMessage="personal"
+                      />
+                    </Typewriter>
+                  ),
+                }}
+              />
+
               {' '}
-              <FreeText>free</FreeText>
-              .
-            </CopyText>
+              <CopyText>
+                Try it
+                {' '}
+                <FreeText>free</FreeText>
+                .
+              </CopyText>
+            </FormattedMessageContainer>
           </CopyTitle>
           <Subtitle>
             <FormattedMessage
