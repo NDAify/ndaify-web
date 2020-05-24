@@ -101,8 +101,36 @@ const FooterContainer = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+const FooterNavigation = styled.nav`
+  padding: 0;
+  margin: 0;
+  margin-bottom: 2pc;
+`;
 
-const FootetTextWrapper = styled.div`
+const FooterNavigationItem = styled.span`
+  float: left;
+  width: 100%;
+  text-align: center;
+  font-weight: 200;
+  font-size: 16px;
+  color: var(--ndaify-fg);
+  list-style-type: none;
+  padding: 8px;
+  
+  @media screen and (min-width: 576px) {
+    width: auto;
+  }
+
+  & a {
+    color: inherit;
+  }
+
+  & a:visited {
+    color: inherit;
+  }
+`;
+
+const FooterTextWrapper = styled.div`
   margin-bottom: 2pc;
   display: flex;
   flex-direction: column;
@@ -180,7 +208,37 @@ const Footer = ({ withLogo }) => {
         </FooterLogoContainer>
       )}
 
-      <FootetTextWrapper>
+      <FooterNavigation>
+        <FooterNavigationItem>
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </FooterNavigationItem>
+        <FooterNavigationItem>
+          <a
+            href="/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms of Use
+          </a>
+        </FooterNavigationItem>
+        <FooterNavigationItem>
+          <a
+            href="/dev/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Developers
+          </a>
+        </FooterNavigationItem>
+      </FooterNavigation>
+
+      <FooterTextWrapper>
         <FooterText>
           <FormattedMessage
             id="footer-powered-by"
@@ -198,7 +256,7 @@ const Footer = ({ withLogo }) => {
             NDAify
           </a>
         </FooterText>
-      </FootetTextWrapper>
+      </FooterTextWrapper>
 
       <PreferencesContainer>
         <PreferencesInputWrapper>
