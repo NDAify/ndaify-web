@@ -119,6 +119,8 @@ const FooterNavigationItem = styled.span`
   
   @media screen and (min-width: 576px) {
     width: auto;
+    padding-right: 1pc;
+    padding-left: 1pc;
   }
 
   & a {
