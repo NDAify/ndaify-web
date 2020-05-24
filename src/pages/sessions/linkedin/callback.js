@@ -82,7 +82,7 @@ class Callback extends Component {
 
       // `sessionToken` will be injected into app and handeled via cookies
       try {
-        // TODO(juliaqiuxy) LinkedIn API does support PKCE. We should mitigage
+        // TODO(juliaqiuxy) LinkedIn API does not support PKCE. We should mitigage
         // phishing attacks using CSRF tokens in oAuth state
         await api.startSessionByOAuth(
           oAuthAuthorizationCode,
