@@ -32,7 +32,7 @@ const Cursor = () => (
 
 const Typewriter = (props) => {
   const ref = useRef();
-  const [preferredLocale] = useLocale();
+  const [, , locale] = useLocale();
   const [output, start, destroy] = useTypewriter();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Typewriter = (props) => {
     return () => {
       destroy();
     };
-  }, [preferredLocale, start, destroy]);
+  }, [locale, start, destroy]);
 
   return (
     <>
