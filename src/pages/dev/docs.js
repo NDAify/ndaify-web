@@ -21,14 +21,14 @@ ApiDocs.getInitialProps = async (ctx) => {
   const api = new API({ ctx });
 
   let user;
-  let openApiSpec;
   try {
     ({ user } = await api.tryGetSession());
-    (openApiSpec = await api.tryGetOpenApiSpec());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);
   }
+
+  const openApiSpec = await api.tryGetOpenApiSpec();
 
   return {
     user,

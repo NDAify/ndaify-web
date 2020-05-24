@@ -138,14 +138,18 @@ const MenuLink = React.forwardRef(({
   </Link>
 ));
 
-const UserActionsDropdown = () => {
+const UserActionsDropdown = (props) => {
   const handleLogOutClick = async () => {
     const api = new API();
     await api.endSession();
 
-    Router.push('/');
+    if (props.onLogOut) {
+      props.onLogOut();
+    } else {
+      Router.push('/');
+    }
   };
-  const onLogOutClick = useCallback(handleLogOutClick, []);
+  const onLogOutClick = useCallback(handleLogOutClick, [props.onLogOut]);
 
   return (
     <ReachMenu>

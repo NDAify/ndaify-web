@@ -8,6 +8,7 @@ import {
   transparentize,
 } from 'polished';
 import styled from 'styled-components';
+import Router from 'next/router';
 
 import Link from 'next/link';
 
@@ -244,7 +245,10 @@ const ApiDocs = ({ openApiSpec, user }) => (
                   </ButtonAnchor>
                 </Link>
 
-                <UserActionsDropdown user={user} />
+                <UserActionsDropdown
+                  user={user}
+                  onLogOut={() => { Router.push(Router.router.asPath); }}
+                />
               </>
             )}
           />
