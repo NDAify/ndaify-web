@@ -1,15 +1,16 @@
 import React from 'react';
-import ApiDocsImpl from '../../components/ApiDocs/ApiDocs';
-
-import { API } from '../../api';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
+import { API } from '../../api';
+import enhanceOpenApiSpec from '../../utils/enhanceOpenApiSpec';
 
-const ApiDocs = ({ user }) => (
+import ApiDocsImpl from '../../components/ApiDocs/ApiDocs';
+
+const ApiDocs = ({ user, openApiSpec }) => (
   <>
     <PageTitle prepend="API Docs – " />
     <PageDescription />
-    <ApiDocsImpl user={user} />
+    <ApiDocsImpl user={user} openApiSpec={openApiSpec} />
   </>
 );
 
@@ -20,8 +21,10 @@ ApiDocs.getInitialProps = async (ctx) => {
   const api = new API({ ctx });
 
   let user;
+  let openApiSpec;
   try {
     ({ user } = await api.tryGetSession());
+    (openApiSpec = await api.tryGetOpenApiSpec());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);
@@ -29,6 +32,7 @@ ApiDocs.getInitialProps = async (ctx) => {
 
   return {
     user,
+    openApiSpec: enhanceOpenApiSpec(openApiSpec),
   };
 };
 

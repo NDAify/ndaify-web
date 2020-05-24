@@ -30,6 +30,7 @@
     "next-images": "^1.4.0",
     "nookies": "^2.2.2",
     "nprogress": "^0.2.0",
+    "openapi-snippet": "^0.8.1",
     "path-to-regexp": "^6.1.0",
     "polished": "^3.6.3",
     "react": "^16.13.1",

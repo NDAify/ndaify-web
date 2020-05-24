@@ -8,7 +8,6 @@ import {
   transparentize,
 } from 'polished';
 import styled from 'styled-components';
-import getConfig from 'next/config';
 
 import Link from 'next/link';
 
@@ -17,10 +16,23 @@ import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 
-const { publicRuntimeConfig: { API_URL } } = getConfig();
-
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const RedocContainer = styled.div`
+  margin-top: 1pc;
   background-color: #FFFFFF;
+  
+  & .redoc-markdown a {
+    text-decoration: underline;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -180,16 +192,17 @@ const defaultTheme = {
     gutter: '2px',
   },
   rightPanel: {
-    backgroundColor: darken(0.1, '#424657'),
+    backgroundColor: '#424657',
     width: '40%',
     textColor: '#ffffff',
   },
   codeBlock: {
-    backgroundColor: '#424657',
+    backgroundColor: darken(0.1, '#424657'),
   },
 };
 
 const redocOptions = {
+  payloadSampleIdx: 0,
   hideDownloadButton: true,
   noAutoAuth: false,
   showExtensions: true,
@@ -201,7 +214,7 @@ const redocOptions = {
   theme: defaultTheme,
 };
 
-const ApiDocs = ({ user }) => (
+const ApiDocs = ({ openApiSpec, user }) => (
   <>
     <Container>
       {
@@ -234,10 +247,12 @@ const ApiDocs = ({ user }) => (
         )
       }
 
-      <RedocStandalone
-        specUrl={`${API_URL}/static/openapi.json`}
-        options={redocOptions}
-      />
+      <RedocContainer>
+        <RedocStandalone
+          spec={openApiSpec}
+          options={redocOptions}
+        />
+      </RedocContainer>
     </Container>
   </>
 );
