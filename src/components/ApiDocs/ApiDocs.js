@@ -33,6 +33,12 @@ const RedocContainer = styled.div`
   & .redoc-markdown a {
     text-decoration: underline;
   }
+
+  & a[href="https://github.com/Redocly/redoc"] { 
+    margin-top: 2pc;
+    opacity: 0.4; 
+    text-decoration: none;
+  }
 `;
 
 const ProfileImage = styled.img`
