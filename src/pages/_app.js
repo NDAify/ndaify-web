@@ -212,7 +212,7 @@ class App extends NextApp {
 
     // Given a user preferred locale and user's system locale determine the
     // locale to render based what we support
-    const locale = pickSupportedLocale(preferredLocale || systemLocale);
+    const locale = pickSupportedLocale(Component.localeOverride || preferredLocale || systemLocale);
     const { language } = parseLocaleParts(locale);
     // Initial messages are needed to rehydrate them on the client
     const initialMessages = await loadMessages(language);

@@ -16,6 +16,8 @@ const ApiDocs = ({ user, openApiSpec }) => (
 
 // Docs only support dark theme for now
 ApiDocs.themeOverride = 'dark';
+// Docs only support en-US locale for now
+ApiDocs.localeOverride = 'en-US';
 
 ApiDocs.getInitialProps = async (ctx) => {
   const api = new API({ ctx });
