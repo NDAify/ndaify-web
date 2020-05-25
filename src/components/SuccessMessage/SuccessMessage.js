@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { FormattedMessage } from 'react-intl';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Footer from '../Footer/Footer';
@@ -89,7 +90,10 @@ const SuccessMessage = ({ user, nda }) => (
                     src={user.metadata.linkedInProfile.profilePicture}
                   />
                   <span>
-                    Dashboard
+                    <FormattedMessage
+                      id="user-action-banner-label-dashboard"
+                      defaultMessage="Dashboard"
+                    />
                   </span>
                 </ButtonAnchor>
               </Link>

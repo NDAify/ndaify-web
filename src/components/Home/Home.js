@@ -4,7 +4,7 @@ import React, {
 import isUrl from 'is-url';
 import Link from 'next/link';
 import Router from 'next/router';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, defineMessage, FormattedMessage } from 'react-intl';
 
 import styled from 'styled-components';
 
@@ -95,10 +95,6 @@ const FormattedMessageContainer = styled.span`
   position: absolute;
   top: 0;
   left: 0;
-`;
-
-const FreeText = styled.span`
-  color: var(--ndaify-fg);
 `;
 
 const Subtitle = styled.h3`
@@ -285,7 +281,13 @@ const FAQAnswer = styled.div`
   }
 `;
 
+const secretLinkInputPlaceholder = defineMessage({
+  id: 'secret-link-input-placeholder',
+  defaultMessage: 'Paste a secret link',
+});
+
 const Home = ({ user, ndaStatistics, refSource }) => {
+  const intl = useIntl();
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
     sessionStorage.setItem('nda', null);
@@ -343,7 +345,10 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                       src={user.metadata.linkedInProfile.profilePicture}
                     />
                     <span>
-                      Dashboard
+                      <FormattedMessage
+                        id="user-action-banner-label-dashboard"
+                        defaultMessage="Dashboard"
+                      />
                     </span>
                   </ButtonAnchor>
                 </Link>
@@ -388,10 +393,10 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
               {' '}
               <CopyText>
-                Try it
-                {' '}
-                <FreeText>free</FreeText>
-                .
+                <FormattedMessage
+                  id="home-title-decoration"
+                  defaultMessage="Try it free."
+                />
               </CopyText>
             </FormattedMessageContainer>
           </CopyTitle>
@@ -421,7 +426,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                   <FormikField
                     as={Input}
                     name="secretLink"
-                    placeholder="Paste a secret link"
+                    placeholder={intl.formatMessage(secretLinkInputPlaceholder)}
 
                     spellCheck={false}
                     autoCapitalize="none"
@@ -436,7 +441,10 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                   color="var(--ndaify-accents-success)"
                   spin={isSubmitting}
                 >
-                  Continue
+                  <FormattedMessage
+                    id="button-continue"
+                    defaultMessage="Continue"
+                  />
                 </Button>
               </Form>
             )}
@@ -445,23 +453,41 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           {
             user ? (
               <FormCopy>
-                Or, go to
-                {' '}
-                <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
-                  <Anchor>dashboard</Anchor>
-                </Link>
-                {' '}
-                to see your NDAs.
+                <FormattedMessage
+                  id="home-form-dashboard-info"
+                  defaultMessage="Or, go to {dashboard} to see your NDAs."
+                  values={{
+                    dashboard: (
+                      <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/incoming">
+                        <Anchor>
+                          <FormattedMessage
+                            id="home-form-dashboard-info-dashboard"
+                            defaultMessage="dashboard"
+                          />
+                        </Anchor>
+                      </Link>
+                    ),
+                  }}
+                />
               </FormCopy>
             ) : (
               <FormCopy>
-                Or,
-                {' '}
-                <Link passHref href="/login">
-                  <Anchor>log in</Anchor>
-                </Link>
-                {' '}
-                to see your NDAs.
+                <FormattedMessage
+                  id="home-form-login-info"
+                  defaultMessage="Or, {login} to see your NDAs."
+                  values={{
+                    login: (
+                      <Link passHref href="/login">
+                        <Anchor>
+                          <FormattedMessage
+                            id="home-form-login-info-login"
+                            defaultMessage="log in"
+                          />
+                        </Anchor>
+                      </Link>
+                    ),
+                  }}
+                />
               </FormCopy>
             )
           }
@@ -469,9 +495,13 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           <NdaInfoContainer>
             <NdaIcon />
             <NDAInfoText>
-              {ndaStatistics.sum7days}
-              {' '}
-              NDAs were sent in the last 7 days
+              <FormattedMessage
+                id="home-nda-statistics-sum-7-days"
+                defaultMessage="{num7days} NDAs were sent in the last 7 days"
+                values={{
+                  num7days: ndaStatistics.sum7days,
+                }}
+              />
             </NDAInfoText>
           </NdaInfoContainer>
 
@@ -481,7 +511,10 @@ const Home = ({ user, ndaStatistics, refSource }) => {
       <PageSection>
         <PageSectionPane>
           <span>
-            Protect your assets behind an NDA-wall
+            <FormattedMessage
+              id="home-copy-behind-wall"
+              defaultMessage="Protect your assets behind an NDA-wall"
+            />
           </span>
         </PageSectionPane>
         <PageOverflowPane>
@@ -490,37 +523,75 @@ const Home = ({ user, ndaStatistics, refSource }) => {
       </PageSection>
 
       <FAQContainer>
-        <FAQTitle>Frequently asked questions</FAQTitle>
+        <FAQTitle>
+          <FormattedMessage
+            id="home-faq-title"
+            defaultMessage="Frequently asked questions"
+          />
+        </FAQTitle>
 
         <FAQcontent>
-          <FAQQuestion>Can I add a new NDA?</FAQQuestion>
+          <FAQQuestion>
+            <FormattedMessage
+              id="home-faq-new-nda"
+              defaultMessage="Can I add a new NDA?"
+            />
+          </FAQQuestion>
           <FAQAnswer>
-            No. This is the whole point of NDAify. We want to have a standard
-            {' '}
-            text that everyone’s familiar with as to how they’re protected by being a party to it.
+            <FormattedMessage
+              id="home-faq-answer-new-nda"
+              defaultMessage="No. This is the whole point of NDAify. We want to have a standard text that everyone’s familiar with as to how they’re protected by being a party to it."
+            />
           </FAQAnswer>
         </FAQcontent>
         <FAQcontent>
-          <FAQQuestion>Can I amend the NDA?</FAQQuestion>
-          <FAQAnswer>You can’t currently make ammendments to the NDA.</FAQAnswer>
+          <FAQQuestion>
+            <FormattedMessage
+              id="home-faq-question-amend-nda"
+              defaultMessage="Can I amend the NDA?"
+            />
+          </FAQQuestion>
+          <FAQAnswer>
+            <FormattedMessage
+              id="home-faq-answer-amend-nda"
+              defaultMessage="You can’t currently make ammendments to the NDA."
+            />
+          </FAQAnswer>
         </FAQcontent>
         <FAQcontent>
-          <FAQQuestion>How much does NDAify cost?</FAQQuestion>
+          <FAQQuestion>
+            <FormattedMessage
+              id="home-faq-question-cost"
+              defaultMessage="How much does NDAify cost?"
+            />
+          </FAQQuestion>
           <FAQAnswer>
-            NDAify is
-            {' '}
-            <b>free</b>
-            . Now and then we may solicit contributions but the basic functionality
-            of sending and receiving NDAs will
-            {' '}
-            <a
-              href="https://www.npr.org/sections/money/2012/07/13/156737801/the-cost-of-free-doughnuts-70-years-of-regret"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              remain free forever
-            </a>
-            .
+            <FormattedMessage
+              id="home-faq-answer-cost"
+              defaultMessage="NDAify is {free}. Now and then we may solicit contributions but the basic functionality of sending and receiving NDAs will {remainFreeForever}."
+              values={{
+                free: (
+                  <b>
+                    <FormattedMessage
+                      id="home-faq-answer-cost-free"
+                      defaultMessage="free"
+                    />
+                  </b>
+                ),
+                remainFreeForever: (
+                  <a
+                    href="https://www.npr.org/sections/money/2012/07/13/156737801/the-cost-of-free-doughnuts-70-years-of-regret"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FormattedMessage
+                      id="home-faq-answer-cost-remain-free"
+                      defaultMessage="remain free forever"
+                    />
+                  </a>
+                ),
+              }}
+            />
           </FAQAnswer>
         </FAQcontent>
       </FAQContainer>

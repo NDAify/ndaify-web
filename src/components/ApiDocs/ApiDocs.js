@@ -9,6 +9,7 @@ import {
 } from 'polished';
 import styled from 'styled-components';
 import Router from 'next/router';
+import { FormattedMessage } from 'react-intl';
 
 import Link from 'next/link';
 
@@ -241,7 +242,10 @@ const ApiDocs = ({ openApiSpec, user }) => (
                       src={user.metadata.linkedInProfile.profilePicture}
                     />
                     <span>
-                      Dashboard
+                      <FormattedMessage
+                        id="user-action-banner-label-dashboard"
+                        defaultMessage="Dashboard"
+                      />
                     </span>
                   </ButtonAnchor>
                 </Link>

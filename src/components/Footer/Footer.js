@@ -217,7 +217,10 @@ const Footer = ({ withLogo }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Privacy Policy
+            <FormattedMessage
+              id="footer-nav-privacy"
+              defaultMessage="Privacy Policy"
+            />
           </a>
         </FooterNavigationItem>
         <FooterNavigationItem>
@@ -226,7 +229,10 @@ const Footer = ({ withLogo }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Terms of Use
+            <FormattedMessage
+              id="footer-nav-terms"
+              defaultMessage="Terms of Use"
+            />
           </a>
         </FooterNavigationItem>
         <FooterNavigationItem>
@@ -235,7 +241,10 @@ const Footer = ({ withLogo }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            UETA and ESIGN Act
+            <FormattedMessage
+              id="footer-nav-ueta-esign"
+              defaultMessage="UETA and ESIGN Act"
+            />
           </a>
         </FooterNavigationItem>
         <FooterNavigationItem>
@@ -244,7 +253,10 @@ const Footer = ({ withLogo }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Developers
+            <FormattedMessage
+              id="footer-nav-developers"
+              defaultMessage="Developers"
+            />
           </a>
         </FooterNavigationItem>
       </FooterNavigation>
@@ -311,19 +323,29 @@ const Footer = ({ withLogo }) => {
 
       </PreferencesContainer>
 
-
       <Disclaimer>
-        NDAify is not a law firm, does not provide legal services or advice, and
-        does not provide or participate in legal representation. Singing the NDA
-        signifies that you have read and agree to the
-        {' '}
-        <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
-        {' '}
-        and
-        {' '}
-        <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
-        {' '}
-        .
+        <FormattedMessage
+          id="footer-nav-disclaimer"
+          defaultMessage="NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation. Singing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}."
+          values={{
+            privacyPolicy: (
+              <a target="_blank" rel="noopener noreferrer" href="/terms">
+                <FormattedMessage
+                  id="footer-nav-terms"
+                  defaultMessage="Terms of Use"
+                />
+              </a>
+            ),
+            termsOfUse: (
+              <a target="_blank" rel="noopener noreferrer" href="/privacy">
+                <FormattedMessage
+                  id="footer-nav-privacy"
+                  defaultMessage="Privacy Policy"
+                />
+              </a>
+            ),
+          }}
+        />
       </Disclaimer>
       <FooterContainer />
     </Container>

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { FormattedDate, FormattedTime } from 'react-intl';
+import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl';
 import getConfig from 'next/config';
 import Router, { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
@@ -1302,7 +1302,10 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                     src={user.metadata.linkedInProfile.profilePicture}
                   />
                   <span>
-                    Dashboard
+                    <FormattedMessage
+                      id="user-action-banner-label-dashboard"
+                      defaultMessage="Dashboard"
+                    />
                   </span>
                 </ButtonAnchor>
               </Link>
@@ -1335,7 +1338,10 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                   src={user.metadata.linkedInProfile.profilePicture}
                 />
                 <span>
-                  Dashboard
+                  <FormattedMessage
+                    id="user-action-banner-label-dashboard"
+                    defaultMessage="Dashboard"
+                  />
                 </span>
               </ButtonAnchor>
             </Link>

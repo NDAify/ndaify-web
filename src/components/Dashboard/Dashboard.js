@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import styled from 'styled-components';
-import { FormattedDate } from 'react-intl';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import Footer from '../Footer/Footer';
@@ -284,7 +284,10 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
                   src={user.metadata.linkedInProfile.profilePicture}
                 />
                 <span>
-                  Dashboard
+                  <FormattedMessage
+                    id="user-action-banner-label-dashboard"
+                    defaultMessage="Dashboard"
+                  />
                 </span>
               </ButtonAnchor>
             </Link>

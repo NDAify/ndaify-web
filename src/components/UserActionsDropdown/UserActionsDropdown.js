@@ -1,6 +1,7 @@
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Menu as ReachMenu,
@@ -160,13 +161,22 @@ const UserActionsDropdown = (props) => {
           </MoreOptionsButton>
           <MoreOptionsMenuList>
             <ReachMenuLink as={MenuLink} href="/dashboard/incoming">
-              Inbox
+              <FormattedMessage
+                id="user-actions-dropdown-inbox"
+                defaultMessage="Inbox"
+              />
             </ReachMenuLink>
             <ReachMenuLink as={MenuLink} href="/dev/keys">
-              API Keys
+              <FormattedMessage
+                id="user-actions-dropdown-api-key"
+                defaultMessage="API Keys"
+              />
             </ReachMenuLink>
             <ReachMenuItem onSelect={onLogOutClick}>
-              Log Out
+              <FormattedMessage
+                id="user-actions-dropdown-log-out"
+                defaultMessage="Log Out"
+              />
             </ReachMenuItem>
           </MoreOptionsMenuList>
         </>

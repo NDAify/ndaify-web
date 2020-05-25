@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 
 import Link from 'next/link';
 
@@ -95,7 +96,10 @@ const ApiDocs = ({ user }) => (
                       src={user.metadata.linkedInProfile.profilePicture}
                     />
                     <span>
-                      Dashboard
+                      <FormattedMessage
+                        id="user-action-banner-label-dashboard"
+                        defaultMessage="Dashboard"
+                      />
                     </span>
                   </ButtonAnchor>
                 </Link>

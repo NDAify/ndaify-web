@@ -4,6 +4,7 @@ import React, {
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import getConfig from 'next/config';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Formik,
@@ -327,7 +328,10 @@ const SenderForm = ({ user, nda }) => {
                       src={user.metadata.linkedInProfile.profilePicture}
                     />
                     <span>
-                      Dashboard
+                      <FormattedMessage
+                        id="user-action-banner-label-dashboard"
+                        defaultMessage="Dashboard"
+                      />
                     </span>
                   </ButtonAnchor>
                 </Link>
