@@ -3,5 +3,8 @@
   "home-nda-couple-minutes": "Envía un NDA en un par de minutos.",
   "home-title": "NDAify te ayuda a mantener tus secretos {typeOfSecret} en secreto.",
   "home-title-value-personal": "personales",
-  "home-title-value-trade": "comerciales"
+  "home-title-value-trade": "comerciales",
+  "privacy-legal-md": "",
+  "terms-legal-md": "",
+  "uetaesign-legal-md": ""
 }

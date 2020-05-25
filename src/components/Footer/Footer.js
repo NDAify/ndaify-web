@@ -231,6 +231,15 @@ const Footer = ({ withLogo }) => {
         </FooterNavigationItem>
         <FooterNavigationItem>
           <a
+            href="/ueta-esign"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            UETA and ESIGN Act
+          </a>
+        </FooterNavigationItem>
+        <FooterNavigationItem>
+          <a
             href="/dev/docs"
             target="_blank"
             rel="noopener noreferrer"

@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import grayMatter from 'gray-matter';
+import { useIntl, defineMessage } from 'react-intl';
 
 import { PageTitle, PageDescription } from '../components/Head/Head';
-import UETAESignImpl from '../components/LegalPolicy/LegalPolicy';
+import LegalPolicyImpl from '../components/LegalPolicy/LegalPolicy';
 
-const UETAESign = () => (
-  <>
-    <PageTitle prepend="UETA and ESIGN Act – " />
-    <PageDescription />
-    <UETAESignImpl title="UETA and ESIGN Act" />
-  </>
-);
+const LEGAL_TEXT = `---
+title: UETA and ESIGN Act
+lastUpdatedAt: June 15, 2019
+---
+
+# HOW TO CONTACT US
+If you have any questions about this Privacy Policy or our practices, please contact us at [support@ndaify.com](mailto:support@ndaify.com).`;
+
+const uetaesignText = defineMessage({
+  id: 'uetaesign-legal-md',
+  defaultMessage: LEGAL_TEXT,
+});
+
+const UETAESign = () => {
+  const intl = useIntl();
+
+  const legalTemplate = useMemo(
+    () => grayMatter(intl.formatMessage(uetaesignText), { language: 'yaml' }),
+    [intl],
+  );
+
+  return (
+    <>
+      <PageTitle prepend="UETA and ESIGN Act – " />
+      <PageDescription />
+
+      <LegalPolicyImpl legalTemplate={legalTemplate} />
+    </>
+  );
+};
 
 export default UETAESign;

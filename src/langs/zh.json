@@ -3,5 +3,8 @@
   "home-nda-couple-minutes": "在几分钟内发送NDA。",
   "home-title": "NDAify可帮助您保护{typeOfSecret}机密。",
   "home-title-value-personal": "个人",
-  "home-title-value-trade": "贸易"
+  "home-title-value-trade": "贸易",
+  "privacy-legal-md": "",
+  "terms-legal-md": "",
+  "uetaesign-legal-md": ""
 }

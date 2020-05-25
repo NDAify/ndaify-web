@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown/with-html';
+import GitHubSlugger from 'github-slugger';
 
 import Footer from '../Footer/Footer';
 
@@ -18,91 +20,191 @@ const DocumentContainer = styled.div`
   padding-top: 2pc;
   display: flex;
   justify-content: center;
-  align-items: center;
   max-width: 768px;
   width: 100%;
   flex: 1;
   flex-direction: column;
   margin-top: 3pc;
   box-sizing: border-box;
+
+  ul {
+    list-style-type: decimal;
+  }
+  
+  ol ol,
+  ul ul {
+    list-style-type: lower-alpha;
+  }
+  
+  ol ol ol,
+  ul ul ul {
+    list-style-type: lower-roman;
+  }
+  
+  ol ol ol ol,
+  ul ul ul ul {
+    list-style-type: upper-alpha;
+  }
+  
+  ol ol ol ol ol,
+  ul ul ul ul ul {
+    list-style-type: upper-roman;
+  }
+
+  ol li,
+  ul li {
+    color: var(--ndaify-fg);
+  }
+
+  ol li p,
+  ul li p {
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+  }
+
+  @media screen and (min-width: 992px) {
+    ol li p,
+    ul li p {
+      line-height: 35px;
+    }
+  }
+
+  a {
+    color: var(--ndaify-fg);
+  }
+
+  a:visited {
+    color: var(--ndaify-fg);
+  }
 `;
 
 const Title = styled.h1`
   margin: 0;
   color: var(--ndaify-fg);
-  font-weight: 200;
+  font-weight: 400;
   margin-bottom: 3pc;
   font-size: 28px;
+  align-self: center;
 `;
 
-const Disclainer = styled.p`
-  margin: 0;
-  margin-bottom: 2pc;
-  color: var(--ndaify-fg);
-  font-weight: 200;
+const NDASectionH6 = styled.span`
+  font-size: 16px;
   text-transform: uppercase;
-  line-height: 24px;
-  font-size: 20px;
-`;
-
-const SectionTitle = styled.h5`
-  margin: 0;
+  font-weight: 700;
   margin-bottom: 1pc;
+  display: block;
   color: var(--ndaify-fg);
+
+  @media screen and (min-width: 992px) {
+    font-size: 18px;
+  }
+`;
+const NDASectionH5 = styled(NDASectionH6)``;
+const NDASectionH4 = styled(NDASectionH5)``;
+const NDASectionH3 = styled(NDASectionH4)`
+  font-size: 18px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
+`;
+const NDASectionH2 = styled(NDASectionH3)`
   font-size: 20px;
-  align-self: flex-start;
-  text-transform: uppercase;
+
+  @media screen and (min-width: 992px) {
+    font-size: 22px;
+  }
+`;
+const NDASectionH1 = styled(NDASectionH2)`
+  font-size: 22px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+  }
 `;
 
-const SectionContentText = styled.div`
-  margin-bottom: 2pc;
-  color: var(--ndaify-fg);
+const LongText = styled.p`
+  font-size: 16px;
   font-weight: 200;
-  line-height: 24px;
-  font-size: 20px;
-`;
-
-const SectionList = styled.ul`
-  padding: 0;
-  margin: 0;
   margin-top: 1pc;
-  margin-left: 20px;
+  line-height: 28px;
+  color: var(--ndaify-fg);
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
+  }
 `;
 
-const SectionListItem = styled.li`
-  font-weight: 200;
-  line-height: 32px;
-  font-size: 20px;
-  color: var(--ndaify-fg);
-`;
+const createRenderers = () => {
+  const slugger = new GitHubSlugger();
+
+  const flatten = (text, child) => (typeof child === 'string'
+    ? text + child
+    : React.Children.toArray(child.props.children).reduce(flatten, text));
+
+  const Heading = (props) => {
+    const children = React.Children.toArray(props.children);
+    const text = children.reduce(flatten, '');
+    const slug = encodeURIComponent(slugger.slug(text));
+
+    const Header = [
+      null,
+      NDASectionH1,
+      NDASectionH2,
+      NDASectionH3,
+      NDASectionH4,
+      NDASectionH5,
+      NDASectionH6,
+    ][props.level];
+
+    return (
+      <Header id={slug}>
+        {props.children}
+      </Header>
+    );
+  };
+
+  const Paragraph = ({ children }) => (
+    <LongText>
+      {children}
+    </LongText>
+  );
+
+  return {
+    heading: Heading,
+    paragraph: Paragraph,
+  };
+};
 
 /* eslint-disable max-len */
-const LegalPolicy = ({ title }) => (
-  <Container>
-    <DocumentContainer>
-      <Title>{title}</Title>
-      <Disclainer>Both the United States Electronic Signatures in Global and National Commerce (ESIGN) Act, and the Uniform Electronic Transactions Act (UETA), have four major requirements for an electronic signature to be recognized as valid under U.S. law. Those requirements are:</Disclainer>
-      <SectionTitle>INTENT TO SIGN</SectionTitle>
-      <SectionContentText>Electronic signatures, like traditional wet ink signatures, are valid only if each party intended to sign.</SectionContentText>
-      <SectionTitle>CONSENT TO DO BUSINES ELECTRONICALLY</SectionTitle>
-      <SectionContentText>
-        The parties to the transaction must consent to do business electronically. Establishing that a business consented can be done by analyzing the circumstances of the interaction, but consumers require special considerations. Electronic records may be used in transactions with consumers only when the consumer has:
-        <SectionList>
-          <SectionListItem>Received UETA Consumer Consent Disclosures</SectionListItem>
-          <SectionListItem>Affirmatively agreed to use electronic records for the transaction</SectionListItem>
-          <SectionListItem>Has not withdrawn such consent</SectionListItem>
-        </SectionList>
-      </SectionContentText>
-      <SectionTitle>ASSOCIATION OF SIGNATURE WITH THE RECORD</SectionTitle>
-      <SectionContentText>
-        In order to qualify as an electronic signature under the ESIGN Act and UETA, the system used to capture the transaction must keep an associated record that reflects the process by which the signature was created, or generate a textual or graphic statement (which is added to the signed record) proving that it was executed with an electronic signature.
-      </SectionContentText>
-      <SectionTitle>RECORD RETENTION</SectionTitle>
-      <SectionContentText>U.S. laws on eSignatures and electronic transactions require that electronic signature records be capable of retention and accurate reproduction for reference by all parties or persons entitled to retain the contract or record.</SectionContentText>
-      <Footer withLogo />
-    </DocumentContainer>
-  </Container>
-);
+const LegalPolicy = ({ legalTemplate }) => {
+  const markdownRenderers = useMemo(
+    () => createRenderers(), [],
+  );
+
+  return (
+    <Container>
+      <DocumentContainer>
+        <Title>{legalTemplate.data.title}</Title>
+        <LongText>
+          Last updated:
+          {' '}
+          {legalTemplate.data.lastUpdatedAt}
+        </LongText>
+
+        <ReactMarkdown
+          source={legalTemplate.content}
+          renderers={markdownRenderers}
+          linkTarget={(url) => (!url.includes('#') ? '_blank' : null)}
+          parserOptions={{ commonmark: true }}
+        />
+
+        <Footer withLogo />
+      </DocumentContainer>
+    </Container>
+  );
+};
 /* eslint-enable */
 
 export default LegalPolicy;
