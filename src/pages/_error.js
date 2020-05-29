@@ -16,11 +16,14 @@ ErrorView.getInitialProps = async (ctx) => {
     statusCode = ctx.res.statusCode;
   }
 
-  if (ctx.err?.statusCode) {
-    statusCode = ctx.err.statusCode;
-  } else {
-    // client-side errors don't have statusCode
+  if (ctx.err) {
+    // client-side errors are 500
     statusCode = 500;
+
+    // unless specified as otherwise
+    if (ctx.err.statusCode) {
+      statusCode = ctx.err.statusCode;
+    }
   }
 
   return {
