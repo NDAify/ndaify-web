@@ -9,10 +9,38 @@ import createNextApp from 'next';
 import robots from './lib/robots';
 import sitemap from './lib/sitemap';
 
+import sentryNodeClient from './db/sentryNodeClient';
+
+import validateSentryRequest from './middleware/validateSentryRequest';
+
 const PORT = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV !== 'production';
 
 const nextApp = createNextApp({ dev });
+
+// eslint-disable-next-line no-underscore-dangle
+const logErrorImpl = nextApp.logError.bind(nextApp);
+// This is only called in prod since next.js doesn't relay errors in dev
+// `logError` is a private method internal to next.js but there isn's a saner
+// way to intercept these errors. Also see:
+// https://github.com/vercel/next.js/issues/1852
+nextApp.logError = (error) => {
+  logErrorImpl(error);
+
+  // Basically all uncaught ssr-ed getInitialProps() and render() errors are
+  // captured here
+  sentryNodeClient.withScope((scope) => {
+    scope.setTag('next.js', 'yes');
+
+    // Unfortunately next.js's ctx.req isn't available here to for the capture
+    // scope.addEventProcessor((event) =>
+    //   sentryNodeClient.Handlers.parseRequest(event, ctx.request),
+    // );
+
+    sentryNodeClient.captureException(error);
+  });
+};
+
 const nextHandle = nextApp.getRequestHandler();
 
 const koaRouter = new KoaRouter();
@@ -31,10 +59,14 @@ koaRouter.get('/health', async (ctx) => {
   };
 });
 
+// Only Sentry is allowed to access source map files
+koaRouter.get('*.map', validateSentryRequest);
+
 koaRouter.get('*', async (ctx) => {
   await nextHandle(ctx.req, ctx.res);
 
-  // Bypass Koa's built-in response handling. This isn't supported by Koa. So using with caution
+  // Bypass Koa's built-in response handling. This isn't supported by Koa. So
+  // using with caution. See https://koajs.com/#ctx-respond
   ctx.respond = false;
 });
 
@@ -60,6 +92,23 @@ const run = async () => {
   }
 
   koaApp.use(koaRouter.routes());
+
+  koaApp.on('error', (error, ctx) => {
+    // When we attach a custom error listener, koa removes its own, so call it here
+    // to get the default behavior in addition to Sentry reporting. See:
+    // https://github.com/koajs/koa/blob/9ee65843d9be96329a3279c63657c2970e260acf/lib/application.js#L144
+    koaApp.onerror(error);
+
+    sentryNodeClient.withScope((scope) => {
+      scope.setTag('koa', 'yes');
+
+      scope.addEventProcessor(
+        (event) => sentryNodeClient.Handlers.parseRequest(event, ctx.request),
+      );
+
+      sentryNodeClient.captureException(error);
+    });
+  });
 
   const server = koaApp.listen(PORT, () => {
     const { address, port } = server.address();

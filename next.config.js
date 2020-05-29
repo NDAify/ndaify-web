@@ -1,7 +1,8 @@
+const withSourceMaps = require('@zeit/next-source-maps');
 const withCSS = require('@zeit/next-css');
 const withImages = require('next-images');
 
-module.exports = () => withCSS(withImages({
+module.exports = () => withSourceMaps(withCSS(withImages({
   poweredByHeader: false,
   env: {
     // Build-time configuration (that we want inlined in the bundle)
@@ -24,6 +25,7 @@ module.exports = () => withCSS(withImages({
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
-}));
+})));

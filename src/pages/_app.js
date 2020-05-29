@@ -23,6 +23,8 @@ import { ThemeProvider, getThemePreference } from '../lib/useTheme';
 import getSystemLocale from '../utils/getSystemLocale';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
+import sentryBrowserClient from '../db/sentryBrowserClient';
+
 import '../css/nprogress.css';
 
 const lightVars = `
@@ -231,6 +233,20 @@ class App extends NextApp {
       systemLocale,
       timeZone,
     };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    sentryBrowserClient.withScope((scope) => {
+      scope.setTag('react', 'yes');
+      scope.setExtras(errorInfo);
+
+      // Additional extras like the url, os, browser etc are inferred by Sentry
+      // but next.js's `asPath` can't be inferred unless explicitly set as extra.
+
+      sentryBrowserClient.captureException(error);
+    });
+
+    super.componentDidCatch(error, errorInfo);
   }
 
   render() {
