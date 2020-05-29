@@ -10,7 +10,7 @@ import Head from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
-import { EntityNotFoundError, APIError } from '../api';
+import { APIError } from '../api';
 
 import {
   IntlProvider,
@@ -184,16 +184,7 @@ class App extends NextApp {
       try {
         pageProps = await Component.getInitialProps(ctx);
       } catch (error) {
-        if (error instanceof EntityNotFoundError) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-
-          errorPageProps = {
-            ...error.data,
-            errorMessage: error.message,
-            statusCode: error.statusCode,
-          };
-        } else if (error instanceof APIError) {
+        if (error instanceof APIError) {
           // eslint-disable-next-line no-console
           console.error(error);
 

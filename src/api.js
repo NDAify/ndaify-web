@@ -18,13 +18,19 @@ export class APIError extends BaseError {
   }
 }
 
-export class EntityNotFoundError extends APIError {
+class FetchError extends APIError {
+  constructor(message = 'Fetch failed', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+class EntityNotFoundError extends APIError {
   constructor(message = 'Entity does not exist', statusCode, data) {
     super(message, statusCode, data);
   }
 }
 
-export class ForbiddenError extends APIError {
+class ForbiddenError extends APIError {
   constructor(message = 'Action not allowed', statusCode, data) {
     super(message, statusCode, data);
   }
@@ -36,7 +42,7 @@ export class InvalidSessionError extends APIError {
   }
 }
 
-export class RequestError extends APIError {
+class RequestError extends APIError {
   constructor(message = 'Bad Request', statusCode, data) {
     super(message, statusCode, data);
   }
@@ -154,28 +160,36 @@ export const dispatch = (
   }
 
   let response;
-  if (method === DISPATCH_METHOD.GET) {
-    response = await get(
-      endpoint,
-      {
-        ...config.headers,
-        Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
-        'Content-Type': 'application/json',
-      },
-      payload,
-    );
-  }
 
-  if (method === DISPATCH_METHOD.POST) {
-    response = await post(
-      endpoint,
-      {
-        ...config.headers,
-        Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
-        'Content-Type': 'application/json',
-      },
-      payload,
-    );
+  try {
+    if (method === DISPATCH_METHOD.GET) {
+      response = await get(
+        endpoint,
+        {
+          ...config.headers,
+          Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
+          'Content-Type': 'application/json',
+        },
+        payload,
+      );
+    }
+
+    if (method === DISPATCH_METHOD.POST) {
+      response = await post(
+        endpoint,
+        {
+          ...config.headers,
+          Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
+          'Content-Type': 'application/json',
+        },
+        payload,
+      );
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+
+    throw new FetchError('Service Unavailable', statuses('Service Unavailable'));
   }
 
   let data;
