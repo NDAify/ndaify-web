@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 import enhanceOpenApiSpec from '../../utils/enhanceOpenApiSpec';
 
 import ApiDocsImpl from '../../components/ApiDocs/ApiDocs';
@@ -20,17 +20,17 @@ ApiDocs.themeOverride = 'dark';
 ApiDocs.localeOverride = 'en-US';
 
 ApiDocs.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await api.tryGetSession());
+    ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);
   }
 
-  const openApiSpec = await api.tryGetOpenApiSpec();
+  const openApiSpec = await ndaifyService.tryGetOpenApiSpec();
 
   return {
     user,

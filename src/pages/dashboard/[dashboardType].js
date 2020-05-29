@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import DashboardImpl from '../../components/Dashboard/Dashboard';
@@ -14,7 +14,7 @@ const Dashboard = ({ user, ndas, dashboardType }) => (
 );
 
 Dashboard.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const { dashboardType } = ctx.query;
 
@@ -26,8 +26,8 @@ Dashboard.getInitialProps = async (ctx) => {
     { user },
     { ndas },
   ] = await Promise.all([
-    api.getSession(),
-    api.getNdas(),
+    ndaifyService.getSession(),
+    ndaifyService.getNdas(),
   ]);
 
   return {

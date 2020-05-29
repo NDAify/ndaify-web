@@ -17,7 +17,7 @@ import {
 
 import Router from 'next/router';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import Button from '../Clickable/Button';
 import Input from '../Input/Input';
@@ -186,14 +186,14 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
     // clear all error messages before retrying
     setStatus();
 
-    const api = new API();
+    const ndaifyService = new NdaifyService();
 
     try {
       let paymentIntentId;
 
       // User wants to donate!
       if (!values.noPaymentReason && values.stripeEntry?.complete) {
-        const { paymentIntent } = await api.createPaymentIntent(
+        const { paymentIntent } = await ndaifyService.createPaymentIntent(
           values.paymentAmount /* in cents */,
           CURRENCY,
         );
@@ -223,7 +223,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
         paymentIntentId = cardPayment.paymentIntent.id;
       }
 
-      const { nda } = await api.createNda({
+      const { nda } = await ndaifyService.createNda({
         ...ndaPayload,
         metadata: {
           ...ndaPayload.metadata,

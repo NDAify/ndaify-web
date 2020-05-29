@@ -10,7 +10,7 @@ import Head from '../components/Head/Head';
 import Alert from '../components/Alert/Alert';
 import ErrorView from '../components/ErrorView/ErrorView';
 
-import { APIError } from '../api';
+import { NdaifyServiceError } from '../services/NdaifyService';
 
 import {
   IntlProvider,
@@ -187,7 +187,7 @@ class App extends NextApp {
       try {
         pageProps = await Component.getInitialProps(ctx);
       } catch (error) {
-        if (error instanceof APIError) {
+        if (error instanceof NdaifyServiceError) {
           // eslint-disable-next-line no-console
           console.error(error);
 

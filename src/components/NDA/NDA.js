@@ -31,7 +31,7 @@ import { extractCompanyNameFromText } from './NDAComposer';
 import getFullNameFromUser from './getFullNameFromUser';
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import HideImg from './images/hide.svg';
 
@@ -666,8 +666,8 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
     setDeclining(true);
 
     try {
-      const api = new API();
-      await api.declineNda(nda.ndaId);
+      const ndaifyService = new NdaifyService();
+      await ndaifyService.declineNda(nda.ndaId);
 
       Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 
@@ -688,8 +688,8 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
     setResending(true);
 
     try {
-      const api = new API();
-      await api.resendNda(nda.ndaId);
+      const ndaifyService = new NdaifyService();
+      await ndaifyService.resendNda(nda.ndaId);
 
       Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 
@@ -710,8 +710,8 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
     setRevoking(true);
 
     try {
-      const api = new API();
-      await api.revokeNda(nda.ndaId);
+      const ndaifyService = new NdaifyService();
+      await ndaifyService.revokeNda(nda.ndaId);
 
       Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
 

@@ -7,42 +7,42 @@ import Router from 'next/router';
 
 import {
   getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS,
-} from './lib/cookies';
-import { toQueryString, BaseError } from './util';
+} from '../lib/cookies';
+import { toQueryString, BaseError } from '../util';
 
-export class APIError extends BaseError {
-  constructor(message = 'API Error', statusCode, data) {
+export class NdaifyServiceError extends BaseError {
+  constructor(message = 'NDAify Endpoint Error', statusCode, data) {
     super(message);
     this.statusCode = statusCode;
     this.data = data;
   }
 }
 
-class FetchError extends APIError {
-  constructor(message = 'Fetch failed', statusCode, data) {
-    super(message, statusCode, data);
-  }
-}
-
-class EntityNotFoundError extends APIError {
-  constructor(message = 'Entity does not exist', statusCode, data) {
-    super(message, statusCode, data);
-  }
-}
-
-class ForbiddenError extends APIError {
-  constructor(message = 'Action not allowed', statusCode, data) {
-    super(message, statusCode, data);
-  }
-}
-
-export class InvalidSessionError extends APIError {
+export class InvalidSessionError extends NdaifyServiceError {
   constructor(message = 'Invalid session token', statusCode, data) {
     super(message, statusCode, data);
   }
 }
 
-class RequestError extends APIError {
+class FetchError extends NdaifyServiceError {
+  constructor(message = 'Fetch failed', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+class EntityNotFoundError extends NdaifyServiceError {
+  constructor(message = 'Entity does not exist', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+class ForbiddenError extends NdaifyServiceError {
+  constructor(message = 'Action not allowed', statusCode, data) {
+    super(message, statusCode, data);
+  }
+}
+
+class RequestError extends NdaifyServiceError {
   constructor(message = 'Bad Request', statusCode, data) {
     super(message, statusCode, data);
   }
@@ -50,7 +50,7 @@ class RequestError extends APIError {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { publicRuntimeConfig: { API_URL, CANONICAL_URL } } = getConfig();
+const { publicRuntimeConfig: { NDAIFY_ENDPOINT_URL, CANONICAL_URL } } = getConfig();
 
 const REDIRECT_WHITELIST = [
   CANONICAL_URL,
@@ -121,7 +121,7 @@ const normalizeUrl = (endpoint) => {
     return endpoint;
   }
 
-  return `${API_URL}/${endpoint}`;
+  return `${NDAIFY_ENDPOINT_URL}/${endpoint}`;
 };
 
 const get = (endpoint, headers, payload = {}, config = {}) => {
@@ -144,7 +144,7 @@ const post = (endpoint, headers, payload, config = {}) => fetch(normalizeUrl(end
   signal: config.signal,
 });
 
-export const dispatch = (
+const dispatch = (
   method,
   endpoint,
   config = {},
@@ -226,13 +226,13 @@ export const dispatch = (
       throw new RequestError(data?.errorMessage, response.status, data);
     }
 
-    throw new APIError('Oops! Something went wrong. Try again later.', response.status, data);
+    throw new NdaifyServiceError('Oops! Something went wrong. Try again later.', response.status, data);
   }
 
   return data;
 };
 
-export class API {
+export default class NdaifyService {
   constructor({ ctx, headers } = {}) {
     if (!process.browser && !ctx) {
       throw new Error('`ctx` is required on server');

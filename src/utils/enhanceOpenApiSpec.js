@@ -36,7 +36,7 @@ const SNIPPET_TO_PREFERRED_LABELS = {
   php_http2: 'PHP',
 };
 
-const { publicRuntimeConfig: { API_URL } } = getConfig();
+const { publicRuntimeConfig: { NDAIFY_ENDPOINT_URL } } = getConfig();
 
 const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
   try {
@@ -99,7 +99,7 @@ const enhanceOpenApiSpec = (openApiSpec) => {
     ...openApiSpec,
     servers: [
       {
-        url: API_URL,
+        url: NDAIFY_ENDPOINT_URL,
       },
     ],
     paths: enhancePaths(openApiSpec, openApiSpec.paths),

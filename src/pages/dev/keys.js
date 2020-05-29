@@ -1,7 +1,7 @@
 import React from 'react';
 import ApiKeysImpl from '../../components/ApiKeys/ApiKeys';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 
@@ -14,14 +14,14 @@ const ApiKeys = ({ user }) => (
 );
 
 ApiKeys.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const [
     { user },
     // { apiKeys },
   ] = await Promise.all([
-    api.getSession(),
-    // api.getApiKeys(),
+    ndaifyService.getSession(),
+    // ndaifyService.getApiKeys(),
   ]);
 
   return {

@@ -14,7 +14,7 @@ import {
 import Link from 'next/link';
 import Router from 'next/router';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import ChevronDown from './images/chevron-down.svg';
 
@@ -141,8 +141,8 @@ const MenuLink = React.forwardRef(({
 
 const UserActionsDropdown = (props) => {
   const handleLogOutClick = async () => {
-    const api = new API();
-    await api.endSession();
+    const ndaifyService = new NdaifyService();
+    await ndaifyService.endSession();
 
     if (props.onLogOut) {
       props.onLogOut();

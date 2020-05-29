@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import humps from 'humps';
 
-import {
-  API, redirect, isSafeToRedirect, InvalidSessionError,
-} from '../../../api';
+import NdaifyService, {
+  redirect, isSafeToRedirect, InvalidSessionError,
+} from '../../../services/NdaifyService';
 import { getOrigin } from '../../../util';
 import createXForwardedFor from '../../../utils/createXForwardedFor';
 
@@ -32,9 +32,9 @@ const ACTIONS = {
       'x-forwarded-for-user-agent': userAgent,
     };
 
-    const api = new API({ ctx, headers });
+    const ndaifyService = new NdaifyService({ ctx, headers });
 
-    return api.acceptNda(ndaId);
+    return ndaifyService.acceptNda(ndaId);
   },
 };
 
@@ -76,7 +76,7 @@ class Callback extends Component {
         throw new Error('Oops! Something went wrong. Please try again later.');
       }
 
-      const api = new API({ ctx });
+      const ndaifyService = new NdaifyService({ ctx });
 
       const CALLBACK_URL_LINKEDIN = `${getOrigin(ctx.req)}/sessions/linkedin/callback`;
 
@@ -84,7 +84,7 @@ class Callback extends Component {
       try {
         // TODO(juliaqiuxy) LinkedIn API does not support PKCE. We should mitigage
         // phishing attacks using CSRF tokens in oAuth state
-        await api.startSessionByOAuth(
+        await ndaifyService.startSessionByOAuth(
           oAuthAuthorizationCode,
           oAuthState,
           CALLBACK_URL_LINKEDIN,

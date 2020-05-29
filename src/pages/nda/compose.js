@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAComposerImpl from '../../components/NDA/NDAComposer';
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 import * as sessionStorage from '../../lib/sessionStorage';
 
 import { toQueryString } from '../../util';
@@ -33,7 +33,7 @@ const NDAComposer = (props) => {
       return;
     }
 
-    const api = new API();
+    const ndaifyService = new NdaifyService();
 
     const loadNdaTemplate = async (ndaTemplateId) => {
       const {
@@ -41,7 +41,7 @@ const NDAComposer = (props) => {
       } = getTemplateIdParts(ndaTemplateId);
       const {
         ndaTemplate: ndaTpl,
-      } = await api.getNdaTemplate(owner, repo, ref, path);
+      } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
 
       setNdaTemplate(ndaTpl);
     };
@@ -71,9 +71,9 @@ const NDAComposer = (props) => {
 };
 
 NDAComposer.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
-  const { user } = await api.getSession();
+  const { user } = await ndaifyService.getSession();
 
   return {
     user,

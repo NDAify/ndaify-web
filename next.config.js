@@ -19,7 +19,7 @@ module.exports = () => withSourceMaps(withCSS(withImages({
   publicRuntimeConfig: {
     // Runtime configuration
     // publicRuntimeConfig is exposed to both server and client
-    API_URL: process.env.API_URL,
+    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
     CANONICAL_URL: process.env.CANONICAL_URL,
     COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,

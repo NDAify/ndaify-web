@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAImpl from '../../components/NDA/NDA';
 
@@ -22,11 +22,11 @@ NDA.getInitialProps = async (ctx) => {
     throw new Error('Missing NDA ID');
   }
 
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await api.tryGetSession());
+    ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);
@@ -34,15 +34,15 @@ NDA.getInitialProps = async (ctx) => {
 
   let nda;
   if (user) {
-    ({ nda } = await api.getNda(ndaId));
+    ({ nda } = await ndaifyService.getNda(ndaId));
   } else {
-    ({ nda } = await api.getNdaPreview(ndaId));
+    ({ nda } = await ndaifyService.getNdaPreview(ndaId));
   }
 
   const {
     owner, repo, ref, path,
   } = getTemplateIdParts(nda.metadata.ndaTemplateId);
-  const { ndaTemplate } = await api.getNdaTemplate(owner, repo, ref, path);
+  const { ndaTemplate } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
 
   return {
     ndaTemplate,

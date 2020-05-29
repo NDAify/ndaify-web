@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { API } from '../../../api';
+import NdaifyService from '../../../services/NdaifyService';
 import { PageTitle, PageDescription } from '../../../components/Head/Head';
 import SuccessViewImpl from '../../../components/SuccessMessage/SuccessMessage';
 
@@ -18,14 +18,14 @@ const SuccessView = (props) => (
 SuccessView.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const [
     { user },
     { nda },
   ] = await Promise.all([
-    api.getSession(),
-    api.getNda(ndaId),
+    ndaifyService.getSession(),
+    ndaifyService.getNda(ndaId),
   ]);
 
   return {

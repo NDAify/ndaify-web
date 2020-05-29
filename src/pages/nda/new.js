@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import * as sessionStorage from '../../lib/sessionStorage';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
@@ -30,11 +30,11 @@ const SenderForm = ({ user }) => {
 };
 
 SenderForm.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await api.tryGetSession());
+    ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);

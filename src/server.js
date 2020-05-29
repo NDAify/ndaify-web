@@ -51,7 +51,7 @@ koaRouter.get('/sitemap.xml', sitemap());
 koaRouter.get('/health', async (ctx) => {
   ctx.status = statuses('OK');
   ctx.body = {
-    API_URL: process.env.API_URL,
+    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
     CANONICAL_URL: process.env.CANONICAL_URL,
     NODE_ENV: process.env.NODE_ENV,
     now: Date.now(),

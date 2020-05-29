@@ -7,7 +7,7 @@ import {
   Elements,
 } from '@stripe/react-stripe-js';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 import useLocale from '../../lib/useLocale';
 
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -53,9 +53,9 @@ const PaymentForm = ({ user }) => {
 };
 
 PaymentForm.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
-  const { user } = await api.getSession();
+  const { user } = await ndaifyService.getSession();
 
   return {
     user,

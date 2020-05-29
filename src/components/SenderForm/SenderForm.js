@@ -14,7 +14,7 @@ import {
 
 import Link from 'next/link';
 
-import { API } from '../../api';
+import NdaifyService from '../../services/NdaifyService';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -210,14 +210,14 @@ const TemplateDescription = (props) => {
   const [ndaTemplateDescription, setNdaTemplateDescription] = useState();
 
   const loadNdaDescription = useCallback(async (ndaTemplateId) => {
-    const api = new API();
+    const ndaifyService = new NdaifyService();
     const {
       owner, repo, ref, path,
     } = getTemplateIdParts(ndaTemplateId);
 
     const {
       ndaTemplate,
-    } = await api.getNdaTemplate(owner, repo, ref, path);
+    } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
 
     setNdaTemplateDescription(ndaTemplate.data.description);
   }, []);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { API } from '../api';
+import NdaifyService from '../services/NdaifyService';
 
 import { PageTitle, PageDescription } from '../components/Head/Head';
 import IndexImpl from '../components/Home/Home';
@@ -28,11 +28,11 @@ const Index = ({ user, ndaStatistics }) => {
 let NDA_STATS_CACHE = {};
 
 Index.getInitialProps = async (ctx) => {
-  const api = new API({ ctx });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await api.tryGetSession());
+    ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn(error);
@@ -41,7 +41,7 @@ Index.getInitialProps = async (ctx) => {
   const [utcToday] = new Date().toISOString().split('T');
   let ndaStatistics = NDA_STATS_CACHE[utcToday];
   if (!ndaStatistics) {
-    ({ ndaStatistics } = await api.getNdaStatistics());
+    ({ ndaStatistics } = await ndaifyService.getNdaStatistics());
     NDA_STATS_CACHE = {
       [utcToday]: ndaStatistics,
     };
