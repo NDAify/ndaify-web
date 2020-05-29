@@ -171,6 +171,7 @@ Router.events.on('routeChangeStart', () => {
 });
 Router.events.on('routeChangeComplete', () => {
   window.scrollTo(0, 0);
+  document.body.focus();
   NProgress.done();
 });
 Router.events.on('routeChangeError', () => NProgress.done());
