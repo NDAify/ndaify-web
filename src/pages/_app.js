@@ -184,23 +184,29 @@ class App extends NextApp {
       try {
         pageProps = await Component.getInitialProps(ctx);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-
         if (error instanceof EntityNotFoundError) {
-          errorPageProps = {
-            ...error.data,
-            errorMessage: error.message,
-            statusCode: error.statusCode,
-          };
-        }
+          // eslint-disable-next-line no-console
+          console.error(error);
 
-        if (error instanceof APIError) {
           errorPageProps = {
             ...error.data,
             errorMessage: error.message,
             statusCode: error.statusCode,
           };
+        } else if (error instanceof APIError) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+
+          errorPageProps = {
+            ...error.data,
+            errorMessage: error.message,
+            statusCode: error.statusCode,
+          };
+        } else {
+          // Propogate all other errors up to next-server to handle
+          // https://github.com/vercel/next.js/blob/b7e17e09e5e51a8e33b728a1ef14f11e7bf009db/packages/next/next-server/server/next-server.ts#L282
+          // https://github.com/vercel/next.js/blob/b7e17e09e5e51a8e33b728a1ef14f11e7bf009db/packages/next/next-server/server/render.tsx#L652
+          throw error;
         }
       }
     }

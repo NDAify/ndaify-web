@@ -53,13 +53,16 @@ class Document extends NextDocument {
 
   render() {
     // eslint-disable-next-line no-underscore-dangle
-    const {
-      locale,
-      preferredTheme,
-    // eslint-disable-next-line no-underscore-dangle
-    } = this.props.__NEXT_DATA__.props;
+    const pageProps = this.props.__NEXT_DATA__.props;
 
-    const { language, dir } = parseLocaleParts(locale);
+    let preferredTheme;
+    let language;
+    let dir;
+
+    if (pageProps) {
+      ({ preferredTheme } = pageProps);
+      ({ language, dir } = parseLocaleParts(pageProps.locale));
+    }
 
     return (
       <Html lang={language} dir={dir}>
