@@ -30,7 +30,7 @@ ApiDocs.getInitialProps = async (ctx) => {
     console.warn(error);
   }
 
-  const openApiSpec = await ndaifyService.tryGetOpenApiSpec();
+  const openApiSpec = await ndaifyService.getOpenApiSpec();
 
   return {
     user,

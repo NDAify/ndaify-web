@@ -330,7 +330,7 @@ export default class NdaifyService {
     return dispatch(DISPATCH_METHOD.GET, `nda-templates/${owner}/${repo}/${ref}/${path}`, { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
-  tryGetOpenApiSpec() {
-    return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)();
+  getOpenApiSpec() {
+    return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 }
