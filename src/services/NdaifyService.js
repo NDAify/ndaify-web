@@ -72,6 +72,7 @@ const DISPATCH_METHOD = {
   GET: 'GET',
   POST: 'POST',
   XHR_PUT: 'XHR_PUT',
+  DELETE: 'DELETE',
 };
 
 export const isSafeToRedirect = (to) => {
@@ -146,6 +147,13 @@ const post = (endpoint, headers, payload, config = {}) => fetch(normalizeUrl(end
   signal: config.signal,
 });
 
+const del = (endpoint, headers, payload, config = {}) => fetch(normalizeUrl(endpoint), {
+  method: 'DELETE',
+  headers,
+  body: JSON.stringify(payload),
+  signal: config.signal,
+});
+
 const dispatch = (
   method,
   endpoint,
@@ -179,6 +187,18 @@ const dispatch = (
 
     if (method === DISPATCH_METHOD.POST) {
       response = await post(
+        endpoint,
+        {
+          ...config.headers,
+          Authorization: sessionToken !== NO_SESSION ? `Bearer ${sessionToken}` : '',
+          'Content-Type': 'application/json',
+        },
+        payload,
+      );
+    }
+
+    if (method === DISPATCH_METHOD.DELETE) {
+      response = await del(
         endpoint,
         {
           ...config.headers,
@@ -334,5 +354,20 @@ export default class NdaifyService {
 
   getOpenApiSpec() {
     return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { headers: this.headers })(this.ctx, NO_SESSION)();
+  }
+
+  createApiKeys(name) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.POST, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)({ name });
+  }
+
+  getApiKeys() {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.GET, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)();
+  }
+
+  deleteApiKey(apiKeyId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.DELETE, `api-keys/${apiKeyId}`, { headers: this.headers })(this.ctx, sessionToken)();
   }
 }

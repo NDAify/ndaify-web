@@ -5,11 +5,11 @@ import NdaifyService from '../../services/NdaifyService';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 
-const ApiKeys = ({ user }) => (
+const ApiKeys = ({ user, apiKeys }) => (
   <>
     <PageTitle prepend="API Keys – " />
     <PageDescription />
-    <ApiKeysImpl user={user} />
+    <ApiKeysImpl user={user} apiKeys={apiKeys} />
   </>
 );
 
@@ -18,15 +18,15 @@ ApiKeys.getInitialProps = async (ctx) => {
 
   const [
     { user },
-    // { apiKeys },
+    { apiKeys },
   ] = await Promise.all([
     ndaifyService.getSession(),
-    // ndaifyService.getApiKeys(),
+    ndaifyService.getApiKeys(),
   ]);
 
   return {
     user,
-    // apiKeys
+    apiKeys,
   };
 };
 

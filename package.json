@@ -53,7 +53,8 @@
     "string-score": "^1.0.1",
     "styled-components": "^5.1.0",
     "tlds": "^1.207.0",
-    "ua-parser-js": "^0.7.21"
+    "ua-parser-js": "^0.7.21",
+    "use-clipboard-copy": "^0.1.2"
   },
   "scripts": {
     "dev": "babel-node -r dotenv/config src/server.js",

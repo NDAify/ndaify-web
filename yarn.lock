@@ -3035,6 +3035,11 @@ cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
 
+clipboard-copy@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/clipboard-copy/-/clipboard-copy-3.1.0.tgz#4c59030a43d4988990564a664baeafba99f78ca4"
+  integrity sha512-Xsu1NddBXB89IUauda5BIq3Zq73UWkjkaQlPQbLNvNsd5WBMnTWPNKYR6HGaySOxGYZ+BKxP2E9X4ElnI3yiPA==
+
 clipboard@^2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
@@ -10660,6 +10665,13 @@ url@^0.11.0:
 use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.3.tgz#9f939dfb5740807bbf9dd79cdd4e99d27e827756"
+
+use-clipboard-copy@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/use-clipboard-copy/-/use-clipboard-copy-0.1.2.tgz#83b16292dfa8ea262be714252022a8b4ad1c28c5"
+  integrity sha512-EkauxqyX+us4+Mfif/f61ew89EAOWIArqFpHR0jSG4SwwuDZzDAOeqO7gkK0vi+DQVADeB1RB3xqU3U0oOO3NQ==
+  dependencies:
+    clipboard-copy "^3.0.0"
 
 use-sidecar@^1.0.1:
   version "1.0.2"

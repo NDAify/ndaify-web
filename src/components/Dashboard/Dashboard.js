@@ -42,7 +42,7 @@ const PageContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const SigRow = styled.div`
+const DashboardActionRow = styled.div`
   padding-top: 2pc;
   padding-bottom: 2pc;
   display: flex;
@@ -320,8 +320,10 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           </>
         )}
       />
+
       <PageContainer>
-        <SigRow>
+
+        <DashboardActionRow>
           <LinksContainer>
             <ActiveLink scroll={false} href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               {
@@ -351,7 +353,7 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
           <Link passHref href="/">
             <ButtonAnchor outline>New</ButtonAnchor>
           </Link>
-        </SigRow>
+        </DashboardActionRow>
 
         {
           filteredNdas.length > 0 ? (

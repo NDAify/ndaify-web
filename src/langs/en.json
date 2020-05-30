@@ -1,4 +1,6 @@
 {
+  "api-key-delete-key": "Delete Key",
+  "api-key-name-input-placeholder": "Key Name (e.g. Slack integration)",
   "button-continue": "Continue",
   "footer-nav-developers": "Developers",
   "footer-nav-disclaimer": "NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation. Singing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}.",

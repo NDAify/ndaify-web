@@ -1,4 +1,6 @@
 {
+  "api-key-delete-key": "刪除密鑰",
+  "api-key-name-input-placeholder": "API 密鑰",
   "button-continue": "繼續",
   "footer-nav-developers": "開發者",
   "footer-nav-disclaimer": "NDAify不是律師事務所，不提供法律服務或建議，也不提供或參與法律代理。 唱NDA表示您已閱讀並同意{privacyPolicy}和{termsOfUse}。",

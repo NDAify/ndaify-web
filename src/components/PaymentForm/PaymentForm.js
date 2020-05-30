@@ -323,7 +323,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
             initialValues={initialValues}
             validate={onFormValidate}
             validateOnChange={false}
-            validateOnBlur
+            validateOnBlur={Object.keys(initialValues).length > 1}
             onSubmit={onSubmit}
           >
             {({ values, status, isSubmitting }) => (

@@ -327,6 +327,10 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
   const onSubmit = useCallback(handleSubmit, []);
 
+  const initialValues = {
+    secretLink: '',
+  };
+
   return (
     <Container>
       {
@@ -407,9 +411,9 @@ const Home = ({ user, ndaStatistics, refSource }) => {
             />
           </Subtitle>
           <Formik
-            initialValues={{ secretLink: '' }}
+            initialValues={initialValues}
             validateOnChange={false}
-            validateOnBlur
+            validateOnBlur={Object.keys(initialValues).length > 1}
             validate={onFormValidate}
             onSubmit={onSubmit}
           >

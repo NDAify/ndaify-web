@@ -378,7 +378,7 @@ const SenderForm = ({ user, nda }) => {
             initialValues={initialValues}
             validate={onFormValidate}
             validateOnChange={false}
-            validateOnBlur
+            validateOnBlur={Object.keys(initialValues).length > 1}
             onSubmit={onSubmit}
           >
             {({
