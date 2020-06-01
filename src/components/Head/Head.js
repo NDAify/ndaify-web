@@ -98,7 +98,7 @@ const Head = withRouter((props) => (
     <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
     <link rel="apple-touch-icon" href="/images/favicon.png" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,400,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap" />
 
     {/* OPEN GRAPH */}
     <meta property="og:type" key="og:type" content="website" />
