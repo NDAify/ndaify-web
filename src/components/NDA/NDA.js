@@ -396,6 +396,8 @@ const NDAReadMoreText = styled.h4`
 `;
 
 const NDAHeader = ({ nda, user }) => {
+  const ownerFullName = getFullNameFromUser(nda.owner);
+
   if (nda.metadata.status === 'declined') {
     return (
       <>
@@ -404,7 +406,7 @@ const NDAHeader = ({ nda, user }) => {
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
                 <BoldText>
-                  {`You declined ${getFullNameFromUser(nda.owner)}'s request`}
+                  {`You declined ${ownerFullName}'s request`}
                 </BoldText>
                 {' '}
                 to sign this NDA.
@@ -467,7 +469,7 @@ const NDAHeader = ({ nda, user }) => {
                 {' '}
                 and
                 {' '}
-                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+                <BoldText>{ownerFullName}</BoldText>
                 {' '}
                 have agreed to terms of the following NDA
                 {' '}
@@ -502,7 +504,7 @@ const NDAHeader = ({ nda, user }) => {
           <>
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+                <BoldText>{ownerFullName}</BoldText>
                 {' '}
                 has requested your signature.
               </DisclaimerTitle>
@@ -516,7 +518,7 @@ const NDAHeader = ({ nda, user }) => {
                 {' '}
                 and
                 {' '}
-                <BoldText>{getFullNameFromUser(nda.owner)}</BoldText>
+                <BoldText>{ownerFullName}</BoldText>
                 {' '}
                 are agreeing to terms of an NDA to
                 {' '}
@@ -753,6 +755,9 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   };
   const onDetailClick = useCallback(handleDetailClick);
 
+  const ownerFullName = getFullNameFromUser(nda.owner);
+  const maybeRecipientFullName = nda.recipient ? getFullNameFromUser(nda.recipient) : null;
+
   return (
     <>
       {
@@ -833,7 +838,11 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
           Are you sure you want to decline?
         </DialogTitle>
         <DialogText>
-          This action cannot be undone. We will notify Jake Murzy of your decision.
+          This action cannot be undone.
+          {' '}
+          {ownerFullName}
+          {' '}
+          will be notified that you declined their request.
         </DialogText>
         <DialogFooter>
           <DialogButton
@@ -864,6 +873,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
         </DialogTitle>
         <DialogText>
           This action cannot be undone.
+          {' '}
+          {maybeRecipientFullName || 'The recipient'}
+          {' '}
+          will be notified that you revoked this NDA.
         </DialogText>
         <DialogFooter>
           <DialogButton
@@ -890,7 +903,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
       <SimpleDialog show={isResendDialogOpen}>
         <DialogTitle>
-          Are you sure you want to resend this to Jake Murzy?
+          Are you sure you want to resend this to
+          {' '}
+          {maybeRecipientFullName || 'the recipient'}
+          ?
         </DialogTitle>
         <DialogFooter>
           <DialogButton
