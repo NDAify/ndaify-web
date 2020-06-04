@@ -34,21 +34,19 @@ jobs:
       - run: yarn install --frozen-lockfile
       # Run tests
       - run: yarn test
-
-  i18n-ready: 
-    name: Check i18n
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Bail if language tokens are missing
+      # Extract i18n
+      - run: yarn extract-i18n
+      # Bail if lang files are missing
+      - name: Check if language tokens are missing
         run: |
-          # TODO bail if i18n is not ready 
-          sleep 1
-          exit 1
+          # Make untracked files diffable
+          git add --intent-to-add .
+          # Bail if a diff is generated 
+          exit $(git diff --exit-code --quiet)
 
   deploy:
     name: Deploy
-    needs: i18n-ready
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       # Check out the repo
