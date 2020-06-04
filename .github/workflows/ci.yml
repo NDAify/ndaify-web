@@ -2,12 +2,11 @@ name: NDAify CI
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-  test:
+  tests:
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -35,9 +34,10 @@ jobs:
       - run: yarn install --frozen-lockfile
       # Run tests
       - run: yarn test
+
   deploy:
     name: Deploy
-    needs: test
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       # Check out the repo
@@ -45,3 +45,9 @@ jobs:
         with:
           repository: ${{ github.repository }}
           ref: 'master'
+      # Run `flyctl deploy`.
+      - uses: superfly/flyctl-actions@master
+        with:
+          args: "deploy"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
