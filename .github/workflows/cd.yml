@@ -12,9 +12,6 @@ jobs:
     steps:
       # Check out the repo
       - uses: actions/checkout@v2
-        with:
-          repository: ${{ github.repository }}
-          ref: 'master'
       # Install node
       - uses: actions/setup-node@v1
         with:
