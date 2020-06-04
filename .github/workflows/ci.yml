@@ -1,0 +1,26 @@
+name: NDAify CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      # Check out the repo
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+          ref: 'master'
+      # Install node
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.2.0'
+      # Install deps
+      - run: yarn install --frozen-lockfile
+      # Run tests
+      - run: yarn test

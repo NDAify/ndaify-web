@@ -1,6 +1,6 @@
 # NDAify
 
-[![npm](https://img.shields.io/github/license/ndaify/ndaify-web.svg)](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md)
+![](https://github.com/ndaify/ndaify-web/workflows/NDAify%20CI/badge.svg) [![npm](https://img.shields.io/github/license/ndaify/ndaify-web.svg)](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md)
 
 This repository hosts the source code for https://ndaify.com. If you have any questions, feel free to reach out to me on Twitter [@juliaqiuxy](https://twitter.com/juliaqiuxy).
 
