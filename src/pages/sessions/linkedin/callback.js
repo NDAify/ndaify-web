@@ -7,6 +7,8 @@ import NdaifyService, {
 import { getOrigin } from '../../../util';
 import createXForwardedFor from '../../../utils/createXForwardedFor';
 
+import loggerClient from '../../../db/loggerClient';
+
 const OAUTH_ERROR_USER_CANCELLED_AUTHORIZE = 'user_cancelled_authorize';
 const OAUTH_ERROR_USER_CANCELLED_LOGIN = 'user_cancelled_login';
 const OAUTH_ERROR_UNAUTHORIZED_SCOPE_ERROR = 'unauthorized_scope_error';
@@ -72,7 +74,7 @@ class Callback extends Component {
         }
 
         // eslint-disable-next-line
-        console.error(oAuthError, oAuthErrorDescription);
+        loggerClient.error(oAuthError, oAuthErrorDescription);
         throw new Error('Oops! Something went wrong. Please try again later.');
       }
 
@@ -91,7 +93,7 @@ class Callback extends Component {
         );
       } catch (error) {
         // eslint-disable-next-line
-        console.error(error);
+        loggerClient.error(error);
 
         if (error instanceof InvalidSessionError) {
           throw error;
@@ -114,7 +116,7 @@ class Callback extends Component {
       return redirect(ctx, '/dashboard/incoming');
     } catch (error) {
       // eslint-disable-next-line
-      console.error(error);
+      loggerClient.error(error);
 
       let loginPage = '/login';
 

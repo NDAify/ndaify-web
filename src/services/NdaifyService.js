@@ -10,6 +10,8 @@ import {
 } from '../lib/cookies';
 import { toQueryString, BaseError } from '../util';
 
+import loggerClient from '../db/loggerClient';
+
 export class NdaifyServiceError extends BaseError {
   constructor(message = 'NDAify Endpoint Error', statusCode, data) {
     super(message);
@@ -188,7 +190,7 @@ const dispatch = (
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    loggerClient.error(error);
 
     throw new FetchError('Service Unavailable', statuses('Service Unavailable'));
   }

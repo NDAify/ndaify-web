@@ -6,6 +6,8 @@ import NDAImpl from '../../components/NDA/NDA';
 
 import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
+import loggerClient from '../../db/loggerClient';
+
 const NDA = (props) => (
   <>
     <PageTitle />
@@ -29,7 +31,7 @@ NDA.getInitialProps = async (ctx) => {
     ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.warn(error);
+    loggerClient.warn(error);
   }
 
   let nda;

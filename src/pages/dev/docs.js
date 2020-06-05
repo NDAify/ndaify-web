@@ -6,6 +6,8 @@ import enhanceOpenApiSpec from '../../utils/enhanceOpenApiSpec';
 
 import ApiDocsImpl from '../../components/ApiDocs/ApiDocs';
 
+import loggerClient from '../../db/loggerClient';
+
 const ApiDocs = ({ user, openApiSpec }) => (
   <>
     <PageTitle prepend="API Docs – " />
@@ -27,7 +29,7 @@ ApiDocs.getInitialProps = async (ctx) => {
     ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.warn(error);
+    loggerClient.warn(error);
   }
 
   const openApiSpec = await ndaifyService.getOpenApiSpec();

@@ -19,12 +19,13 @@ module.exports = () => withSourceMaps(withCSS(withImages({
   publicRuntimeConfig: {
     // Runtime configuration
     // publicRuntimeConfig is exposed to both server and client
-    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
     CANONICAL_URL: process.env.CANONICAL_URL,
     COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
+    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
+    NDAIFY_LOG_LEVEL: process.env.NDAIFY_LOG_LEVEL,
     SENTRY_DSN: process.env.SENTRY_DSN,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },

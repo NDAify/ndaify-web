@@ -1,5 +1,7 @@
 import statuses from 'statuses';
 
+import loggerClient from '../db/loggerClient';
+
 const {
   SENTRY_SECRET_TOKEN,
 } = process.env;
@@ -22,7 +24,7 @@ export default async (ctx, next) => {
     verified = true;
   } catch (error) {
     // eslint-disable-next-line
-    console.log(error);
+    loggerClient.info(error);
   }
 
   if (!verified) {

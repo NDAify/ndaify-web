@@ -8,6 +8,8 @@ import {
 
 import Router from 'next/router';
 
+import loggerClient from '../../db/loggerClient';
+
 import NDABody from './NDABody';
 import Button from '../Clickable/Button';
 import AnchorButton from '../Clickable/AnchorButton';
@@ -319,7 +321,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
       Router.replace('/nda/pay');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }
   };

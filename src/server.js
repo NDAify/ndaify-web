@@ -10,6 +10,7 @@ import robots from './lib/robots';
 import sitemap from './lib/sitemap';
 
 import sentryNodeClient from './db/sentryNodeClient';
+import loggerClient from './db/loggerClient';
 
 import validateSentryRequest from './middleware/validateSentryRequest';
 
@@ -114,12 +115,12 @@ const run = async () => {
     const { address, port } = server.address();
 
     // eslint-disable-next-line no-console
-    console.log(`> Ready on http://${address}:${port} with ${os.cpus().length} CPUs.`);
+    loggerClient.info(`> Ready on http://${address}:${port} with ${os.cpus().length} CPUs.`);
   });
 
   const handleGracefulTermination = (signal) => () => {
     /* eslint-disable no-console */
-    console.log(`Terminating on ${signal}`);
+    loggerClient.fatal(`Terminating on ${signal}`);
     /* eslint-enable */
     server.close();
     process.exit();

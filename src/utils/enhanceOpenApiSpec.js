@@ -1,6 +1,8 @@
 import getConfig from 'next/config';
 import openApiSnippet from 'openapi-snippet';
 
+import loggerClient from '../db/loggerClient';
+
 // https://github.com/Kong/httpsnippet/pull/154
 // https://github.com/github/linguist/blob/master/lib/linguist/popular.yml
 // https://github.com/ErikWittern/openapi-snippet
@@ -61,7 +63,7 @@ const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
     }));
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    loggerClient.error(error);
   }
 
   return [];

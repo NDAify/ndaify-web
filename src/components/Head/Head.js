@@ -3,6 +3,8 @@ import NextHead from 'next/head';
 import getConfig from 'next/config';
 import { withRouter } from 'next/router';
 
+import loggerClient from '../../db/loggerClient';
+
 const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 
 const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps.';
@@ -34,7 +36,7 @@ export const PageTitle = ({ title = TITLE, prepend = '', append = '' }) => (
 export const PageDescription = ({ description = META_DESCRIPTION }) => {
   if (description.length > GOOGLE_MAX_LENGTH) {
     // eslint-disable-next-line no-console
-    console.warn(`You should keep your page description under ${GOOGLE_MAX_LENGTH} characters`);
+    loggerClient.warn(`You should keep your page description under ${GOOGLE_MAX_LENGTH} characters`);
   }
 
   return (

@@ -24,6 +24,7 @@ import getSystemLocale from '../utils/getSystemLocale';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
 import sentryBrowserClient from '../db/sentryBrowserClient';
+import loggerClient from '../db/loggerClient';
 
 import '../css/nprogress.css';
 
@@ -189,7 +190,7 @@ class App extends NextApp {
       } catch (error) {
         if (error instanceof NdaifyServiceError) {
           // eslint-disable-next-line no-console
-          console.error(error);
+          loggerClient.error(error);
 
           errorPageProps = {
             ...error.data,

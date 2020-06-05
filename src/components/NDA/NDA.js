@@ -33,6 +33,8 @@ import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 
 import NdaifyService from '../../services/NdaifyService';
 
+import loggerClient from '../../db/loggerClient';
+
 import HideImg from './images/hide.svg';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
@@ -678,7 +680,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       toast.show('Successfully declined NDA');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       toast.show('Failed to decline NDA');
     } finally {
       setDeclining(false);
@@ -700,7 +702,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       toast.show('Successfully resent NDA');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       toast.show('Failed to resend NDA');
     } finally {
       setResending(false);
@@ -722,7 +724,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       toast.show('Successfully revoked NDA');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       toast.show('Failed to revoke NDA');
     } finally {
       setRevoking(false);
@@ -1288,7 +1290,7 @@ const NDA = ({ ndaTemplate, nda, user }) => {
       window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     } finally {
       // Keep the spinner running during the transition to LinkedIn oAuth

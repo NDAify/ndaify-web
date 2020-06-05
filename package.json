@@ -36,6 +36,7 @@
     "nprogress": "^0.2.0",
     "openapi-snippet": "^0.8.1",
     "path-to-regexp": "^6.1.0",
+    "pino": "^6.3.2",
     "polished": "^3.6.3",
     "react": "^16.13.1",
     "react-alert": "^7.0.0",
@@ -81,7 +82,8 @@
     "eslint-plugin-react-hooks": "^3.0.0",
     "extract-react-intl-messages": "^4.1.1",
     "husky": "^4.2.5",
-    "jest": "^25.5.4"
+    "jest": "^25.5.4",
+    "pino-pretty": "^4.0.0"
   },
   "husky": {
     "hooks": {

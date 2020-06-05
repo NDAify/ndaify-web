@@ -17,6 +17,8 @@ import {
 
 import Router from 'next/router';
 
+import loggerClient from '../../db/loggerClient';
+
 import NdaifyService from '../../services/NdaifyService';
 
 import Button from '../Clickable/Button';
@@ -235,7 +237,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
       Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }
   };

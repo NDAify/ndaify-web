@@ -7,6 +7,8 @@ import * as sessionStorage from '../../lib/sessionStorage';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import SenderFormImpl from '../../components/SenderForm/SenderForm';
 
+import loggerClient from '../../db/loggerClient';
+
 const SenderForm = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
@@ -37,7 +39,7 @@ SenderForm.getInitialProps = async (ctx) => {
     ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.warn(error);
+    loggerClient.warn(error);
   }
 
   return {

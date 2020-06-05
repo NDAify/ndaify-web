@@ -28,6 +28,7 @@ import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import NdaIcon from './images/nda.svg';
 
 import * as sessionStorage from '../../lib/sessionStorage';
+import loggerClient from '../../db/loggerClient';
 
 const Container = styled.div`
   width: 100%;
@@ -320,7 +321,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
       Router.push('/nda/new');
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }
   };

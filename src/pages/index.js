@@ -6,6 +6,8 @@ import NdaifyService from '../services/NdaifyService';
 import { PageTitle, PageDescription } from '../components/Head/Head';
 import IndexImpl from '../components/Home/Home';
 
+import loggerClient from '../db/loggerClient';
+
 const Index = ({ user, ndaStatistics }) => {
   const router = useRouter();
   const refSource = router.query.ref;
@@ -35,7 +37,7 @@ Index.getInitialProps = async (ctx) => {
     ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.warn(error);
+    loggerClient.warn(error);
   }
 
   const [utcToday] = new Date().toISOString().split('T');

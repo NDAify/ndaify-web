@@ -14,6 +14,8 @@ import {
 
 import Link from 'next/link';
 
+import loggerClient from '../../db/loggerClient';
+
 import NdaifyService from '../../services/NdaifyService';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
@@ -291,7 +293,7 @@ const SenderForm = ({ user, nda }) => {
       );
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
+      loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     } finally {
       // Keep the spinner running during the transition to LinkedIn oAuth
