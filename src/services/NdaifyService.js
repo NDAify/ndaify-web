@@ -156,7 +156,8 @@ const dispatch = (
         redirectUrl: getRedirectUrl(ctx),
       });
     }
-    throw new Error('Missing sessionToken');
+
+    throw new InvalidSessionError('Missing sessionToken', statuses('Unauthorized'));
   }
 
   let response;
