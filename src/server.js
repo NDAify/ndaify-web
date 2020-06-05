@@ -52,8 +52,9 @@ koaRouter.get('/sitemap.xml', sitemap());
 koaRouter.get('/health', async (ctx) => {
   ctx.status = statuses('OK');
   ctx.body = {
-    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
     CANONICAL_URL: process.env.CANONICAL_URL,
+    NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
+    NDAIFY_LOG_LEVEL: process.env.NDAIFY_LOG_LEVEL,
     NODE_ENV: process.env.NODE_ENV,
     now: Date.now(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
