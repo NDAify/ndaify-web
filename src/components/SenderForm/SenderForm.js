@@ -292,7 +292,6 @@ const SenderForm = ({ user, nda }) => {
         `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`,
       );
     } catch (error) {
-      // eslint-disable-next-line no-console
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     } finally {

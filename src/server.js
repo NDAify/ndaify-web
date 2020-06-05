@@ -114,14 +114,11 @@ const run = async () => {
   const server = koaApp.listen(PORT, () => {
     const { address, port } = server.address();
 
-    // eslint-disable-next-line no-console
     loggerClient.info(`> Ready on http://${address}:${port} with ${os.cpus().length} CPUs.`);
   });
 
   const handleGracefulTermination = (signal) => () => {
-    /* eslint-disable no-console */
     loggerClient.fatal(`Terminating on ${signal}`);
-    /* eslint-enable */
     server.close();
     process.exit();
   };

@@ -236,7 +236,6 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
 
       Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`);
     } catch (error) {
-      // eslint-disable-next-line no-console
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }

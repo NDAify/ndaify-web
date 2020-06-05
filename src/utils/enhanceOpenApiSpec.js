@@ -62,7 +62,6 @@ const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
       source: decodeURIComponent(snippet.content).replace('REPLACE_KEY_VALUE', 'Bearer apiToken'),
     }));
   } catch (error) {
-    // eslint-disable-next-line no-console
     loggerClient.error(error);
   }
 

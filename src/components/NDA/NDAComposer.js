@@ -320,7 +320,6 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
 
       Router.replace('/nda/pay');
     } catch (error) {
-      // eslint-disable-next-line no-console
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }

@@ -35,7 +35,6 @@ export const PageTitle = ({ title = TITLE, prepend = '', append = '' }) => (
 
 export const PageDescription = ({ description = META_DESCRIPTION }) => {
   if (description.length > GOOGLE_MAX_LENGTH) {
-    // eslint-disable-next-line no-console
     loggerClient.warn(`You should keep your page description under ${GOOGLE_MAX_LENGTH} characters`);
   }
 

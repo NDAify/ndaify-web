@@ -28,7 +28,6 @@ ApiDocs.getInitialProps = async (ctx) => {
   try {
     ({ user } = await ndaifyService.tryGetSession());
   } catch (error) {
-    // eslint-disable-next-line no-console
     loggerClient.warn(error);
   }
 

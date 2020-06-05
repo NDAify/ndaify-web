@@ -320,7 +320,6 @@ const Home = ({ user, ndaStatistics, refSource }) => {
       );
       Router.push('/nda/new');
     } catch (error) {
-      // eslint-disable-next-line no-console
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }

@@ -189,7 +189,6 @@ class App extends NextApp {
         pageProps = await Component.getInitialProps(ctx);
       } catch (error) {
         if (error instanceof NdaifyServiceError) {
-          // eslint-disable-next-line no-console
           loggerClient.error(error);
 
           errorPageProps = {

@@ -189,7 +189,6 @@ const dispatch = (
       );
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
     loggerClient.error(error);
 
     throw new FetchError('Service Unavailable', statuses('Service Unavailable'));

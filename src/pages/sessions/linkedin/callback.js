@@ -74,7 +74,10 @@ class Callback extends Component {
         }
 
         // eslint-disable-next-line
-        loggerClient.error(oAuthError, oAuthErrorDescription);
+        loggerClient.error({ 
+          oAuthError,
+          oAuthErrorDescription,
+        });
         throw new Error('Oops! Something went wrong. Please try again later.');
       }
 
