@@ -10,7 +10,7 @@ if (process.browser) {
 
 const client = pino({
   name: 'NDAify Web',
-  level,
+  level: level || 'info', /* required */
   prettyPrint: process.env.NODE_ENV !== 'production',
   enabled: true,
   browser: {
