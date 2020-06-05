@@ -34,14 +34,16 @@ const context = createContext();
 export const getLocalePreference = (ctx) => getCookie(ctx, 'locale', BASE_COOKIE_OPTIONS);
 
 export const pickSupportedLocale = (requestedLocale, supportedLocales = SUPPORTED_LOCALES) => {
-  if (supportedLocales.find((locale) => locale === requestedLocale)) {
-    return requestedLocale;
-  }
+  if (requestedLocale) {
+    if (supportedLocales.find((locale) => locale === requestedLocale)) {
+      return requestedLocale;
+    }
 
-  const { language } = parseLocaleParts(requestedLocale);
+    const { language } = parseLocaleParts(requestedLocale);
 
-  if (supportedLocales.find((locale) => locale === language)) {
-    return language;
+    if (supportedLocales.find((locale) => locale === language)) {
+      return language;
+    }
   }
 
   return DEFAULT_LOCALE_PARTS.language;
