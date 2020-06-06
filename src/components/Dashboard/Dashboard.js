@@ -198,6 +198,23 @@ const ProfileImage = styled.img`
   margin-right: 12px;
 `;
 
+const StyledBadgeLink = styled(StyledLink)`
+  position: relative;
+`;
+
+const Badge = styled.span`
+  background-color: var(--ndaify-accents-danger);
+  border-radius: var(--ndaify-accents-radius-3);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 6px;
+  margin: 2px;
+  position: absolute;
+  top: -6px;
+  right: -20px;
+`;
+
 const NDA_STATUS_LABEL = {
   pending: 'Unsigned',
   signed: 'Signed',
@@ -267,6 +284,13 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
 
   const filteredNdas = ndas.filter(byDashboardType);
 
+  // TODO This should be moved to api once we implement pagination
+  let numberOfNew = 0;
+  if (dashboardType === 'incoming') {
+    const pendingNDAs = filteredNdas.filter((nda) => nda.metadata.status === 'pending');
+    numberOfNew = pendingNDAs.length;
+  }
+
   return (
     <Container>
 
@@ -302,7 +326,17 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
             <ActiveLink scroll={false} href="/dashboard/[dashboardType]" as="/dashboard/incoming">
               {
                 (active) => (
-                  <StyledLink active={active}>Inbox</StyledLink>
+                  <StyledBadgeLink active={active}>
+                    Inbox
+
+                    {
+                      numberOfNew ? (
+                        <Badge>
+                          {numberOfNew}
+                        </Badge>
+                      ) : null
+                    }
+                  </StyledBadgeLink>
                 )
               }
             </ActiveLink>
