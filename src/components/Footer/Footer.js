@@ -175,7 +175,7 @@ const PreferencesContainer = styled.div`
 `;
 
 const PreferencesInputWrapper = styled.div`
-  min-width: 50%;
+  min-width: 60%;
   padding: 8px;
 
   @media screen and (min-width: 992px) {
