@@ -446,7 +446,7 @@ const SenderForm = ({ user, nda }) => {
                 </InputContainer>
 
                 <DisclaimerText>
-                  Singing the NDA signifies that you have read and agree to the
+                  Signing the NDA signifies that you have read and agree to the
                   {' '}
                   <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
                   {' '}
