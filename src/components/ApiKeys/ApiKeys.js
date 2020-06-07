@@ -62,10 +62,10 @@ const ApiKeyActionRow = styled.div`
   padding-bottom: 2pc;
   display: flex;
   width: 100%;
-  margin-bottom: 1pc;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @media screen and (min-width: 768px) {
+    margin-bottom: 1pc;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -82,6 +82,13 @@ const LinksContainer = styled.div`
 
 const ButtonsContainer = styled.div`
   display: flex;
+  padding-bottom: 2pc;
+  align-self: flex-end;
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: 0pc;
+    align-self: unset;
+  }
 `;
 
 const ButtonContainer = styled.div`
