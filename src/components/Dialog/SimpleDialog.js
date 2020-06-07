@@ -65,6 +65,7 @@ const SimpleDialog = (props) => {
 
   return transitions.map((transition) => transition.item && (
   <AnimatedDialogOverlay
+    key={transition.key}
     style={{
       opacity: transition.props.opacity,
     }}
