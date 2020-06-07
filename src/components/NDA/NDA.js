@@ -685,7 +685,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       setDeclining(false);
     }
   };
-  const onDeclineNda = useCallback(handleDeclineNda);
+  const onDeclineNda = useCallback(handleDeclineNda, [nda, toast]);
 
   const handleResendNda = async () => {
     setResending(true);
@@ -706,7 +706,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       setResending(false);
     }
   };
-  const onResendNda = useCallback(handleResendNda);
+  const onResendNda = useCallback(handleResendNda, [nda.ndaId, toast]);
 
   const handleRevokeNda = async () => {
     setRevoking(true);
@@ -727,32 +727,32 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       setRevoking(false);
     }
   };
-  const onRevokeNda = useCallback(handleRevokeNda);
+  const onRevokeNda = useCallback(handleRevokeNda, [nda.ndaId, toast]);
 
   const handleDeclineClick = async () => {
     setDeclineDialogOpen(true);
   };
-  const onDeclineClick = useCallback(handleDeclineClick);
+  const onDeclineClick = useCallback(handleDeclineClick, []);
 
   const handleRevokeClick = async () => {
     setRevokeDialogOpen(true);
   };
-  const onRevokeClick = useCallback(handleRevokeClick);
+  const onRevokeClick = useCallback(handleRevokeClick, []);
 
   const handleResendClick = async () => {
     setResendDialogOpen(true);
   };
-  const onResendClick = useCallback(handleResendClick);
+  const onResendClick = useCallback(handleResendClick, []);
 
   const handleDownlaodClick = async () => {
     toast.show('Starting download...');
   };
-  const onDownloadClick = useCallback(handleDownlaodClick);
+  const onDownloadClick = useCallback(handleDownlaodClick, [toast]);
 
   const handleDetailClick = async () => {
     setDetailDialogOpen(true);
   };
-  const onDetailClick = useCallback(handleDetailClick);
+  const onDetailClick = useCallback(handleDetailClick, []);
 
   const ownerFullName = getFullNameFromUser(nda.owner);
   const maybeRecipientFullName = nda.recipient ? getFullNameFromUser(nda.recipient) : null;
