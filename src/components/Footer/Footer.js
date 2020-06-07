@@ -84,6 +84,7 @@ const Disclaimer = styled.span`
   display: block;
   font-weight: 200;
   line-height: 20px;
+  padding-bottom: 1pc;
 
   a {
     text-decoration: underline;
@@ -326,7 +327,7 @@ const Footer = ({ withLogo }) => {
       <Disclaimer>
         <FormattedMessage
           id="footer-nav-disclaimer"
-          defaultMessage="NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation. Singing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}."
+          defaultMessage="NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation. Singing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}. When NDAify.com is displayed in a language other than English, we translate the most important information for your browsing and communications. Our translations are provided for your convenience. The English version of NDAify.com, including our Privacy Policy, Terms of Use and the Nondisclosure Agreements, is the definitive version."
           values={{
             privacyPolicy: (
               <a target="_blank" rel="noopener noreferrer" href="/terms">
@@ -347,6 +348,7 @@ const Footer = ({ withLogo }) => {
           }}
         />
       </Disclaimer>
+
       <FooterContainer />
     </Container>
   );
