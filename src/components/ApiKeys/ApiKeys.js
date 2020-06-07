@@ -244,6 +244,7 @@ const apiKeyNameInputPlaceholder = defineMessage({
   defaultMessage: 'Key Name (e.g. Slack integration)',
 });
 
+const maskSecret = (secret) => `${secret.substring(0, 2)}••••••${secret.slice(-2)}`;
 
 const ApiKeyItem = ({ apiKey }) => {
   const toast = useAlert();
@@ -297,7 +298,7 @@ const ApiKeyItem = ({ apiKey }) => {
           <ApiKeyDetailsRow>
             <ApiKeyDetailsTitle>Token</ApiKeyDetailsTitle>
             <ApiKeyDetailsText>
-              {apiKey.secret}
+              {maskSecret(apiKey.secret)}
             </ApiKeyDetailsText>
           </ApiKeyDetailsRow>
 

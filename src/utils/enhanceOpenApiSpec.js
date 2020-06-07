@@ -40,7 +40,7 @@ const SNIPPET_TO_PREFERRED_LABELS = {
 
 const { publicRuntimeConfig: { NDAIFY_ENDPOINT_URL } } = getConfig();
 
-const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
+const getCodeSamples = (openApiSpec, pathKey, methodKey, values) => {
   try {
     const results = openApiSnippet.getEndpointSnippets(
       openApiSpec,
@@ -59,7 +59,7 @@ const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
     return results.snippets.map((snippet) => ({
       lang: SNIPPET_TO_LINGUIST[snippet.id],
       label: SNIPPET_TO_PREFERRED_LABELS[snippet.id] || snippet.title,
-      source: decodeURIComponent(snippet.content).replace('REPLACE_KEY_VALUE', 'ApiKey apiToken'),
+      source: decodeURIComponent(snippet.content).replace('REPLACE_KEY_VALUE', `ApiKey ${values.apiToken}`),
     }));
   } catch (error) {
     loggerClient.error(error);
@@ -68,7 +68,7 @@ const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
   return [];
 };
 
-const enhanceMethods = (openApiSpec, pathKey, methods) => {
+const enhanceMethods = (openApiSpec, pathKey, methods, values) => {
   const methodKeys = Object.keys(methods);
 
   return methodKeys.reduce((accum, methodKey) => {
@@ -77,25 +77,25 @@ const enhanceMethods = (openApiSpec, pathKey, methods) => {
       ...accum,
       [methodKey]: {
         ...methodValue,
-        'x-code-samples': getCodeSamples(openApiSpec, pathKey, methodKey),
+        'x-code-samples': getCodeSamples(openApiSpec, pathKey, methodKey, values),
       },
     };
   }, {});
 };
 
-const enhancePaths = (openApiSpec, paths) => {
+const enhancePaths = (openApiSpec, paths, values) => {
   const pathKeys = Object.keys(paths);
 
   return pathKeys.reduce((accum, pathKey) => {
     const methods = paths[pathKey];
     return {
       ...accum,
-      [pathKey]: enhanceMethods(openApiSpec, pathKey, methods),
+      [pathKey]: enhanceMethods(openApiSpec, pathKey, methods, values),
     };
   }, {});
 };
 
-const enhanceOpenApiSpec = (openApiSpec) => {
+const enhanceOpenApiSpec = (openApiSpec, values) => {
   const spec = {
     ...openApiSpec,
     servers: [
@@ -103,7 +103,7 @@ const enhanceOpenApiSpec = (openApiSpec) => {
         url: NDAIFY_ENDPOINT_URL,
       },
     ],
-    paths: enhancePaths(openApiSpec, openApiSpec.paths),
+    paths: enhancePaths(openApiSpec, openApiSpec.paths, values),
   };
 
   return spec;

@@ -31,11 +31,31 @@ ApiDocs.getInitialProps = async (ctx) => {
     loggerClient.warn(error);
   }
 
-  const openApiSpec = await ndaifyService.getOpenApiSpec();
+  let apiToken = 'yourSecret';
+
+  const [
+    { apiKeys },
+    openApiSpec,
+  ] = await Promise.all([
+    user ? ndaifyService.getApiKeys() : Promise.resolve({ apiKeys: [] }),
+    ndaifyService.getOpenApiSpec(),
+  ]);
+
+  if (apiKeys.length > 0) {
+    const [firstApiKey] = apiKeys;
+    apiToken = firstApiKey.secret;
+  }
+
+  const enhancedOpenApiSpec = enhanceOpenApiSpec(openApiSpec, {
+    apiToken,
+  });
+
+  // hide `sessionToken` from docs
+  delete enhancedOpenApiSpec.components.securitySchemes.sessionToken;
 
   return {
     user,
-    openApiSpec: enhanceOpenApiSpec(openApiSpec),
+    openApiSpec: enhancedOpenApiSpec,
   };
 };
 
