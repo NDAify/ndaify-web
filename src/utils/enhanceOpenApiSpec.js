@@ -59,7 +59,7 @@ const getCodeSamples = (openApiSpec, pathKey, methodKey) => {
     return results.snippets.map((snippet) => ({
       lang: SNIPPET_TO_LINGUIST[snippet.id],
       label: SNIPPET_TO_PREFERRED_LABELS[snippet.id] || snippet.title,
-      source: decodeURIComponent(snippet.content).replace('REPLACE_KEY_VALUE', 'Bearer apiToken'),
+      source: decodeURIComponent(snippet.content).replace('REPLACE_KEY_VALUE', 'ApiKey apiToken'),
     }));
   } catch (error) {
     loggerClient.error(error);
