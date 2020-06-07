@@ -23,6 +23,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Browser from '../Browser/Browser';
 import Typewriter from '../Typewriter/Typewriter';
+import Avatar from '../Avatar/Avatar';
 
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import NdaIcon from './images/nda.svg';
@@ -123,16 +124,6 @@ const FormCopy = styled.h4`
   @media screen and (min-width: 992px) {
     font-size: 24px;
   }
-`;
-
-const ProfileImage = styled.img`
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
 `;
 
 const NdaInfoContainer = styled.div`
@@ -344,10 +335,8 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                   >
-                    <ProfileImage
-                      alt=""
-                      src={user.metadata.linkedInProfile.profilePicture}
-                    />
+                    <Avatar user={user} />
+
                     <span>
                       <FormattedMessage
                         id="user-action-banner-label-dashboard"

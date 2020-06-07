@@ -17,6 +17,7 @@ import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
+import Avatar from '../Avatar/Avatar';
 
 const Container = styled.div`
   width: 100%;
@@ -42,16 +43,6 @@ const RedocContainer = styled.div`
     opacity: 0.4; 
     text-decoration: none;
   }
-`;
-
-const ProfileImage = styled.img`
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
 `;
 
 const defaultTheme = {
@@ -237,10 +228,8 @@ const ApiDocs = ({ openApiSpec, user }) => (
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                   >
-                    <ProfileImage
-                      alt=""
-                      src={user.metadata.linkedInProfile.profilePicture}
-                    />
+                    <Avatar user={user} />
+
                     <span>
                       <FormattedMessage
                         id="user-action-banner-label-dashboard"

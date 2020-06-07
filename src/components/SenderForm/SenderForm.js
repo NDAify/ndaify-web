@@ -30,6 +30,7 @@ import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
+import Avatar from '../Avatar/Avatar';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -184,17 +185,6 @@ const LinkedInButtonWrapper = styled.div`
   display: flex;
   margin-bottom: 3pc;
 `;
-
-const ProfileImage = styled.img`
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
-`;
-
 export const NDA_TEMPLATE_OPTIONS = [
   {
     label: 'Mutual',
@@ -324,10 +314,8 @@ const SenderForm = ({ user, nda }) => {
                     outline
                     style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                   >
-                    <ProfileImage
-                      alt=""
-                      src={user.metadata.linkedInProfile.profilePicture}
-                    />
+                    <Avatar user={user} />
+
                     <span>
                       <FormattedMessage
                         id="user-action-banner-label-dashboard"

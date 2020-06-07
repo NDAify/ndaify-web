@@ -41,7 +41,7 @@ const ProfileText = styled.span`
 
 const CreatorInfo = () => (
   <ProfileContainer>
-    <ProfileImage src={julia} alt="julia" />
+    <ProfileImage src={julia} alt="" />
     <ProfileTextContainer>
       <ProfileText>
         Julia

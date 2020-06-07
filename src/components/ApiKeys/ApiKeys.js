@@ -23,6 +23,7 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import SimpleDialog from '../Dialog/SimpleDialog';
 import Input from '../Input/Input';
+import Avatar from '../Avatar/Avatar';
 
 import NdaifyService from '../../services/NdaifyService';
 
@@ -116,16 +117,6 @@ const StyledLink = styled.a`
 
 const ApiKeysList = styled.div`
   width: 100%;
-`;
-
-const ProfileImage = styled.img`
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
 `;
 
 const ItemCardContainer = styled.div`
@@ -458,10 +449,8 @@ const ApiDocs = ({ user, apiKeys }) => {
                       outline
                       style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                     >
-                      <ProfileImage
-                        alt=""
-                        src={user.metadata.linkedInProfile.profilePicture}
-                      />
+                      <Avatar user={user} />
+
                       <span>
                         <FormattedMessage
                           id="user-action-banner-label-dashboard"

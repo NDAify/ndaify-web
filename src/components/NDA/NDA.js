@@ -25,6 +25,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import SimpleDialog from '../Dialog/SimpleDialog';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
+import Avatar from '../Avatar/Avatar';
 
 import { extractCompanyNameFromText } from './NDAComposer';
 
@@ -368,16 +369,6 @@ const DetailsText = styled.div`
   @media screen and (min-width: 992px) {
     font-size: 24px;
   }
-`;
-
-const ProfileImage = styled.img`
-  display: block;
-  margin: 0;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
 `;
 
 const NDAReadMoreContainer = styled.div`
@@ -1311,10 +1302,8 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                   outline
                   style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                 >
-                  <ProfileImage
-                    alt=""
-                    src={user.metadata.linkedInProfile.profilePicture}
-                  />
+                  <Avatar user={user} />
+
                   <span>
                     <FormattedMessage
                       id="user-action-banner-label-dashboard"
@@ -1347,10 +1336,8 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                 outline
                 style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
               >
-                <ProfileImage
-                  alt=""
-                  src={user.metadata.linkedInProfile.profilePicture}
-                />
+                <Avatar user={user} />
+
                 <span>
                   <FormattedMessage
                     id="user-action-banner-label-dashboard"
