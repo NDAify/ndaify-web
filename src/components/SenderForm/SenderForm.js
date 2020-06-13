@@ -31,6 +31,7 @@ import UserActionBanner from '../UserActionBanner/UserActionBanner';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Avatar from '../Avatar/Avatar';
+import { PageTitle } from '../Head/Head';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
@@ -199,7 +200,7 @@ export const NDA_TEMPLATE_OPTIONS = [
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
 const TemplateDescription = (props) => {
-  const [ndaTemplateDescription, setNdaTemplateDescription] = useState();
+  const [ndaTemplate, setNdaTemplate] = useState();
 
   const loadNdaDescription = useCallback(async (ndaTemplateId) => {
     const ndaifyService = new NdaifyService();
@@ -207,19 +208,24 @@ const TemplateDescription = (props) => {
       owner, repo, ref, path,
     } = getTemplateIdParts(ndaTemplateId);
 
-    const {
-      ndaTemplate,
-    } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
+    const response = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
 
-    setNdaTemplateDescription(ndaTemplate.data.description);
+    setNdaTemplate(response.ndaTemplate);
   }, []);
 
   useEffect(() => {
     loadNdaDescription(props.ndaTemplateId);
   }, [loadNdaDescription, props.ndaTemplateId]);
 
+  if (!ndaTemplate) {
+    return null;
+  }
+
   return (
-    <NdaDescriptionText>{ndaTemplateDescription}</NdaDescriptionText>
+    <>
+      <PageTitle prepend={`New ${ndaTemplate.data.title} - `} />
+      <NdaDescriptionText>{ndaTemplate.data.description}</NdaDescriptionText>
+    </>
   );
 };
 
