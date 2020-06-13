@@ -358,7 +358,7 @@ const SenderForm = ({ user, nda }) => {
             </DocumentUrl>
           </LinkWrapper>
           <DescriptionTitle>
-            Recipient does not have access to your link unless he accepts the terms
+            Recipient does not have access to your link unless they accept the terms
             of the NDA.
           </DescriptionTitle>
 

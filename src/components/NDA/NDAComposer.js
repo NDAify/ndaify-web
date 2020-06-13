@@ -519,7 +519,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                       </DocumentUrl>
                     </LinkWrapper>
                     <DescriptionTitle>
-                      Recipient does not have access to your link unless he accepts the
+                      Recipient does not have access to your link unless they accept the
                       terms of the NDA.
                     </DescriptionTitle>
                   </AttachmentSectionContainer>
