@@ -169,6 +169,15 @@ const NdaDescriptionText = styled.span`
   line-height: 28px;
   margin-top: 6px;
 
+  a {
+    text-decoration: underline;
+    color: var(--ndaify-fg);
+  }
+
+  a:visited {
+    color: var(--ndaify-fg);
+  }
+
   @media screen and (min-width: 992px) {
     font-size: 20px;
   }
@@ -221,10 +230,22 @@ const TemplateDescription = (props) => {
     return null;
   }
 
+  const {
+    owner, repo, ref, path,
+  } = getTemplateIdParts(props.ndaTemplateId);
+
   return (
     <>
       <PageTitle prepend={`New ${ndaTemplate.data.title} - `} />
-      <NdaDescriptionText>{ndaTemplate.data.description}</NdaDescriptionText>
+      <NdaDescriptionText>
+        <a
+          href={`https://github.com/${owner}/${repo}/blob/${ref}/${path}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {ndaTemplate.data.description}
+        </a>
+      </NdaDescriptionText>
     </>
   );
 };
