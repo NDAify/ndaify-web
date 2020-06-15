@@ -254,8 +254,8 @@ const FAQcontent = styled.div`
 `;
 
 const FAQQuestion = styled.div`
-font-size: inherit;
-line-height: inherit;
+  font-size: inherit;
+  line-height: inherit;
   color: var(--ndaify-fg);
   margin-bottom: 1pc;
 
@@ -270,6 +270,28 @@ const FAQAnswer = styled.div`
   font-weight: 200;
 
   @media screen and (min-width: 768px) {
+  }
+`;
+
+const FieldDescription = styled.div`
+  display: block;
+  color: var(--ndaify-accents-6);
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 28px;
+  margin-top: 6px;
+
+  a {
+    text-decoration: underline;
+    color: var(--ndaify-fg);
+  }
+
+  a:visited {
+    color: var(--ndaify-fg);
+  }
+
+  @media screen and (min-width: 992px) {
+    font-size: 20px;
   }
 `;
 
@@ -426,6 +448,45 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                     autoComplete="off"
                     autoCorrect="off"
                   />
+                  <FieldDescription>
+                    Enter a private hyperlink to your documents in
+                    {' '}
+                    <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+                      Google Drive
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://dropbox.com" target="_blank" rel="noopener noreferrer">
+                      Dropbox
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://onedrive.live.com" target="_blank" rel="noopener noreferrer">
+                      OneDrive
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://www.figma.com/" target="_blank" rel="noopener noreferrer">
+                      Figma
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer">
+                      Notion
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://airtable.com" target="_blank" rel="noopener noreferrer">
+                      Airtable
+                    </a>
+                    ,
+                    {' '}
+                    <a href="https://www.invisionapp.com" target="_blank" rel="noopener noreferrer">
+                      InVision
+                    </a>
+                    {' '}
+                    etc.
+                  </FieldDescription>
                   <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
                 </InputContainer>
 
