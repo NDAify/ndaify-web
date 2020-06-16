@@ -19,4 +19,4 @@ NDAify is available on the Web at [https://ndaify.com](https://ndaify.com).
 <a name="license"/>
 
 ### License
-All pull requests that get merged will be made available under [the MIT license](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md), as the rest of the repository.
+All pull requests that get merged will be made available under [the EPL-1.0 license](https://github.com/ndaify/ndaify-web/blob/master/LICENSE.md), as the rest of the repository.
