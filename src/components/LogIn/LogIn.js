@@ -56,7 +56,20 @@ const ContentContainer = styled.div`
 const LogoHeaderContainer = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 10pc;
+  margin-bottom: 5pc;
+`;
+
+const Title = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 200;
+  padding-bottom: 5pc;
+  color: var(--ndaify-fg);
+
+  @media screen and (min-width: 768px) {
+    font-size: 32px;
+  }
 `;
 
 const LogIn = () => {
@@ -68,6 +81,10 @@ const LogIn = () => {
         <LogoHeaderContainer>
           <LogoHeader />
         </LogoHeaderContainer>
+
+        <Title>
+          You must sign in to continue
+        </Title>
 
         <ContentContainer>
           {

@@ -121,6 +121,10 @@ const FormCopy = styled.h4`
   margin: 0;
   margin-bottom: 4pc;
 
+  a {
+    text-decoration-color: var(--ndaify-accents-9);
+  }
+
   @media screen and (min-width: 992px) {
     font-size: 24px;
   }
