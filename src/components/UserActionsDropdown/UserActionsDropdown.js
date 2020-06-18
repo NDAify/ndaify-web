@@ -160,7 +160,7 @@ const UserActionsDropdown = (props) => {
             <ChevronDownIcon aria-hidden />
           </MoreOptionsButton>
           <MoreOptionsMenuList>
-            <ReachMenuLink as={MenuLink} href="/dashboard/incoming">
+            <ReachMenuLink as={MenuLink} href="/dashboard/[dashboardType]" routeAs="/dashboard/incoming">
               <FormattedMessage
                 id="user-actions-dropdown-inbox"
                 defaultMessage="Inbox"
