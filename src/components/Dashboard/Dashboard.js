@@ -271,16 +271,15 @@ const HistoryItem = ({ dashboardType, nda }) => (
 );
 
 const Dashboard = ({ dashboardType, user, ndas }) => {
-  const byDashboardType = dashboardType === 'incoming' ? (nda) => nda.ownerId !== user.userId : (nda) => nda.ownerId === user.userId;
+  const byIncoming = (nda) => nda.ownerId !== user.userId;
+  const byOugoing = (nda) => nda.ownerId === user.userId;
+  const byDashboardType = dashboardType === 'incoming' ? byIncoming : byOugoing;
 
   const filteredNdas = ndas.filter(byDashboardType);
+  const incomingNdas = ndas.filter(byIncoming);
 
   // TODO This should be moved to api once we implement pagination
-  let numberOfNew = 0;
-  if (dashboardType === 'incoming') {
-    const pendingNDAs = filteredNdas.filter((nda) => nda.metadata.status === 'pending');
-    numberOfNew = pendingNDAs.length;
-  }
+  const pendingIncomingNDAs = incomingNdas.filter((nda) => nda.metadata.status === 'pending');
 
   return (
     <Container>
@@ -321,9 +320,9 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
                     Inbox
 
                     {
-                      numberOfNew ? (
+                      pendingIncomingNDAs.length ? (
                         <Badge>
-                          {numberOfNew}
+                          {pendingIncomingNDAs.length}
                         </Badge>
                       ) : null
                     }
