@@ -8,7 +8,7 @@ import Router from 'next/router';
 import {
   getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS,
 } from '../lib/cookies';
-import { toQueryString, BaseError } from '../util';
+import { toQueryString, BaseError, scrollToTop } from '../util';
 
 import loggerClient from '../db/loggerClient';
 
@@ -98,7 +98,7 @@ export const redirect = (ctx, to, params = {}) => {
   }
 
   if (process.browser) {
-    Router.replace(`${to}${qs}`);
+    Router.replace(`${to}${qs}`).then(scrollToTop);
   } else {
     ctx.res.writeHead(statuses('Found'), { Location: `${to}${qs}` });
     ctx.res.end();

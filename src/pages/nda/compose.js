@@ -6,7 +6,7 @@ import NDAComposerImpl from '../../components/NDA/NDAComposer';
 import NdaifyService from '../../services/NdaifyService';
 import * as sessionStorage from '../../lib/sessionStorage';
 
-import { toQueryString } from '../../util';
+import { toQueryString, scrollToTop } from '../../util';
 import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
 const NDAComposer = (props) => {
@@ -18,7 +18,7 @@ const NDAComposer = (props) => {
 
   useEffect(() => {
     if (!nda) {
-      Router.replace('/');
+      Router.replace('/').then(scrollToTop);
       return;
     }
 
@@ -27,7 +27,7 @@ const NDAComposer = (props) => {
         errorMessage: 'You can not send an NDA to yourself',
       });
 
-      Router.replace(`/nda/new?${qs}`);
+      Router.replace(`/nda/new?${qs}`).then(scrollToTop);
       // let me return for god's sake
       // eslint-disable-next-line no-useless-return
       return;

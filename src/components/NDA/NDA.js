@@ -30,7 +30,12 @@ import Avatar from '../Avatar/Avatar';
 import { extractCompanyNameFromText } from './NDAComposer';
 
 import getFullNameFromUser from './getFullNameFromUser';
-import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
+import {
+  getClientOrigin,
+  serializeOAuthState,
+  timeout,
+  scrollToTop,
+} from '../../util';
 
 import NdaifyService from '../../services/NdaifyService';
 
@@ -664,7 +669,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.declineNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
 
       setDeclineDialogOpen(false);
 
@@ -685,7 +690,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.resendNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
 
       setResendDialogOpen(false);
 
@@ -706,7 +711,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.revokeNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`);
+      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
 
       setRevokeDialogOpen(false);
 

@@ -32,6 +32,8 @@ import StripeInput from '../Input/StripeInput';
 import PaymentAmountButtonGroup, { DOLLAR_IN_CENTS } from '../Input/PaymentAmountButtonGroup';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
+import { scrollToTop } from '../../util';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -234,7 +236,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
         },
       });
 
-      Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`);
+      Router.replace('/nda/sent/[ndaId]', `/nda/sent/${nda.ndaId}`).then(scrollToTop);
     } catch (error) {
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
@@ -243,7 +245,7 @@ const PaymentForm = ({ user, nda: ndaPayload }) => {
   const onSubmit = useCallback(handleSubmit, [stripe, elements]);
 
   const handleCancelClick = () => {
-    Router.replace('/');
+    Router.replace('/').then(scrollToTop);
     sessionStorage.clear();
   };
   const onCancelClick = useCallback(handleCancelClick, []);

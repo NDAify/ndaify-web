@@ -9,6 +9,8 @@ import LogoIcon from './images/logo.svg';
 import productHuntLogo from './images/productHuntLogo.png';
 import yCombinatorLogo from './images/yCombinatorLogo.png';
 
+import { scrollToTop } from '../../util';
+
 const HeartIcon = styled(Heart)`
   color: var(--ndaify-fg);
 `;
@@ -102,7 +104,7 @@ const StyledButton = styled(Button)`
 
 const CustomNote = ({ refSource }) => {
   const handleClick = () => {
-    Router.push('/');
+    Router.push('/').then(scrollToTop);
   };
   const onClick = useCallback(handleClick, []);
 

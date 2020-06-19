@@ -19,6 +19,8 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import OpenSourceBanner from '../OpenSourceBanner/OpenSourceBanner';
 import Avatar from '../Avatar/Avatar';
 
+import { scrollToTop } from '../../util';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -241,7 +243,7 @@ const ApiDocs = ({ openApiSpec, user }) => (
 
                 <UserActionsDropdown
                   user={user}
-                  onLogOut={() => { Router.push(Router.router.asPath); }}
+                  onLogOut={() => { Router.push(Router.router.asPath).then(scrollToTop); }}
                 />
               </>
             )}

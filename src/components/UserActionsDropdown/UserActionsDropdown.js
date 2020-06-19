@@ -18,6 +18,8 @@ import NdaifyService from '../../services/NdaifyService';
 
 import ChevronDown from './images/chevron-down.svg';
 
+import { scrollToTop } from '../../util';
+
 const ChevronDownIcon = styled(ChevronDown)`
   color: var(--ndaify-fg);
 `;
@@ -147,7 +149,7 @@ const UserActionsDropdown = (props) => {
     if (props.onLogOut) {
       props.onLogOut();
     } else {
-      Router.push('/');
+      Router.push('/').then(scrollToTop);
     }
   };
   const onLogOutClick = useCallback(handleLogOutClick, [props.onLogOut]);

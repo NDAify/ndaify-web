@@ -14,6 +14,8 @@ import * as sessionStorage from '../../lib/sessionStorage';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import PaymentFormImpl from '../../components/PaymentForm/PaymentForm';
 
+import { scrollToTop } from '../../util';
+
 const { publicRuntimeConfig: { STRIPE_PUBLISHABLE_KEY } } = getConfig();
 
 const PaymentForm = ({ user }) => {
@@ -33,7 +35,7 @@ const PaymentForm = ({ user }) => {
 
   useEffect(() => {
     if (process.browser && !nda) {
-      Router.replace('/');
+      Router.replace('/').then(scrollToTop);
     }
   }, [nda]);
 

@@ -8,13 +8,14 @@ import { PageTitle, PageDescription } from '../../components/Head/Head';
 import SenderFormImpl from '../../components/SenderForm/SenderForm';
 
 import loggerClient from '../../db/loggerClient';
+import { scrollToTop } from '../../util';
 
 const SenderForm = ({ user }) => {
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
     if (!nda) {
-      Router.replace('/');
+      Router.replace('/').then(scrollToTop);
     }
   }, [nda]);
 

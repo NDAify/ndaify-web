@@ -20,7 +20,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import FieldErrorMessage from '../ErrorMessage/FieldErrorMessage';
 
 import * as sessionStorage from '../../lib/sessionStorage';
-import { timeout } from '../../util';
+import { timeout, scrollToTop } from '../../util';
 import fillInNdaBlanks from '../../utils/fillInNdaBlanks';
 
 import HideImg from './images/hide.svg';
@@ -281,7 +281,8 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
   const [expandedBody, setExpandedBody] = useState(false);
 
   const handleDiscardButtonClick = () => {
-    Router.replace('/');
+    Router.replace('/').then(scrollToTop);
+
     sessionStorage.clear();
   };
   const onDiscardButtonClick = useCallback(handleDiscardButtonClick, []);
@@ -318,7 +319,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      Router.replace('/nda/pay');
+      Router.replace('/nda/pay').then(scrollToTop);
     } catch (error) {
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });

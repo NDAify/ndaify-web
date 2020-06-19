@@ -68,3 +68,8 @@ export const toFormData = (values) => {
 export const serializeOAuthState = (params) => encodeURIComponent(JSON.stringify(params));
 
 export const timeout = (t) => new Promise((resolve) => setTimeout(() => resolve(), t));
+
+export const scrollToTop = () => {
+  window.scrollTo(0, 0);
+  document.body.focus();
+};

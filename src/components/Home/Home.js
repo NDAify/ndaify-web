@@ -31,6 +31,8 @@ import NdaIcon from './images/nda.svg';
 import * as sessionStorage from '../../lib/sessionStorage';
 import loggerClient from '../../db/loggerClient';
 
+import { scrollToTop } from '../../util';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -335,7 +337,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           },
         },
       );
-      Router.push('/nda/new');
+      Router.push('/nda/new').then(scrollToTop);
     } catch (error) {
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
