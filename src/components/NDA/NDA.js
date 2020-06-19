@@ -2,12 +2,14 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl';
 import getConfig from 'next/config';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
 import UAParser from 'ua-parser-js';
 
 import Link from 'next/link';
+
+import { queryCache } from 'react-query';
 
 import {
   Formik,
@@ -34,7 +36,6 @@ import {
   getClientOrigin,
   serializeOAuthState,
   timeout,
-  scrollToTop,
 } from '../../util';
 
 import NdaifyService from '../../services/NdaifyService';
@@ -669,7 +670,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.declineNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
+      await queryCache.refetchQueries(['nda', nda.ndaId]);
 
       setDeclineDialogOpen(false);
 
@@ -690,7 +691,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.resendNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
+      await queryCache.refetchQueries(['nda', nda.ndaId]);
 
       setResendDialogOpen(false);
 
@@ -711,7 +712,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.revokeNda(nda.ndaId);
 
-      Router.replace('/nda/[ndaId]', `/nda/${nda.ndaId}`).then(scrollToTop);
+      await queryCache.refetchQueries(['nda', nda.ndaId]);
 
       setRevokeDialogOpen(false);
 

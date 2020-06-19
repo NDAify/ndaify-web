@@ -1,5 +1,6 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
+import { queryCache } from 'react-query';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAComposerImpl from '../../components/NDA/NDAComposer';
@@ -7,11 +8,15 @@ import NdaifyService from '../../services/NdaifyService';
 import * as sessionStorage from '../../lib/sessionStorage';
 
 import { toQueryString, scrollToTop } from '../../util';
-import getTemplateIdParts from '../../utils/getTemplateIdParts';
+
+import useNdaTemplateQuery from '../../queries/useNdaTemplateQuery';
 
 const NDAComposer = (props) => {
-  const [ndaTemplate, setNdaTemplate] = useState();
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
+
+  const [, ndaTemplate] = useNdaTemplateQuery(
+    nda?.metadata?.ndaTemplateId,
+  );
 
   const senderEmail = props.user.metadata.linkedInProfile.emailAddress;
   const recipientIsSelf = nda?.recipientEmail === senderEmail;
@@ -32,23 +37,6 @@ const NDAComposer = (props) => {
       // eslint-disable-next-line no-useless-return
       return;
     }
-
-    const ndaifyService = new NdaifyService();
-
-    const loadNdaTemplate = async (ndaTemplateId) => {
-      const {
-        owner, repo, ref, path,
-      } = getTemplateIdParts(ndaTemplateId);
-      const {
-        ndaTemplate: ndaTpl,
-      } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
-
-      setNdaTemplate(ndaTpl);
-    };
-
-    if (nda?.metadata?.ndaTemplateId) {
-      loadNdaTemplate(nda.metadata.ndaTemplateId);
-    }
   }, [nda, recipientIsSelf]);
 
   // TODO show a spinner fetching of ndaTemplate is taking too long
@@ -57,13 +45,12 @@ const NDAComposer = (props) => {
   }
 
   return (
-
     <>
       <PageTitle prepend="Compose – " />
       <PageDescription />
       <NDAComposerImpl
-        ndaTemplate={ndaTemplate}
         user={props.user}
+        ndaTemplate={ndaTemplate}
         nda={nda}
       />
     </>
@@ -71,7 +58,7 @@ const NDAComposer = (props) => {
 };
 
 NDAComposer.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   const { user } = await ndaifyService.getSession();
 

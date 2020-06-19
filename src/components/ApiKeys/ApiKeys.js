@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import Router from 'next/router';
 import { useAlert } from 'react-alert';
 import {
   useIntl,
@@ -11,6 +10,8 @@ import {
 } from 'react-intl';
 import { Formik, Form, Field as FormikField } from 'formik';
 import { useClipboard } from 'use-clipboard-copy';
+
+import { queryCache } from 'react-query';
 
 import Link from 'next/link';
 
@@ -259,16 +260,29 @@ const ApiKeyItem = ({ apiKey }) => {
   const handleDeleteApiKey = async () => {
     setDeleting(true);
 
+    const cachedApiKeys = queryCache.getQueryData(['apiKeys']);
+
     try {
       const ndaifyService = new NdaifyService();
+
+      // make optimistic update
+      queryCache.setQueryData(
+        ['apiKeys'],
+        cachedApiKeys.filter(
+          (cachedApiKey) => cachedApiKey.apiKeyId !== apiKey.apiKeyId,
+        ),
+      );
+      setDeleteDialogOpen(false);
+
       await ndaifyService.deleteApiKey(apiKey.apiKeyId);
 
-      Router.replace('/dev/keys');
-
-      setDeleteDialogOpen(false);
+      queryCache.refetchQueries(['apiKeys']);
 
       toast.show('Successfully deleted API Key');
     } catch (error) {
+      // rollback optimistic updates
+      queryCache.setQueryData(['apiKeys'], cachedApiKeys);
+
       loggerClient.error(error);
       toast.show('Failed to decline API Key');
     } finally {
@@ -391,10 +405,8 @@ const ApiDocs = ({ user, apiKeys }) => {
   const handleCloseClick = async () => {
     setCreateApiKeyDialogOpen(false);
     /* wait till the dialog leave animation to end before resetting state */
-    await timeout(100);
+    await timeout(1000);
     setCreatedApiKey(null);
-
-    Router.replace('/dev/keys');
   };
   const onCloseClick = useCallback(handleCloseClick, []);
 
@@ -422,7 +434,10 @@ const ApiDocs = ({ user, apiKeys }) => {
     const ndaifyService = new NdaifyService();
 
     try {
-      const { apiKey } = await ndaifyService.createApiKeys(name);
+      const { apiKey } = await ndaifyService.createApiKey(name);
+
+      queryCache.refetchQueries(['apiKeys']);
+
       setCreatedApiKey(apiKey);
     } catch (error) {
       loggerClient.error(error);

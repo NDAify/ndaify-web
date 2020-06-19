@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { queryCache } from 'react-query';
 
 import NdaifyService from '../services/NdaifyService';
 
@@ -30,7 +31,7 @@ const Index = ({ user, ndaStatistics }) => {
 let NDA_STATS_CACHE = {};
 
 Index.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   let user;
   try {

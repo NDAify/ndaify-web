@@ -1,6 +1,4 @@
-import React, {
-  useState, useCallback, useEffect,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import getConfig from 'next/config';
@@ -15,8 +13,6 @@ import {
 import Link from 'next/link';
 
 import loggerClient from '../../db/loggerClient';
-
-import NdaifyService from '../../services/NdaifyService';
 
 import LogoHeader from '../LogoHeader/LogoHeader';
 import Input from '../Input/Input';
@@ -38,6 +34,8 @@ import * as sessionStorage from '../../lib/sessionStorage';
 import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
 import HideImg from './images/hide.svg';
+
+import useNdaTemplateQuery from '../../queries/useNdaTemplateQuery';
 
 const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
@@ -208,31 +206,14 @@ export const NDA_TEMPLATE_OPTIONS = [
 
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
-const TemplateDescription = (props) => {
-  const [ndaTemplate, setNdaTemplate] = useState();
-
-  const loadNdaDescription = useCallback(async (ndaTemplateId) => {
-    const ndaifyService = new NdaifyService();
-    const {
-      owner, repo, ref, path,
-    } = getTemplateIdParts(ndaTemplateId);
-
-    const response = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
-
-    setNdaTemplate(response.ndaTemplate);
-  }, []);
-
-  useEffect(() => {
-    loadNdaDescription(props.ndaTemplateId);
-  }, [loadNdaDescription, props.ndaTemplateId]);
-
+const TemplateDescription = ({ ndaTemplate }) => {
   if (!ndaTemplate) {
     return null;
   }
 
   const {
     owner, repo, ref, path,
-  } = getTemplateIdParts(props.ndaTemplateId);
+  } = getTemplateIdParts(ndaTemplate.ndaTemplateId);
 
   return (
     <>
@@ -246,6 +227,24 @@ const TemplateDescription = (props) => {
           {ndaTemplate.data.description}
         </a>
       </NdaDescriptionText>
+    </>
+  );
+};
+
+const TemplateOptionsSelectInputField = ({ ndaTemplateId }) => {
+  const [query, ndaTemplate] = useNdaTemplateQuery(ndaTemplateId);
+
+  return (
+    <>
+      <FormikField
+        as={SelectInput}
+        spin={query.status === 'loading'}
+        name="ndaTemplateId"
+        options={NDA_TEMPLATE_OPTIONS}
+        placeholder="NDA type (one-way, mutual)"
+      />
+      <TemplateDescription ndaTemplate={ndaTemplate} />
+      <FieldErrorMessage name="ndaTemplateId" component="div" />
     </>
   );
 };
@@ -412,14 +411,9 @@ const SenderForm = ({ user, nda }) => {
                 }
 
                 <InputContainer>
-                  <FormikField
-                    as={SelectInput}
-                    name="ndaTemplateId"
-                    options={NDA_TEMPLATE_OPTIONS}
-                    placeholder="NDA type (one-way, mutual)"
-                  />
-                  <TemplateDescription ndaTemplateId={values.ndaTemplateId} />
-                  <FieldErrorMessage name="ndaTemplateId" component="div" />
+
+                  <TemplateOptionsSelectInputField ndaTemplateId={values.ndaTemplateId} />
+
                 </InputContainer>
 
                 <InputContainer>

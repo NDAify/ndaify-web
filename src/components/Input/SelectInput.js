@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useField } from 'formik';
+import { FadingCircle as Spinner } from 'better-react-spinkit';
 
 import DownImg from './images/down.svg';
 
@@ -46,6 +47,15 @@ const SelectLabel = styled.div`
       font-size: 16px;
     ` : '')}
   }
+`;
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 16px;
+  top: 24px;
+  width: 16px;
 `;
 
 const DownIconWrapper = styled.div`
@@ -161,9 +171,17 @@ export const SelectInputImpl = (props) => {
             : null
         }
         {option?.label || props.placeholder}
-        <DownIconWrapper compact={props.compact} outline={props.outline}>
-          <DownIcon />
-        </DownIconWrapper>
+        {
+          props.spin ? (
+            <SpinnerWrapper>
+              <Spinner color="var(--ndaify-accents-4)" size={14} />
+            </SpinnerWrapper>
+          ) : (
+            <DownIconWrapper compact={props.compact} outline={props.outline}>
+              <DownIcon />
+            </DownIconWrapper>
+          )
+        }
       </SelectLabel>
       <StyledSelect
         ref={innerRef}

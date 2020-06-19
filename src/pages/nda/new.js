@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
+import { queryCache } from 'react-query';
 
 import NdaifyService from '../../services/NdaifyService';
 
@@ -33,7 +34,7 @@ const SenderForm = ({ user }) => {
 };
 
 SenderForm.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   let user;
   try {

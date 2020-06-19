@@ -1,20 +1,33 @@
 import React from 'react';
+import { queryCache } from 'react-query';
 
 import NdaifyService from '../../services/NdaifyService';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import DashboardImpl from '../../components/Dashboard/Dashboard';
 
-const Dashboard = ({ user, ndas, dashboardType }) => (
-  <>
-    <PageTitle prepend="Dashboard – " />
-    <PageDescription />
-    <DashboardImpl dashboardType={dashboardType} user={user} ndas={ndas} />
-  </>
-);
+import useSessionQuery from '../../queries/useSessionQuery';
+import useNdasQuery from '../../queries/useNdasQuery';
+
+const Dashboard = (props) => {
+  const [, user] = useSessionQuery({
+    initialData: props.user,
+  });
+  const [, ndas] = useNdasQuery({
+    initialData: props.ndas,
+  });
+
+  return (
+    <>
+      <PageTitle prepend="Dashboard – " />
+      <PageDescription />
+      <DashboardImpl dashboardType={props.dashboardType} user={user} ndas={ndas} />
+    </>
+  );
+};
 
 Dashboard.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   const { dashboardType } = ctx.query;
 

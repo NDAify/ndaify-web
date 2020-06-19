@@ -2,6 +2,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import { queryCache } from 'react-query';
 
 import {
   Menu as ReachMenu,
@@ -127,6 +128,12 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   }
 `;
 
+const MenuItemDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #FAFAFA;
+`;
+
 const MenuLink = React.forwardRef(({
   children, href, routeAs, ...props
 }, ref) => (
@@ -143,7 +150,7 @@ const MenuLink = React.forwardRef(({
 
 const UserActionsDropdown = (props) => {
   const handleLogOutClick = async () => {
-    const ndaifyService = new NdaifyService();
+    const ndaifyService = new NdaifyService({ queryCache });
     await ndaifyService.endSession();
 
     if (props.onLogOut) {
@@ -162,10 +169,23 @@ const UserActionsDropdown = (props) => {
             <ChevronDownIcon aria-hidden />
           </MoreOptionsButton>
           <MoreOptionsMenuList>
+            <ReachMenuLink as={MenuLink} href="/">
+              <FormattedMessage
+                id="user-actions-dropdown-home"
+                defaultMessage="Home"
+              />
+            </ReachMenuLink>
+            <MenuItemDivider />
             <ReachMenuLink as={MenuLink} href="/dashboard/[dashboardType]" routeAs="/dashboard/incoming">
               <FormattedMessage
                 id="user-actions-dropdown-inbox"
                 defaultMessage="Inbox"
+              />
+            </ReachMenuLink>
+            <ReachMenuLink as={MenuLink} href="/dashboard/[dashboardType]" routeAs="/dashboard/outgoing">
+              <FormattedMessage
+                id="user-actions-dropdown-sent"
+                defaultMessage="Sent"
               />
             </ReachMenuLink>
             <ReachMenuLink as={MenuLink} href="/dev/keys">
@@ -174,6 +194,7 @@ const UserActionsDropdown = (props) => {
                 defaultMessage="API Keys"
               />
             </ReachMenuLink>
+            <MenuItemDivider />
             <ReachMenuItem onSelect={onLogOutClick}>
               <FormattedMessage
                 id="user-actions-dropdown-log-out"

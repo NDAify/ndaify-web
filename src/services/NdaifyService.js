@@ -9,6 +9,7 @@ import {
   getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS,
 } from '../lib/cookies';
 import { toQueryString, BaseError, scrollToTop } from '../util';
+import getTemplateIdParts from '../utils/getTemplateIdParts';
 
 import loggerClient from '../db/loggerClient';
 
@@ -255,9 +256,14 @@ const dispatch = (
 };
 
 export default class NdaifyService {
-  constructor({ ctx, headers } = {}) {
+  constructor({ ctx, headers, queryCache } = {}) {
     if (!process.browser && !ctx) {
       throw new Error('`ctx` is required on server');
+    }
+
+    // ignore cache on server
+    if (process.browser) {
+      this.queryCache = queryCache;
     }
 
     this.ctx = ctx;
@@ -277,6 +283,12 @@ export default class NdaifyService {
   }
 
   async endSession() {
+    if (this.queryCache) {
+      this.queryCache.clear();
+    } else {
+      loggerClient.warn('Query cache not found. Did you forget to configure it?');
+    }
+
     destroyCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     // Log out all windows
     if (process.browser) {
@@ -289,11 +301,31 @@ export default class NdaifyService {
   }
 
   getSession() {
+    if (this.queryCache) {
+      const user = this.queryCache.getQueryData(['session']);
+
+      if (user) {
+        return {
+          user,
+        };
+      }
+    }
+
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers })(this.ctx, sessionToken)();
   }
 
   tryGetSession() {
+    if (this.queryCache) {
+      const user = this.queryCache.getQueryData(['session']);
+
+      if (user) {
+        return {
+          user,
+        };
+      }
+    }
+
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
@@ -304,6 +336,16 @@ export default class NdaifyService {
   }
 
   getNda(ndaId) {
+    if (this.queryCache) {
+      const nda = this.queryCache.getQueryData(['nda', ndaId]);
+
+      if (nda) {
+        return {
+          nda,
+        };
+      }
+    }
+
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { headers: this.headers })(this.ctx, sessionToken)();
   }
@@ -313,6 +355,16 @@ export default class NdaifyService {
   }
 
   getNdas() {
+    if (this.queryCache) {
+      const ndas = this.queryCache.getQueryData(['ndas']);
+
+      if (ndas) {
+        return {
+          ndas,
+        };
+      }
+    }
+
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'ndas', { headers: this.headers })(this.ctx, sessionToken)();
   }
@@ -348,7 +400,21 @@ export default class NdaifyService {
     return dispatch(DISPATCH_METHOD.GET, 'nda-statistics', { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
-  getNdaTemplate(owner, repo, ref, path) {
+  getNdaTemplate(ndaTemplateId) {
+    if (this.queryCache) {
+      const ndaTemplate = this.queryCache.getQueryData(['ndaTemplate', ndaTemplateId]);
+
+      if (ndaTemplate) {
+        return {
+          ndaTemplate,
+        };
+      }
+    }
+
+    const {
+      owner, repo, ref, path,
+    } = getTemplateIdParts(ndaTemplateId);
+
     return dispatch(DISPATCH_METHOD.GET, `nda-templates/${owner}/${repo}/${ref}/${path}`, { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
@@ -356,12 +422,22 @@ export default class NdaifyService {
     return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
-  createApiKeys(name) {
+  createApiKey(name) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)({ name });
   }
 
   getApiKeys() {
+    if (this.queryCache) {
+      const apiKeys = this.queryCache.getQueryData(['apiKeys']);
+
+      if (apiKeys) {
+        return {
+          apiKeys,
+        };
+      }
+    }
+
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)();
   }

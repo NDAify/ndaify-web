@@ -34,6 +34,8 @@
   "uetaesign-legal-md": "",
   "user-action-banner-label-dashboard": "",
   "user-actions-dropdown-api-key": "",
+  "user-actions-dropdown-home": "",
   "user-actions-dropdown-inbox": "",
-  "user-actions-dropdown-log-out": ""
+  "user-actions-dropdown-log-out": "",
+  "user-actions-dropdown-sent": ""
 }

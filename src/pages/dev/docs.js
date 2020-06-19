@@ -1,4 +1,5 @@
 import React from 'react';
+import { queryCache } from 'react-query';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NdaifyService from '../../services/NdaifyService';
@@ -22,7 +23,7 @@ ApiDocs.themeOverride = 'dark';
 ApiDocs.localeOverride = 'en-US';
 
 ApiDocs.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   let user;
   try {

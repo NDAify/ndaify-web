@@ -34,6 +34,8 @@
   "uetaesign-legal-md": "",
   "user-action-banner-label-dashboard": "儀表板",
   "user-actions-dropdown-api-key": "API密鑰",
+  "user-actions-dropdown-home": "",
   "user-actions-dropdown-inbox": "收件箱",
-  "user-actions-dropdown-log-out": "登出"
+  "user-actions-dropdown-log-out": "登出",
+  "user-actions-dropdown-sent": ""
 }

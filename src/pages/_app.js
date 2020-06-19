@@ -3,6 +3,7 @@ import NextApp from 'next/app';
 import NProgress from 'nprogress';
 import { positions, Provider as AlertProvider } from 'react-alert';
 import Router from 'next/router';
+import { ReactQueryConfigProvider } from 'react-query';
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -177,6 +178,14 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
+const queryConfig = {
+  // Global
+  refetchAllOnWindowFocus: false, // default true
+
+  // useQuery
+  refetchOnMount: true, // default true
+};
+
 class App extends NextApp {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
@@ -266,36 +275,38 @@ class App extends NextApp {
         <Head />
         <GlobalStyle />
 
-        <IntlProvider
-          initialMessages={initialMessages}
-          locale={locale}
-          preferredLocale={preferredLocale}
-          systemLocale={systemLocale}
-          timeZone={timeZone}
-          initialNow={ssrNow}
-        >
-          <ThemeProvider preferredTheme={preferredTheme}>
-            <AlertProvider
-              template={Alert}
-              timeout={5000}
-              position={positions.TOP_CENTER}
-            >
-              {
-                errorPageProps ? (
-                  <ErrorView
-                    statusCode={errorPageProps.statusCode}
-                    errorMessage={errorPageProps.errorMessage}
-                  />
-                ) : (
-                  <Component
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...pageProps}
-                  />
-                )
-              }
-            </AlertProvider>
-          </ThemeProvider>
-        </IntlProvider>
+        <ReactQueryConfigProvider config={queryConfig}>
+          <IntlProvider
+            initialMessages={initialMessages}
+            locale={locale}
+            preferredLocale={preferredLocale}
+            systemLocale={systemLocale}
+            timeZone={timeZone}
+            initialNow={ssrNow}
+          >
+            <ThemeProvider preferredTheme={preferredTheme}>
+              <AlertProvider
+                template={Alert}
+                timeout={5000}
+                position={positions.TOP_CENTER}
+              >
+                {
+                  errorPageProps ? (
+                    <ErrorView
+                      statusCode={errorPageProps.statusCode}
+                      errorMessage={errorPageProps.errorMessage}
+                    />
+                  ) : (
+                    <Component
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      {...pageProps}
+                    />
+                  )
+                }
+              </AlertProvider>
+            </ThemeProvider>
+          </IntlProvider>
+        </ReactQueryConfigProvider>
       </>
     );
   }

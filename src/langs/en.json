@@ -34,6 +34,8 @@
   "uetaesign-legal-md": "---\ntitle: UETA and ESIGN Act\nlastUpdatedAt: June 15, 2019\n---\n\n# HOW TO CONTACT US\nIf you have any questions about this Privacy Policy or our practices, please contact us at [support@ndaify.com](mailto:support@ndaify.com).",
   "user-action-banner-label-dashboard": "Dashboard",
   "user-actions-dropdown-api-key": "API Keys",
+  "user-actions-dropdown-home": "Home",
   "user-actions-dropdown-inbox": "Inbox",
-  "user-actions-dropdown-log-out": "Log Out"
+  "user-actions-dropdown-log-out": "Log Out",
+  "user-actions-dropdown-sent": "Sent"
 }

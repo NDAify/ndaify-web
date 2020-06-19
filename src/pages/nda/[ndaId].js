@@ -1,21 +1,46 @@
 import React from 'react';
+import { queryCache } from 'react-query';
 
 import NdaifyService from '../../services/NdaifyService';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAImpl from '../../components/NDA/NDA';
 
-import getTemplateIdParts from '../../utils/getTemplateIdParts';
-
 import loggerClient from '../../db/loggerClient';
 
-const NDA = (props) => (
-  <>
-    <PageTitle />
-    <PageDescription />
-    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-    <NDAImpl {...props} />
-  </>
-);
+import useSessionQuery from '../../queries/useSessionQuery';
+import useNdaQuery from '../../queries/useNdaQuery';
+import useNdaTemplateQuery from '../../queries/useNdaTemplateQuery';
+
+const NDA = (props) => {
+  const isPreview = !props.user;
+  const [, nda] = useNdaQuery(props.nda.ndaId, isPreview, {
+    initialData: props.nda,
+  });
+  const [, ndaTemplate] = useNdaTemplateQuery(
+    props.nda.metadata.ndaTemplateId,
+    {
+      initialData: props.ndaTemplate,
+    },
+  );
+
+  const [, user] = useSessionQuery({
+    initialData: props.user,
+    // disable session query if user is not authenticated
+    manual: isPreview,
+  });
+
+  return (
+    <>
+      <PageTitle />
+      <PageDescription />
+      <NDAImpl
+        ndaTemplate={ndaTemplate}
+        nda={nda}
+        user={user}
+      />
+    </>
+  );
+};
 
 NDA.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
@@ -24,7 +49,7 @@ NDA.getInitialProps = async (ctx) => {
     throw new Error('Missing NDA ID');
   }
 
-  const ndaifyService = new NdaifyService({ ctx });
+  const ndaifyService = new NdaifyService({ ctx, queryCache });
 
   let user;
   try {
@@ -40,10 +65,7 @@ NDA.getInitialProps = async (ctx) => {
     ({ nda } = await ndaifyService.getNdaPreview(ndaId));
   }
 
-  const {
-    owner, repo, ref, path,
-  } = getTemplateIdParts(nda.metadata.ndaTemplateId);
-  const { ndaTemplate } = await ndaifyService.getNdaTemplate(owner, repo, ref, path);
+  const { ndaTemplate } = await ndaifyService.getNdaTemplate(nda.metadata.ndaTemplateId);
 
   return {
     ndaTemplate,
