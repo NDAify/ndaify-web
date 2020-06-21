@@ -1,5 +1,5 @@
 {
-  "api-key-delete-key": "刪除密鑰",
+  "api-key-actions-dropdown-delete-key": "",
   "api-key-name-input-placeholder": "API 密鑰",
   "button-continue": "繼續",
   "footer-nav-developers": "開發者",
@@ -28,6 +28,7 @@
   "home-title-decoration": "免費嘗試。",
   "home-title-value-personal": "个人",
   "home-title-value-trade": "贸易",
+  "nda-actions-dropdown-view-nda": "",
   "privacy-legal-md": "",
   "secret-link-input-placeholder": "粘貼秘密鏈接",
   "terms-legal-md": "",

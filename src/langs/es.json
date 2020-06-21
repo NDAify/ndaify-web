@@ -1,5 +1,5 @@
 {
-  "api-key-delete-key": "",
+  "api-key-actions-dropdown-delete-key": "",
   "api-key-name-input-placeholder": "",
   "button-continue": "",
   "footer-nav-developers": "",
@@ -28,6 +28,7 @@
   "home-title-decoration": "",
   "home-title-value-personal": "personales",
   "home-title-value-trade": "comerciales",
+  "nda-actions-dropdown-view-nda": "",
   "privacy-legal-md": "",
   "secret-link-input-placeholder": "",
   "terms-legal-md": "",

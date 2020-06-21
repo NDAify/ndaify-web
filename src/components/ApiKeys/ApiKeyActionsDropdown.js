@@ -116,7 +116,7 @@ const MoreOptionsMenuList = styled(ReachMenuList)`
   }
 `;
 
-const ApiKeyDropdown = ({ apiKey, onDeleteClick }) => (
+const ApiKeyActionsDropdown = ({ apiKey, onDeleteClick }) => (
   <ReachMenu>
     {(/* { isExpanded } */) => (
       <>
@@ -126,7 +126,7 @@ const ApiKeyDropdown = ({ apiKey, onDeleteClick }) => (
         <MoreOptionsMenuList>
           <ReachMenuItem onSelect={() => onDeleteClick(apiKey)}>
             <FormattedMessage
-              id="api-key-delete-key"
+              id="api-key-actions-dropdown-delete-key"
               defaultMessage="Delete Key"
             />
           </ReachMenuItem>
@@ -136,4 +136,4 @@ const ApiKeyDropdown = ({ apiKey, onDeleteClick }) => (
   </ReachMenu>
 );
 
-export default ApiKeyDropdown;
+export default ApiKeyActionsDropdown;

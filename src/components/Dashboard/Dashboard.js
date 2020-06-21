@@ -10,6 +10,7 @@ import ButtonAnchor from '../Clickable/ButtonAnchor';
 import ActiveLink from '../ActiveLink/ActiveLink';
 import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Avatar from '../Avatar/Avatar';
+import NdaActionsDropdown from './NdaActionsDropdown';
 
 import { NDA_TEMPLATE_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
@@ -207,6 +208,16 @@ const Badge = styled.span`
   right: -20px;
 `;
 
+const HistoryItemWrapper = styled.div`
+  position: relative;
+`;
+
+const HistoryItemActions = styled.div`
+  position: absolute;
+  right: 1pc;
+  top: 1pc;
+`;
+
 const NDA_STATUS_LABEL = {
   pending: 'Unsigned',
   signed: 'Signed',
@@ -215,60 +226,65 @@ const NDA_STATUS_LABEL = {
 };
 
 const HistoryItem = ({ dashboardType, nda }) => (
-  <Link passHref href="/nda/[ndaId]" as={`/nda/${nda.ndaId}`}>
-    <ItemCardContainer pending={nda.metadata.status === 'pending'}>
-      <HistoryItemContainer>
-        <HistoryTimeRow>
-          <CalendarIconWrapper>
-            <CalendarIcon />
-          </CalendarIconWrapper>
-          <HistoryTimeText>
-            <FormattedDate
-              year="numeric"
-              month="long"
-              day="numeric"
-              value={nda.createdAt}
-            />
-          </HistoryTimeText>
-        </HistoryTimeRow>
+  <HistoryItemWrapper>
+    <HistoryItemActions>
+      <NdaActionsDropdown nda={nda} />
+    </HistoryItemActions>
+    <Link passHref href="/nda/[ndaId]" as={`/nda/${nda.ndaId}`}>
+      <ItemCardContainer pending={nda.metadata.status === 'pending'}>
+        <HistoryItemContainer>
+          <HistoryTimeRow>
+            <CalendarIconWrapper>
+              <CalendarIcon />
+            </CalendarIconWrapper>
+            <HistoryTimeText>
+              <FormattedDate
+                year="numeric"
+                month="long"
+                day="numeric"
+                value={nda.createdAt}
+              />
+            </HistoryTimeText>
+          </HistoryTimeRow>
 
-        {
-            dashboardType === 'incoming' ? (
-              <RecipientRow>
-                <HistoryItemTitle>Sender</HistoryItemTitle>
-                <RecipientInfoText>{`${getFullNameFromUser(nda.owner)} <${nda.owner.metadata.linkedInProfile.emailAddress}>`}</RecipientInfoText>
-              </RecipientRow>
-            ) : (
-              <RecipientRow>
-                <HistoryItemTitle>Recipient</HistoryItemTitle>
-                <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail === 'void' ? nda.recipient.metadata.linkedInProfile.emailAddress : nda.recipientEmail}>`}</RecipientInfoText>
-              </RecipientRow>
-            )
-          }
-        <TypeAndStatusRow>
-          <TypeContainer>
-            <HistoryItemTitle>Type</HistoryItemTitle>
-            <RecipientInfoText>
-              {
-                NDA_TEMPLATE_OPTIONS.find(
-                  (option) => option.value === nda.metadata.ndaTemplateId,
-                ).label
-              }
-            </RecipientInfoText>
-          </TypeContainer>
-          <StatusContainer>
-            <HistoryItemTitle>Status</HistoryItemTitle>
-            <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
-          </StatusContainer>
-        </TypeAndStatusRow>
-      </HistoryItemContainer>
-      <RightArrowContainer>
-        <RightArrowIconwrapper>
-          <RightArrowIcon />
-        </RightArrowIconwrapper>
-      </RightArrowContainer>
-    </ItemCardContainer>
-  </Link>
+          {
+              dashboardType === 'incoming' ? (
+                <RecipientRow>
+                  <HistoryItemTitle>Sender</HistoryItemTitle>
+                  <RecipientInfoText>{`${getFullNameFromUser(nda.owner)} <${nda.owner.metadata.linkedInProfile.emailAddress}>`}</RecipientInfoText>
+                </RecipientRow>
+              ) : (
+                <RecipientRow>
+                  <HistoryItemTitle>Recipient</HistoryItemTitle>
+                  <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail === 'void' ? nda.recipient.metadata.linkedInProfile.emailAddress : nda.recipientEmail}>`}</RecipientInfoText>
+                </RecipientRow>
+              )
+            }
+          <TypeAndStatusRow>
+            <TypeContainer>
+              <HistoryItemTitle>Type</HistoryItemTitle>
+              <RecipientInfoText>
+                {
+                  NDA_TEMPLATE_OPTIONS.find(
+                    (option) => option.value === nda.metadata.ndaTemplateId,
+                  ).label
+                }
+              </RecipientInfoText>
+            </TypeContainer>
+            <StatusContainer>
+              <HistoryItemTitle>Status</HistoryItemTitle>
+              <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
+            </StatusContainer>
+          </TypeAndStatusRow>
+        </HistoryItemContainer>
+        <RightArrowContainer>
+          <RightArrowIconwrapper>
+            <RightArrowIcon />
+          </RightArrowIconwrapper>
+        </RightArrowContainer>
+      </ItemCardContainer>
+    </Link>
+  </HistoryItemWrapper>
 );
 
 const Dashboard = ({ dashboardType, user, ndas }) => {

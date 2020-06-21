@@ -30,7 +30,7 @@ import NdaifyService from '../../services/NdaifyService';
 
 import ActiveLink from '../ActiveLink/ActiveLink';
 import Footer from '../Footer/Footer';
-import ApiKeyDropdown from './ApiKeyDropdown';
+import ApiKeyActionsDropdown from './ApiKeyActionsDropdown';
 
 import KeyIcon from './images/key.svg';
 
@@ -238,6 +238,16 @@ const EmptyApiKeysList = styled.div`
   }
 `;
 
+const ApiKeyItemWrapper = styled.div`
+  position: relative;
+`;
+
+const ApiKeyItemActions = styled.div`
+  position: absolute;
+  right: 1pc;
+  top: 1pc;
+`;
+
 const apiKeyNameInputPlaceholder = defineMessage({
   id: 'api-key-name-input-placeholder',
   defaultMessage: 'Key Name (e.g. Slack integration)',
@@ -292,14 +302,16 @@ const ApiKeyItem = ({ apiKey }) => {
   const onDeleteApiKey = useCallback(handleDeleteApiKey, [apiKey]);
 
   return (
-    <>
+    <ApiKeyItemWrapper>
+      <ApiKeyItemActions>
+        <ApiKeyActionsDropdown apiKey={apiKey} onDeleteClick={onDeleteClick} />
+      </ApiKeyItemActions>
       <ItemCardContainer>
         <ApiItemContainer>
           <ApiRow>
             <KeyIconWrapper>
               <KeyIcon />
             </KeyIconWrapper>
-            <ApiKeyDropdown apiKey={apiKey} onDeleteClick={onDeleteClick} />
           </ApiRow>
 
           <ApiKeyDetailsRow>
@@ -386,7 +398,7 @@ const ApiKeyItem = ({ apiKey }) => {
           </DialogButton>
         </DialogFooter>
       </SimpleDialog>
-    </>
+    </ApiKeyItemWrapper>
   );
 };
 
