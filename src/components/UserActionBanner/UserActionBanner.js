@@ -67,7 +67,7 @@ const UserActionButtonContainer = styled.div`
   display: flex;
 `;
 
-const UserActionBanner = ({ user, actionButton: ActionButton }) => {
+const UserActionBanner = ({ user, actionButton }) => {
   if (!user) {
     return null;
   }
@@ -81,9 +81,9 @@ const UserActionBanner = ({ user, actionButton: ActionButton }) => {
       </UserDetails>
 
       {
-        ActionButton ? (
+        actionButton ? (
           <UserActionButtonContainer>
-            <ActionButton />
+            {actionButton()}
           </UserActionButtonContainer>
         ) : null
       }
