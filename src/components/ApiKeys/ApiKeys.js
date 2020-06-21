@@ -284,7 +284,7 @@ const ApiKeyItem = ({ apiKey }) => {
       queryCache.setQueryData(['apiKeys'], cachedApiKeys);
 
       loggerClient.error(error);
-      toast.show('Failed to decline API Key');
+      toast.show('Failed to delete API Key');
     } finally {
       setDeleting(false);
     }
