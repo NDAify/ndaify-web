@@ -125,6 +125,7 @@ const CalendarIconWrapper = styled.div`
   
   svg {
     width: 24px;
+    color: var(--ndaify-accents-6);
   }
 `;
 
