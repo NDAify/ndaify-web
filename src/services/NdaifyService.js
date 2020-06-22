@@ -183,6 +183,9 @@ const dispatch = (
           'Content-Type': 'application/json',
         },
         payload,
+        {
+          signal: config.abortController?.signal,
+        },
       );
     }
 
@@ -195,6 +198,9 @@ const dispatch = (
           'Content-Type': 'application/json',
         },
         payload,
+        {
+          signal: config.abortController?.signal,
+        },
       );
     }
 
@@ -207,6 +213,9 @@ const dispatch = (
           'Content-Type': 'application/json',
         },
         payload,
+        {
+          signal: config.abortController?.signal,
+        },
       );
     }
   } catch (error) {
@@ -256,7 +265,12 @@ const dispatch = (
 };
 
 export default class NdaifyService {
-  constructor({ ctx, headers, queryCache } = {}) {
+  constructor({
+    ctx,
+    headers,
+    abortController,
+    queryCache,
+  } = {}) {
     if (!process.browser && !ctx) {
       throw new Error('`ctx` is required on server');
     }
@@ -268,10 +282,11 @@ export default class NdaifyService {
 
     this.ctx = ctx;
     this.headers = headers;
+    this.abortController = abortController;
   }
 
   async startSessionByOAuth(authorizationCode, oauthState, oauthRedirectUri) {
-    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)({
+    const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)({
       code: authorizationCode,
       state: oauthState,
       redirectUri: oauthRedirectUri,
@@ -312,7 +327,7 @@ export default class NdaifyService {
     }
 
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'sessions', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   tryGetSession() {
@@ -327,12 +342,12 @@ export default class NdaifyService {
     }
 
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.GET, 'sessions', { headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
 
   createNda(nda) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, 'ndas', { headers: this.headers })(this.ctx, sessionToken)(nda);
+    return dispatch(DISPATCH_METHOD.POST, 'ndas', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)(nda);
   }
 
   getNda(ndaId) {
@@ -347,11 +362,11 @@ export default class NdaifyService {
     }
 
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   getNdaPreview(ndaId) {
-    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`, { headers: this.headers })(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}/preview`, { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   getNdas() {
@@ -366,38 +381,38 @@ export default class NdaifyService {
     }
 
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.GET, 'ndas', { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'ndas', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   acceptNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`, { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/accept`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   revokeNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`, { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/revoke`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   declineNda(ndaId) {
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/decline`, { headers: this.headers })(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/decline`, { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   resendNda(ndaId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`, { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.POST, `ndas/${ndaId}/resend`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   createPaymentIntent(amount, currency) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, 'payment-intents', { headers: this.headers })(this.ctx, sessionToken)({
+    return dispatch(DISPATCH_METHOD.POST, 'payment-intents', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)({
       amount,
       currency,
     });
   }
 
   getNdaStatistics() {
-    return dispatch(DISPATCH_METHOD.GET, 'nda-statistics', { headers: this.headers })(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, 'nda-statistics', { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   getNdaTemplate(ndaTemplateId) {
@@ -415,16 +430,16 @@ export default class NdaifyService {
       owner, repo, ref, path,
     } = getTemplateIdParts(ndaTemplateId);
 
-    return dispatch(DISPATCH_METHOD.GET, `nda-templates/${owner}/${repo}/${ref}/${path}`, { headers: this.headers })(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, `nda-templates/${owner}/${repo}/${ref}/${path}`, { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   getOpenApiSpec() {
-    return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { headers: this.headers })(this.ctx, NO_SESSION)();
+    return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
   createApiKey(name) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.POST, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)({ name });
+    return dispatch(DISPATCH_METHOD.POST, 'api-keys', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)({ name });
   }
 
   getApiKeys() {
@@ -439,11 +454,11 @@ export default class NdaifyService {
     }
 
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.GET, 'api-keys', { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.GET, 'api-keys', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   deleteApiKey(apiKeyId) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
-    return dispatch(DISPATCH_METHOD.DELETE, `api-keys/${apiKeyId}`, { headers: this.headers })(this.ctx, sessionToken)();
+    return dispatch(DISPATCH_METHOD.DELETE, `api-keys/${apiKeyId}`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 }
