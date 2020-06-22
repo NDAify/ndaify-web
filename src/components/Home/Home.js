@@ -367,8 +367,8 @@ const Home = ({ user, ndaStatistics, refSource }) => {
 
                     <span>
                       <FormattedMessage
-                        id="user-action-banner-label-dashboard"
-                        defaultMessage="Dashboard"
+                        id="user-action-banner-label-inbox"
+                        defaultMessage="Inbox"
                       />
                     </span>
                   </ButtonAnchor>
@@ -522,7 +522,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                         <Anchor>
                           <FormattedMessage
                             id="home-form-dashboard-info-dashboard"
-                            defaultMessage="dashboard"
+                            defaultMessage="Inbox"
                           />
                         </Anchor>
                       </Link>

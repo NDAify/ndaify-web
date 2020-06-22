@@ -480,8 +480,8 @@ const ApiDocs = ({ user, apiKeys }) => {
 
                       <span>
                         <FormattedMessage
-                          id="user-action-banner-label-dashboard"
-                          defaultMessage="Dashboard"
+                          id="user-action-banner-label-inbox"
+                          defaultMessage="Inbox"
                         />
                       </span>
                     </ButtonAnchor>
