@@ -9,9 +9,19 @@ import IndexImpl from '../components/Home/Home';
 
 import loggerClient from '../db/loggerClient';
 
-const Index = ({ user, ndaStatistics }) => {
+import useSessionQuery from '../queries/useSessionQuery';
+
+const Index = (props) => {
   const router = useRouter();
   const refSource = router.query.ref;
+
+  const isAuthenticated = !!props.user;
+
+  const [, user] = useSessionQuery({
+    initialData: props.user,
+    // disable session query if user is not authenticated
+    manual: !isAuthenticated,
+  });
 
   return (
     <>
@@ -19,7 +29,7 @@ const Index = ({ user, ndaStatistics }) => {
       <PageDescription />
       <IndexImpl
         user={user}
-        ndaStatistics={ndaStatistics}
+        ndaStatistics={props.ndaStatistics}
         refSource={refSource}
       />
     </>
