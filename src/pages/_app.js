@@ -179,11 +179,20 @@ Router.events.on('routeChangeComplete', () => {
 Router.events.on('routeChangeError', () => NProgress.done());
 
 const queryConfig = {
-  // Global
-  refetchAllOnWindowFocus: false, // default true
-
-  // useQuery
-  refetchOnMount: true, // default true
+  shared: {
+    suspense: false,
+  },
+  queries: {
+    enabled: true,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    staleTime: 0,
+    cacheTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true,
+    refetchInterval: false,
+    refetchOnMount: true,
+    useErrorBoundary: false, // falls back to suspense
+  },
 };
 
 class App extends NextApp {

@@ -286,7 +286,7 @@ const ApiKeyItem = ({ apiKey }) => {
 
       await ndaifyService.deleteApiKey(apiKey.apiKeyId);
 
-      queryCache.refetchQueries(['apiKeys']);
+      queryCache.invalidateQueries(['apiKeys']);
 
       toast.show('Successfully deleted API Key');
     } catch (error) {
@@ -448,7 +448,7 @@ const ApiDocs = ({ user, apiKeys }) => {
     try {
       const { apiKey } = await ndaifyService.createApiKey(name);
 
-      queryCache.refetchQueries(['apiKeys']);
+      queryCache.invalidateQueries(['apiKeys']);
 
       setCreatedApiKey(apiKey);
     } catch (error) {

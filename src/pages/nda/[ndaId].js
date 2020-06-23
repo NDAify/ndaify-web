@@ -26,7 +26,7 @@ const NDA = (props) => {
   const [, user] = useSessionQuery({
     initialData: props.user,
     // disable session query if user is not authenticated
-    manual: isPreview,
+    enabled: !isPreview,
   });
 
   return (

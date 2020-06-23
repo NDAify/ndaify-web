@@ -670,7 +670,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.declineNda(nda.ndaId);
 
-      await queryCache.refetchQueries(['nda', nda.ndaId]);
+      await queryCache.invalidateQueries(['nda', nda.ndaId]);
 
       setDeclineDialogOpen(false);
 
@@ -691,7 +691,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.resendNda(nda.ndaId);
 
-      await queryCache.refetchQueries(['nda', nda.ndaId]);
+      await queryCache.invalidateQueries(['nda', nda.ndaId]);
 
       setResendDialogOpen(false);
 
@@ -712,7 +712,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
       const ndaifyService = new NdaifyService();
       await ndaifyService.revokeNda(nda.ndaId);
 
-      await queryCache.refetchQueries(['nda', nda.ndaId]);
+      await queryCache.invalidateQueries(['nda', nda.ndaId]);
 
       setRevokeDialogOpen(false);
 
