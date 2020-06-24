@@ -17,6 +17,15 @@ const Dashboard = (props) => {
     initialData: props.ndas,
   });
 
+  useEffect(() => {
+    // prime the cache for ['nda', ndaId] queries
+    if (ndas) {
+      ndas.forEach((nda) => {
+        queryCache.setQueryData(['nda', nda.ndaId], nda);
+      });
+    }
+  }, [ndas]);
+
   return (
     <>
       <PageTitle prepend="Dashboard – " />
