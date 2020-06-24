@@ -11,7 +11,7 @@ lastUpdatedAt: June 15, 2019
 ---
 
 # HOW TO CONTACT US
-If you have any questions about this Privacy Policy or our practices, please contact us at [support@ndaify.com](mailto:support@ndaify.com).`;
+If you have any questions, please contact us at [support@ndaify.com](mailto:support@ndaify.com).`;
 
 const uetaesignText = defineMessage({
   id: 'uetaesign-legal-md',
