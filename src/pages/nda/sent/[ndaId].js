@@ -1,5 +1,4 @@
 import React from 'react';
-import { queryCache } from 'react-query';
 
 import NdaifyService from '../../../services/NdaifyService';
 import { PageTitle, PageDescription } from '../../../components/Head/Head';
@@ -19,14 +18,22 @@ const SuccessView = (props) => (
 SuccessView.getInitialProps = async (ctx) => {
   const { ndaId } = ctx.query;
 
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const [
     { user },
     { nda },
   ] = await Promise.all([
-    ndaifyService.getSession(),
-    ndaifyService.getNda(ndaId),
+    NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.getSession(),
+    ),
+    NdaifyService.withCache(
+      ['nda', ndaId],
+      (queryKey, data) => ({ nda: data }),
+      () => ndaifyService.getNdas(ndaId),
+    ),
   ]);
 
   return {

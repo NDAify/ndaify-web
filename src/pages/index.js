@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { queryCache } from 'react-query';
 
 import NdaifyService from '../services/NdaifyService';
 
@@ -41,11 +40,15 @@ const Index = (props) => {
 let NDA_STATS_CACHE = {};
 
 Index.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await ndaifyService.tryGetSession());
+    ({ user } = await NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.tryGetSession(),
+    ));
   } catch (error) {
     loggerClient.warn(error);
   }

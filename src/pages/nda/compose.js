@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
-import { queryCache } from 'react-query';
 
 import { PageTitle, PageDescription } from '../../components/Head/Head';
 import NDAComposerImpl from '../../components/NDA/NDAComposer';
@@ -58,9 +57,13 @@ const NDAComposer = (props) => {
 };
 
 NDAComposer.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
-  const { user } = await ndaifyService.getSession();
+  const { user } = await NdaifyService.withCache(
+    ['session'],
+    (queryKey, data) => ({ user: data }),
+    () => ndaifyService.getSession(),
+  );
 
   return {
     user,

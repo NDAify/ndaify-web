@@ -1,5 +1,4 @@
 import React from 'react';
-import { queryCache } from 'react-query';
 
 import ApiKeysImpl from '../../components/ApiKeys/ApiKeys';
 
@@ -28,14 +27,22 @@ const ApiKeys = (props) => {
 };
 
 ApiKeys.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const [
     { user },
     { apiKeys },
   ] = await Promise.all([
-    ndaifyService.getSession(),
-    ndaifyService.getApiKeys(),
+    NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.getSession(),
+    ),
+    NdaifyService.withCache(
+      ['apiKeys'],
+      (queryKey, data) => ({ apiKeys: data }),
+      () => ndaifyService.getApiKeys(),
+    ),
   ]);
 
   return {

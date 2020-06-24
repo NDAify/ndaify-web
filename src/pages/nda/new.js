@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
 import Router from 'next/router';
-import { queryCache } from 'react-query';
 
 import NdaifyService from '../../services/NdaifyService';
 
@@ -34,11 +33,15 @@ const SenderForm = ({ user }) => {
 };
 
 SenderForm.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await ndaifyService.tryGetSession());
+    ({ user } = await NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.tryGetSession(),
+    ));
   } catch (error) {
     loggerClient.warn(error);
   }

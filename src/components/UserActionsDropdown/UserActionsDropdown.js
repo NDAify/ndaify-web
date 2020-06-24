@@ -2,7 +2,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { queryCache } from 'react-query';
 
 import {
   Menu as ReachMenu,
@@ -150,7 +149,7 @@ const MenuLink = React.forwardRef(({
 
 const UserActionsDropdown = (props) => {
   const handleLogOutClick = async () => {
-    const ndaifyService = new NdaifyService({ queryCache });
+    const ndaifyService = new NdaifyService();
     await ndaifyService.endSession();
 
     if (props.onLogOut) {

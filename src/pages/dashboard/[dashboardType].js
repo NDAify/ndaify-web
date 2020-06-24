@@ -36,7 +36,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   const { dashboardType } = ctx.query;
 
@@ -48,8 +48,16 @@ Dashboard.getInitialProps = async (ctx) => {
     { user },
     { ndas },
   ] = await Promise.all([
-    ndaifyService.getSession(),
-    ndaifyService.getNdas(),
+    NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.getSession(),
+    ),
+    NdaifyService.withCache(
+      ['ndas'],
+      (queryKey, data) => ({ ndas: data }),
+      () => ndaifyService.getNdas(),
+    ),
   ]);
 
   return {

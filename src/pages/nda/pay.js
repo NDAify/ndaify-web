@@ -1,7 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import Router from 'next/router';
 import getConfig from 'next/config';
-import { queryCache } from 'react-query';
 
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -56,9 +55,13 @@ const PaymentForm = ({ user }) => {
 };
 
 PaymentForm.getInitialProps = async (ctx) => {
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
-  const { user } = await ndaifyService.getSession();
+  const { user } = await NdaifyService.withCache(
+    ['session'],
+    (queryKey, data) => ({ user: data }),
+    () => ndaifyService.getSession(),
+  );
 
   return {
     user,

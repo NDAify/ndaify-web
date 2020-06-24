@@ -4,6 +4,7 @@ import fetch from 'cross-fetch';
 import getConfig from 'next/config';
 import statuses from 'statuses';
 import Router from 'next/router';
+import { queryCache, queryCaches } from 'react-query';
 
 import {
   getCookie, setCookie, destroyCookie, BASE_COOKIE_OPTIONS,
@@ -269,21 +270,25 @@ export default class NdaifyService {
     ctx,
     headers,
     abortController,
-    queryCache,
   } = {}) {
     if (!process.browser && !ctx) {
       throw new Error('`ctx` is required on server');
-    }
-
-    // ignore cache on server
-    if (process.browser) {
-      this.queryCache = queryCache;
     }
 
     this.ctx = ctx;
     this.headers = headers;
     this.abortController = abortController;
   }
+
+  static withCache = (queryKey, hit, miss) => {
+    const data = queryCache.getQueryData(queryKey);
+
+    if (data) {
+      return hit(queryKey, data);
+    }
+
+    return miss(queryKey);
+  };
 
   async startSessionByOAuth(authorizationCode, oauthState, oauthRedirectUri) {
     const response = await dispatch(DISPATCH_METHOD.POST, 'sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)({
@@ -298,11 +303,7 @@ export default class NdaifyService {
   }
 
   async endSession() {
-    if (this.queryCache) {
-      this.queryCache.clear();
-    } else {
-      loggerClient.warn('Query cache not found. Did you forget to configure it?');
-    }
+    queryCaches.forEach((cache) => cache.clear());
 
     destroyCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     // Log out all windows
@@ -316,31 +317,11 @@ export default class NdaifyService {
   }
 
   getSession() {
-    if (this.queryCache) {
-      const user = this.queryCache.getQueryData(['session']);
-
-      if (user) {
-        return {
-          user,
-        };
-      }
-    }
-
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
 
   tryGetSession() {
-    if (this.queryCache) {
-      const user = this.queryCache.getQueryData(['session']);
-
-      if (user) {
-        return {
-          user,
-        };
-      }
-    }
-
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
@@ -351,16 +332,6 @@ export default class NdaifyService {
   }
 
   getNda(ndaId) {
-    if (this.queryCache) {
-      const nda = this.queryCache.getQueryData(['nda', ndaId]);
-
-      if (nda) {
-        return {
-          nda,
-        };
-      }
-    }
-
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, `ndas/${ndaId}`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
@@ -370,16 +341,6 @@ export default class NdaifyService {
   }
 
   getNdas() {
-    if (this.queryCache) {
-      const ndas = this.queryCache.getQueryData(['ndas']);
-
-      if (ndas) {
-        return {
-          ndas,
-        };
-      }
-    }
-
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'ndas', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }
@@ -416,16 +377,6 @@ export default class NdaifyService {
   }
 
   getNdaTemplate(ndaTemplateId) {
-    if (this.queryCache) {
-      const ndaTemplate = this.queryCache.getQueryData(['ndaTemplate', ndaTemplateId]);
-
-      if (ndaTemplate) {
-        return {
-          ndaTemplate,
-        };
-      }
-    }
-
     const {
       owner, repo, ref, path,
     } = getTemplateIdParts(ndaTemplateId);
@@ -443,16 +394,6 @@ export default class NdaifyService {
   }
 
   getApiKeys() {
-    if (this.queryCache) {
-      const apiKeys = this.queryCache.getQueryData(['apiKeys']);
-
-      if (apiKeys) {
-        return {
-          apiKeys,
-        };
-      }
-    }
-
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.GET, 'api-keys', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
   }

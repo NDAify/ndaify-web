@@ -1,5 +1,4 @@
 import React from 'react';
-import { queryCache } from 'react-query';
 
 import NdaifyService from '../../services/NdaifyService';
 import { PageTitle, PageDescription } from '../../components/Head/Head';
@@ -49,23 +48,39 @@ NDA.getInitialProps = async (ctx) => {
     throw new Error('Missing NDA ID');
   }
 
-  const ndaifyService = new NdaifyService({ ctx, queryCache });
+  const ndaifyService = new NdaifyService({ ctx });
 
   let user;
   try {
-    ({ user } = await ndaifyService.tryGetSession());
+    ({ user } = await NdaifyService.withCache(
+      ['session'],
+      (queryKey, data) => ({ user: data }),
+      () => ndaifyService.tryGetSession(),
+    ));
   } catch (error) {
     loggerClient.warn(error);
   }
 
   let nda;
   if (user) {
-    ({ nda } = await ndaifyService.getNda(ndaId));
+    ({ nda } = await NdaifyService.withCache(
+      ['nda', ndaId],
+      (queryKey, data) => ({ nda: data }),
+      () => ndaifyService.getNda(ndaId),
+    ));
   } else {
-    ({ nda } = await ndaifyService.getNdaPreview(ndaId));
+    ({ nda } = await NdaifyService.withCache(
+      ['nda', ndaId],
+      (queryKey, data) => ({ nda: data }),
+      () => ndaifyService.getNdaPreview(ndaId),
+    ));
   }
 
-  const { ndaTemplate } = await ndaifyService.getNdaTemplate(nda.metadata.ndaTemplateId);
+  const { ndaTemplate } = await NdaifyService.withCache(
+    ['ndaTemplate', nda.metadata.ndaTemplateId],
+    (queryKey, data) => ({ ndaTemplate: data }),
+    () => ndaifyService.getNdaTemplate(nda.metadata.ndaTemplateId),
+  );
 
   return {
     ndaTemplate,
