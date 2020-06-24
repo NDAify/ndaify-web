@@ -32,7 +32,6 @@ const LinkedInLogoWrapper = styled.div`
   margin: 0;
   display: inline-flex;
   margin-top: -2px;
-  position:relative
 `;
 
 const ButtonText = styled.span`

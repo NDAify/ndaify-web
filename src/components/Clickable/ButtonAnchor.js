@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const ButtonAnchor = styled.a`
+  position: relative;
   display: inline-block;
   margin: 0;
   padding: 0;

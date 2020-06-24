@@ -1,24 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Wrapper = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 12px;
+  overflow: hidden;
+`;
+
 const ProfileImage = styled.img`
   display: block;
   margin: 0;
   padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
+  width: 100%;
+  height: 100%;
 `;
 
 const ProfileImagePlaceholder = styled.span`
   display: block;
   margin: 0;
   padding: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
-  margin-right: 12px;
+  width: 100%;
+  height: 100%;
   background-color: var(--ndaify-accents-9);
   color: #FFFFFF;
   font-size: 12px;
@@ -35,25 +39,27 @@ const getProfilePhotoSrc = (
 const getFirstNameInitial = (user) => user.metadata.linkedInProfile.firstName.charAt(0);
 
 const Avatar = ({
+  className,
   user,
+  withInitials,
 }) => {
   const src = getProfilePhotoSrc(user);
 
-  if (!src) {
-    const initials = getFirstNameInitial(user);
-
-    return (
-      <ProfileImagePlaceholder>
-        {initials}
-      </ProfileImagePlaceholder>
-    );
-  }
-
   return (
-    <ProfileImage
-      alt=""
-      src={src}
-    />
+    <Wrapper className={className}>
+      {
+        (withInitials || !src) ? (
+          <ProfileImagePlaceholder>
+            {getFirstNameInitial(user)}
+          </ProfileImagePlaceholder>
+        ) : (
+          <ProfileImage
+            alt=""
+            src={src}
+          />
+        )
+      }
+    </Wrapper>
   );
 };
 
