@@ -32,7 +32,7 @@ SuccessView.getInitialProps = async (ctx) => {
     NdaifyService.withCache(
       ['nda', ndaId],
       (queryKey, data) => ({ nda: data }),
-      () => ndaifyService.getNdas(ndaId),
+      () => ndaifyService.getNda(ndaId),
     ),
   ]);
 

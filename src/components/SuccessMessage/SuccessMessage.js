@@ -35,7 +35,7 @@ const PageContentContainer = styled.div`
 const LogoHeaderContainer = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 10pc;
+  margin-bottom: 6pc;
 `;
 
 const SucessMessageContainer = styled.div`
@@ -53,6 +53,7 @@ const SucessMessageContainer = styled.div`
 const SucessMessage = styled.p`
   font-size: 20px;
   font-weight: 200;
+  line-height: 28px;
   text-align: center;
   margin: 0;
   color: var(--ndaify-fg);
@@ -60,6 +61,7 @@ const SucessMessage = styled.p`
 
   @media screen and (min-width: 992px) {
     font-size: 24px;
+    line-height: 32px;
   }
 `;
 
@@ -104,11 +106,7 @@ const SuccessMessage = ({ user, nda }) => (
           Your request has been sent to
           {' '}
           {nda.metadata.recipientFullName}
-          . You will be notified when
-          {' '}
-          {nda.metadata.recipientFullName}
-          {' '}
-          views and/or accepts the NDA.
+          . You will be notified when they accept the NDA.
         </SucessMessage>
         <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
           <ButtonAnchor style={{ backgroundColor: 'var(--ndaify-accents-success)' }}>Done</ButtonAnchor>
