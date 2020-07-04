@@ -654,8 +654,35 @@ const Home = ({ user, ndaStatistics, refSource }) => {
             />
           </FAQAnswer>
         </FAQcontent>
+        <FAQcontent>
+          <FAQQuestion>
+            <FormattedMessage
+              id="home-faq-question-esig-legal"
+              defaultMessage="Are e-signatures legal?"
+            />
+          </FAQQuestion>
+          <FAQAnswer>
+            <FormattedMessage
+              id="home-faq-answer-esig-legal"
+              defaultMessage="The enforceability of electronic signatures in the US was firmly established by the Uniform Electronic Transactions Act (UETA) at the state level and and the Electronic Signatures in Global and National Commerce Act (ESIGN) at the federal level in 2000. {docusignLink} to learn more."
+              values={{
+                docusignLink: (
+                  <a
+                    href="https://www.docusign.com/learn/us-electronic-signature-laws-and-history/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FormattedMessage
+                      id="home-faq-answer-esig-legal-click-here"
+                      defaultMessage="Click here"
+                    />
+                  </a>
+                ),
+              }}
+            />
+          </FAQAnswer>
+        </FAQcontent>
       </FAQContainer>
-
 
       <PageContainer>
         <ContentContainer>
