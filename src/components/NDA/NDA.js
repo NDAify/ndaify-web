@@ -741,10 +741,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
   };
   const onResendClick = useCallback(handleResendClick, []);
 
-  const handleDownlaodClick = async () => {
-    toast.show('Starting download...');
-  };
-  const onDownloadClick = useCallback(handleDownlaodClick, [toast]);
+  // const handleDownlaodClick = async () => {
+  //   toast.show('Starting download...');
+  // };
+  // const onDownloadClick = useCallback(handleDownlaodClick, [toast]);
 
   const handleDetailClick = async () => {
     setDetailDialogOpen(true);
@@ -768,13 +768,13 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
                 Details
               </Button>
 
-              <Button
+              {/* <Button
                 compact
                 color="var(--ndaify-accents-info)"
                 onClick={onDownloadClick}
               >
                 Download
-              </Button>
+              </Button> */}
             </ActionButtonBackground>
           </ActionButtonWrapper>
         ) : null
