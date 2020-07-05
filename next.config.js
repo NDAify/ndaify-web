@@ -26,6 +26,7 @@ module.exports = () => withSourceMaps(withCSS(withImages({
     LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
     NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
     NDAIFY_LOG_LEVEL: process.env.NDAIFY_LOG_LEVEL,
+    NDAIFY_SOLICIT_PAYMENTS: process.env.NDAIFY_SOLICIT_PAYMENTS,
     SENTRY_DSN: process.env.SENTRY_DSN,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },

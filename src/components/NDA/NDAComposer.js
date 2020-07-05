@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import getConfig from 'next/config';
 
 import {
   Formik,
@@ -26,6 +27,10 @@ import fillInNdaBlanks from '../../utils/fillInNdaBlanks';
 import HideImg from './images/hide.svg';
 
 import getFullNameFromUser from './getFullNameFromUser';
+
+import NdaifyService from '../../services/NdaifyService';
+
+const { publicRuntimeConfig: { NDAIFY_SOLICIT_PAYMENTS } } = getConfig();
 
 const HideIcon = styled(HideImg)`
   color: var(--ndaify-fg);
@@ -296,36 +301,43 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
     // clear all error messages before retrying
     setStatus();
 
+    const ndaifyService = new NdaifyService();
+
     if (!expandedBody) {
       setStatus({ errorMessage: 'Please expand the NDA to read all terms' });
       return;
     }
 
     try {
-      sessionStorage.setItem(
-        'nda',
-        {
-          ...nda,
-          metadata: {
-            ...nda.metadata,
-            ndaParamaters: {
-              ...values,
-            },
+      const ndaPayload = {
+        ...nda,
+        metadata: {
+          ...nda.metadata,
+          ndaParamaters: {
+            ...values,
           },
         },
-      );
+      };
+
+      sessionStorage.setItem('nda', ndaPayload);
 
       // Pretend like we are doing some work before moving to next step
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      Router.replace('/nda/pay').then(scrollToTop);
+      if (NDAIFY_SOLICIT_PAYMENTS === 'on') {
+        Router.replace('/nda/pay').then(scrollToTop);
+      } else {
+        const response = await ndaifyService.createNda(ndaPayload);
+
+        Router.replace('/nda/sent/[ndaId]', `/nda/sent/${response.nda.ndaId}`).then(scrollToTop);
+      }
     } catch (error) {
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });
     }
   };
-  const onSubmit = useCallback(handleSubmit, [expandedBody]);
+  const onSubmit = useCallback(handleSubmit, [expandedBody, nda]);
 
   const handleFormValidate = (values) => {
     const errors = {};
