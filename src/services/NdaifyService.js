@@ -384,6 +384,10 @@ export default class NdaifyService {
     return dispatch(DISPATCH_METHOD.GET, `nda-templates/${owner}/${repo}/${ref}/${path}`, { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }
 
+  getNdaTemplateOptions() {
+    return dispatch(DISPATCH_METHOD.GET, 'nda-templates/options', { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
+  }
+
   getOpenApiSpec() {
     return dispatch(DISPATCH_METHOD.GET, 'static/openapi.json', { abortController: this.abortController, headers: this.headers })(this.ctx, NO_SESSION)();
   }

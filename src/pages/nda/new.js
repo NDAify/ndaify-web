@@ -10,7 +10,13 @@ import SenderFormImpl from '../../components/SenderForm/SenderForm';
 import loggerClient from '../../db/loggerClient';
 import { scrollToTop } from '../../util';
 
-const SenderForm = ({ user }) => {
+import useNdaTemplateOptionsQuery from '../../queries/useNdaTemplateOptionsQuery';
+
+const SenderForm = (props) => {
+  const [, ndaTemplateOptions] = useNdaTemplateOptionsQuery({
+    initialData: props.ndaTemplateOptions,
+  });
+
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
 
   useEffect(() => {
@@ -27,7 +33,11 @@ const SenderForm = ({ user }) => {
     <>
       <PageTitle prepend="New Nondisclosure Agreement - " />
       <PageDescription />
-      <SenderFormImpl user={user} nda={nda} />
+      <SenderFormImpl
+        user={props.user}
+        nda={nda}
+        ndaTemplateOptions={ndaTemplateOptions}
+      />
     </>
   );
 };
@@ -46,8 +56,15 @@ SenderForm.getInitialProps = async (ctx) => {
     loggerClient.warn(error);
   }
 
+  const { ndaTemplateOptions } = await NdaifyService.withCache(
+    ['ndasTemplateOptions'],
+    (queryKey, data) => ({ ndaTemplateOptions: data }),
+    () => ndaifyService.getNdaTemplateOptions(),
+  );
+
   return {
     user,
+    ndaTemplateOptions,
   };
 };
 

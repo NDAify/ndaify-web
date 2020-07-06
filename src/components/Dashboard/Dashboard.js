@@ -12,7 +12,6 @@ import UserActionsDropdown from '../UserActionsDropdown/UserActionsDropdown';
 import Avatar from '../Avatar/Avatar';
 import NdaActionsDropdown from './NdaActionsDropdown';
 
-import { NDA_TEMPLATE_OPTIONS } from '../SenderForm/SenderForm';
 import getFullNameFromUser from '../NDA/getFullNameFromUser';
 
 import CalendarIcon from './images/calendar.svg';
@@ -225,7 +224,7 @@ const NDA_STATUS_LABEL = {
   declined: 'Declined',
 };
 
-const HistoryItem = ({ dashboardType, nda }) => (
+const HistoryItem = ({ dashboardType, ndaType, nda }) => (
   <HistoryItemWrapper>
     <HistoryItemActions>
       <NdaActionsDropdown nda={nda} />
@@ -264,11 +263,7 @@ const HistoryItem = ({ dashboardType, nda }) => (
             <TypeContainer>
               <HistoryItemTitle>Type</HistoryItemTitle>
               <RecipientInfoText>
-                {
-                  NDA_TEMPLATE_OPTIONS.find(
-                    (option) => option.value === nda.metadata.ndaTemplateId,
-                  ).label
-                }
+                { ndaType }
               </RecipientInfoText>
             </TypeContainer>
             <StatusContainer>
@@ -287,7 +282,12 @@ const HistoryItem = ({ dashboardType, nda }) => (
   </HistoryItemWrapper>
 );
 
-const Dashboard = ({ dashboardType, user, ndas }) => {
+const Dashboard = ({
+  dashboardType,
+  user,
+  ndas,
+  ndaTemplateOptions,
+}) => {
   const byIncoming = (nda) => nda.ownerId !== user.userId;
   const byOugoing = (nda) => nda.ownerId === user.userId;
   const byDashboardType = dashboardType === 'incoming' ? byIncoming : byOugoing;
@@ -365,7 +365,16 @@ const Dashboard = ({ dashboardType, user, ndas }) => {
             <HistoryList>
               {
                 filteredNdas.map((nda) => (
-                  <HistoryItem key={nda.ndaId} nda={nda} dashboardType={dashboardType} />
+                  <HistoryItem
+                    key={nda.ndaId}
+                    nda={nda}
+                    dashboardType={dashboardType}
+                    ndaType={
+                      ndaTemplateOptions.find(
+                        (option) => option.ndaTemplateId === nda.metadata.ndaTemplateId,
+                      ).label
+                    }
+                  />
                 ))
               }
             </HistoryList>

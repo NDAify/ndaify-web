@@ -193,16 +193,6 @@ const LinkedInButtonWrapper = styled.div`
   display: flex;
   margin-bottom: 3pc;
 `;
-export const NDA_TEMPLATE_OPTIONS = [
-  {
-    label: 'Mutual',
-    value: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/STANDARD_MUTUAL.md',
-  },
-  {
-    label: 'PANDA',
-    value: 'ndaify/ndaify-templates/b3ece24fd09f3a5d2efec55642398d17b721f4a9/PANDA.md',
-  },
-];
 
 const isValidEmail = (string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(string);
 
@@ -231,7 +221,7 @@ const TemplateDescription = ({ ndaTemplate }) => {
   );
 };
 
-const TemplateOptionsSelectInputField = ({ ndaTemplateId }) => {
+const TemplateOptionsSelectInputField = ({ ndaTemplateOptions, ndaTemplateId }) => {
   const [query, ndaTemplate] = useNdaTemplateQuery(ndaTemplateId);
 
   return (
@@ -240,7 +230,10 @@ const TemplateOptionsSelectInputField = ({ ndaTemplateId }) => {
         as={SelectInput}
         spin={query.status === 'loading'}
         name="ndaTemplateId"
-        options={NDA_TEMPLATE_OPTIONS}
+        options={ndaTemplateOptions.map((opt) => ({
+          label: opt.label,
+          value: opt.ndaTemplateId,
+        }))}
         placeholder="NDA type (one-way, mutual)"
       />
       <TemplateDescription ndaTemplate={ndaTemplate} />
@@ -249,7 +242,7 @@ const TemplateOptionsSelectInputField = ({ ndaTemplateId }) => {
   );
 };
 
-const SenderForm = ({ user, nda }) => {
+const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
   const router = useRouter();
   const [suggestedEmail, setSuggestedEmail] = useState();
 
@@ -320,9 +313,7 @@ const SenderForm = ({ user, nda }) => {
   const onSubmit = useCallback(handleSubmit, []);
 
   const initialValues = {
-    ndaTemplateId: nda.metadata.ndaTemplateId || NDA_TEMPLATE_OPTIONS.find(
-      (opt) => opt.label === 'Mutual',
-    ).value,
+    ndaTemplateId: nda.metadata.ndaTemplateId || ndaTemplateOptions[0].ndaTemplateId,
     recipientFullName: nda.metadata.recipientFullName || '',
     recipientEmail: nda.recipientEmail || '',
   };
@@ -412,7 +403,10 @@ const SenderForm = ({ user, nda }) => {
 
                 <InputContainer>
 
-                  <TemplateOptionsSelectInputField ndaTemplateId={values.ndaTemplateId} />
+                  <TemplateOptionsSelectInputField
+                    ndaTemplateId={values.ndaTemplateId}
+                    ndaTemplateOptions={ndaTemplateOptions}
+                  />
 
                 </InputContainer>
 
