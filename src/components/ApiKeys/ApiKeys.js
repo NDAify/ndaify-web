@@ -510,7 +510,7 @@ const ApiDocs = ({ user, apiKeys }) => {
             </LinksContainer>
             <ButtonsContainer>
               <Link passHref href="/dev/docs">
-                <ButtonAnchor target="_blank" rel="noopener noreferrer" outline>Docs</ButtonAnchor>
+                <ButtonAnchor target="_blank" rel="noopener" outline>Docs</ButtonAnchor>
               </Link>
               <ButtonContainer>
                 <Button outline onClick={onCreateClick} type="button">Create API Key</Button>

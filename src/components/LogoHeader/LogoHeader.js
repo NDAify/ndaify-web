@@ -24,7 +24,7 @@ const LogoWithTextIconWrapper = styled.div`
 const LogoHeader = () => (
   <LogoContaier>
     <Link passHref href="/">
-      <a>
+      <a aria-label="NDAify">
         <LogoWithTextIconWrapper>
           <ThemeLogoWithTextIcon />
         </LogoWithTextIconWrapper>

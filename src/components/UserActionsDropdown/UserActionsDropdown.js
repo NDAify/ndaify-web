@@ -1,7 +1,11 @@
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
+import {
+  useIntl,
+  defineMessage,
+  FormattedMessage,
+} from 'react-intl';
 
 import {
   Menu as ReachMenu,
@@ -133,6 +137,11 @@ const MenuItemDivider = styled.div`
   background-color: #FAFAFA;
 `;
 
+const ariaLabelMoreOptions = defineMessage({
+  id: 'user-actions-dropdown-aria-label-more-options',
+  defaultMessage: 'More Options',
+});
+
 const MenuLink = React.forwardRef(({
   children, href, routeAs, ...props
 }, ref) => (
@@ -148,6 +157,8 @@ const MenuLink = React.forwardRef(({
 ));
 
 const UserActionsDropdown = (props) => {
+  const intl = useIntl();
+
   const handleLogOutClick = async () => {
     const ndaifyService = new NdaifyService();
     await ndaifyService.endSession();
@@ -164,7 +175,10 @@ const UserActionsDropdown = (props) => {
     <ReachMenu>
       {(/* { isExpanded } */) => (
         <>
-          <MoreOptionsButton id="header-more-options">
+          <MoreOptionsButton
+            id="header-more-options"
+            aria-label={intl.formatMessage(ariaLabelMoreOptions)}
+          >
             <ChevronDownIcon aria-hidden />
           </MoreOptionsButton>
           <MoreOptionsMenuList>

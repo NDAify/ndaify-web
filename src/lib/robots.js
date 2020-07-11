@@ -37,7 +37,10 @@ const USER_AGENT_WHITE_LIST = [
 
 const rules = USER_AGENT_WHITE_LIST.map((userAgent) => `
 User-agent: ${userAgent}
-Disallow: /search*
+Disallow: /nda/new*
+Disallow: /nda/compose*
+Disallow: /nda/pay*
+Disallow: /nda/sent*
 Allow: /
 `).join('');
 

@@ -279,7 +279,7 @@ const FAQAnswer = styled.div`
   }
 `;
 
-const FieldDescription = styled.div`
+const FieldLabel = styled.label`
   display: block;
   color: var(--ndaify-accents-6);
   font-size: 16px;
@@ -306,7 +306,11 @@ const secretLinkInputPlaceholder = defineMessage({
   defaultMessage: 'Paste a secret link',
 });
 
-const Home = ({ user, ndaStatistics, refSource }) => {
+const Home = ({
+  user,
+  ndaStatistics,
+  refSource,
+}) => {
   const intl = useIntl();
   // Let's get rid of the secret if the user returns home
   useEffect(() => {
@@ -445,6 +449,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                 }
                 <InputContainer>
                   <FormikField
+                    id="secretLink"
                     as={Input}
                     name="secretLink"
                     placeholder={intl.formatMessage(secretLinkInputPlaceholder)}
@@ -454,7 +459,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                     autoComplete="off"
                     autoCorrect="off"
                   />
-                  <FieldDescription>
+                  <FieldLabel for="secretLink">
                     Enter a private hyperlink to your documents in
                     {' '}
                     <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
@@ -492,7 +497,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                     </a>
                     {' '}
                     etc.
-                  </FieldDescription>
+                  </FieldLabel>
                   <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
                 </InputContainer>
 
@@ -664,7 +669,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
           <FAQAnswer>
             <FormattedMessage
               id="home-faq-answer-esig-legal"
-              defaultMessage="The enforceability of electronic signatures in the US was firmly established by the Uniform Electronic Transactions Act (UETA) at the state level and and the Electronic Signatures in Global and National Commerce Act (ESIGN) at the federal level in 2000. {docusignLink} to learn more."
+              defaultMessage="Yes. The {docusignLink} was firmly established by the Uniform Electronic Transactions Act (UETA) at the state level and and the Electronic Signatures in Global and National Commerce Act (ESIGN) at the federal level in 2000."
               values={{
                 docusignLink: (
                   <a
@@ -674,7 +679,7 @@ const Home = ({ user, ndaStatistics, refSource }) => {
                   >
                     <FormattedMessage
                       id="home-faq-answer-esig-legal-click-here"
-                      defaultMessage="Click here"
+                      defaultMessage="enforceability of electronic signatures in the US"
                     />
                   </a>
                 ),

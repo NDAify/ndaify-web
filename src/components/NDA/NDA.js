@@ -178,7 +178,7 @@ const NDASenderDisclaimer = styled.span`
 
 const AttachmentSectionContainer = styled.div``;
 
-const AttachmentTitle = styled.h4`
+const AttachmentTitle = styled.div`
   font-size: 28px;
   font-weight: 200;
   margin: 0;
@@ -231,7 +231,7 @@ const DocumentUrl = styled.a`
   }
 `;
 
-const DescriptionTitle = styled.h4`
+const DescriptionTitle = styled.div`
   font-weight: 200;
   color: var(--ndaify-fg);
   font-size: 20px;
@@ -243,7 +243,7 @@ const DescriptionTitle = styled.h4`
   }
 `;
 
-const AttachmentMessage = styled.h4`
+const AttachmentMessage = styled.div`
   margin: 0;
   font-size: 20px;
   font-weight: 200;
@@ -281,7 +281,7 @@ const ActionButtonBackground = styled.div`
   }
 `;
 
-const DisclaimerTitle = styled.h4`
+const DisclaimerTitle = styled.div`
   font-weight: 200;
   font-size: 20px;
   margin: 0;
@@ -307,7 +307,7 @@ const NDADisclaimerWrapper = styled.div`
   text-align: center;
 `;
 
-const DisclaimerBody = styled.h4`
+const DisclaimerBody = styled.div`
   font-size: 20px;
   line-height: 28px;
   margin: 0;
@@ -383,7 +383,7 @@ const NDAReadMoreContainer = styled.div`
   margin-top: 4pc;
 `;
 
-const NDAReadMoreText = styled.h4`
+const NDAReadMoreText = styled.div`
   font-size: 16px;
   font-weight: 700;
   margin: 0;
@@ -952,6 +952,7 @@ const NDAAttachments = ({ nda, user }) => {
                 <DocumentUrl
                   href={nda.metadata.secretLinks[0]}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {nda.metadata.secretLinks[0]}
                 </DocumentUrl>
@@ -987,6 +988,7 @@ const NDAAttachments = ({ nda, user }) => {
                 <DocumentUrl
                   href={nda.metadata.secretLinks[0]}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {nda.metadata.secretLinks[0]}
                 </DocumentUrl>
@@ -1012,6 +1014,7 @@ const NDAAttachments = ({ nda, user }) => {
           <DocumentUrl
             href={nda.metadata.secretLinks[0]}
             target="_blank"
+            rel="noopener noreferrer"
           >
             {nda.metadata.secretLinks[0]}
           </DocumentUrl>
@@ -1041,6 +1044,7 @@ const NDAAttachments = ({ nda, user }) => {
               <DocumentUrl
                 href={nda.metadata.secretLinks[0]}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 {nda.metadata.secretLinks[0]}
               </DocumentUrl>

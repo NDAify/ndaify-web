@@ -527,6 +527,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                       <DocumentUrl
                         href={nda.metadata.secretLinks[0]}
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {nda.metadata.secretLinks[0]}
                       </DocumentUrl>

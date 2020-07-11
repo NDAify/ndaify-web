@@ -7,7 +7,53 @@ import loggerClient from '../../db/loggerClient';
 
 const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
 
-const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps.';
+const META_KEYWORDS = [
+  'NDA',
+  'PANDA',
+  'MNDA',
+  'one-way NDA',
+  'one way NDA',
+  'mutual NDA',
+  'privacy NDA',
+  'NDA template',
+  'NDA form',
+  'mutual NDA',
+  'disclosure template',
+  'disclosure form',
+  'nondisclosure agreement',
+  'nondisclosure',
+  'non-disclsoure',
+  'non-disclsosure agreement',
+  'non disclosure agreement',
+  'non disclosure',
+  'mutual nondisclosure agreement',
+  'mutual confidentiality agreement',
+  'disclosure agreement',
+  'non disclosure PDF',
+  'non disclosure agreement PDF',
+  'confidentiality template',
+  'confidentiality agreement',
+  'free non disclosure agreement',
+  'free NDA',
+  'free MNDA',
+  'free confidentiality agreement',
+  'manage NDA',
+  'NDA SaaS',
+  'NDA PDF',
+  'electronic NDA',
+  'digital NDA',
+  'download non disclosure agreement',
+  'download NDA',
+  'download MNDA',
+  'downloadable NDA',
+  'downloadable non-disclosure agreement',
+  'downloadable non disclosure agreement',
+  'downloadable MNDA',
+  'eSignature',
+  'e-sign',
+  'esign NDA',
+];
+const META_DESCRIPTION = 'NDAify helps you keep your secrets under wraps. Send, sign, download and manage NDA online';
 const TITLE = 'NDAify';
 
 const JSONLD_DATA = {
@@ -93,15 +139,18 @@ const Head = withRouter((props) => (
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
 
+    <meta name="keywords" content={META_KEYWORDS.join(', ')} />
+
     <meta name="theme-color" content="#424657" />
 
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="shortcut icon" href="/images/favicon.png" />
     <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
     <link rel="apple-touch-icon" href="/images/favicon.png" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap" />
 
     {/* OPEN GRAPH */}
+    <meta property="og:locale" content={props.locale} />
     <meta property="og:type" key="og:type" content="website" />
     <meta
       property="og:url"

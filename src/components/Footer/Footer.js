@@ -102,6 +102,7 @@ const FooterContainer = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
 const FooterNavigation = styled.nav`
   padding: 0;
   margin: 0;
@@ -186,7 +187,7 @@ const PreferencesInputWrapper = styled.div`
 
 const currentYear = (new Date()).getFullYear();
 
-const Footer = ({ withLogo }) => {
+const Footer = (props) => {
   const [preferredTheme, setPreferredTheme] = useTheme();
   const [preferredLocale, setPreferredLocale] = useLocale();
 
@@ -199,10 +200,10 @@ const Footer = ({ withLogo }) => {
 
   return (
     <Container>
-      {withLogo && (
+      {props.withLogo && (
         <FooterLogoContainer>
           <Link passHref href="/">
-            <a>
+            <a aria-label="NDAify">
               <FooterLogoWrapper>
                 <ThemeLogoWithTextIcon />
               </FooterLogoWrapper>
@@ -216,7 +217,7 @@ const Footer = ({ withLogo }) => {
           <a
             href="/privacy"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
           >
             <FormattedMessage
               id="footer-nav-privacy"
@@ -228,7 +229,7 @@ const Footer = ({ withLogo }) => {
           <a
             href="/terms"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
           >
             <FormattedMessage
               id="footer-nav-terms"
@@ -240,7 +241,7 @@ const Footer = ({ withLogo }) => {
           <a
             href="/dev/docs"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
           >
             <FormattedMessage
               id="footer-nav-developers"
@@ -249,6 +250,10 @@ const Footer = ({ withLogo }) => {
           </a>
         </FooterNavigationItem>
       </FooterNavigation>
+
+      {
+        props.renderContent && props.renderContent()
+      }
 
       <FooterTextWrapper>
         <FooterText>
@@ -318,7 +323,7 @@ const Footer = ({ withLogo }) => {
           defaultMessage="NDAify is not a law firm, does not provide legal services or advice, and does not provide or participate in legal representation. Signing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}. When NDAify.com is displayed in a language other than English, we translate the most important information for your browsing and communications. Our translations are provided for your convenience. The English version of NDAify.com, including our Privacy Policy, Terms of Use and the Nondisclosure Agreements, is the definitive version."
           values={{
             privacyPolicy: (
-              <a target="_blank" rel="noopener noreferrer" href="/terms">
+              <a target="_blank" rel="noopener" href="/terms">
                 <FormattedMessage
                   id="footer-nav-terms"
                   defaultMessage="Terms of Use"
@@ -326,7 +331,7 @@ const Footer = ({ withLogo }) => {
               </a>
             ),
             termsOfUse: (
-              <a target="_blank" rel="noopener noreferrer" href="/privacy">
+              <a target="_blank" rel="noopener" href="/privacy">
                 <FormattedMessage
                   id="footer-nav-privacy"
                   defaultMessage="Privacy Policy"

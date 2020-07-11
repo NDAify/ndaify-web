@@ -281,7 +281,7 @@ class App extends NextApp {
 
     return (
       <>
-        <Head />
+        <Head locale={locale} />
         <GlobalStyle />
 
         <ReactQueryConfigProvider config={queryConfig}>
