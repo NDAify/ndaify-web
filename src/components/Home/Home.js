@@ -493,43 +493,47 @@ const Home = ({
                     autoCorrect="off"
                   />
                   <FieldLabel for="secretLink">
-                    Enter a private hyperlink to your documents in
-                    {' '}
-                    <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
-                      Google Drive
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://dropbox.com" target="_blank" rel="noopener noreferrer">
-                      Dropbox
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://onedrive.live.com" target="_blank" rel="noopener noreferrer">
-                      OneDrive
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://www.figma.com/" target="_blank" rel="noopener noreferrer">
-                      Figma
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer">
-                      Notion
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://airtable.com" target="_blank" rel="noopener noreferrer">
-                      Airtable
-                    </a>
-                    ,
-                    {' '}
-                    <a href="https://www.invisionapp.com" target="_blank" rel="noopener noreferrer">
-                      InVision
-                    </a>
-                    {' '}
-                    etc.
+                    <FormattedMessage
+                      id="secret-link-input-description"
+                      defaultMessage="Enter a private hyperlink to your documents in {googleDriveLink}, {dropboxLink}, {oneDriveLink}, {figmaLink}, {notionLink}, {airtableLink}, {invisionLink} etc."
+                      values={{
+                        googleDriveLink: (
+                          <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+                            Google Drive
+                          </a>
+                        ),
+                        dropboxLink: (
+                          <a href="https://dropbox.com" target="_blank" rel="noopener noreferrer">
+                            Dropbox
+                          </a>
+                        ),
+                        oneDriveLink: (
+                          <a href="https://onedrive.live.com" target="_blank" rel="noopener noreferrer">
+                            OneDrive
+                          </a>
+                        ),
+                        figmaLink: (
+                          <a href="https://www.figma.com/" target="_blank" rel="noopener noreferrer">
+                            Figma
+                          </a>
+                        ),
+                        notionLink: (
+                          <a href="https://www.notion.so/" target="_blank" rel="noopener noreferrer">
+                            Notion
+                          </a>
+                        ),
+                        airtableLink: (
+                          <a href="https://airtable.com" target="_blank" rel="noopener noreferrer">
+                            Airtable
+                          </a>
+                        ),
+                        invisionLink: (
+                          <a href="https://www.invisionapp.com" target="_blank" rel="noopener noreferrer">
+                            InVision
+                          </a>
+                        ),
+                      }}
+                    />
                   </FieldLabel>
                   <FieldErrorMessage style={{ marginTop: '1pc' }} name="secretLink" component="div" />
                 </InputContainer>
@@ -741,11 +745,13 @@ const Home = ({
                       >
                         <Link passHref href="/sample/[...slug]" as={`sample/${opt.ndaTemplateId}`}>
                           <a>
-                            Sample
-                            {' '}
-                            {opt.data.title}
-                            {' '}
-                            Template
+                            <FormattedMessage
+                              id="home-footer-sample-nda-nav-item"
+                              defaultMessage="Sample {ndaTitle} Template"
+                              values={{
+                                ndaTitle: opt.data.title,
+                              }}
+                            />
                           </a>
                         </Link>
                       </SiteMapNavigationItem>

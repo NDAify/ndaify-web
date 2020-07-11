@@ -17,11 +17,6 @@ import parseLocaleParts from '../utils/parseLocaleParts';
 const SUPPORTED_LOCALES_TO_LANG = {
   // English
   en: 'en',
-  // Spanish
-  // es: 'es',
-  // 'es-ES': 'es',
-  // 'es-US': 'es',
-  // 'es-MX': 'es',
   // Chinese
   zh: 'zh',
 };

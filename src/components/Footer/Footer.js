@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, defineMessage, FormattedMessage } from 'react-intl';
 
 import LogoWithTextIcon from './images/logoWithText.svg';
 
@@ -15,39 +15,25 @@ import MoonIcon from './images/moon.svg';
 import MonitorIcon from './images/monitor.svg';
 import GlobeIcon from './images/globe.svg';
 
-export const THEME_OPTIONS = [
-  {
-    label: 'System Theme',
-    value: 'system',
-  },
-  {
-    label: 'Dark',
-    value: 'dark',
-  },
-  {
-    label: 'Light',
-    value: 'light',
-  },
-];
+const systemThemeLabel = defineMessage({
+  id: 'footer-system-theme-label',
+  defaultMessage: 'System Theme',
+});
 
-export const LOCALE_OPTIONS = [
-  {
-    label: 'System Language',
-    value: 'system',
-  },
-  {
-    label: 'English',
-    value: 'en',
-  },
-  // {
-  //   label: 'Espanol',
-  //   value: 'es',
-  // },
-  {
-    label: '漢語',
-    value: 'zh',
-  },
-];
+const systemThemeLabelDark = defineMessage({
+  id: 'footer-system-theme-label-dark',
+  defaultMessage: 'Dark',
+});
+
+const systemThemeLabelLight = defineMessage({
+  id: 'footer-system-theme-label-light',
+  defaultMessage: 'Light',
+});
+
+const systemLanguageLabel = defineMessage({
+  id: 'footer-system-language-label',
+  defaultMessage: 'System Language',
+});
 
 const ThemeLogoWithTextIcon = styled(LogoWithTextIcon)`
   path#logo-type {
@@ -188,6 +174,8 @@ const PreferencesInputWrapper = styled.div`
 const currentYear = (new Date()).getFullYear();
 
 const Footer = (props) => {
+  const intl = useIntl();
+
   const [preferredTheme, setPreferredTheme] = useTheme();
   const [preferredLocale, setPreferredLocale] = useLocale();
 
@@ -197,6 +185,36 @@ const Footer = (props) => {
   } else if (preferredTheme === 'light') {
     themeIcon = SunIcon;
   }
+
+  const THEME_OPTIONS = [
+    {
+      label: intl.formatMessage(systemThemeLabel),
+      value: 'system',
+    },
+    {
+      label: intl.formatMessage(systemThemeLabelDark),
+      value: 'dark',
+    },
+    {
+      label: intl.formatMessage(systemThemeLabelLight),
+      value: 'light',
+    },
+  ];
+
+  const LOCALE_OPTIONS = [
+    {
+      label: intl.formatMessage(systemLanguageLabel),
+      value: 'system',
+    },
+    {
+      label: 'English',
+      value: 'en',
+    },
+    {
+      label: '漢語',
+      value: 'zh',
+    },
+  ];
 
   return (
     <Container>

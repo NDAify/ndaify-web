@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 
 import GithubLogo from './images/githubLogo.svg';
 
@@ -44,7 +45,10 @@ const OpenSourceBanner = () => (
       <GithubLogoIcon />
     </GithubLogoIconWrapper>
     <BannerText>
-      NDAify is open source. Send a pull request on GitHub.
+      <FormattedMessage
+        id="open-source-banner-text"
+        defaultMessage="NDAify is open source. Send a pull request on GitHub."
+      />
     </BannerText>
   </BannerLink>
 );
