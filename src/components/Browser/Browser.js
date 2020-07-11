@@ -117,7 +117,7 @@ const Browser = () => {
   }));
 
   const interpScroll = scrollY.interpolate(
-    [0, 500, 900, 99999],
+    [0, 800, 1500, 99999],
     [50, 0, -780, -780],
   ).interpolate(
     (innerPageY) => `scale(.6) translateY(${innerPageY}px)`,
