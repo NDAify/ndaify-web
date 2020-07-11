@@ -301,6 +301,38 @@ const FieldLabel = styled.label`
   }
 `;
 
+const SiteMapNavigation = styled.nav`
+  padding: 0;
+  margin: 0;
+  margin-bottom: 2pc;
+
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const SiteMapNavigationItem = styled.span`
+  font-weight: 200;
+  font-size: 16px;
+  color: var(--ndaify-fg);
+  list-style-type: none;
+  padding: 4px;
+  text-align: center;
+  
+  @media screen and (min-width: 576px) {
+    width: auto;
+  }
+
+  & a {
+    color: inherit;
+  }
+
+  & a:visited {
+    color: inherit;
+  }
+`;
+
 const secretLinkInputPlaceholder = defineMessage({
   id: 'secret-link-input-placeholder',
   defaultMessage: 'Paste a secret link',
@@ -309,6 +341,7 @@ const secretLinkInputPlaceholder = defineMessage({
 const Home = ({
   user,
   ndaStatistics,
+  ndaTemplateOptions,
   refSource,
 }) => {
   const intl = useIntl();
@@ -691,7 +724,37 @@ const Home = ({
 
       <PageContainer>
         <ContentContainer>
-          <Footer />
+          <Footer
+            renderContent={() => {
+              const activeNdas = ndaTemplateOptions.filter((opt) => opt.active);
+
+              if (activeNdas.length === 0) {
+                return null;
+              }
+
+              return (
+                <SiteMapNavigation>
+                  {
+                    activeNdas.map((opt) => (
+                      <SiteMapNavigationItem
+                        key={opt.ndaTemplateId}
+                      >
+                        <Link passHref href="/sample/[...slug]" as={`sample/${opt.ndaTemplateId}`}>
+                          <a>
+                            Sample
+                            {' '}
+                            {opt.data.title}
+                            {' '}
+                            Template
+                          </a>
+                        </Link>
+                      </SiteMapNavigationItem>
+                    ))
+                  }
+                </SiteMapNavigation>
+              );
+            }}
+          />
         </ContentContainer>
       </PageContainer>
     </Container>

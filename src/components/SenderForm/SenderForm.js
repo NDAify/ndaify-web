@@ -31,7 +31,6 @@ import { PageTitle } from '../Head/Head';
 
 import { getClientOrigin, serializeOAuthState, timeout } from '../../util';
 import * as sessionStorage from '../../lib/sessionStorage';
-import getTemplateIdParts from '../../utils/getTemplateIdParts';
 
 import HideImg from './images/hide.svg';
 
@@ -201,18 +200,15 @@ const TemplateDescription = ({ ndaTemplate }) => {
     return null;
   }
 
-  const {
-    owner, repo, ref, path,
-  } = getTemplateIdParts(ndaTemplate.ndaTemplateId);
-
   return (
     <>
       <PageTitle prepend={`New ${ndaTemplate.data.title} - `} />
       <NdaDescriptionText>
         <a
-          href={`https://github.com/${owner}/${repo}/blob/${ref}/${path}`}
+          href={`/sample/${ndaTemplate.ndaTemplateId}`}
+          // eslint-disable-next-line react/jsx-no-target-blank
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
           {ndaTemplate.data.description}
         </a>
@@ -230,8 +226,8 @@ const TemplateOptionsSelectInputField = ({ ndaTemplateOptions, ndaTemplateId }) 
         as={SelectInput}
         spin={query.status === 'loading'}
         name="ndaTemplateId"
-        options={ndaTemplateOptions.map((opt) => ({
-          label: opt.label,
+        options={ndaTemplateOptions.filter((opt) => opt.active).map((opt) => ({
+          label: opt.data.title,
           value: opt.ndaTemplateId,
         }))}
         placeholder="NDA type (one-way, mutual)"
@@ -370,6 +366,7 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
             <DocumentUrl
               href={nda.metadata.secretLinks[0]}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {nda.metadata.secretLinks[0]}
             </DocumentUrl>
@@ -463,11 +460,11 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
                 <DisclaimerText>
                   Signing the NDA signifies that you have read and agree to the
                   {' '}
-                  <a target="_blank" rel="noopener noreferrer" href="/terms">Terms of Use</a>
+                  <a target="_blank" rel="noopener" href="/terms">Terms of Use</a>
                   {' '}
                   and
                   {' '}
-                  <a target="_blank" rel="noopener noreferrer" href="/privacy">Privacy Policy</a>
+                  <a target="_blank" rel="noopener" href="/privacy">Privacy Policy</a>
                   {' '}
                   .
                 </DisclaimerText>

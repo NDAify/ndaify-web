@@ -73,3 +73,9 @@ export const scrollToTop = () => {
   window.scrollTo(0, 0);
   document.body.focus();
 };
+
+export const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+
+export const capitalizeWords = (
+  sentance,
+) => sentance.split(' ').map(capitalize).join(' ');

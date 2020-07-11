@@ -9,6 +9,7 @@ import IndexImpl from '../components/Home/Home';
 import loggerClient from '../db/loggerClient';
 
 import useSessionQuery from '../queries/useSessionQuery';
+import useNdaTemplateOptionsQuery from '../queries/useNdaTemplateOptionsQuery';
 
 const Index = (props) => {
   const router = useRouter();
@@ -22,6 +23,10 @@ const Index = (props) => {
     enabled: isAuthenticated,
   });
 
+  const [, ndaTemplateOptions] = useNdaTemplateOptionsQuery({
+    initialData: props.ndaTemplateOptions,
+  });
+
   return (
     <>
       <PageTitle append=" — Send and Receive Nondisclosure Agreements" />
@@ -30,6 +35,7 @@ const Index = (props) => {
         user={user}
         ndaStatistics={props.ndaStatistics}
         refSource={refSource}
+        ndaTemplateOptions={ndaTemplateOptions}
       />
     </>
   );
@@ -62,9 +68,16 @@ Index.getInitialProps = async (ctx) => {
     };
   }
 
+  const { ndaTemplateOptions } = await NdaifyService.withCache(
+    ['ndasTemplateOptions'],
+    (queryKey, data) => ({ ndaTemplateOptions: data }),
+    () => ndaifyService.getNdaTemplateOptions(),
+  );
+
   return {
     user,
     ndaStatistics,
+    ndaTemplateOptions,
   };
 };
 
