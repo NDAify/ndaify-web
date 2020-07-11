@@ -666,7 +666,7 @@ const Home = ({
           <FAQAnswer>
             <FormattedMessage
               id="home-faq-answer-cost"
-              defaultMessage="NDAify is {free}. Now and then we may solicit contributions but the basic functionality of sending and receiving NDAs will {remainFreeForever}."
+              defaultMessage="NDAify is {free}. Occasionally, we may solicit contributions but the basic functionality of sending and receiving NDAs will {remainFreeForever}."
               values={{
                 free: (
                   <b>
