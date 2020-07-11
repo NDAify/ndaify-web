@@ -77,7 +77,7 @@ Index.getInitialProps = async (ctx) => {
   }
 
   const { ndaTemplateOptions } = await NdaifyService.withCache(
-    ['ndasTemplateOptions'],
+    ['ndaTemplateOptions'],
     (queryKey, data) => ({ ndaTemplateOptions: data }),
     () => ndaifyService.getNdaTemplateOptions(),
   );
