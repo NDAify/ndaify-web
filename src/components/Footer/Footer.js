@@ -39,10 +39,10 @@ export const LOCALE_OPTIONS = [
     label: 'English',
     value: 'en',
   },
-  {
-    label: 'Espanol',
-    value: 'es',
-  },
+  // {
+  //   label: 'Espanol',
+  //   value: 'es',
+  // },
   {
     label: '漢語',
     value: 'zh',
