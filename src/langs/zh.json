@@ -39,7 +39,7 @@
   "login-button-login": "登錄",
   "login-button-login-with-linkedin": "LinkedIn登錄",
   "login-title": "您必須先登錄",
-  "login-welcome-text": "歡迎回來",
+  "login-welcome-text": "歡迎回來, {firstName}!",
   "nda-actions-dropdown-view-nda": "查看",
   "open-source-banner-text": "NDAify開源項目。 在GitHub上贡献代码。",
   "privacy-legal-md": "",

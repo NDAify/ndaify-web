@@ -159,12 +159,11 @@ const LogIn = ({ user }) => {
               <Title>
                 <FormattedMessage
                   id="login-welcome-text"
-                  defaultMessage="Welcome back"
+                  defaultMessage="Welcome back, {firstName}!"
+                  values={{
+                    firstName: user.metadata.linkedInProfile.firstName,
+                  }}
                 />
-                ,
-                {' '}
-                {user.metadata.linkedInProfile.firstName}
-                !
               </Title>
               <Description>
                 Not
