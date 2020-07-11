@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { useIntl, defineMessage } from 'react-intl';
 
 import NdaifyService from '../services/NdaifyService';
 
@@ -11,7 +12,14 @@ import loggerClient from '../db/loggerClient';
 import useSessionQuery from '../queries/useSessionQuery';
 import useNdaTemplateOptionsQuery from '../queries/useNdaTemplateOptionsQuery';
 
+const homePageTitleAppend = defineMessage({
+  id: 'home-page-title-append',
+  defaultMessage: ' — Send and Receive Nondisclosure Agreements',
+});
+
 const Index = (props) => {
+  const intl = useIntl();
+
   const router = useRouter();
   const refSource = router.query.ref;
 
@@ -29,7 +37,7 @@ const Index = (props) => {
 
   return (
     <>
-      <PageTitle append=" — Send and Receive Nondisclosure Agreements" />
+      <PageTitle append={intl.formatMessage(homePageTitleAppend)} />
       <PageDescription />
       <IndexImpl
         user={user}
