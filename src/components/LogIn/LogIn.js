@@ -5,6 +5,8 @@ import Router, { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import Link from 'next/link';
 
+import { FormattedMessage } from 'react-intl';
+
 import Avatar from '../Avatar/Avatar';
 import AnchorButton from '../Clickable/AnchorButton';
 import ButtonAnchor from '../Clickable/ButtonAnchor';
@@ -155,7 +157,11 @@ const LogIn = ({ user }) => {
           user ? (
             <>
               <Title>
-                Welcome back,
+                <FormattedMessage
+                  id="login-welcome-text"
+                  defaultMessage="Welcome back"
+                />
+                ,
                 {' '}
                 {user.metadata.linkedInProfile.firstName}
                 !
@@ -174,7 +180,10 @@ const LogIn = ({ user }) => {
             </>
           ) : (
             <Title>
-              You must sign in to continue
+              <FormattedMessage
+                id="login-title"
+                defaultMessage="You must sign in to continue"
+              />
             </Title>
           )
         }
@@ -195,7 +204,10 @@ const LogIn = ({ user }) => {
                   <LogOutButtonAnchor
                     user={user}
                   >
-                    Log in
+                    <FormattedMessage
+                      id="login-button-login"
+                      defaultMessage="Log in"
+                    />
                   </LogOutButtonAnchor>
                 </Link>
               ) : (
@@ -211,7 +223,10 @@ const LogIn = ({ user }) => {
                     );
                   }}
                 >
-                  Log in with LinkedIn
+                  <FormattedMessage
+                    id="login-button-login-with-linkedin"
+                    defaultMessage="Log in with LinkedIn"
+                  />
                 </LinkedInButton>
               )
             }
