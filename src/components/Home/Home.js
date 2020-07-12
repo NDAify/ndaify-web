@@ -492,7 +492,7 @@ const Home = ({
                     autoComplete="off"
                     autoCorrect="off"
                   />
-                  <FieldLabel for="secretLink">
+                  <FieldLabel htmlFor="secretLink">
                     <FormattedMessage
                       id="secret-link-input-description"
                       defaultMessage="Enter a private hyperlink to your documents in {googleDriveLink}, {dropboxLink}, {oneDriveLink}, {figmaLink}, {notionLink}, {airtableLink}, {invisionLink} etc."
