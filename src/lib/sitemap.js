@@ -1,6 +1,9 @@
-import fetch from 'cross-fetch';
 import statuses from 'statuses';
 import { SitemapStream, streamToPromise } from 'sitemap';
+
+import loggerClient from '../db/loggerClient';
+
+import NdaifyService from '../services/NdaifyService';
 
 const sitemap = () => async (ctx) => {
   try {
@@ -28,13 +31,8 @@ const sitemap = () => async (ctx) => {
       ],
     });
 
-    // const ndaifyService = new NdaifyService();
-    // const ndaTemplateOptions = await ndaifyService.getNdaTemplateOptions();
-    const response = await fetch(`${process.env.NDAIFY_ENDPOINT_URL}/nda-templates/options`, {
-      method: 'GET',
-    });
-
-    const { ndaTemplateOptions } = await response.json();
+    const ndaifyService = new NdaifyService({ ctx });
+    const { ndaTemplateOptions } = await ndaifyService.getNdaTemplateOptions();
 
     ndaTemplateOptions.forEach((opt) => {
       sm.write({
@@ -50,7 +48,8 @@ const sitemap = () => async (ctx) => {
 
     ctx.set('Content-Type', 'text/xml');
     ctx.res.write(xml.toString());
-  } catch {
+  } catch (error) {
+    loggerClient.error(error);
     ctx.status = statuses('Internal Server Error');
   } finally {
     ctx.res.end();
