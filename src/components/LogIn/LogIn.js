@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 
 import styled from 'styled-components';
 import Router, { useRouter } from 'next/router';
-import getConfig from 'next/config';
 import Link from 'next/link';
 
 import { FormattedMessage } from 'react-intl';
@@ -19,8 +18,6 @@ import getFullNameFromUser from '../NDA/getFullNameFromUser';
 import { getClientOrigin, serializeOAuthState, scrollToTop } from '../../util';
 
 import NdaifyService from '../../services/NdaifyService';
-
-const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const ActionButtonWrapper = styled.div`
   display: flex;
@@ -218,7 +215,7 @@ const LogIn = ({ user }) => {
                     const oAuthState = serializeOAuthState({ redirectUrl });
 
                     window.location.assign(
-                      `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`,
+                      `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${process.env.LINKEDIN_CLIENT_SCOPES}`,
                     );
                   }}
                 >

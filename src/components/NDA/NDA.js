@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl';
-import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import { useAlert } from 'react-alert';
 import { Waypoint } from 'react-waypoint';
@@ -43,8 +42,6 @@ import NdaifyService from '../../services/NdaifyService';
 import loggerClient from '../../db/loggerClient';
 
 import HideImg from './images/hide.svg';
-
-const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 // Initial NDA is publicly viewable and if the viewer is not logged in, we
 // assume they are the recipient
@@ -1285,7 +1282,7 @@ const NDA = ({ ndaTemplate, nda, user }) => {
           ],
         }],
       });
-      window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`);
+      window.location.replace(`https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${process.env.LINKEDIN_CLIENT_SCOPES}`);
     } catch (error) {
       loggerClient.error(error);
       setStatus({ errorMessage: error.message });

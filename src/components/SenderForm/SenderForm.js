@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import getConfig from 'next/config';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -35,8 +34,6 @@ import * as sessionStorage from '../../lib/sessionStorage';
 import HideImg from './images/hide.svg';
 
 import useNdaTemplateQuery from '../../queries/useNdaTemplateQuery';
-
-const { publicRuntimeConfig: { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SCOPES } } = getConfig();
 
 const HideIcon = styled(HideImg)`
   color: var(--ndaify-fg);
@@ -294,7 +291,7 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
         redirectOnErrorUrl: '/nda/new',
       });
       window.location.replace(
-        `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${LINKEDIN_CLIENT_SCOPES}`,
+        `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${CALLBACK_URL_LINKEDIN}&state=${oAuthState}&scope=${process.env.LINKEDIN_CLIENT_SCOPES}`,
       );
     } catch (error) {
       loggerClient.error(error);

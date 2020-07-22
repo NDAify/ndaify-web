@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import openApiSnippet from 'openapi-snippet';
 
 import loggerClient from '../db/loggerClient';
@@ -37,8 +36,6 @@ const SNIPPET_TO_PREFERRED_LABELS = {
   shell_curl: 'cURL',
   php_http2: 'PHP',
 };
-
-const { publicRuntimeConfig: { NDAIFY_ENDPOINT_URL } } = getConfig();
 
 const getCodeSamples = (openApiSpec, pathKey, methodKey, values) => {
   try {
@@ -100,7 +97,7 @@ const enhanceOpenApiSpec = (openApiSpec, values) => {
     ...openApiSpec,
     servers: [
       {
-        url: NDAIFY_ENDPOINT_URL,
+        url: process.env.NDAIFY_ENDPOINT_URL,
       },
     ],
     paths: enhancePaths(openApiSpec, openApiSpec.paths, values),

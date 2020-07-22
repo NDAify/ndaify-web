@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import Router from 'next/router';
-import getConfig from 'next/config';
 
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -16,8 +15,6 @@ import PaymentFormImpl from '../../components/PaymentForm/PaymentForm';
 
 import { scrollToTop } from '../../util';
 
-const { publicRuntimeConfig: { STRIPE_PUBLISHABLE_KEY } } = getConfig();
-
 const PaymentForm = ({ user }) => {
   const [preferredLocale] = useLocale();
   const nda = useMemo(() => sessionStorage.getItem('nda'), []);
@@ -25,7 +22,7 @@ const PaymentForm = ({ user }) => {
   const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
-    const promise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+    const promise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
     setStripePromise(promise);
 
     return () => {

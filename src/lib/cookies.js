@@ -1,14 +1,11 @@
 import { parse } from 'cookie';
 import { parseCookies as parseRequestCookies } from 'nookies';
-import getConfig from 'next/config';
 
 export { setCookie, destroyCookie } from 'nookies';
 
-const { publicRuntimeConfig: { COOKIE_DOMAIN } } = getConfig();
-
 export const BASE_COOKIE_OPTIONS = {
   path: '/',
-  domain: COOKIE_DOMAIN,
+  domain: process.env.COOKIE_DOMAIN,
 };
 
 const cookieStringFromSetCookie = (cookies = []) => cookies.map((cookie) => {

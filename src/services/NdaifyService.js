@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
 import fetch from 'cross-fetch';
-import getConfig from 'next/config';
 import statuses from 'statuses';
 import Router from 'next/router';
 import { queryCache, queryCaches } from 'react-query';
@@ -54,10 +53,8 @@ class RequestError extends NdaifyServiceError {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { publicRuntimeConfig: { NDAIFY_ENDPOINT_URL, CANONICAL_URL } } = getConfig();
-
 const REDIRECT_WHITELIST = [
-  CANONICAL_URL,
+  process.env.CANONICAL_URL,
 ];
 
 const SESSION_TOKEN_COOKIE_OPTIONS = {
@@ -126,7 +123,7 @@ const normalizeUrl = (endpoint) => {
     return endpoint;
   }
 
-  return `${NDAIFY_ENDPOINT_URL}/${endpoint}`;
+  return `${process.env.NDAIFY_ENDPOINT_URL}/${endpoint}`;
 };
 
 const get = (endpoint, headers, payload = {}, config = {}) => {

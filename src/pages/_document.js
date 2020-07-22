@@ -5,14 +5,39 @@ import NextDocument, {
   Main,
   NextScript,
 } from 'next/document';
-import getConfig from 'next/config';
 
 import { ServerStyleSheet } from 'styled-components';
 
 import { StaticHead } from '../components/Head/Head';
 import parseLocaleParts from '../utils/parseLocaleParts';
 
-const { publicRuntimeConfig: { GOOGLE_TAG_MANAGER_ID } } = getConfig();
+const PUBLIC_ENV_NO_SECRETS_OR_YOU_WILL_BE_FIRED = {
+  CANONICAL_URL: process.env.CANONICAL_URL,
+  COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
+  GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
+  LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
+  LINKEDIN_CLIENT_SCOPES: process.env.LINKEDIN_CLIENT_SCOPES,
+  NDAIFY_ENDPOINT_URL: process.env.NDAIFY_ENDPOINT_URL,
+  NDAIFY_LOG_LEVEL: process.env.NDAIFY_LOG_LEVEL,
+  NDAIFY_SOLICIT_PAYMENTS: process.env.NDAIFY_SOLICIT_PAYMENTS,
+  SENTRY_DSN: process.env.SENTRY_DSN,
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+};
+
+const ClientRuntime = ({ config }) => (
+  <>
+    { /* eslint-disable react/no-danger */}
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          window.env = ${JSON.stringify(config)};
+        `,
+      }}
+    />
+    { /* eslint-enable react/no-danger */}
+    <NextScript />
+  </>
+);
 
 class Document extends NextDocument {
   static async getInitialProps(ctx) {
@@ -71,14 +96,14 @@ class Document extends NextDocument {
           <noscript>
             <iframe
               title="Google Analytics Manager"
-              src={`https://www.googletagmanager.com/ns.html?id=${GOOGLE_TAG_MANAGER_ID}`}
+              src={`https://www.googletagmanager.com/ns.html?id=${process.env.GOOGLE_TAG_MANAGER_ID}`}
               height="0"
               width="0"
               style={{ display: 'none', visibility: 'hidden' }}
             />
           </noscript>
           <Main />
-          <NextScript />
+          <ClientRuntime config={PUBLIC_ENV_NO_SECRETS_OR_YOU_WILL_BE_FIRED} />
         </body>
       </Html>
     );

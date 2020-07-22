@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import getConfig from 'next/config';
 
 import {
   Formik,
@@ -29,8 +28,6 @@ import HideImg from './images/hide.svg';
 import getFullNameFromUser from './getFullNameFromUser';
 
 import NdaifyService from '../../services/NdaifyService';
-
-const { publicRuntimeConfig: { NDAIFY_SOLICIT_PAYMENTS } } = getConfig();
 
 const HideIcon = styled(HideImg)`
   color: var(--ndaify-fg);
@@ -325,7 +322,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
       // This is much better UX than just navigating away from the form
       await timeout(1000);
 
-      if (NDAIFY_SOLICIT_PAYMENTS === 'on') {
+      if (process.env.NDAIFY_SOLICIT_PAYMENTS === 'on') {
         Router.replace('/nda/pay').then(scrollToTop);
       } else {
         const response = await ndaifyService.createNda(ndaPayload);
