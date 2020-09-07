@@ -211,7 +211,7 @@ const Footer = (props) => {
       value: 'en',
     },
     {
-      label: '漢語',
+      label: '中文',
       value: 'zh',
     },
   ];

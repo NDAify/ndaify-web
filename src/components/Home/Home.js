@@ -334,7 +334,7 @@ const SiteMapNavigationItem = styled.span`
 `;
 
 const secretLinkInputPlaceholder = defineMessage({
-  id: 'secret-link-input-placeholder',
+  id: 'home-secret-link-input-placeholder',
   defaultMessage: 'Paste a secret link',
 });
 
@@ -494,7 +494,7 @@ const Home = ({
                   />
                   <FieldLabel htmlFor="secretLink">
                     <FormattedMessage
-                      id="secret-link-input-description"
+                      id="home-secret-link-input-description"
                       defaultMessage="Enter a private hyperlink to your documents in {googleDriveLink}, {dropboxLink}, {oneDriveLink}, {figmaLink}, {notionLink}, {airtableLink}, {invisionLink} etc."
                       values={{
                         googleDriveLink: (

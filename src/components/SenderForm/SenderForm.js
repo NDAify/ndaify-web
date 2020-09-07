@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
+import { useIntl, defineMessage, FormattedMessage } from 'react-intl';
 
 import {
   Formik,
@@ -235,7 +235,19 @@ const TemplateOptionsSelectInputField = ({ ndaTemplateOptions, ndaTemplateId }) 
   );
 };
 
+const recipientNameInputPlaceholder = defineMessage({
+  id: 'sender-form-recipient-name-input-placeholder',
+  defaultMessage: 'Recipient name',
+});
+
+const recipientEmailInputPlaceholder = defineMessage({
+  id: 'sender-form-recipient-email-input-placeholder',
+  defaultMessage: 'Recipient email',
+});
+
 const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
+  const intl = useIntl();
+
   const router = useRouter();
   const [suggestedEmail, setSuggestedEmail] = useState();
 
@@ -368,9 +380,13 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
               {nda.metadata.secretLinks[0]}
             </DocumentUrl>
           </LinkWrapper>
+
           <DescriptionTitle>
-            Recipient does not have access to your link unless they accept the terms
-            of the NDA.
+            <FormattedMessage
+              id="sender-form-description-title"
+              defaultMessage="Recipient does not have access to your link unless they accept the terms
+              of the NDA."
+            />
           </DescriptionTitle>
 
           <Formik
@@ -411,8 +427,8 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
                     autoComplete="off"
                     autoCorrect="off"
                     name="recipientFullName"
-                    placeholder="Recipient name"
                     spellCheck={false}
+                    placeholder={intl.formatMessage(recipientNameInputPlaceholder)}
                   />
                   <FieldErrorMessage style={{ marginTop: '1pc' }} name="recipientFullName" component="div" />
                 </InputContainer>
@@ -425,8 +441,8 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
                     autoCorrect="off"
                     name="recipientEmail"
                     onEmailSuggest={setSuggestedEmail}
-                    placeholder="Recipient email"
                     spellCheck={false}
+                    placeholder={intl.formatMessage(recipientEmailInputPlaceholder)}
                   />
 
                   {
@@ -455,15 +471,28 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
                 </InputContainer>
 
                 <DisclaimerText>
-                  Signing the NDA signifies that you have read and agree to the
-                  {' '}
-                  <a target="_blank" rel="noopener" href="/terms">Terms of Use</a>
-                  {' '}
-                  and
-                  {' '}
-                  <a target="_blank" rel="noopener" href="/privacy">Privacy Policy</a>
-                  {' '}
-                  .
+                  <FormattedMessage
+                    id="sender-form-disclaimer"
+                    defaultMessage="Signing the NDA signifies that you have read and agree to the {privacyPolicy} and {termsOfUse}."
+                    values={{
+                      privacyPolicy: (
+                        <a target="_blank" rel="noopener" href="/terms">
+                          <FormattedMessage
+                            id="sender-form-terms"
+                            defaultMessage="Terms of Use"
+                          />
+                        </a>
+                      ),
+                      termsOfUse: (
+                        <a target="_blank" rel="noopener" href="/privacy">
+                          <FormattedMessage
+                            id="sender-form-privacy"
+                            defaultMessage="Privacy Policy"
+                          />
+                        </a>
+                      ),
+                    }}
+                  />
                 </DisclaimerText>
 
                 <LinkedInButtonWrapper>
@@ -472,7 +501,10 @@ const SenderForm = ({ user, nda, ndaTemplateOptions }) => {
                     type="submit"
                     spin={isSubmitting}
                   >
-                    Review and Sign with LinkedIn
+                    <FormattedMessage
+                      id="sender-form-linkedin-button"
+                      defaultMessage="Review and Sign with LinkedIn"
+                    />
                   </LinkedInButton>
                 </LinkedInButtonWrapper>
               </Form>
