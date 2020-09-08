@@ -6,6 +6,8 @@ import {
   Form,
 } from 'formik';
 
+import { FormattedMessage } from 'react-intl';
+
 import Router from 'next/router';
 
 import loggerClient from '../../db/loggerClient';
@@ -379,7 +381,12 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
             color="var(--ndaify-accents-danger)"
             onClick={onDiscardButtonClick}
           >
-            Discard
+            <span>
+              <FormattedMessage
+                id="user-action-banner-label-discard"
+                defaultMessage="Discard"
+              />
+            </span>
           </Button>
         )}
       />
@@ -412,24 +419,44 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
 
                     <NDADisclaimerWrapper>
                       <DisclaimerTitle>
-                        <BoldText>Almost done.</BoldText>
+                        <BoldText>
+                          <FormattedMessage
+                            id="nda-composer-description-title"
+                            defaultMessage="Almost done."
+                          />
+                        </BoldText>
                       </DisclaimerTitle>
                     </NDADisclaimerWrapper>
 
                     <NDADisclaimerWrapper>
                       <DisclaimerBody>
-                        By signing, both
-                        {' '}
-                        <BoldText>you</BoldText>
-                        {' '}
-                        and
-                        {' '}
-                        <BoldText>{recipientFullName}</BoldText>
-                        {' '}
-                        are agreeing to terms of an NDA to
-                        {' '}
-                        <BoldText>protect all parties and materials disclosed</BoldText>
-                        .
+                        <FormattedMessage
+                          id="nda-composer-description-text"
+                          defaultMessage="By signing, both {sender} and {recipientFullName} are agreeing to terms of an NDA to {ndaConditions}."
+                          values={{
+                            sender: (
+                              <BoldText>
+                                <FormattedMessage
+                                  id="nda-composer-description-sender"
+                                  defaultMessage="You"
+                                />
+                              </BoldText>
+                            ),
+                            recipientFullName: (
+                              <BoldText>
+                                {recipientFullName}
+                              </BoldText>
+                            ),
+                            ndaConditions: (
+                              <BoldText>
+                                <FormattedMessage
+                                  id="nda-composer-description-nda-conditions"
+                                  defaultMessage="protect all parties and materials disclosed"
+                                />
+                              </BoldText>
+                            ),
+                          }}
+                        />
                       </DisclaimerBody>
                     </NDADisclaimerWrapper>
 
@@ -447,18 +474,26 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                       expandedBody === false ? (
                         <NDAReadMoreContainer>
                           <NDAReadMoreText>
-                            To read all terms,
-                            {' '}
-                            <AnchorButton
-                              type="button"
-                              onClick={() => {
-                                setStatus();
-                                setExpandedBody(true);
+                            <FormattedMessage
+                              id="nda-composer-expand-text"
+                              defaultMessage="To read all terms, {clickHereText}."
+                              values={{
+                                clickHereText: (
+                                  <AnchorButton
+                                    type="button"
+                                    onClick={() => {
+                                      setStatus();
+                                      setExpandedBody(true);
+                                    }}
+                                  >
+                                    <FormattedMessage
+                                      id="nda-composer-description-expand-click-here-button-text"
+                                      defaultMessage="click here"
+                                    />
+                                  </AnchorButton>
+                                ),
                               }}
-                            >
-                              click here
-                            </AnchorButton>
-                            .
+                            />
                           </NDAReadMoreText>
                         </NDAReadMoreContainer>
                       ) : null
@@ -488,7 +523,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                   <SigRow>
                     <PartyWrapper>
                       <SignatureHolder />
-                      <NDAPartyName>{nda.metadata.recipientName}</NDAPartyName>
+                      <NDAPartyName>{recipientFullName}</NDAPartyName>
                       <NDAPartyOrganization>{recipientCompanyName}</NDAPartyOrganization>
                     </PartyWrapper>
                     <PartyWrapper>
@@ -498,25 +533,32 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                         style={{ backgroundColor: 'var(--ndaify-accents-success)' }}
                         spin={isSubmitting}
                       >
-                        Sign
+                        <FormattedMessage
+                          id="nda-composer-sign-button"
+                          defaultMessage="Sign"
+                        />
                       </Button>
                       <NDAPartyName>{ownerFullName}</NDAPartyName>
                       <NDAPartyOrganization>{ownerCompanyName}</NDAPartyOrganization>
                       <NDASenderDisclaimer>
-                        I,
-                        {' '}
-                        {ownerFullName}
-                        , certify that I have read the contract,
-                        {' '}
-                        and understand that clicking &#39;Sign&#39;
-                        {' '}
-                        constitutes a legally binding signature.
+                        <FormattedMessage
+                          id="nda-composer-sign-disclaimer"
+                          defaultMessage="I, {ownerFullName}, certify that I have read the contract, and understand that clicking &#39;Sign&#39; constitutes a legally binding signature."
+                          values={{
+                            ownerFullName,
+                          }}
+                        />
                       </NDASenderDisclaimer>
                     </PartyWrapper>
                   </SigRow>
 
                   <AttachmentSectionContainer>
-                    <AttachmentTitle>Attachments</AttachmentTitle>
+                    <AttachmentTitle>
+                      <FormattedMessage
+                        id="nda-composer-attachment-title"
+                        defaultMessage="Attachment"
+                      />
+                    </AttachmentTitle>
                     <LinkWrapper>
                       <HideIconWrapper>
                         <HideIcon />
@@ -530,8 +572,11 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                       </DocumentUrl>
                     </LinkWrapper>
                     <DescriptionTitle>
-                      Recipient does not have access to your link unless they accept the
-                      terms of the NDA.
+                      <FormattedMessage
+                        id="nda-composer-attachment-disclaimer"
+                        defaultMessage="Recipient does not have access to your link unless they accept the
+                        terms of the NDA."
+                      />
                     </DescriptionTitle>
                   </AttachmentSectionContainer>
 
