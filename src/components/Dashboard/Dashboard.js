@@ -254,25 +254,45 @@ const HistoryItem = ({ dashboardType, ndaType, nda }) => (
           {
               dashboardType === 'incoming' ? (
                 <RecipientRow>
-                  <HistoryItemTitle>Sender</HistoryItemTitle>
+                  <HistoryItemTitle>
+                    <FormattedMessage
+                      id="dashboard-history-item-sender-title"
+                      defaultMessage="Sender"
+                    />
+                  </HistoryItemTitle>
                   <RecipientInfoText>{`${getFullNameFromUser(nda.owner)} <${nda.owner.metadata.linkedInProfile.emailAddress}>`}</RecipientInfoText>
                 </RecipientRow>
               ) : (
                 <RecipientRow>
-                  <HistoryItemTitle>Recipient</HistoryItemTitle>
+                  <HistoryItemTitle>
+                    <FormattedMessage
+                      id="dashboard-history-item-recipient-title"
+                      defaultMessage="Recipient"
+                    />
+                  </HistoryItemTitle>
                   <RecipientInfoText>{`${nda.metadata.recipientFullName} <${nda.recipientEmail === 'void' ? nda.recipient.metadata.linkedInProfile.emailAddress : nda.recipientEmail}>`}</RecipientInfoText>
                 </RecipientRow>
               )
             }
           <TypeAndStatusRow>
             <TypeContainer>
-              <HistoryItemTitle>Type</HistoryItemTitle>
+              <HistoryItemTitle>
+                <FormattedMessage
+                  id="dashboard-history-item-type-title"
+                  defaultMessage="Type"
+                />
+              </HistoryItemTitle>
               <RecipientInfoText>
                 { ndaType }
               </RecipientInfoText>
             </TypeContainer>
             <StatusContainer>
-              <HistoryItemTitle>Status</HistoryItemTitle>
+              <HistoryItemTitle>
+                <FormattedMessage
+                  id="dashboard-history-item-status-title"
+                  defaultMessage="Status"
+                />
+              </HistoryItemTitle>
               <StatusText>{NDA_STATUS_LABEL[nda.metadata.status]}</StatusText>
             </StatusContainer>
           </TypeAndStatusRow>
@@ -339,7 +359,10 @@ const Dashboard = ({
               {
                 (active) => (
                   <StyledBadgeLink active={active}>
-                    Inbox
+                    <FormattedMessage
+                      id="dashboard-inbox-label"
+                      defaultMessage="Inbox"
+                    />
 
                     {
                       pendingIncomingNDAs.length ? (
@@ -355,13 +378,23 @@ const Dashboard = ({
             <ActiveLink scroll={false} href="/dashboard/[dashboardType]" as="/dashboard/outgoing">
               {
                 (active) => (
-                  <StyledLink active={active}>Sent</StyledLink>
+                  <StyledLink active={active}>
+                    <FormattedMessage
+                      id="dashboard-sent-label"
+                      defaultMessage="Sent"
+                    />
+                  </StyledLink>
                 )
               }
             </ActiveLink>
           </LinksContainer>
           <Link passHref href="/">
-            <ButtonAnchor outline>New</ButtonAnchor>
+            <ButtonAnchor outline>
+              <FormattedMessage
+                id="dashboard-new-button"
+                defaultMessage="New"
+              />
+            </ButtonAnchor>
           </Link>
         </DashboardActionRow>
 
@@ -387,13 +420,15 @@ const Dashboard = ({
             <EmptyHistoryList>
               {
                 dashboardType === 'incoming' ? (
-                  <>
-                    You have nothing in your inbox
-                  </>
+                  <FormattedMessage
+                    id="dashboard-empty-inbox-text"
+                    defaultMessage="You have nothing in your inbox"
+                  />
                 ) : (
-                  <>
-                    You have not sent NDAs
-                  </>
+                  <FormattedMessage
+                    id="dashboard-empty-sent-text"
+                    defaultMessage="You have not sent NDAs"
+                  />
                 )
               }
             </EmptyHistoryList>
