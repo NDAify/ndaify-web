@@ -103,13 +103,21 @@ const SuccessMessage = ({ user, nda }) => (
 
       <SucessMessageContainer>
         <SucessMessage>
-          Your request has been sent to
-          {' '}
-          {nda.metadata.recipientFullName}
-          . You will be notified when they accept the NDA.
+          <FormattedMessage
+            id="success-message-text"
+            defaultMessage="Your request has been sent to {recipientFullName}. You will be notified when they accept the NDA."
+            values={{
+              recipientFullName: nda.metadata.recipientFullName,
+            }}
+          />
         </SucessMessage>
         <Link passHref href="/dashboard/[dashboardType]" as="/dashboard/outgoing" replace>
-          <ButtonAnchor style={{ backgroundColor: 'var(--ndaify-accents-success)' }}>Done</ButtonAnchor>
+          <ButtonAnchor style={{ backgroundColor: 'var(--ndaify-accents-success)' }}>
+            <FormattedMessage
+              id="success-message-button"
+              defaultMessage="Done"
+            />
+          </ButtonAnchor>
         </Link>
       </SucessMessageContainer>
 

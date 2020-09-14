@@ -62,6 +62,8 @@
   "sender-form-recipient-email-input-placeholder": "接受人電子郵件",
   "sender-form-recipient-name-input-placeholder": "接受人名",
   "sender-form-terms": "使用條款",
+  "success-message-button": "確認",
+  "success-message-text": "您的保密協議已發送給{recipientFullName}。對方同意簽署保密協議後，我們將通知您。",
   "terms-legal-md": "",
   "uetaesign-legal-md": "",
   "user-action-banner-label-discard": "放棄編輯",
