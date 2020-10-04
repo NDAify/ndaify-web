@@ -574,8 +574,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                     <DescriptionTitle>
                       <FormattedMessage
                         id="nda-composer-attachment-disclaimer"
-                        defaultMessage="Recipient does not have access to your link unless they accept the
-                        terms of the NDA."
+                        defaultMessage="Recipient does not have access to your link unless they accept the terms of the NDA."
                       />
                     </DescriptionTitle>
                   </AttachmentSectionContainer>

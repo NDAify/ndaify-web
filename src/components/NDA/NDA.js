@@ -401,21 +401,45 @@ const NDAHeader = ({ nda, user }) => {
           isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>
-                  {`You declined ${ownerFullName}'s request`}
-                </BoldText>
-                {' '}
-                to sign this NDA.
+                <FormattedMessage
+                  id="nda-recipient-declined-description"
+                  defaultMessage="{declinedParty} to sign this NDA."
+                  values={{
+                    declinedParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-declined-description-declined-party"
+                          defaultMessage="You declined {ownerFullName}'s request"
+                          values={{
+                            ownerFullName,
+                          }}
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
           ) : (
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>
-                  {`${nda.metadata.recipientFullName} declined your request`}
-                </BoldText>
-                {' '}
-                to sign this NDA.
+                <FormattedMessage
+                  id="nda-sender-declined-description"
+                  defaultMessage="{declinedParty} to sign this NDA."
+                  values={{
+                    declinedParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-declined-description-declined-party"
+                          defaultMessage="{recipientFullName} declined your request"
+                          values={{
+                            recipientFullName: nda.metadata.recipientFullName,
+                          }}
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
           )
@@ -431,21 +455,43 @@ const NDAHeader = ({ nda, user }) => {
           isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>
-                  {`${nda.metadata.recipientFullName} revoked this NDA.`}
-                </BoldText>
-                {' '}
-                You can no longer accept it.
+                <FormattedMessage
+                  id="nda-recipient-revoked-description"
+                  defaultMessage="{revokedParty} You can no longer accept it."
+                  values={{
+                    revokedParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-revoked-description-revoked-party"
+                          defaultMessage="{ownerFullName} revoked this NDA."
+                          values={{
+                            ownerFullName,
+                          }}
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
           ) : (
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>
-                  You revoked this NDA.
-                </BoldText>
-                {' '}
-                {`${nda.metadata.recipientFullName} can no longer accept it.`}
+                <FormattedMessage
+                  id="nda-sender-revoked-description"
+                  defaultMessage="{revokedParty}{recipientFullName} can no longer accept it."
+                  values={{
+                    revokedParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-revoked-description-revoked-party"
+                          defaultMessage="You revoked this NDA. "
+                        />
+                      </BoldText>
+                    ),
+                    recipientFullName: nda.metadata.recipientFullName,
+                  }}
+                />
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
           )
@@ -461,29 +507,61 @@ const NDAHeader = ({ nda, user }) => {
           isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <NDADisclaimerWrapper>
               <DisclaimerBody>
-                <BoldText>You</BoldText>
-                {' '}
-                and
-                {' '}
-                <BoldText>{ownerFullName}</BoldText>
-                {' '}
-                have agreed to terms of the following NDA
-                {' '}
-                <BoldText>to protect all parties and materials disclosed.</BoldText>
+                <FormattedMessage
+                  id="nda-recipient-signed-description"
+                  defaultMessage="{receivingParty} and {disclosingParty} have agreed to terms of the following NDA {condition}."
+                  values={{
+                    receivingParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-signed-description-disclosing-party"
+                          defaultMessage="You"
+                        />
+                      </BoldText>
+                    ),
+                    disclosingParty: (
+                      <BoldText>{ownerFullName}</BoldText>
+                    ),
+                    condition: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-signed-description-condition"
+                          defaultMessage="to protect all parties and materials disclosed"
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerBody>
             </NDADisclaimerWrapper>
           ) : (
             <NDADisclaimerWrapper>
               <DisclaimerBody>
-                <BoldText>You</BoldText>
-                {' '}
-                and
-                {' '}
-                <BoldText>{nda.metadata.recipientFullName}</BoldText>
-                {' '}
-                have agreed to terms of the following NDA
-                {' '}
-                <BoldText>to protect all parties and materials disclosed.</BoldText>
+                <FormattedMessage
+                  id="nda-sender-signed-description"
+                  defaultMessage="{disclosingParty} and {receivingParty} have agreed to terms of the following NDA {condition}."
+                  values={{
+                    receivingParty: (
+                      <BoldText>{nda.metadata.recipientFullName}</BoldText>
+                    ),
+                    disclosingParty: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-signed-description-disclosing-party"
+                          defaultMessage="You"
+                        />
+                      </BoldText>
+                    ),
+                    condition: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-signed-description-condition"
+                          defaultMessage="to protect all parties and materials disclosed"
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerBody>
             </NDADisclaimerWrapper>
           )
@@ -500,25 +578,47 @@ const NDAHeader = ({ nda, user }) => {
           <>
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
-                <BoldText>{ownerFullName}</BoldText>
-                {' '}
-                has requested your signature.
+                <FormattedMessage
+                  id="nda-recipient-pending-description-title"
+                  defaultMessage="{disclosingParty} has requested your signature."
+                  values={{
+                    disclosingParty: (
+                      <BoldText>{ownerFullName}</BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
 
             <NDADisclaimerWrapper>
               <DisclaimerBody>
-                By signing, both
-                {' '}
-                <BoldText>you</BoldText>
-                {' '}
-                and
-                {' '}
-                <BoldText>{ownerFullName}</BoldText>
-                {' '}
-                are agreeing to terms of an NDA to
-                {' '}
-                <BoldText>protect all parties and materials disclosed.</BoldText>
+                <FormattedMessage
+                  id="nda-recipient-pending-description-text"
+                  defaultMessage="By signing, both {recipient} and {ownerFullName} are agreeing to terms of an NDA to {ndaConditions}."
+                  values={{
+                    recipient: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-pending-description-recipient"
+                          defaultMessage="You"
+                        />
+                      </BoldText>
+                    ),
+                    ownerFullName: (
+                      <BoldText>
+                        {ownerFullName}
+                      </BoldText>
+                    ),
+                    ndaConditions: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-recipient-pending-description-nda-conditions"
+                          defaultMessage="protect all parties and materials disclosed"
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerBody>
             </NDADisclaimerWrapper>
           </>
@@ -527,28 +627,48 @@ const NDAHeader = ({ nda, user }) => {
             <NDADisclaimerWrapper>
               <DisclaimerTitle>
                 <BoldText>
-                  Awaiting
-                  {' '}
-                  {nda.metadata.recipientFullName}
-                  {' '}
-                  to sign
+                  <FormattedMessage
+                    id="nda-sender-pending-description-title"
+                    defaultMessage="Awaiting {receivingParty} to sign."
+                    values={{
+                      receivingParty: (
+                        <BoldText>{nda.metadata.recipientFullName}</BoldText>
+                      ),
+                    }}
+                  />
                 </BoldText>
               </DisclaimerTitle>
             </NDADisclaimerWrapper>
 
             <NDADisclaimerWrapper>
               <DisclaimerBody>
-                By signing, both
-                {' '}
-                <BoldText>you</BoldText>
-                {' '}
-                and
-                {' '}
-                <BoldText>{nda.metadata.recipientFullName}</BoldText>
-                {' '}
-                are agreeing to terms of an NDA to
-                {' '}
-                <BoldText>protect all parties and materials disclosed.</BoldText>
+                <FormattedMessage
+                  id="nda-sender-pending-description-text"
+                  defaultMessage="By signing, both {sender} and {ownerFullName} are agreeing to terms of an NDA to {ndaConditions}."
+                  values={{
+                    sender: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-pending-description-sender"
+                          defaultMessage="You"
+                        />
+                      </BoldText>
+                    ),
+                    recipientFullName: (
+                      <BoldText>
+                        {nda.metadata.recipientFullName}
+                      </BoldText>
+                    ),
+                    ndaConditions: (
+                      <BoldText>
+                        <FormattedMessage
+                          id="nda-sender-pending-description-nda-conditions"
+                          defaultMessage="protect all parties and materials disclosed"
+                        />
+                      </BoldText>
+                    ),
+                  }}
+                />
               </DisclaimerBody>
             </NDADisclaimerWrapper>
           </>
@@ -576,10 +696,18 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
   return (
     <>
       <DialogTitle>
-        Details
+        <FormattedMessage
+          id="nda-details-dialog-title"
+          defaultMessage="Details"
+        />
       </DialogTitle>
       <DetailsRow>
-        <DetailsTitle>Sender</DetailsTitle>
+        <DetailsTitle>
+          <FormattedMessage
+            id="nda-details-dialog-sender-title"
+            defaultMessage="Sender"
+          />
+        </DetailsTitle>
         <DetailsText>{`${ownerFullName} <${ownerEmail}>`}</DetailsText>
         <DetailsText>{ownerIp}</DetailsText>
         <DetailsText>
@@ -590,7 +718,12 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
       </DetailsRow>
 
       <DetailsRow>
-        <DetailsTitle>Recipient</DetailsTitle>
+        <DetailsTitle>
+          <FormattedMessage
+            id="nda-details-dialog-recipient-title"
+            defaultMessage="Recipient"
+          />
+        </DetailsTitle>
         <DetailsText>{`${recipientFullName} <${recipientEmail}>`}</DetailsText>
         <DetailsText>{recipientIp}</DetailsText>
         <DetailsText>
@@ -601,7 +734,12 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
       </DetailsRow>
 
       <DetailsRow>
-        <DetailsTitle>Delivered</DetailsTitle>
+        <DetailsTitle>
+          <FormattedMessage
+            id="nda-details-dialog-delivered-title"
+            defaultMessage="Delivered"
+          />
+        </DetailsTitle>
         <DetailsText>
           <FormattedTime
             year="numeric"
@@ -613,9 +751,17 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
       </DetailsRow>
 
       <DetailsRow>
-        <DetailsTitle>Action</DetailsTitle>
+        <DetailsTitle>
+          <FormattedMessage
+            id="nda-details-dialog-action-title"
+            defaultMessage="Action"
+          />
+        </DetailsTitle>
         <DetailsText>
-          Signed on
+          <FormattedMessage
+            id="nda-details-dialog-signed-on-title"
+            defaultMessage="Signed on"
+          />
           {' '}
           <FormattedTime
             year="numeric"
@@ -627,7 +773,12 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
       </DetailsRow>
 
       <DetailsRow>
-        <DetailsTitle>NDA Version</DetailsTitle>
+        <DetailsTitle>
+          <FormattedMessage
+            id="nda-details-dialog-nda-version-title"
+            defaultMessage="NDA Version"
+          />
+        </DetailsTitle>
         <DetailsText>{nda.metadata.ndaTemplateId}</DetailsText>
       </DetailsRow>
 
@@ -639,7 +790,10 @@ const DetailsDialog = ({ nda, setDetailDialogOpen }) => {
             setDetailDialogOpen(false);
           }}
         >
-          Dismiss
+          <FormattedMessage
+            id="nda-details-dialog-dismiss-title"
+            defaultMessage="Dismiss"
+          />
         </DialogButton>
       </DialogFooter>
     </>
@@ -762,7 +916,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
                 color="var(--ndaify-accents-info)"
                 onClick={onDetailClick}
               >
-                Details
+                <FormattedMessage
+                  id="nda-actions-details-button"
+                  defaultMessage="Details"
+                />
               </Button>
 
               {/* <Button
@@ -789,14 +946,20 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
                 color="var(--ndaify-accents-info)"
                 onClick={onResendClick}
               >
-                Resend
+                <FormattedMessage
+                  id="nda-actions-resend-button"
+                  defaultMessage="Resend"
+                />
               </Button>
               <Button
                 compact
                 color="var(--ndaify-accents-danger)"
                 onClick={onRevokeClick}
               >
-                Revoke
+                <FormattedMessage
+                  id="nda-actions-revoke-button"
+                  defaultMessage="Revoke"
+                />
               </Button>
             </ActionButtonBackground>
           </ActionButtonWrapper>
@@ -815,7 +978,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
                 color="var(--ndaify-accents-danger)"
                 onClick={onDeclineClick}
               >
-                Decline
+                <FormattedMessage
+                  id="nda-actions-decline-button"
+                  defaultMessage="Decline"
+                />
               </Button>
             </ActionButtonBackground>
           </ActionButtonWrapper>
@@ -828,14 +994,19 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
 
       <SimpleDialog show={isDeclineDialogOpen}>
         <DialogTitle>
-          Are you sure you want to decline?
+          <FormattedMessage
+            id="nda-actions-decline-dialog-title"
+            defaultMessage="Are you sure you want to decline?"
+          />
         </DialogTitle>
         <DialogText>
-          This action cannot be undone.
-          {' '}
-          {ownerFullName}
-          {' '}
-          will be notified that you declined their request.
+          <FormattedMessage
+            id="nda-actions-decline-dialog-body"
+            defaultMessage="This action cannot be undone. {disclosingParty} will be notified that you declined their request."
+            values={{
+              disclosingParty: ownerFullName,
+            }}
+          />
         </DialogText>
         <DialogFooter>
           <DialogButton
@@ -845,7 +1016,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
               setDeclineDialogOpen(false);
             }}
           >
-            Cancel
+            <FormattedMessage
+              id="nda-actions-dialog-cancel-button"
+              defaultMessage="Cancel"
+            />
           </DialogButton>
 
           <DialogButton
@@ -855,21 +1029,34 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             spin={isDeclining}
             onClick={onDeclineNda}
           >
-            Decline
+            <FormattedMessage
+              id="nda-actions-dialog-decline-button"
+              defaultMessage="Decline"
+            />
           </DialogButton>
         </DialogFooter>
       </SimpleDialog>
 
       <SimpleDialog show={isRevokeDialogOpen}>
         <DialogTitle>
-          Are you sure you want to revoke?
+          <FormattedMessage
+            id="nda-actions-revoke-dialog-title"
+            defaultMessage="Are you sure you want to revoke?"
+          />
         </DialogTitle>
         <DialogText>
-          This action cannot be undone.
-          {' '}
-          {maybeRecipientFullName || 'The recipient'}
-          {' '}
-          will be notified that you revoked this NDA.
+          <FormattedMessage
+            id="nda-actions-revoke-dialog-body"
+            defaultMessage="This action cannot be undone. {receivingParty} will be notified that you revoked this NDA."
+            values={{
+              receivingParty: maybeRecipientFullName || (
+                <FormattedMessage
+                  id="nda-actions-recipient-text"
+                  defaultMessage="The recipient"
+                />
+              ),
+            }}
+          />
         </DialogText>
         <DialogFooter>
           <DialogButton
@@ -879,7 +1066,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
               setRevokeDialogOpen(false);
             }}
           >
-            Cancel
+            <FormattedMessage
+              id="nda-actions-dialog-cancel-button"
+              defaultMessage="Cancel"
+            />
           </DialogButton>
 
           <DialogButton
@@ -889,17 +1079,28 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             spin={isRevoking}
             onClick={onRevokeNda}
           >
-            Revoke
+            <FormattedMessage
+              id="nda-actions-dialog-revoke-button"
+              defaultMessage="Revoke"
+            />
           </DialogButton>
         </DialogFooter>
       </SimpleDialog>
 
       <SimpleDialog show={isResendDialogOpen}>
         <DialogTitle>
-          Are you sure you want to resend this to
-          {' '}
-          {maybeRecipientFullName || 'the recipient'}
-          ?
+          <FormattedMessage
+            id="nda-actions-resend-dialog-title"
+            defaultMessage="Are you sure you want to resend this to {receivingParty}?"
+            values={{
+              receivingParty: maybeRecipientFullName || (
+                <FormattedMessage
+                  id="nda-actions-recipient-text"
+                  defaultMessage="The recipient"
+                />
+              ),
+            }}
+          />
         </DialogTitle>
         <DialogFooter>
           <DialogButton
@@ -909,7 +1110,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
               setResendDialogOpen(false);
             }}
           >
-            Cancel
+            <FormattedMessage
+              id="nda-actions-dialog-cancel-button"
+              defaultMessage="Cancel"
+            />
           </DialogButton>
 
           <DialogButton
@@ -919,7 +1123,10 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             spin={isResending}
             onClick={onResendNda}
           >
-            Resend
+            <FormattedMessage
+              id="nda-actions-dialog-resend-button"
+              defaultMessage="Resend"
+            />
           </DialogButton>
         </DialogFooter>
       </SimpleDialog>
@@ -934,14 +1141,27 @@ const NDAAttachments = ({ nda, user }) => {
         {
           isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <AttachmentSectionContainer>
-              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentTitle>
+                <FormattedMessage
+                  id="nda-attachment-title"
+                  defaultMessage="Attachment"
+                />
+              </AttachmentTitle>
               <AttachmentMessage warning>
-                You declined to view the enclosed attachments.
+                <FormattedMessage
+                  id="nda-attachment-declined-recipient-text"
+                  defaultMessage="You declined to view the enclosed attachments."
+                />
               </AttachmentMessage>
             </AttachmentSectionContainer>
           ) : (
             <AttachmentSectionContainer>
-              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentTitle>
+                <FormattedMessage
+                  id="nda-attachment-title"
+                  defaultMessage="Attachment"
+                />
+              </AttachmentTitle>
               <LinkWrapper>
                 <HideIconWrapper>
                   <HideIcon />
@@ -955,7 +1175,10 @@ const NDAAttachments = ({ nda, user }) => {
                 </DocumentUrl>
               </LinkWrapper>
               <DescriptionTitle>
-                Recipient declined your request to sign and is not give access to above attachments.
+                <FormattedMessage
+                  id="nda-attachment-declined-sender-text"
+                  defaultMessage="Recipient declined your request to sign and is not give access to above attachments."
+                />
               </DescriptionTitle>
             </AttachmentSectionContainer>
           )
@@ -970,14 +1193,27 @@ const NDAAttachments = ({ nda, user }) => {
         {
           isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
             <AttachmentSectionContainer>
-              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentTitle>
+                <FormattedMessage
+                  id="nda-attachment-title"
+                  defaultMessage="Attachment"
+                />
+              </AttachmentTitle>
               <AttachmentMessage warning>
-                The sender revoked the NDA. No attachments can be accesed.
+                <FormattedMessage
+                  id="nda-attachment-revoked-recipient-text"
+                  defaultMessage="The sender revoked the NDA. No attachments can be accesed."
+                />
               </AttachmentMessage>
             </AttachmentSectionContainer>
           ) : (
             <AttachmentSectionContainer>
-              <AttachmentTitle>Attachments</AttachmentTitle>
+              <AttachmentTitle>
+                <FormattedMessage
+                  id="nda-attachment-title"
+                  defaultMessage="Attachment"
+                />
+              </AttachmentTitle>
               <LinkWrapper>
                 <HideIconWrapper>
                   <HideIcon />
@@ -991,7 +1227,10 @@ const NDAAttachments = ({ nda, user }) => {
                 </DocumentUrl>
               </LinkWrapper>
               <DescriptionTitle>
-                You revoked the NDA before the recipient was given access to above attachments.
+                <FormattedMessage
+                  id="nda-attachment-revoked-sender-text"
+                  defaultMessage="You revoked the NDA before the recipient was given access to above attachments."
+                />
               </DescriptionTitle>
             </AttachmentSectionContainer>
           )
@@ -1003,7 +1242,12 @@ const NDAAttachments = ({ nda, user }) => {
   if (nda.metadata.status === 'signed') {
     return (
       <AttachmentSectionContainer>
-        <AttachmentTitle>Attachments</AttachmentTitle>
+        <AttachmentTitle>
+          <FormattedMessage
+            id="nda-attachment-title"
+            defaultMessage="Attachment"
+          />
+        </AttachmentTitle>
         <LinkWrapper>
           <HideIconWrapper>
             <HideIcon />
@@ -1026,14 +1270,27 @@ const NDAAttachments = ({ nda, user }) => {
       {
         isPublicViewer(nda, user) || isNdaRecipient(nda, user) ? (
           <AttachmentSectionContainer>
-            <AttachmentTitle>Attachments</AttachmentTitle>
+            <AttachmentTitle>
+              <FormattedMessage
+                id="nda-attachment-title"
+                defaultMessage="Attachment"
+              />
+            </AttachmentTitle>
             <AttachmentMessage>
-              You need to accept to view attachments.
+              <FormattedMessage
+                id="nda-attachment-pending-recipient-text"
+                defaultMessage="You need to accept to view attachments."
+              />
             </AttachmentMessage>
           </AttachmentSectionContainer>
         ) : (
           <AttachmentSectionContainer>
-            <AttachmentTitle>Attachments</AttachmentTitle>
+            <AttachmentTitle>
+              <FormattedMessage
+                id="nda-attachment-title"
+                defaultMessage="Attachment"
+              />
+            </AttachmentTitle>
             <LinkWrapper>
               <HideIconWrapper>
                 <HideIcon />
@@ -1047,8 +1304,10 @@ const NDAAttachments = ({ nda, user }) => {
               </DocumentUrl>
             </LinkWrapper>
             <DescriptionTitle>
-              Recipient does not have access to your link unless they accept the
-              terms of the NDA.
+              <FormattedMessage
+                id="nda-attachment-pending-sender-text"
+                defaultMessage="Recipient does not have access to your link unless they accept the terms of the NDA."
+              />
             </DescriptionTitle>
           </AttachmentSectionContainer>
         )
@@ -1183,7 +1442,10 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
                 disabled={isSubmitting}
                 spin={isSubmitting}
               >
-                Sign with LinkedIn
+                <FormattedMessage
+                  id="nda-linkedin-button"
+                  defaultMessage="Review and Sign with LinkedIn"
+                />
               </LinkedInButton>
               <NDAPartyName>{nda.metadata.recipientFullName}</NDAPartyName>
               {
@@ -1248,7 +1510,6 @@ const NDASigPads = ({ nda, user, isSubmitting }) => {
     </>
   );
 };
-
 
 const NDA = ({ ndaTemplate, nda, user }) => {
   const [expandedBody, setExpandedBody] = useState(false);
@@ -1389,18 +1650,26 @@ const NDA = ({ ndaTemplate, nda, user }) => {
                     expandedBody === false ? (
                       <NDAReadMoreContainer>
                         <NDAReadMoreText>
-                          To read all terms,
-                          {' '}
-                          <AnchorButton
-                            type="button"
-                            onClick={() => {
-                              setStatus();
-                              setExpandedBody(!expandedBody);
+                          <FormattedMessage
+                            id="nda-expand-text"
+                            defaultMessage="To read all terms, {clickHereText}."
+                            values={{
+                              clickHereText: (
+                                <AnchorButton
+                                  type="button"
+                                  onClick={() => {
+                                    setStatus();
+                                    setExpandedBody(true);
+                                  }}
+                                >
+                                  <FormattedMessage
+                                    id="nda-description-expand-click-here-button-text"
+                                    defaultMessage="click here"
+                                  />
+                                </AnchorButton>
+                              ),
                             }}
-                          >
-                            click here
-                          </AnchorButton>
-                          .
+                          />
                         </NDAReadMoreText>
                       </NDAReadMoreContainer>
                     ) : null
