@@ -1,6 +1,8 @@
 {
   "api-key-actions-dropdown-delete-key": "刪除密匙",
   "api-key-name-input-placeholder": "API 密匙",
+  "authenticator-actions-dropdown-deregister-authenticator": "",
+  "authenticator-name-input-placeholder": "",
   "button-continue": "繼續",
   "dashboard-empty-inbox-text": "收件箱空",
   "dashboard-empty-sent-text": "發件箱空",
@@ -136,5 +138,6 @@
   "user-actions-dropdown-home": "主頁",
   "user-actions-dropdown-inbox": "收件箱",
   "user-actions-dropdown-log-out": "登出",
-  "user-actions-dropdown-sent": "發件箱"
+  "user-actions-dropdown-sent": "發件箱",
+  "user-actions-dropdown-settings-authenticators": ""
 }

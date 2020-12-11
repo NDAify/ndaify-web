@@ -201,6 +201,13 @@ const UserActionsDropdown = (props) => {
                 defaultMessage="Sent"
               />
             </ReachMenuLink>
+            <MenuItemDivider />
+            <ReachMenuLink as={MenuLink} href="/settings/authenticators">
+              <FormattedMessage
+                id="user-actions-dropdown-settings-authenticators"
+                defaultMessage="Authenticators"
+              />
+            </ReachMenuLink>
             <ReachMenuLink as={MenuLink} href="/dev/keys">
               <FormattedMessage
                 id="user-actions-dropdown-api-key"

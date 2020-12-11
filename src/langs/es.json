@@ -1,6 +1,8 @@
 {
   "api-key-actions-dropdown-delete-key": "",
   "api-key-name-input-placeholder": "",
+  "authenticator-actions-dropdown-deregister-authenticator": "",
+  "authenticator-name-input-placeholder": "",
   "button-continue": "",
   "dashboard-empty-inbox-text": "",
   "dashboard-empty-sent-text": "",
@@ -136,5 +138,6 @@
   "user-actions-dropdown-home": "",
   "user-actions-dropdown-inbox": "",
   "user-actions-dropdown-log-out": "",
-  "user-actions-dropdown-sent": ""
+  "user-actions-dropdown-sent": "",
+  "user-actions-dropdown-settings-authenticators": ""
 }
