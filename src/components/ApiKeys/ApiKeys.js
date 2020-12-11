@@ -151,10 +151,6 @@ const KeyIconWrapper = styled.div`
   }
 `;
 
-const ApiKeyDetailsRow = styled.div`
-  margin-bottom: 1pc;
-`;
-
 const ApiKeyDateRow = styled.div`
   display: flex;
   flex-direction: column;
@@ -168,6 +164,8 @@ const ApiKeyDateColumn = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+
+  margin-bottom: 1pc;
 `;
 
 const ApiKeyDetailsTitle = styled.div`
@@ -314,17 +312,21 @@ const ApiKeyItem = ({ apiKey }) => {
             </KeyIconWrapper>
           </ApiRow>
 
-          <ApiKeyDetailsRow>
-            <ApiKeyDetailsTitle>Name</ApiKeyDetailsTitle>
-            <ApiKeyDetailsText>{apiKey.name}</ApiKeyDetailsText>
-          </ApiKeyDetailsRow>
+          <ApiKeyDateRow>
+            <ApiKeyDateColumn>
+              <ApiKeyDetailsTitle>Name</ApiKeyDetailsTitle>
+              <ApiKeyDetailsText>{apiKey.name}</ApiKeyDetailsText>
+            </ApiKeyDateColumn>
+          </ApiKeyDateRow>
 
-          <ApiKeyDetailsRow>
-            <ApiKeyDetailsTitle>Token</ApiKeyDetailsTitle>
-            <ApiKeyDetailsText>
-              {maskSecret(apiKey.secret)}
-            </ApiKeyDetailsText>
-          </ApiKeyDetailsRow>
+          <ApiKeyDateRow>
+            <ApiKeyDateColumn>
+              <ApiKeyDetailsTitle>Token</ApiKeyDetailsTitle>
+              <ApiKeyDetailsText>
+                {maskSecret(apiKey.secret)}
+              </ApiKeyDetailsText>
+            </ApiKeyDateColumn>
+          </ApiKeyDateRow>
 
           <ApiKeyDateRow>
             <ApiKeyDateColumn>

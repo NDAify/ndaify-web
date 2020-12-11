@@ -1,6 +1,8 @@
 {
   "api-key-actions-dropdown-delete-key": "Delete Key",
   "api-key-name-input-placeholder": "Key Name (e.g. Slack integration)",
+  "authenticator-actions-dropdown-deregister-authenticator": "Deregister Authenticator",
+  "authenticator-name-input-placeholder": "Authenticator Name (e.g. Touch ID, Julia's YubiKey)",
   "button-continue": "Continue",
   "dashboard-empty-inbox-text": "You have nothing in your inbox",
   "dashboard-empty-sent-text": "You have not sent NDAs",
@@ -137,5 +139,6 @@
   "user-actions-dropdown-home": "Home",
   "user-actions-dropdown-inbox": "Inbox",
   "user-actions-dropdown-log-out": "Log Out",
-  "user-actions-dropdown-sent": "Sent"
+  "user-actions-dropdown-sent": "Sent",
+  "user-actions-dropdown-settings-authenticators": "Authenticators"
 }

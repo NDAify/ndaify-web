@@ -323,6 +323,40 @@ export default class NdaifyService {
     return dispatch(DISPATCH_METHOD.GET, 'sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, sessionToken)();
   }
 
+  async startSessionByAuthenticator(metadata) {
+    const response = await dispatch(DISPATCH_METHOD.POST, 'keys/sessions', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)({
+      metadata,
+    });
+
+    setCookie(this.ctx, 'sessionToken', response.sessionToken, SESSION_TOKEN_COOKIE_OPTIONS);
+
+    return response;
+  }
+
+  createAssertionOptions() {
+    return dispatch(DISPATCH_METHOD.POST, 'keys/assertion-options', { abortController: this.abortController, headers: this.headers, noRedirect: true })(this.ctx, NO_SESSION)();
+  }
+
+  createAttestationOptions() {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.POST, 'keys/attestation-options', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
+  }
+
+  createAuthenticator(metadata) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.POST, 'keys/authenticators', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)({ metadata });
+  }
+
+  getAuthenticators() {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.GET, 'keys/authenticators', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
+  }
+
+  deleteAuthenticator(authenticatorId) {
+    const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
+    return dispatch(DISPATCH_METHOD.DELETE, `keys/authenticators/${authenticatorId}`, { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)();
+  }
+
   createNda(nda) {
     const sessionToken = getCookie(this.ctx, 'sessionToken', SESSION_TOKEN_COOKIE_OPTIONS);
     return dispatch(DISPATCH_METHOD.POST, 'ndas', { abortController: this.abortController, headers: this.headers })(this.ctx, sessionToken)(nda);
