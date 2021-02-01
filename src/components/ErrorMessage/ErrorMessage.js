@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Warning from './images/warning.svg';
 
 const WarningIcon = styled(Warning)`
-  color: --var(ndaify-secondary);
+  color: var(--ndaify-secondary);
 `;
 
 const ErrorPopUp = styled.div`
