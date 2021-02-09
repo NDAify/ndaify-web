@@ -1051,7 +1051,7 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             values={{
               receivingParty: maybeRecipientFullName || (
                 <FormattedMessage
-                  id="nda-actions-recipient-text"
+                  id="nda-actions-revoke-recipient-text"
                   defaultMessage="The recipient"
                 />
               ),
@@ -1095,8 +1095,8 @@ const NDAActions = ({ nda, user, isScrolledBeyondActions }) => {
             values={{
               receivingParty: maybeRecipientFullName || (
                 <FormattedMessage
-                  id="nda-actions-recipient-text"
-                  defaultMessage="The recipient"
+                  id="nda-actions-resend-recipient-text"
+                  defaultMessage="the recipient"
                 />
               ),
             }}
