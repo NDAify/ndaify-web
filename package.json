@@ -18,7 +18,7 @@
     "base64url": "^3.0.1",
     "better-react-spinkit": "^2.0.4",
     "cookie": "^0.4.1",
-    "cross-fetch": "^3.0.4",
+    "cross-fetch": "^3.1.5",
     "email-providers": "^1.9.0",
     "formik": "^2.1.4",
     "github-slugger": "^1.3.0",
