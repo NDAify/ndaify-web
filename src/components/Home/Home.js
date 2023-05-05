@@ -636,13 +636,23 @@ const Home = ({
           <FAQQuestion>
             <FormattedMessage
               id="home-faq-new-nda"
-              defaultMessage="Can I add a new NDA?"
+              defaultMessage="Can I upload my own NDA or make modifications to the standard one?"
             />
           </FAQQuestion>
           <FAQAnswer>
             <FormattedMessage
               id="home-faq-answer-new-nda"
-              defaultMessage="No. This is the whole point of NDAify. We want to have a standard text that everyone’s familiar with as to how they’re protected by being a party to it."
+              defaultMessage="The short answer is no. We aim to have a standardized text that everyone is familiar with, outlining the protections provided to them as a party. This way, they won't have to blindly agree or spend hours reviewing each time they receive a new NDA. If you would like to contribute a new standard NDA or propose modifications to an existing one, please feel free to {ndaifyTemplates} on GitHub. If your suggestions are approved, we will inform the entire community before implementing them."
+              values={{
+                ndaifyTemplates: (
+                  <a target="_blank" rel="noopener noreferrer" href="https://github.com/NDAify/ndaify-templates">
+                    <FormattedMessage
+                      id="submit-ndaify-template-pull-request"
+                      defaultMessage="submit a pull request"
+                    />
+                  </a>
+                ),
+              }}
             />
           </FAQAnswer>
         </FAQcontent>
@@ -656,7 +666,7 @@ const Home = ({
           <FAQAnswer>
             <FormattedMessage
               id="home-faq-answer-amend-nda"
-              defaultMessage="You can’t currently make ammendments to the NDA."
+              defaultMessage="In order to ensure consistent protection for all parties involved, it is not possible to make amendments to the standard NDA provided by NDAify."
             />
           </FAQAnswer>
         </FAQcontent>
@@ -670,7 +680,7 @@ const Home = ({
           <FAQAnswer>
             <FormattedMessage
               id="home-faq-answer-cost"
-              defaultMessage="NDAify is {free}. Occasionally, we may solicit contributions but the basic functionality of sending and receiving NDAs will {remainFreeForever}."
+              defaultMessage="NDAify is {free}. While we may occasionally solicit contributions, the basic functionality of sending and receiving NDAs will {remainFreeForever}."
               values={{
                 free: (
                   <b>
@@ -688,7 +698,7 @@ const Home = ({
                   >
                     <FormattedMessage
                       id="home-faq-answer-cost-remain-free"
-                      defaultMessage="remain free forever"
+                      defaultMessage="always remain free"
                     />
                   </a>
                 ),
