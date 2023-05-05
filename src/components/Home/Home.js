@@ -615,7 +615,7 @@ const Home = ({
           <span>
             <FormattedMessage
               id="home-copy-behind-wall"
-              defaultMessage="Protect your assets behind an NDA-wall"
+              defaultMessage="Wrap your secret links in a standard NDA in just two minutes. The recipient will be required to accept and sign the NDA before gaining access to your links."
             />
           </span>
         </PageSectionPane>
