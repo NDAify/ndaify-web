@@ -600,7 +600,7 @@ const NDAHeader = ({ nda, user }) => {
                       <BoldText>
                         <FormattedMessage
                           id="nda-recipient-pending-description-recipient"
-                          defaultMessage="You"
+                          defaultMessage="you"
                         />
                       </BoldText>
                     ),
@@ -644,13 +644,13 @@ const NDAHeader = ({ nda, user }) => {
               <DisclaimerBody>
                 <FormattedMessage
                   id="nda-sender-pending-description-text"
-                  defaultMessage="By signing, both {sender} and {ownerFullName} are agreeing to terms of an NDA to {ndaConditions}."
+                  defaultMessage="By signing, both {sender} and {recipientFullName} are agreeing to terms of an NDA to {ndaConditions}."
                   values={{
                     sender: (
                       <BoldText>
                         <FormattedMessage
                           id="nda-sender-pending-description-sender"
-                          defaultMessage="You"
+                          defaultMessage="you"
                         />
                       </BoldText>
                     ),

@@ -438,7 +438,7 @@ const NDAComposer = ({ ndaTemplate, user, nda }) => {
                               <BoldText>
                                 <FormattedMessage
                                   id="nda-composer-description-sender"
-                                  defaultMessage="You"
+                                  defaultMessage="you"
                                 />
                               </BoldText>
                             ),
